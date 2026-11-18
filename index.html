@@ -154,6 +154,7 @@ downloaded:['Downloaded {f}. If nothing downloaded, copy the text below.','{f} �
 cleanup:['Cleanup','পরিষ্কার'],delCancelled:['Delete cancelled matches ({n})','বাতিল ম্যাচ মুছুন ({n})'],delQ:['Delete {n} cancelled matches permanently?','{n}টি বাতিল ম্যাচ স্থায়ীভাবে মুছবেন?'],
 saveAll:['Save settings','সেটিংস সেভ'],mySettings:['My preferences','আমার পছন্দ'],regClosedMsg:['New registrations are closed right now. Contact the admin.','এখন নতুন রেজিস্ট্রেশন বন্ধ। অ্যাডমিনের সাথে যোগাযোগ করুন।'],
 joinGroup:['Join WhatsApp group','WhatsApp গ্রুপে যোগ দিন'],
+uidTakenPin:['This UID already belongs to another player. If it is yours, ask the admin to check the Players list.','এই UID অন্য একজন প্লেয়ারের। এটা আপনার হলে অ্যাডমিনকে Players লিস্ট দেখতে বলুন।'],
 featVidL:['Featured YouTube video (plays on players\' Home)','ফিচার্ড YouTube ভিডিও (প্লেয়ারদের হোমে চলবে)'],featured:['Featured video','ফিচার্ড ভিডিও'],follow:['Follow us','আমাদের ফলো করুন'],watchCh:['Watch on YouTube','YouTube-এ দেখুন'],badVid:['That is not a YouTube video link.','এটা YouTube ভিডিও লিংক নয়।'],newPlayer:['New player? Register','নতুন প্লেয়ার? রেজিস্টার'],register2:['Register','রেজিস্টার'],login:['Log in','লগইন'],
 pinLbl:['PIN (4–6 digits)','পিন (৪–৬ সংখ্যা)'],pinRep:['Repeat PIN','আবার পিন দিন'],pinMismatch:['PINs do not match.','দুটো পিন মেলেনি।'],pinFmt:['PIN must be 4–6 digits.','পিন ৪–৬ সংখ্যার হতে হবে।'],
 wrongPin:['Wrong UID or PIN.','UID বা পিন ভুল।'],uidRegistered:['This UID is already registered — log in with your PIN.','এই UID আগেই রেজিস্টার্ড — পিন দিয়ে লগইন করুন।'],
@@ -223,7 +224,7 @@ async function run(fn,okMsg){
   finally{busy=false;window.__busy=0;document.body.style.cursor=''}
 }
 function niceErr(e){var m=(e&&(e.message||e.error_description))||String(e);
-  if(/profiles_game_uid_key/.test(m))return t('uidTaken');
+  if(/profiles_game_uid_key|profiles_player_uid_uniq/.test(m))return isPinAcct()?t('uidTakenPin'):t('uidTaken');
   if(/Failed to fetch|NetworkError|Load failed/i.test(m))return t('offline');
   if(/Invalid login credentials/i.test(m))return S.settings.lang==='en'?'Wrong email or password.':'ইমেইল বা পাসওয়ার্ড ভুল।';
   if(/rate limit|too many/i.test(m))return t('tooMany');
@@ -650,7 +651,7 @@ function vDash(){
 }
 function vPlayers(){
   var openR=S.reports.filter(function(r){return r.status==='open'});
-  var uidCount={};S.players.forEach(function(p){uidCount[p.uid]=(uidCount[p.uid]||0)+1});
+  var uidCount={};S.players.forEach(function(p){if(p.role!=='admin')uidCount[p.uid]=(uidCount[p.uid]||0)+1});
   return '<div class="stack">'+hdr(t('players'))+
    '<h2>🚩 '+t('openReports')+' ('+openR.length+')</h2>'+(openR.length?openR.map(function(r){var tg=P(r.target),rp=P(r.reporter),m=M(r.matchId);var priors=S.reports.filter(function(x){return x.target===r.target}).length;
      return '<div class="card st"><div class="row between"><b>'+esc(tg?tg.ign:'?')+'</b><span class="tag t-r">'+t('r_'+r.reason)+'</span></div><div class="tiny muted">'+esc(rp?rp.ign:'?')+' → '+esc(m?m.title:'')+' · '+fmtTime(r.ts)+' · '+priors+' '+t('reports')+' · '+t('trust')+' '+(tg?(tg.trust==null?100:tg.trust):'')+'%</div>'+(r.evidence?'<a class="small" href="'+esc(r.evidence)+'" target="_blank" rel="noopener">🔗 '+esc(r.evidence)+'</a>':'')+(r.note?'<div class="small">'+esc(r.note)+'</div>':'')+
@@ -844,7 +845,7 @@ document.addEventListener('click',function(ev){
   case 'notif':askNotif();try{if(window.Notification&&Notification.permission==='granted')toast('🔔 ✓')}catch(e){}return;
   case 'saveProfile':{var ign=val('pf_ign'),u=val('pf_uid');
     if(ign.length<2){toast(t('ignBad'));return}if(!/^\d{8,12}$/.test(u)){toast(t('uidBad'));return}
-    if(S.players.some(function(p){return p.uid===u&&p.id!==SESSION.user.id})){toast(t('uidTaken'));return}
+    if(!(MYPROFILE&&MYPROFILE.role==='admin')&&S.players.some(function(p){return p.uid===u&&p.id!==SESSION.user.id&&p.role!=='admin'})){toast(isPinAcct()?t('uidTakenPin'):t('uidTaken'));return}
     run(function(){return MYPROFILE?sb.from('profiles').update({ign:ign,game_uid:u}).eq('id',MYPROFILE.id):sb.from('profiles').insert({id:SESSION.user.id,ign:ign,game_uid:u})},'✓');return}
   case 'join':joinMatch(m);return;
   case 'leave':leaveMatch(m);return;
