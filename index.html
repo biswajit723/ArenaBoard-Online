@@ -1,0 +1,5075 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta name="theme-color" content="#0E1117" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="ArenaBoard" />
+    <title>ArenaBoard</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;600;800&family=Noto+Sans+Bengali:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0e1117;
+        --card: #161b24;
+        --card2: #1d2430;
+        --line: #283141;
+        --ink: #eef2f7;
+        --muted: #8e9aad;
+        --acc: #ff7a1a;
+        --acc2: #ffb020;
+        --accBg: #2d1f12;
+        --green: #2bd67b;
+        --greenBg: #12291d;
+        --red: #ff5a5f;
+        --redBg: #2e1618;
+        --blue: #5aa9ff;
+        --blueBg: #13233a;
+        --purple: #b57cff;
+        --purpleBg: #24183a;
+      }
+      [data-theme='light'] {
+        --bg: #f4f6fa;
+        --card: #ffffff;
+        --card2: #f1f4f9;
+        --line: #e2e7ef;
+        --ink: #141a23;
+        --muted: #667385;
+        --acc: #e8620a;
+        --acc2: #c98500;
+        --accBg: #fff0e3;
+        --green: #12955a;
+        --greenBg: #e4f6ec;
+        --red: #d23b42;
+        --redBg: #fdecee;
+        --blue: #2c6fd1;
+        --blueBg: #e8f0fc;
+        --purple: #7b45d6;
+        --purpleBg: #f1e9fd;
+      }
+      * {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+      html,
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: Inter, 'Noto Sans Bengali', system-ui, -apple-system,
+          Segoe UI, Roboto, sans-serif;
+        font-size: 14.5px;
+        line-height: 1.45;
+      }
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+        color: inherit;
+      }
+      .app {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 16px 16px 100px;
+        min-height: 100vh;
+      }
+      h1,
+      h2,
+      h3,
+      .disp {
+        font-family: Rajdhani, Inter, 'Noto Sans Bengali', sans-serif;
+        margin: 0;
+        letter-spacing: 0.2px;
+      }
+      h1 {
+        font-size: 28px;
+        font-weight: 700;
+      }
+      h2 {
+        font-size: 20px;
+        font-weight: 700;
+      }
+      h3 {
+        font-size: 16.5px;
+        font-weight: 700;
+      }
+      p {
+        margin: 0;
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .small {
+        font-size: 12.5px;
+      }
+      .tiny {
+        font-size: 11px;
+      }
+      .b {
+        font-weight: 800;
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .between {
+        justify-content: space-between;
+      }
+      .wrap {
+        flex-wrap: wrap;
+      }
+      .grow {
+        flex: 1;
+        min-width: 0;
+      }
+      .stack {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .st {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 14px;
+      }
+      .card.click {
+        cursor: pointer;
+      }
+      .card.click:active {
+        transform: scale(0.995);
+      }
+      .btn {
+        border: 0;
+        border-radius: 11px;
+        min-height: 42px;
+        padding: 0 14px;
+        background: var(--acc);
+        color: #fff;
+        font-weight: 800;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        white-space: nowrap;
+      }
+      .btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+      .btn.sec {
+        background: var(--card2);
+        color: var(--ink);
+        border: 1px solid var(--line);
+      }
+      .btn.ok {
+        background: var(--green);
+        color: #06150d;
+      }
+      .btn.no {
+        background: var(--redBg);
+        color: var(--red);
+      }
+      .btn.sm {
+        min-height: 32px;
+        padding: 0 10px;
+        font-size: 12.5px;
+        border-radius: 9px;
+      }
+      .btn.block {
+        width: 100%;
+      }
+      .chip {
+        border: 1px solid var(--line);
+        background: var(--card);
+        border-radius: 999px;
+        padding: 6px 12px;
+        font-size: 12.5px;
+        font-weight: 700;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+      .chip.on {
+        background: var(--acc);
+        border-color: var(--acc);
+        color: #fff;
+      }
+      .chips {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding-bottom: 2px;
+      }
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 8px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 800;
+        background: var(--card2);
+        color: var(--muted);
+        white-space: nowrap;
+      }
+      .t-acc {
+        background: var(--accBg);
+        color: var(--acc);
+      }
+      .t-g {
+        background: var(--greenBg);
+        color: var(--green);
+      }
+      .t-r {
+        background: var(--redBg);
+        color: var(--red);
+      }
+      .t-b {
+        background: var(--blueBg);
+        color: var(--blue);
+      }
+      .t-p {
+        background: var(--purpleBg);
+        color: var(--purple);
+      }
+      .hero {
+        border-radius: 18px;
+        padding: 16px;
+        background: radial-gradient(
+          120% 140% at 0% 0%,
+          #ff7a1a 0%,
+          #b33a0b 45%,
+          #2a1208 100%
+        );
+        color: #fff;
+        border: 0;
+      }
+      .hero .lbl {
+        opacity: 0.8;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .grid2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .grid3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+      .grid4 {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+      .stat {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 10px;
+      }
+      .stat b {
+        display: block;
+        font-family: Rajdhani, sans-serif;
+        font-size: 22px;
+      }
+      label.f {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        font-size: 12.5px;
+        font-weight: 700;
+      }
+      input,
+      select,
+      textarea {
+        width: 100%;
+        border: 1px solid var(--line);
+        background: var(--card2);
+        border-radius: 10px;
+        padding: 10px 11px;
+        outline: none;
+      }
+      input:focus,
+      select:focus,
+      textarea:focus {
+        border-color: var(--acc);
+      }
+      textarea {
+        min-height: 80px;
+        resize: vertical;
+      }
+      .tabs {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--card);
+        border-top: 1px solid var(--line);
+        display: flex;
+        justify-content: center;
+        padding-bottom: env(safe-area-inset-bottom);
+        z-index: 20;
+      }
+      .tabs .in {
+        display: flex;
+        max-width: 760px;
+        width: 100%;
+      }
+      .tab {
+        flex: 1;
+        border: 0;
+        background: none;
+        padding: 8px 0 9px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        font-size: 10.5px;
+        font-weight: 700;
+        color: var(--muted);
+        cursor: pointer;
+        position: relative;
+      }
+      .tab svg {
+        width: 22px;
+        height: 22px;
+      }
+      .tab.on {
+        color: var(--acc);
+      }
+      .badge {
+        position: absolute;
+        top: 3px;
+        left: calc(50% + 6px);
+        background: var(--red);
+        color: #fff;
+        border-radius: 999px;
+        font-size: 10px;
+        padding: 0 5px;
+        font-weight: 800;
+      }
+      .lr {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .lr:last-child {
+        border-bottom: 0;
+      }
+      .rank {
+        width: 30px;
+        height: 30px;
+        border-radius: 9px;
+        background: var(--card2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-family: Rajdhani, sans-serif;
+        font-size: 16px;
+        flex: none;
+      }
+      .r1 {
+        background: linear-gradient(135deg, #ffd54a, #e39b00);
+        color: #2a1a00;
+      }
+      .r2 {
+        background: linear-gradient(135deg, #e5e9f0, #9aa5b5);
+        color: #1a1f27;
+      }
+      .r3 {
+        background: linear-gradient(135deg, #f0a36b, #a0522d);
+        color: #2a1206;
+      }
+      .av {
+        width: 36px;
+        height: 36px;
+        border-radius: 11px;
+        background: var(--accBg);
+        color: var(--acc);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        flex: none;
+      }
+      .bar {
+        height: 7px;
+        background: var(--card2);
+        border-radius: 99px;
+        overflow: hidden;
+      }
+      .bar > i {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, var(--acc), var(--acc2));
+        border-radius: 99px;
+      }
+      .room {
+        border: 1.5px dashed var(--acc);
+        border-radius: 14px;
+        padding: 12px;
+        background: var(--accBg);
+      }
+      .room code {
+        font-family: ui-monospace, Menlo, monospace;
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: 1px;
+      }
+      .modal-bg {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        z-index: 50;
+      }
+      .modal {
+        background: var(--card);
+        width: 100%;
+        max-width: 600px;
+        max-height: 90vh;
+        overflow: auto;
+        border-radius: 20px 20px 0 0;
+        padding: 18px;
+        padding-bottom: calc(18px + env(safe-area-inset-bottom));
+        border: 1px solid var(--line);
+      }
+      @media (min-width: 640px) {
+        .modal-bg {
+          align-items: center;
+        }
+        .modal {
+          border-radius: 20px;
+        }
+      }
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 86px;
+        transform: translateX(-50%);
+        background: var(--ink);
+        color: var(--bg);
+        padding: 10px 16px;
+        border-radius: 12px;
+        font-size: 13px;
+        font-weight: 700;
+        z-index: 70;
+        max-width: 92vw;
+        text-align: center;
+      }
+      .seg {
+        display: flex;
+        background: var(--card2);
+        border-radius: 11px;
+        padding: 3px;
+        gap: 3px;
+        border: 1px solid var(--line);
+      }
+      .seg button {
+        flex: 1;
+        border: 0;
+        background: none;
+        border-radius: 9px;
+        padding: 7px 4px;
+        font-weight: 800;
+        font-size: 12.5px;
+        color: var(--muted);
+        cursor: pointer;
+      }
+      .seg button.on {
+        background: var(--acc);
+        color: #fff;
+      }
+      .empty {
+        text-align: center;
+        padding: 22px 8px;
+        color: var(--muted);
+      }
+      table.rt {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12.5px;
+      }
+      table.rt th {
+        text-align: left;
+        color: var(--muted);
+        font-weight: 700;
+        padding: 6px 4px;
+        border-bottom: 1px solid var(--line);
+        font-size: 11px;
+      }
+      table.rt td {
+        padding: 7px 4px;
+        border-bottom: 1px solid var(--line);
+      }
+      table.rt input {
+        padding: 6px;
+        min-width: 0;
+      }
+      .cd {
+        font-family: Rajdhani, sans-serif;
+        font-weight: 700;
+      }
+      .live {
+        animation: pulse 1.4s infinite;
+      }
+      @keyframes pulse {
+        50% {
+          opacity: 0.45;
+        }
+      }
+      .hidden {
+        display: none !important;
+      }
+      a {
+        color: var(--acc);
+      }
+      .mono {
+        font-family: ui-monospace, Menlo, monospace;
+        font-size: 11.5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app" id="app"></div>
+    <nav class="tabs" id="tabs"></nav>
+    <div id="layer"></div>
+    <script>
+      (function () {
+        'use strict';
+        /* ============ i18n (English, বাংলা) ============ */
+        var L = {
+          home: ['Home', 'হোম'],
+          matches: ['Matches', 'ম্যাচ'],
+          tourneys: ['Tournaments', 'টুর্নামেন্ট'],
+          board: ['Leaderboard', 'লিডারবোর্ড'],
+          profile: ['Profile', 'প্রোফাইল'],
+          dash: ['Dashboard', 'ড্যাশবোর্ড'],
+          players: ['Players', 'প্লেয়ার'],
+          settings: ['Settings', 'সেটিংস'],
+          welcome: ['Welcome to ArenaBoard', 'ArenaBoard-এ স্বাগতম'],
+          welcomeSub: [
+            'Free custom-room tournaments for battle-royale squads. No entry fees, ever.',
+            'ব্যাটল রয়্যাল কাস্টম-রুম টুর্নামেন্ট — পুরো ফ্রি। কোনো এন্ট্রি ফি নেই।',
+          ],
+          ign: ['In-game name', 'গেমের নাম (IGN)'],
+          uid: ['Game UID (8–12 digits)', 'গেম UID (৮–১২ সংখ্যা)'],
+          create: ['Create', 'তৈরি করুন'],
+          save: ['Save', 'সেভ'],
+          cancel: ['Cancel', 'বাতিল'],
+          close: ['Close', 'বন্ধ'],
+          ok: ['OK', 'ঠিক আছে'],
+          uidBad: [
+            'Enter a valid UID (8–12 digits).',
+            'সঠিক UID দিন (৮–১২ সংখ্যা)।',
+          ],
+          uidTaken: [
+            'This UID is already registered.',
+            'এই UID আগেই রেজিস্টার করা।',
+          ],
+          ignBad: ['Enter your in-game name.', 'গেমের নাম দিন।'],
+          upcoming: ['Upcoming', 'আসন্ন'],
+          live: ['LIVE', 'লাইভ'],
+          completed: ['Completed', 'শেষ'],
+          cancelled: ['Cancelled', 'বাতিল'],
+          all: ['All', 'সব'],
+          solo: ['Solo', 'সোলো'],
+          duo: ['Duo', 'ডুয়ো'],
+          squad: ['Squad', 'স্কোয়াড'],
+          join: ['Join', 'জয়েন'],
+          leave: ['Leave', 'ছেড়ে দিন'],
+          joined: ['Joined', 'জয়েন করেছেন'],
+          full: ['Full', 'ভর্তি'],
+          slots: ['Slots', 'স্লট'],
+          prize: ['Prize', 'পুরস্কার'],
+          sponsor: ['Sponsor', 'স্পনসর'],
+          map: ['Map', 'ম্যাপ'],
+          mode: ['Mode', 'মোড'],
+          startsIn: ['Starts in', 'শুরু হবে'],
+          roomId: ['Room ID', 'রুম আইডি'],
+          pass: ['Password', 'পাসওয়ার্ড'],
+          roomLocked: [
+            'Room ID unlocks {n} min before start for joined players.',
+            'জয়েন করা প্লেয়াররা শুরুর {n} মিনিট আগে রুম আইডি দেখতে পাবেন।',
+          ],
+          roomNotSet: [
+            'Admin has not set the room yet.',
+            'অ্যাডমিন এখনও রুম সেট করেননি।',
+          ],
+          copy: ['Copy', 'কপি'],
+          copied: ['Copied', 'কপি হয়েছে'],
+          share: ['Share on WhatsApp', 'WhatsApp-এ শেয়ার'],
+          needProfile: [
+            'Create your player profile first.',
+            'আগে প্লেয়ার প্রোফাইল তৈরি করুন।',
+          ],
+          banned: ['You are banned from tournaments.', 'আপনি ব্যান আছেন।'],
+          needTeam: [
+            'You need a team for this mode — create or join one in Profile.',
+            'এই মোডে টিম লাগবে — প্রোফাইলে টিম বানান বা জয়েন করুন।',
+          ],
+          needCaptain: [
+            'Only the team captain can register the team.',
+            'শুধু টিমের ক্যাপ্টেন রেজিস্টার করতে পারবেন।',
+          ],
+          needMembers: [
+            'Your team needs at least {n} members.',
+            'টিমে অন্তত {n} জন লাগবে।',
+          ],
+          memberBanned: ['A team member is banned.', 'টিমের একজন ব্যান আছেন।'],
+          already: [
+            'Already registered (you or a teammate).',
+            'আগেই রেজিস্টার করা (আপনি বা টিমমেট)।',
+          ],
+          ratingRange: [
+            'This lobby is for rating {a}–{b}. Yours: {r}.',
+            'এই লবি রেটিং {a}–{b}-এর জন্য। আপনার: {r}।',
+          ],
+          started: ['Match already started.', 'ম্যাচ শুরু হয়ে গেছে।'],
+          joinedOk: [
+            'Slot booked! We will remind you before start.',
+            'স্লট বুক হয়েছে! শুরুর আগে মনে করিয়ে দেব।',
+          ],
+          leftOk: ['Slot released.', 'স্লট ছেড়ে দিয়েছেন।'],
+          viaTourney: [
+            'Entry via tournament registration',
+            'টুর্নামেন্ট রেজিস্ট্রেশনের মাধ্যমে',
+          ],
+          results: ['Results', 'রেজাল্ট'],
+          pos: ['Pos', 'পজিশন'],
+          kills: ['Kills', 'কিল'],
+          pts: ['Pts', 'পয়েন্ট'],
+          booyah: ['Booyah', 'বুইয়া'],
+          standings: ['Standings', 'পয়েন্ট টেবিল'],
+          register: ['Register', 'রেজিস্টার'],
+          registered: ['Registered', 'রেজিস্টার্ড'],
+          stage: ['Stage', 'স্টেজ'],
+          qualify: ['Top {n} qualify', 'সেরা {n} কোয়ালিফাই'],
+          seasonPts: ['Season points', 'সিজন পয়েন্ট'],
+          fraggers: ['Top fraggers', 'সেরা কিলার'],
+          ratings: ['Skill rating', 'স্কিল রেটিং'],
+          teams: ['Teams', 'টিম'],
+          rating: ['Rating', 'রেটিং'],
+          kd: ['Kills/match', 'কিল/ম্যাচ'],
+          avgPos: ['Avg place', 'গড় পজিশন'],
+          played: ['Played', 'খেলেছেন'],
+          trust: ['Trust', 'ট্রাস্ট'],
+          badges: ['Badges', 'ব্যাজ'],
+          tier: ['Season tier', 'সিজন টিয়ার'],
+          nextTier: ['to next tier', 'পরের টিয়ার পর্যন্ত'],
+          myTeam: ['My team', 'আমার টিম'],
+          noTeam: ['No team yet.', 'এখনও টিম নেই।'],
+          createTeam: ['Create team', 'টিম বানান'],
+          joinTeam: ['Join with code', 'কোড দিয়ে জয়েন'],
+          teamName: ['Team name', 'টিমের নাম'],
+          teamTag: ['Tag (2–4 letters)', 'ট্যাগ (২–৪ অক্ষর)'],
+          inviteCode: ['Invite code', 'ইনভাইট কোড'],
+          leaveTeam: ['Leave team', 'টিম ছাড়ুন'],
+          teamFull: ['Team is full (max 4).', 'টিম ভর্তি (সর্বোচ্চ ৪)।'],
+          codeBad: ['Invalid code.', 'ভুল কোড।'],
+          captain: ['Captain', 'ক্যাপ্টেন'],
+          report: ['Report player', 'রিপোর্ট করুন'],
+          reason: ['Reason', 'কারণ'],
+          evidence: [
+            'Evidence link (YouTube/Drive)',
+            'প্রমাণের লিংক (YouTube/Drive)',
+          ],
+          reported: ['Report sent to admins.', 'রিপোর্ট অ্যাডমিনের কাছে গেছে।'],
+          r_hack: [
+            'Hacking (aimbot/wallhack/speed)',
+            'হ্যাক (এইমবট/ওয়ালহ্যাক/স্পিড)',
+          ],
+          r_team: ['Teaming with enemies', 'শত্রুর সাথে টিমিং'],
+          r_abuse: ['Abuse / toxicity', 'গালিগালাজ'],
+          r_other: ['Other', 'অন্যান্য'],
+          announcements: ['Announcements', 'ঘোষণা'],
+          nextMatch: ['Your next match', 'আপনার পরের ম্যাচ'],
+          noNext: [
+            'No upcoming match — join one!',
+            'কোনো ম্যাচ নেই — জয়েন করুন!',
+          ],
+          lang: ['Language', 'ভাষা'],
+          theme: ['Light mode', 'লাইট মোড'],
+          role: ['Mode', 'মোড'],
+          playerMode: ['Player', 'প্লেয়ার'],
+          adminMode: ['Admin', 'অ্যাডমিন'],
+          pin: ['Admin PIN', 'অ্যাডমিন পিন'],
+          pinBad: ['Wrong PIN.', 'ভুল পিন।'],
+          pinNote: [
+            'Default PIN is 1234 — change it in Settings.',
+            'ডিফল্ট পিন 1234 — সেটিংসে বদলান।',
+          ],
+          newMatch: ['New match', 'নতুন ম্যাচ'],
+          title: ['Title', 'শিরোনাম'],
+          start: ['Start time', 'শুরুর সময়'],
+          killPts: ['Points per kill', 'প্রতি কিলে পয়েন্ট'],
+          placePts: [
+            'Placement points (comma separated)',
+            'পজিশন পয়েন্ট (কমা দিয়ে)',
+          ],
+          minR: ['Min rating (optional)', 'সর্বনিম্ন রেটিং (ঐচ্ছিক)'],
+          maxR: ['Max rating (optional)', 'সর্বোচ্চ রেটিং (ঐচ্ছিক)'],
+          yt: ['YouTube live link (optional)', 'YouTube লাইভ লিংক (ঐচ্ছিক)'],
+          setRoom: ['Set room', 'রুম সেট'],
+          enterResults: ['Enter results', 'রেজাল্ট দিন'],
+          publish: ['Verify & publish', 'যাচাই করে প্রকাশ'],
+          cancelMatch: ['Cancel match', 'ম্যাচ বাতিল'],
+          del: ['Delete', 'মুছুন'],
+          ocr: ['Read screenshot (OCR)', 'স্ক্রিনশট থেকে পড়ুন (OCR)'],
+          pasteText: [
+            'Or paste result text (e.g. from Google Lens)',
+            'অথবা রেজাল্টের টেক্সট পেস্ট করুন (যেমন Google Lens থেকে)',
+          ],
+          parse: ['Fill from text', 'টেক্সট থেকে বসান'],
+          ocrLoading: [
+            'Reading screenshot… (needs internet the first time)',
+            'স্ক্রিনশট পড়া হচ্ছে… (প্রথমবার ইন্টারনেট লাগবে)',
+          ],
+          ocrFail: [
+            'OCR not available here — paste the text instead.',
+            'এখানে OCR চলছে না — টেক্সট পেস্ট করুন।',
+          ],
+          filled: [
+            'Filled {n} rows — please check before publishing.',
+            '{n}টি সারি বসানো হয়েছে — প্রকাশের আগে মিলিয়ে নিন।',
+          ],
+          posDup: [
+            'Two entries have the same position.',
+            'দুটো এন্ট্রির একই পজিশন।',
+          ],
+          published: [
+            'Results published. Points & ratings updated.',
+            'রেজাল্ট প্রকাশিত। পয়েন্ট ও রেটিং আপডেট হয়েছে।',
+          ],
+          flagged: ['Flagged', 'সন্দেহজনক'],
+          f_kills: ['Unusual kill count', 'অস্বাভাবিক কিল'],
+          f_banned: ['Banned player in lobby', 'লবিতে ব্যান প্লেয়ার'],
+          f_reports: ['Has open reports', 'রিপোর্ট আছে'],
+          templates: ['Daily templates', 'রোজকার টেমপ্লেট'],
+          newTemplate: ['New template', 'নতুন টেমপ্লেট'],
+          time: ['Time', 'সময়'],
+          days: ['Days', 'দিন'],
+          generated: [
+            '{n} matches scheduled from templates.',
+            'টেমপ্লেট থেকে {n}টি ম্যাচ তৈরি হয়েছে।',
+          ],
+          newTourney: ['New tournament', 'নতুন টুর্নামেন্ট'],
+          stage1: ['Qualifier matches', 'কোয়ালিফায়ার ম্যাচ'],
+          qualN: ['Teams that qualify', 'কতজন কোয়ালিফাই'],
+          finals: ['Final matches', 'ফাইনাল ম্যাচ'],
+          gap: ['Minutes between matches', 'ম্যাচের মাঝে মিনিট'],
+          advance: ['Advance top {n} to finals', 'সেরা {n}-কে ফাইনালে তুলুন'],
+          stageDone: [
+            'Finish all stage matches first.',
+            'আগে স্টেজের সব ম্যাচ শেষ করুন।',
+          ],
+          champion: ['Champion', 'চ্যাম্পিয়ন'],
+          regClosed: ['Registration closed.', 'রেজিস্ট্রেশন বন্ধ।'],
+          addPlayer: ['Add player', 'প্লেয়ার যোগ'],
+          ban: ['Ban', 'ব্যান'],
+          unban: ['Unban', 'আনব্যান'],
+          warn: ['Warn', 'সতর্ক'],
+          dismiss: ['Dismiss', 'খারিজ'],
+          reports: ['Reports', 'রিপোর্ট'],
+          openReports: ['Open reports', 'খোলা রিপোর্ট'],
+          post: ['Post', 'পোস্ট'],
+          annPh: ['Write an announcement…', 'ঘোষণা লিখুন…'],
+          revealMins: [
+            'Room reveal (minutes before start)',
+            'রুম আইডি দেখাবে (শুরুর কত মিনিট আগে)',
+          ],
+          newPin: [
+            'New admin PIN (4–8 digits)',
+            'নতুন অ্যাডমিন পিন (৪–৮ সংখ্যা)',
+          ],
+          backup: ['Backup & restore', 'ব্যাকআপ'],
+          exportB: ['Export', 'এক্সপোর্ট'],
+          importB: ['Import', 'ইমপোর্ট'],
+          reset: ['Reset all data', 'সব ডেটা মুছুন'],
+          resetQ: [
+            'Delete everything on this device?',
+            'এই ডিভাইসের সব ডেটা মুছবেন?',
+          ],
+          restored: ['Restored.', 'ফেরত এসেছে।'],
+          bad: ['Could not read that backup.', 'ব্যাকআপ পড়া যায়নি।'],
+          newSeason: ['Start new season', 'নতুন সিজন শুরু'],
+          seasonQ: [
+            'Archive this season and reset season points?',
+            'এই সিজন আর্কাইভ করে পয়েন্ট রিসেট করবেন?',
+          ],
+          season: ['Season', 'সিজন'],
+          notif: ['Enable match reminders', 'ম্যাচ রিমাইন্ডার চালু'],
+          remind: [
+            'Room is open for "{m}"! Join now.',
+            '"{m}" এর রুম খুলেছে! এখনই ঢুকুন।',
+          ],
+          install: ['Install on phone', 'ফোনে ইনস্টল'],
+          installNote: [
+            'Open this file in Chrome → ⋮ → Add to Home screen. Works offline.',
+            'Chrome-এ খুলুন → ⋮ → Add to Home screen। অফলাইনেও চলে।',
+          ],
+          localNote: [
+            'This version keeps data on this device. Multi-phone sync needs a free Supabase backend (next step).',
+            'এই ভার্সনে ডেটা এই ডিভাইসেই থাকে। একাধিক ফোনে সিঙ্ক করতে ফ্রি Supabase ব্যাকএন্ড লাগবে (পরের ধাপ)।',
+          ],
+          noFee: [
+            'No entry fee. Prizes come from sponsors or are points-only.',
+            'এন্ট্রি ফি নেই। পুরস্কার স্পনসরের বা শুধু পয়েন্ট।',
+          ],
+          pending: ['Results pending', 'রেজাল্ট বাকি'],
+          total: ['Total', 'মোট'],
+          members: ['Members', 'সদস্য'],
+          matchesN: ['matches', 'ম্যাচ'],
+          demoData: ['Load demo data', 'ডেমো ডেটা লোড'],
+          rules: ['Rules', 'নিয়ম'],
+          rulesText: [
+            'No hacks, no teaming, no emulators unless allowed. Join the room only with your registered UID. Screenshots of results are checked.',
+            'হ্যাক, টিমিং নিষেধ; অনুমতি ছাড়া ইমুলেটর নয়। শুধু রেজিস্টার্ড UID দিয়ে রুমে ঢুকুন। রেজাল্টের স্ক্রিনশট যাচাই হয়।',
+          ],
+          edit: ['Edit', 'এডিট'],
+          signIn: ['Sign in', 'সাইন ইন'],
+          signUp: ['Create account', 'অ্যাকাউন্ট খুলুন'],
+          email: ['Email', 'ইমেইল'],
+          password: ['Password (min 6)', 'পাসওয়ার্ড (অন্তত ৬)'],
+          logout: ['Log out', 'লগ আউট'],
+          checkEmail: [
+            'Account created! Check your email to confirm, then sign in.',
+            'অ্যাকাউন্ট হয়েছে! ইমেইল কনফার্ম করে সাইন ইন করুন।',
+          ],
+          connecting: ['Connecting…', 'কানেক্ট হচ্ছে…'],
+          offline: [
+            'Cannot reach the server. Check your internet and try again.',
+            'সার্ভারে পৌঁছানো যাচ্ছে না। ইন্টারনেট দেখে আবার চেষ্টা করুন।',
+          ],
+          retry: ['Retry', 'আবার চেষ্টা'],
+          syncNow: ['Sync now', 'এখন সিঙ্ক'],
+          account: ['Account', 'অ্যাকাউন্ট'],
+          haveAcc: ['Already have an account?', 'অ্যাকাউন্ট আছে?'],
+          noAcc: ['New here?', 'নতুন?'],
+          roomSoon: [
+            'Room ID appears here {n} min before start.',
+            'শুরুর {n} মিনিট আগে রুম আইডি এখানে আসবে।',
+          ],
+          adminHow: [
+            'To become admin, run the one-line SQL from the setup guide in Supabase.',
+            'অ্যাডমিন হতে সেটআপ গাইডের এক লাইনের SQL Supabase-এ চালান।',
+          ],
+          working: ['Working…', 'হচ্ছে…'],
+          playerLogin: ['Player login', 'প্লেয়ার লগইন'],
+          newPlayer: ['New player? Register', 'নতুন প্লেয়ার? রেজিস্টার'],
+          register2: ['Register', 'রেজিস্টার'],
+          login: ['Log in', 'লগইন'],
+          pinLbl: ['PIN (4–6 digits)', 'পিন (৪–৬ সংখ্যা)'],
+          pinRep: ['Repeat PIN', 'আবার পিন দিন'],
+          pinMismatch: ['PINs do not match.', 'দুটো পিন মেলেনি।'],
+          pinFmt: ['PIN must be 4–6 digits.', 'পিন ৪–৬ সংখ্যার হতে হবে।'],
+          wrongPin: ['Wrong UID or PIN.', 'UID বা পিন ভুল।'],
+          uidRegistered: [
+            'This UID is already registered — log in with your PIN.',
+            'এই UID আগেই রেজিস্টার্ড — পিন দিয়ে লগইন করুন।',
+          ],
+          confirmOff: [
+            'Admin: turn OFF "Confirm email" in Supabase → Authentication, then try again.',
+            'অ্যাডমিন: Supabase → Authentication-এ "Confirm email" বন্ধ করুন, তারপর আবার চেষ্টা করুন।',
+          ],
+          adminLogin: ['Admin login (email)', 'অ্যাডমিন লগইন (ইমেইল)'],
+          backPlayer: ['← Player login', '← প্লেয়ার লগইন'],
+          pinWhy: [
+            'Your UID is public, so a secret PIN keeps others out of your account. Forgot it? Ask an admin to reset.',
+            'আপনার UID সবাই দেখতে পায়, তাই গোপন পিন লাগে। ভুলে গেলে অ্যাডমিনকে রিসেট করতে বলুন।',
+          ],
+          changePin: ['Change PIN', 'পিন বদলান'],
+          newPinL: ['New PIN (4–6 digits)', 'নতুন পিন (৪–৬ সংখ্যা)'],
+          pinChanged: ['PIN changed.', 'পিন বদলানো হয়েছে।'],
+          resetPin: ['Reset PIN', 'পিন রিসেট'],
+          resetFor: ['Set a new PIN for {n}', '{n}-এর নতুন পিন দিন'],
+          tooMany: [
+            'Too many attempts — wait a few minutes.',
+            'অনেকবার চেষ্টা — কয়েক মিনিট অপেক্ষা করুন।',
+          ],
+          onlineNote: [
+            'Online: everyone sees the same matches in real time.',
+            'অনলাইন: সবাই একই ম্যাচ রিয়েলটাইমে দেখে।',
+          ],
+          you: ['You', 'আপনি'],
+          entries: ['Entries', 'এন্ট্রি'],
+          status: ['Status', 'স্ট্যাটাস'],
+          warnings: ['warnings', 'সতর্কতা'],
+        };
+        /* ============ online storage (Supabase) ============ */
+        var SB_URL = 'https://ttzcdffcujamvaaizmmk.supabase.co',
+          SB_KEY = 'sb_publishable_SXIF2On5o8BTFyyb8Sh3pw_zO8sSqLF';
+        var PREF_KEY = 'arenaboard.prefs';
+        var PREF = (function () {
+          try {
+            return JSON.parse(localStorage.getItem(PREF_KEY) || '{}');
+          } catch (e) {
+            return {};
+          }
+        })();
+        PREF.lang = PREF.lang || 'en';
+        PREF.theme = PREF.theme || 'dark';
+        PREF.notified = PREF.notified || {};
+        function savePref() {
+          try {
+            localStorage.setItem(PREF_KEY, JSON.stringify(PREF));
+          } catch (e) {}
+        }
+        function now() {
+          return Date.now();
+        }
+        function uid(p) {
+          return (
+            (p || 'x') +
+            now().toString(36) +
+            Math.random().toString(36).slice(2, 6)
+          );
+        }
+        function newId() {
+          try {
+            if (crypto.randomUUID) return crypto.randomUUID();
+          } catch (e) {}
+          var b = new Uint8Array(16);
+          crypto.getRandomValues(b);
+          b[6] = (b[6] & 15) | 64;
+          b[8] = (b[8] & 63) | 128;
+          var h = [].map
+            .call(b, function (x) {
+              return (x + 256).toString(16).slice(1);
+            })
+            .join('');
+          return (
+            h.slice(0, 8) +
+            '-' +
+            h.slice(8, 12) +
+            '-' +
+            h.slice(12, 16) +
+            '-' +
+            h.slice(16, 20) +
+            '-' +
+            h.slice(20)
+          );
+        }
+        function save() {
+          savePref();
+        }
+        function fresh() {
+          return {
+            v: 1,
+            settings: {
+              lang: PREF.lang,
+              theme: PREF.theme,
+              reveal: 10,
+              season: 1,
+            },
+            me: {
+              pid: null,
+              role: 'player',
+              notified: PREF.notified,
+              notif: false,
+            },
+            players: [],
+            teams: [],
+            matches: [],
+            tourneys: [],
+            templates: [],
+            reports: [],
+            ann: [],
+            archive: [],
+          };
+        }
+        var S = fresh();
+        var sb = null,
+          SESSION = null,
+          MYPROFILE = null,
+          NET = 'connecting',
+          busy = false;
+        function loadScript(src) {
+          return new Promise(function (res, rej) {
+            var s = document.createElement('script');
+            s.src = src;
+            s.onload = res;
+            s.onerror = rej;
+            document.head.appendChild(s);
+          });
+        }
+        function libLoad() {
+          if (window.supabase && window.supabase.createClient)
+            return Promise.resolve();
+          return loadScript(
+            'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js'
+          ).catch(function () {
+            return loadScript(
+              'https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.min.js'
+            );
+          });
+        }
+        async function fetchAll(table) {
+          var out = [],
+            from = 0,
+            step = 1000;
+          for (;;) {
+            var r = await sb
+              .from(table)
+              .select('*')
+              .range(from, from + step - 1);
+            if (r.error) throw r.error;
+            out = out.concat(r.data || []);
+            if (!r.data || r.data.length < step) break;
+            from += step;
+          }
+          return out;
+        }
+        function ts(x) {
+          return x ? Date.parse(x) : 0;
+        }
+        async function pull() {
+          if (!sb || !SESSION) return;
+          var names = [
+            'app_settings',
+            'profiles',
+            'teams',
+            'team_codes',
+            'matches',
+            'match_entries',
+            'results',
+            'match_rooms',
+            'tournaments',
+            'templates',
+            'reports',
+            'announcements',
+          ];
+          var r = await Promise.all(names.map(fetchAll));
+          var st = r[0][0] || {},
+            pr = r[1],
+            tm = r[2],
+            tc = r[3],
+            ma = r[4],
+            en = r[5],
+            rs = r[6],
+            rm = r[7],
+            tr = r[8],
+            tp = r[9],
+            rp = r[10],
+            an = r[11];
+          S.settings.reveal = st.reveal_min || 10;
+          S.settings.season = st.season || 1;
+          S.archive = st.archive || [];
+          S.players = pr.map(function (p) {
+            return {
+              id: p.id,
+              ign: p.ign,
+              uid: p.game_uid,
+              role: p.role,
+              banned: p.banned,
+              trust: p.trust,
+              warns: p.warns,
+              teamId: p.team_id,
+              created: ts(p.created_at),
+            };
+          });
+          var codes = {};
+          tc.forEach(function (c) {
+            codes[c.team_id] = c.code;
+          });
+          S.teams = tm.map(function (t) {
+            return {
+              id: t.id,
+              name: t.name,
+              tag: t.tag,
+              captain: t.captain,
+              code: codes[t.id] || '',
+              created: ts(t.created_at),
+              members: S.players
+                .filter(function (p) {
+                  return p.teamId === t.id;
+                })
+                .sort(function (a, b) {
+                  return a.created - b.created;
+                })
+                .map(function (p) {
+                  return p.id;
+                }),
+            };
+          });
+          var ents = {},
+            ress = {},
+            rooms = {};
+          en.forEach(function (e) {
+            (ents[e.match_id] = ents[e.match_id] || []).push({
+              id: e.id,
+              k: e.kind,
+              ref: e.kind === 'p' ? e.player_id : e.team_id,
+              ts: ts(e.created_at),
+            });
+          });
+          rs.forEach(function (x) {
+            (ress[x.match_id] = ress[x.match_id] || []).push({
+              eid: x.entry_id,
+              pos: x.pos,
+              kills: x.kills,
+              mk: x.member_kills || {},
+              pts: x.pts,
+            });
+          });
+          rm.forEach(function (x) {
+            rooms[x.match_id] = { id: x.room_id, pass: x.room_pass };
+          });
+          S.matches = ma.map(function (m) {
+            return {
+              id: m.id,
+              title: m.title,
+              mode: m.mode,
+              map: m.map,
+              start: ts(m.start_at),
+              slots: m.slots,
+              prize: m.prize,
+              sponsor: m.sponsor,
+              killPts: m.kill_pts,
+              pp: m.place_pts || [],
+              minR: m.min_rating,
+              maxR: m.max_rating,
+              room: rooms[m.id] || { id: '', pass: '' },
+              yt: m.yt,
+              tid: m.tournament_id,
+              stage: m.stage,
+              status: m.status,
+              entries: (ents[m.id] || []).sort(function (a, b) {
+                return a.ts - b.ts;
+              }),
+              results: ress[m.id] || [],
+              flags: m.flags || [],
+              season: m.season,
+              tpl: m.tpl_key,
+            };
+          });
+          S.tourneys = tr
+            .map(function (t) {
+              return {
+                id: t.id,
+                name: t.name,
+                mode: t.mode,
+                slots: t.slots,
+                prize: t.prize,
+                sponsor: t.sponsor,
+                gap: t.gap,
+                finalsCount: t.finals_count,
+                maps: t.maps,
+                stages: t.stages || [],
+                created: ts(t.created_at),
+              };
+            })
+            .sort(function (a, b) {
+              return a.created - b.created;
+            });
+          S.templates = tp.map(function (t) {
+            return {
+              id: t.id,
+              title: t.title,
+              mode: t.mode,
+              map: t.map,
+              time: t.time,
+              days: t.days,
+              prize: t.prize,
+              sponsor: t.sponsor,
+            };
+          });
+          S.reports = rp.map(function (x) {
+            return {
+              id: x.id,
+              matchId: x.match_id,
+              reporter: x.reporter,
+              target: x.target,
+              reason: x.reason,
+              evidence: x.evidence,
+              note: x.note,
+              status: x.status,
+              ts: ts(x.created_at),
+            };
+          });
+          S.ann = an
+            .map(function (a) {
+              return { id: a.id, text: a.text, ts: ts(a.created_at) };
+            })
+            .sort(function (a, b) {
+              return a.ts - b.ts;
+            });
+          MYPROFILE = byId(S.players, SESSION.user.id);
+          S.me.pid = MYPROFILE ? MYPROFILE.id : null;
+          S.me.role =
+            MYPROFILE && MYPROFILE.role === 'admin' && PREF.adminView
+              ? 'admin'
+              : 'player';
+          NET = 'ok';
+        }
+        var pendingProfile = null;
+        async function createPendingProfile() {
+          if (!pendingProfile || !SESSION) return;
+          var pp = pendingProfile;
+          pendingProfile = null;
+          try {
+            if (!byId(S.players, SESSION.user.id)) {
+              var r = await sb
+                .from('profiles')
+                .insert({ id: SESSION.user.id, ign: pp.ign, game_uid: pp.uid });
+              if (r.error) throw r.error;
+            }
+            await pull();
+            render();
+            toast('✓');
+          } catch (e) {
+            toast('⚠ ' + niceErr(e));
+          }
+        }
+        var pullTimer = null;
+        function schedulePull() {
+          clearTimeout(pullTimer);
+          pullTimer = setTimeout(function () {
+            pull()
+              .then(rerender)
+              .catch(function () {});
+          }, 400);
+        }
+        function rerender() {
+          var openM = openMatchId,
+            openT = openTourneyId,
+            hasModal = !!$('layer').innerHTML,
+            typing =
+              document.activeElement &&
+              /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName);
+          if (hasModal && typing) return;
+          render();
+          if (hasModal && openM && !$('layer').querySelector('.rpos'))
+            openMatch(openM);
+          else if (hasModal && openT) openTourney(openT);
+        }
+        async function run(fn, okMsg) {
+          if (busy) {
+            toast(t('working'));
+            return false;
+          }
+          busy = true;
+          window.__busy = 1;
+          document.body.style.cursor = 'progress';
+          try {
+            var r = await fn();
+            if (r && r.error) throw r.error;
+            await pull();
+            closeModal();
+            render();
+            if (okMsg) toast(okMsg);
+            return true;
+          } catch (e) {
+            toast('⚠ ' + niceErr(e));
+            return false;
+          } finally {
+            busy = false;
+            window.__busy = 0;
+            document.body.style.cursor = '';
+          }
+        }
+        function niceErr(e) {
+          var m = (e && (e.message || e.error_description)) || String(e);
+          if (/profiles_game_uid_key/.test(m)) return t('uidTaken');
+          if (/Failed to fetch|NetworkError|Load failed/i.test(m))
+            return t('offline');
+          if (/Invalid login credentials/i.test(m))
+            return S.settings.lang === 'en'
+              ? 'Wrong email or password.'
+              : 'ইমেইল বা পাসওয়ার্ড ভুল।';
+          if (/rate limit|too many/i.test(m)) return t('tooMany');
+          if (/Email not confirmed/i.test(m))
+            return S.settings.lang === 'en'
+              ? 'Confirm your email first (check inbox).'
+              : 'আগে ইমেইল কনফার্ম করুন।';
+          return m;
+        }
+        async function rpc(name, args) {
+          var r = await sb.rpc(name, args);
+          if (r.error) throw r.error;
+          return r.data;
+        }
+        async function q(p) {
+          var r = await p;
+          if (r.error) throw r.error;
+          return r.data;
+        }
+        /* ============ helpers ============ */
+        function t(k, v) {
+          var a = L[k];
+          var s = a ? (S.settings.lang === 'en' ? a[0] : a[1]) : k;
+          if (v) for (var x in v) s = s.split('{' + x + '}').join(v[x]);
+          return s;
+        }
+        function esc(s) {
+          return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+            return {
+              '&': '&amp;',
+              '<': '&lt;',
+              '>': '&gt;',
+              '"': '&quot;',
+              "'": '&#39;',
+            }[c];
+          });
+        }
+        function $(id) {
+          return document.getElementById(id);
+        }
+        function byId(arr, id) {
+          for (var i = 0; i < arr.length; i++)
+            if (arr[i].id === id) return arr[i];
+          return null;
+        }
+        function P(id) {
+          return byId(S.players, id);
+        }
+        function TM(id) {
+          return byId(S.teams, id);
+        }
+        function M(id) {
+          return byId(S.matches, id);
+        }
+        function TR(id) {
+          return byId(S.tourneys, id);
+        }
+        function me() {
+          return S.me.pid ? P(S.me.pid) : null;
+        }
+        function isAdmin() {
+          return S.me.role === 'admin';
+        }
+        function toast(m) {
+          var el = document.createElement('div');
+          el.className = 'toast';
+          el.textContent = m;
+          document.body.appendChild(el);
+          setTimeout(function () {
+            el.remove();
+          }, 2600);
+        }
+        function fmtTime(ts) {
+          var d = new Date(ts);
+          return d.toLocaleString(
+            S.settings.lang === 'en' ? 'en-IN' : 'bn-IN',
+            {
+              weekday: 'short',
+              day: 'numeric',
+              month: 'short',
+              hour: 'numeric',
+              minute: '2-digit',
+            }
+          );
+        }
+        function cd(ms) {
+          if (ms <= 0) return '0:00';
+          var s = Math.floor(ms / 1000),
+            d = Math.floor(s / 86400),
+            h = Math.floor((s % 86400) / 3600),
+            m = Math.floor((s % 3600) / 60),
+            ss = s % 60;
+          return d
+            ? d + 'd ' + h + 'h'
+            : h
+            ? h + 'h ' + m + 'm'
+            : m + ':' + (ss < 10 ? '0' : '') + ss;
+        }
+        function need(mode) {
+          return mode === 'solo' ? 1 : mode === 'duo' ? 2 : 4;
+        }
+        function defSlots(mode) {
+          return mode === 'solo' ? 48 : mode === 'duo' ? 24 : 12;
+        }
+        var DEF_PP = [12, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+        function norm(s) {
+          return String(s || '')
+            .toLowerCase()
+            .replace(/[^a-z0-9ঀ-৿]/g, '');
+        }
+        function entryName(e) {
+          if (e.k === 'p') {
+            var p = P(e.ref);
+            return p ? p.ign : '?';
+          }
+          var tm = TM(e.ref);
+          return tm ? tm.name + (tm.tag ? ' [' + tm.tag + ']' : '') : '?';
+        }
+        function entryPlayers(e) {
+          if (e.k === 'p') return [e.ref];
+          var tm = TM(e.ref);
+          return tm ? tm.members.slice() : [];
+        }
+        function matchStatus(m) {
+          if (m.status === 'cancelled') return 'cancelled';
+          if (m.status === 'completed') return 'completed';
+          if (now() >= m.start) return 'live';
+          return 'upcoming';
+        }
+        function inMatch(m, pid) {
+          for (var i = 0; i < m.entries.length; i++) {
+            if (entryPlayers(m.entries[i]).indexOf(pid) >= 0)
+              return m.entries[i];
+          }
+          return null;
+        }
+        function myEntryRef(mode) {
+          var p = me();
+          if (!p) return null;
+          if (mode === 'solo') return { k: 'p', id: p.id };
+          return p.teamId ? { k: 't', id: p.teamId } : null;
+        }
+        function sameRef(a, b) {
+          return a && b && a.k === b.k && a.id === b.id;
+        }
+
+        /* ============ derived stats (recomputed from history) ============ */
+        var D = null;
+        function derive() {
+          var ps = {},
+            ts = {};
+          S.players.forEach(function (p) {
+            ps[p.id] = {
+              rating: 1000,
+              m: 0,
+              kills: 0,
+              booyah: 0,
+              top3: 0,
+              posSum: 0,
+              pts: 0,
+              maxK: 0,
+              hist: [],
+            };
+          });
+          S.teams.forEach(function (x) {
+            ts[x.id] = { m: 0, kills: 0, booyah: 0, pts: 0 };
+          });
+          var done = S.matches
+            .filter(function (m) {
+              return m.status === 'completed' && m.results && m.results.length;
+            })
+            .sort(function (a, b) {
+              return a.start - b.start;
+            });
+          done.forEach(function (m) {
+            var rows = m.results
+              .map(function (r) {
+                var e = byId(m.entries, r.eid);
+                if (!e) return null;
+                var pl = entryPlayers(e).filter(function (id) {
+                  return ps[id];
+                });
+                var R = pl.length
+                  ? pl.reduce(function (a, id) {
+                      return a + ps[id].rating;
+                    }, 0) / pl.length
+                  : 1000;
+                return { r: r, e: e, pl: pl, R: R };
+              })
+              .filter(Boolean);
+            var n = rows.length;
+            rows.forEach(function (x) {
+              var sum = 0;
+              rows.forEach(function (y) {
+                if (y === x) return;
+                var S1 = x.r.pos < y.r.pos ? 1 : x.r.pos > y.r.pos ? 0 : 0.5;
+                var E = 1 / (1 + Math.pow(10, (y.R - x.R) / 400));
+                sum += S1 - E;
+              });
+              x.delta =
+                n > 1
+                  ? ((32 * sum) / (n - 1)) * Math.min(2, Math.sqrt(n / 4))
+                  : 0;
+            });
+            rows.forEach(function (x) {
+              var seasonOk = (m.season || 1) === S.settings.season;
+              x.pl.forEach(function (id) {
+                var s = ps[id];
+                s.rating += x.delta;
+                s.m++;
+                s.posSum += x.r.pos;
+                if (x.r.pos === 1) s.booyah++;
+                if (x.r.pos <= 3) s.top3++;
+                var k = x.e.k === 'p' ? x.r.kills : (x.r.mk && x.r.mk[id]) || 0;
+                s.kills += k;
+                s.maxK = Math.max(s.maxK, k);
+                if (seasonOk) s.pts += x.r.pts;
+                s.hist.push({ m: m.id, k: k, pos: x.r.pos });
+              });
+              if (x.e.k === 't' && ts[x.e.id]) {
+                var q = ts[x.e.id];
+                q.m++;
+                q.kills += x.r.kills;
+                if (x.r.pos === 1) q.booyah++;
+                if (seasonOk) q.pts += x.r.pts;
+              }
+            });
+          });
+          for (var id in ps) ps[id].rating = Math.round(ps[id].rating);
+          D = { ps: ps, ts: ts };
+          return D;
+        }
+        function pst(id) {
+          return (
+            (D && D.ps[id]) || {
+              rating: 1000,
+              m: 0,
+              kills: 0,
+              booyah: 0,
+              top3: 0,
+              posSum: 0,
+              pts: 0,
+              maxK: 0,
+              hist: [],
+            }
+          );
+        }
+        var TIERS = [
+          ['Bronze', 0, '#C98A55'],
+          ['Silver', 50, '#AEB8C6'],
+          ['Gold', 150, '#F2B32E'],
+          ['Platinum', 300, '#5ED1C9'],
+          ['Diamond', 600, '#7DA8FF'],
+          ['Heroic', 1000, '#FF6A3D'],
+          ['Master', 1600, '#C77DFF'],
+        ];
+        function tierOf(pts) {
+          var cur = TIERS[0],
+            nx = null;
+          for (var i = 0; i < TIERS.length; i++) {
+            if (pts >= TIERS[i][1]) {
+              cur = TIERS[i];
+              nx = TIERS[i + 1] || null;
+            }
+          }
+          return {
+            name: cur[0],
+            color: cur[2],
+            next: nx,
+            prog: nx ? (pts - cur[1]) / (nx[1] - cur[1]) : 1,
+          };
+        }
+        function badgesOf(p) {
+          var s = pst(p.id),
+            b = [];
+          if (s.kills > 0) b.push(['🩸', 'First Blood']);
+          if (s.booyah >= 1) b.push(['🏆', 'Booyah']);
+          if (s.booyah >= 3) b.push(['👑', 'Booyah King']);
+          if (s.maxK >= 10) b.push(['🎯', 'Sharpshooter']);
+          if (s.m >= 20) b.push(['🛡️', 'Veteran']);
+          if (s.m >= 5 && s.posSum / s.m <= 5) b.push(['📈', 'Consistent']);
+          if (s.m >= 10 && (p.trust == null || p.trust >= 100))
+            b.push(['✅', 'Clean Record']);
+          return b;
+        }
+
+        /* entries use {id: entryId, k:'p'|'t', ref: playerId|teamId} */
+        function refOf(e) {
+          return { k: e.k, id: e.ref };
+        }
+
+        /* ============ templates → matches (admin, server-side upsert) ============ */
+        async function runTemplates() {
+          if (!isAdmin() || !S.templates.length) return 0;
+          var rows = [];
+          S.templates.forEach(function (tp) {
+            for (var d = 0; d < 3; d++) {
+              var day = new Date();
+              day.setDate(day.getDate() + d);
+              var hm = (tp.time || '21:00').split(':');
+              day.setHours(+hm[0], +hm[1] || 0, 0, 0);
+              if (day.getTime() < now() || tp.days.indexOf(day.getDay()) < 0)
+                continue;
+              var key =
+                tp.id +
+                '@' +
+                day.getFullYear() +
+                '-' +
+                (day.getMonth() + 1) +
+                '-' +
+                day.getDate();
+              if (
+                S.matches.some(function (m) {
+                  return m.tpl === key;
+                })
+              )
+                continue;
+              rows.push({
+                title: tp.title,
+                mode: tp.mode,
+                map: tp.map || 'Bermuda',
+                start_at: day.toISOString(),
+                slots: defSlots(tp.mode),
+                prize: tp.prize || '',
+                sponsor: tp.sponsor || '',
+                season: S.settings.season,
+                tpl_key: key,
+              });
+            }
+          });
+          if (!rows.length) return 0;
+          await q(
+            sb
+              .from('matches')
+              .upsert(rows, { onConflict: 'tpl_key', ignoreDuplicates: true })
+          );
+          return rows.length;
+        }
+        /* ============ join / leave ============ */
+        function canJoin(m) {
+          var p = me();
+          if (!p) return t('needProfile');
+          if (p.banned) return t('banned');
+          if (m.tid) return t('viaTourney');
+          if (matchStatus(m) !== 'upcoming') return t('started');
+          var ref = myEntryRef(m.mode);
+          if (!ref) return t('needTeam');
+          if (m.mode !== 'solo') {
+            var tm = TM(ref.id);
+            if (tm.captain !== p.id) return t('needCaptain');
+            if (tm.members.length < need(m.mode))
+              return t('needMembers', { n: need(m.mode) });
+            if (
+              tm.members.some(function (id) {
+                var x = P(id);
+                return x && x.banned;
+              })
+            )
+              return t('memberBanned');
+            if (
+              tm.members.some(function (id) {
+                return inMatch(m, id);
+              })
+            )
+              return t('already');
+          } else if (inMatch(m, p.id)) return t('already');
+          if (m.entries.length >= m.slots) return t('full');
+          var r =
+            m.mode === 'solo'
+              ? pst(p.id).rating
+              : Math.round(
+                  TM(ref.id).members.reduce(function (a, id) {
+                    return a + pst(id).rating;
+                  }, 0) / TM(ref.id).members.length
+                );
+          if ((m.minR && r < m.minR) || (m.maxR && r > m.maxR))
+            return t('ratingRange', { a: m.minR || 0, b: m.maxR || '∞', r: r });
+          return null;
+        }
+        function joinMatch(m) {
+          var err = canJoin(m);
+          if (err) {
+            toast(err);
+            return;
+          }
+          askNotif();
+          return run(function () {
+            return rpc('join_match', { p_match: m.id });
+          }, t('joinedOk')).then(function (ok) {
+            if (ok) openMatch(m.id);
+          });
+        }
+        function leaveMatch(m) {
+          return run(function () {
+            return rpc('leave_match', { p_match: m.id });
+          }, t('leftOk')).then(function (ok) {
+            if (ok) openMatch(m.id);
+          });
+        }
+
+        /* ============ tournaments ============ */
+        function tourneyStandings(tr, stageIdx) {
+          var st = tr.stages[stageIdx];
+          var rows = {};
+          st.entrants.forEach(function (ref) {
+            rows[ref.k + ref.id] = {
+              ref: ref,
+              pts: 0,
+              kills: 0,
+              booyah: 0,
+              m: 0,
+            };
+          });
+          st.matchIds.forEach(function (mid) {
+            var m = M(mid);
+            if (!m || m.status !== 'completed') return;
+            m.results.forEach(function (r) {
+              var e = byId(m.entries, r.eid);
+              if (!e) return;
+              var row = rows[e.k + e.ref];
+              if (!row) return;
+              row.pts += r.pts;
+              row.kills += r.kills;
+              row.m++;
+              if (r.pos === 1) row.booyah++;
+            });
+          });
+          return Object.keys(rows)
+            .map(function (k) {
+              return rows[k];
+            })
+            .sort(function (a, b) {
+              return b.pts - a.pts || b.booyah - a.booyah || b.kills - a.kills;
+            });
+        }
+        function stageMatchRows(tr, st, si) {
+          var rows = [];
+          st.matchIds = [];
+          for (var i = 0; i < st.count; i++) {
+            var id = newId();
+            st.matchIds.push(id);
+            rows.push({
+              id: id,
+              title: tr.name + ' · ' + st.name + ' ' + (i + 1),
+              mode: tr.mode,
+              map: tr.maps[i % tr.maps.length],
+              start_at: new Date(st.start + i * tr.gap * 6e4).toISOString(),
+              slots: Math.max(
+                1,
+                Math.min(200, si === 0 ? tr.slots : st.entrants.length)
+              ),
+              prize: tr.prize,
+              sponsor: tr.sponsor,
+              tournament_id: tr.id,
+              stage: si,
+              season: S.settings.season,
+            });
+          }
+          return rows;
+        }
+        function tourneyRegister(tr) {
+          var p = me();
+          if (!p) {
+            toast(t('needProfile'));
+            return;
+          }
+          if (p.banned) {
+            toast(t('banned'));
+            return;
+          }
+          askNotif();
+          return run(function () {
+            return rpc('register_tournament', { p_tid: tr.id });
+          }, t('joinedOk')).then(function (ok) {
+            if (ok) openTourney(tr.id);
+          });
+        }
+        function advanceTourney(tr) {
+          var si = tr.stages.length - 1,
+            st = tr.stages[si];
+          if (
+            st.matchIds.some(function (id) {
+              var m = M(id);
+              return m && m.status !== 'completed' && m.status !== 'cancelled';
+            })
+          ) {
+            toast(t('stageDone'));
+            return;
+          }
+          var top = tourneyStandings(tr, si)
+            .slice(0, st.qualify)
+            .map(function (r) {
+              return r.ref;
+            });
+          var fin = {
+            name: 'Finals',
+            count: tr.finalsCount,
+            qualify: 1,
+            entrants: top,
+            matchIds: [],
+            start: Math.max(
+              now() + 30 * 6e4,
+              st.start + st.count * tr.gap * 6e4 + 60 * 6e4
+            ),
+          };
+          var rows = stageMatchRows(tr, fin, tr.stages.length);
+          var ents = [];
+          fin.matchIds.forEach(function (mid) {
+            top.forEach(function (r) {
+              ents.push({
+                match_id: mid,
+                kind: r.k,
+                player_id: r.k === 'p' ? r.id : null,
+                team_id: r.k === 't' ? r.id : null,
+              });
+            });
+          });
+          var stages = tr.stages.concat([fin]);
+          return run(async function () {
+            await q(sb.from('matches').insert(rows));
+            if (ents.length) await q(sb.from('match_entries').insert(ents));
+            await q(
+              sb.from('tournaments').update({ stages: stages }).eq('id', tr.id)
+            );
+          }).then(function (ok) {
+            if (ok) openTourney(tr.id);
+          });
+        }
+
+        /* ============ results: scoring, anomaly flags, parsing ============ */
+        function publishResults(m, rows) {
+          var seen = {};
+          for (var i = 0; i < rows.length; i++) {
+            if (seen[rows[i].pos]) {
+              toast(t('posDup'));
+              return Promise.resolve(false);
+            }
+            seen[rows[i].pos] = 1;
+          }
+          derive();
+          var flags = [];
+          rows.forEach(function (r) {
+            r.pts = (m.pp[r.pos - 1] || 0) + r.kills * m.killPts;
+            var e = byId(m.entries, r.eid);
+            entryPlayers(e).forEach(function (pid) {
+              var p = P(pid);
+              if (!p) return;
+              var s = pst(pid);
+              var k = e.k === 'p' ? r.kills : (r.mk && r.mk[pid]) || 0;
+              var avg = s.m >= 3 ? s.kills / s.m : 2;
+              if (k >= 8 && k > Math.max(10, avg * 3))
+                flags.push({ pid: pid, code: 'f_kills', v: k });
+              if (p.banned) flags.push({ pid: pid, code: 'f_banned' });
+              if (
+                S.reports.some(function (x) {
+                  return x.target === pid && x.status === 'open';
+                })
+              )
+                flags.push({ pid: pid, code: 'f_reports' });
+            });
+          });
+          var payload = rows.map(function (r) {
+            return {
+              entry_id: r.eid,
+              pos: r.pos,
+              kills: r.kills,
+              member_kills: r.mk || {},
+              pts: r.pts,
+            };
+          });
+          return run(function () {
+            return rpc('publish_results', {
+              p_match: m.id,
+              p_rows: payload,
+              p_flags: flags,
+            });
+          }, t('published'));
+        }
+        function lev(a, b) {
+          if (a === b) return 0;
+          var m = a.length,
+            n = b.length;
+          if (!m) return n;
+          if (!n) return m;
+          var d = [];
+          for (var i = 0; i <= m; i++) {
+            d[i] = [i];
+          }
+          for (var j = 1; j <= n; j++) d[0][j] = j;
+          for (i = 1; i <= m; i++)
+            for (j = 1; j <= n; j++)
+              d[i][j] = Math.min(
+                d[i - 1][j] + 1,
+                d[i][j - 1] + 1,
+                d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)
+              );
+          return d[m][n];
+        }
+        function sim(a, b) {
+          var mx = Math.max(a.length, b.length);
+          return mx ? 1 - lev(a, b) / mx : 0;
+        }
+        /* Parse OCR / pasted text into {pid:{pos?,kills}} using fuzzy IGN matching */
+        function parseResultText(m, text) {
+          var lines = String(text)
+            .split(/\n+/)
+            .map(function (l) {
+              return l.trim();
+            })
+            .filter(Boolean);
+          var cands = [];
+          m.entries.forEach(function (e) {
+            entryPlayers(e).forEach(function (pid) {
+              var p = P(pid);
+              if (p) cands.push({ pid: pid, eid: e.id, n: norm(p.ign) });
+            });
+          });
+          var out = {},
+            order = 0,
+            lastPos = null;
+          lines.forEach(function (line) {
+            var toks = line.split(/\s+/),
+              best = null,
+              bs = 0,
+              bi = -1;
+            for (var i = 0; i < toks.length; i++) {
+              for (var w = 1; w <= 3 && i + w <= toks.length; w++) {
+                var chunk = norm(toks.slice(i, i + w).join(''));
+                if (chunk.length < 3) continue;
+                cands.forEach(function (c) {
+                  var s = sim(chunk, c.n);
+                  if (s > bs) {
+                    bs = s;
+                    best = c;
+                    bi = i;
+                  }
+                });
+              }
+            }
+            var nums = (line.match(/\d+/g) || []).map(Number);
+            var lead = line.match(/^\s*#?(\d{1,2})\b/);
+            if (!best || bs < 0.72) {
+              if (lead && nums.length === 1) lastPos = +lead[1];
+              return;
+            }
+            if (out[best.pid]) return;
+            var after =
+              line
+                .split(/\s+/)
+                .slice(bi + 1)
+                .join(' ')
+                .match(/\d+/g) || [];
+            var kills = after.length ? +after[0] : 0;
+            if (kills > 60) kills = 0;
+            var pos = lead ? +lead[1] : lastPos;
+            order++;
+            out[best.pid] = {
+              eid: best.eid,
+              kills: kills,
+              pos: pos || null,
+              order: order,
+            };
+          });
+          return out;
+        }
+        var tessLoading = null;
+        function loadTess() {
+          if (window.Tesseract) return Promise.resolve();
+          if (tessLoading) return tessLoading;
+          tessLoading = new Promise(function (res, rej) {
+            var s = document.createElement('script');
+            s.src =
+              'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+            s.onload = function () {
+              res();
+            };
+            s.onerror = function () {
+              tessLoading = null;
+              rej();
+            };
+            document.head.appendChild(s);
+          });
+          return tessLoading;
+        }
+
+        /* ============ reminders ============ */
+        function askNotif() {
+          try {
+            if (window.Notification && Notification.permission === 'default')
+              Notification.requestPermission().then(function (r) {
+                S.me.notif = r === 'granted';
+                save();
+              });
+          } catch (e) {}
+        }
+        var lastRoomPull = 0;
+        function tick() {
+          document.querySelectorAll('[data-cd]').forEach(function (el) {
+            var ms = +el.getAttribute('data-cd') - now();
+            el.textContent = ms > 0 ? cd(ms) : t('live');
+          });
+          var p = me();
+          if (!p) return;
+          if (
+            now() - lastRoomPull > 20000 &&
+            S.matches.some(function (m) {
+              return (
+                matchStatus(m) === 'upcoming' &&
+                inMatch(m, p.id) &&
+                !m.room.id &&
+                now() >= m.start - S.settings.reveal * 6e4
+              );
+            })
+          ) {
+            lastRoomPull = now();
+            schedulePull();
+          }
+          S.matches.forEach(function (m) {
+            if (
+              matchStatus(m) !== 'upcoming' ||
+              !inMatch(m, p.id) ||
+              !m.room.id ||
+              S.me.notified[m.id]
+            )
+              return;
+            if (now() >= m.start - S.settings.reveal * 6e4) {
+              S.me.notified[m.id] = 1;
+              save();
+              var msg = t('remind', { m: m.title });
+              toast('🔔 ' + msg);
+              try {
+                if (
+                  window.Notification &&
+                  Notification.permission === 'granted'
+                )
+                  new Notification('ArenaBoard', { body: msg });
+              } catch (e) {}
+              if (view === 'home' || openMatchId === m.id) render();
+            }
+          });
+        }
+
+        /* ============ icons ============ */
+        var IC = {
+          home: '<path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/>',
+          matches: '<path d="M4 6h16M4 12h16M4 18h10"/>',
+          tourneys:
+            '<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/>',
+          board: '<path d="M6 20V10M12 20V4M18 20v-7"/>',
+          profile:
+            '<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
+          dash: '<rect x="3" y="3" width="7" height="9" rx="2"/><rect x="14" y="3" width="7" height="5" rx="2"/><rect x="14" y="12" width="7" height="9" rx="2"/><rect x="3" y="16" width="7" height="5" rx="2"/>',
+          players:
+            '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c1-3.5 3.5-5 6.5-5s5.5 1.5 6.5 5"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.5 0 4 1.5 4.5 4"/>',
+          settings:
+            '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-2.7-1.1l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0-1.1-2.7H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.1-2.7l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 2.7-1.1V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0 1.1 2.7H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1.3z"/>',
+        };
+        function svg(n) {
+          return (
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+            IC[n] +
+            '</svg>'
+          );
+        }
+
+        /* ============ render ============ */
+        var view = 'home',
+          mFilter = 'upcoming',
+          modeFilter = 'all',
+          boardTab = 'season',
+          openMatchId = null,
+          openTourneyId = null,
+          adminMTab = 'list';
+        var PLAYER_TABS = ['home', 'matches', 'tourneys', 'board', 'profile'],
+          ADMIN_TABS = ['dash', 'matches', 'tourneys', 'players', 'settings'];
+        function render() {
+          S.settings.lang = PREF.lang;
+          S.settings.theme = PREF.theme;
+          document.documentElement.setAttribute('data-theme', S.settings.theme);
+          if (NET !== 'ok' || !SESSION) {
+            $('tabs').innerHTML = '';
+            $('app').innerHTML = vGate();
+            return;
+          }
+          document.documentElement.lang =
+            S.settings.lang === 'en' ? 'en' : 'bn';
+          derive();
+          var tabs = isAdmin() ? ADMIN_TABS : PLAYER_TABS;
+          if (tabs.indexOf(view) < 0) view = tabs[0];
+          var openR = S.reports.filter(function (r) {
+              return r.status === 'open';
+            }).length,
+            pend = S.matches.filter(function (m) {
+              return matchStatus(m) === 'live';
+            }).length;
+          $('tabs').innerHTML =
+            '<div class="in">' +
+            tabs
+              .map(function (k) {
+                var bd =
+                  k === 'players' && openR
+                    ? openR
+                    : k === 'matches' && isAdmin() && pend
+                    ? pend
+                    : 0;
+                return (
+                  '<button class="tab' +
+                  (view === k ? ' on' : '') +
+                  '" data-go="' +
+                  k +
+                  '">' +
+                  svg(k) +
+                  t(k) +
+                  (bd ? '<span class="badge">' + bd + '</span>' : '') +
+                  '</button>'
+                );
+              })
+              .join('') +
+            '</div>';
+          var fn = {
+            home: vHome,
+            matches: vMatches,
+            tourneys: vTourneys,
+            board: vBoard,
+            profile: vProfile,
+            dash: vDash,
+            players: vPlayers,
+            settings: vSettings,
+          }[view];
+          $('app').innerHTML = fn();
+          try {
+            if (location.hash.slice(1) !== view)
+              history.replaceState(null, '', '#' + view);
+          } catch (e) {}
+          tick();
+        }
+        function hdr(title, right) {
+          return (
+            '<div class="row between"><div><div class="tiny muted b" style="letter-spacing:1.2px">ARENABOARD' +
+            (isAdmin() ? ' · ADMIN' : '') +
+            '</div><h1>' +
+            title +
+            '</h1></div>' +
+            (right || '') +
+            '</div>'
+          );
+        }
+        function modeTag(mo) {
+          return (
+            '<span class="tag ' +
+            (mo === 'solo' ? 't-b' : mo === 'duo' ? 't-p' : 't-acc') +
+            '">' +
+            t(mo) +
+            '</span>'
+          );
+        }
+        function statusTag(m) {
+          var s = matchStatus(m);
+          if (s === 'live')
+            return '<span class="tag t-r live">● ' + t('live') + '</span>';
+          if (s === 'completed')
+            return '<span class="tag t-g">' + t('completed') + '</span>';
+          if (s === 'cancelled')
+            return '<span class="tag">' + t('cancelled') + '</span>';
+          return (
+            '<span class="tag">⏱ <span class="cd" data-cd="' +
+            m.start +
+            '"></span></span>'
+          );
+        }
+        function matchCard(m) {
+          var p = me(),
+            joined = p && inMatch(m, p.id),
+            pct = Math.min(100, Math.round((m.entries.length / m.slots) * 100));
+          return (
+            '<div class="card click st" data-om="' +
+            m.id +
+            '"><div class="row between"><div class="row">' +
+            modeTag(m.mode) +
+            statusTag(m) +
+            (joined
+              ? '<span class="tag t-g">✓ ' + t('joined') + '</span>'
+              : '') +
+            (m.flags && m.flags.length && isAdmin()
+              ? '<span class="tag t-r">⚠ ' + m.flags.length + '</span>'
+              : '') +
+            '</div><span class="tiny muted">' +
+            esc(m.map) +
+            '</span></div>' +
+            '<h3>' +
+            esc(m.title) +
+            '</h3><div class="small muted">🗓 ' +
+            fmtTime(m.start) +
+            (m.prize ? ' · 🎁 ' + esc(m.prize) : '') +
+            '</div>' +
+            (m.sponsor
+              ? '<div class="tiny"><span class="tag t-acc">⭐ ' +
+                esc(m.sponsor) +
+                '</span></div>'
+              : '') +
+            '<div class="row between tiny muted"><span>' +
+            t('slots') +
+            ' ' +
+            m.entries.length +
+            '/' +
+            m.slots +
+            '</span>' +
+            (m.minR || m.maxR
+              ? '<span>⚖ ' + (m.minR || 0) + '–' + (m.maxR || '∞') + '</span>'
+              : '') +
+            '</div><div class="bar"><i style="width:' +
+            pct +
+            '%"></i></div></div>'
+          );
+        }
+        function vHome() {
+          var p = me();
+          if (!p)
+            return (
+              '<div class="stack" style="padding-top:6vh"><div class="av" style="width:60px;height:60px;font-size:28px;border-radius:18px">⚔</div><h1>' +
+              t('welcome') +
+              '</h1><p class="muted">' +
+              t('welcomeSub') +
+              '</p>' +
+              '<div class="seg">' +
+              langSeg() +
+              '</div>' +
+              profileForm() +
+              '<button class="btn sec sm" data-a="logout">' +
+              t('logout') +
+              '</button></div>'
+            );
+          var s = pst(p.id),
+            tier = tierOf(s.pts);
+          var mine = S.matches
+            .filter(function (m) {
+              return (
+                inMatch(m, p.id) &&
+                (matchStatus(m) === 'upcoming' || matchStatus(m) === 'live')
+              );
+            })
+            .sort(function (a, b) {
+              return a.start - b.start;
+            });
+          var next = mine[0];
+          var rec = S.matches
+            .filter(function (m) {
+              return (
+                matchStatus(m) === 'upcoming' &&
+                !m.tid &&
+                !inMatch(m, p.id) &&
+                !canJoin(m)
+              );
+            })
+            .sort(function (a, b) {
+              return a.start - b.start;
+            })
+            .slice(0, 3);
+          return (
+            '<div class="stack">' +
+            hdr(
+              '🔥 ' + esc(p.ign),
+              '<div class="av" data-go="profile">' +
+                esc(p.ign.charAt(0).toUpperCase()) +
+                '</div>'
+            ) +
+            (p.banned
+              ? '<div class="card t-r b">⛔ ' + t('banned') + '</div>'
+              : '') +
+            '<div class="hero st"><div class="row between"><div><div class="lbl">' +
+            t('tier') +
+            ' · ' +
+            t('season') +
+            ' ' +
+            S.settings.season +
+            '</div><div class="disp" style="font-size:30px">' +
+            tier.name +
+            '</div></div><div style="text-align:right"><div class="lbl">' +
+            t('seasonPts') +
+            '</div><div class="disp" style="font-size:30px">' +
+            s.pts +
+            '</div></div></div>' +
+            '<div class="bar" style="background:rgba(255,255,255,.2)"><i style="width:' +
+            Math.round(tier.prog * 100) +
+            '%;background:#fff"></i></div><div class="tiny" style="opacity:.85">' +
+            (tier.next
+              ? tier.next[1] -
+                s.pts +
+                ' ' +
+                t('nextTier') +
+                ' (' +
+                tier.next[0] +
+                ')'
+              : 'MAX') +
+            '</div></div>' +
+            '<div class="grid4"><div class="stat"><span class="tiny muted">' +
+            t('rating') +
+            '</span><b>' +
+            s.rating +
+            '</b></div><div class="stat"><span class="tiny muted">' +
+            t('booyah') +
+            '</span><b>' +
+            s.booyah +
+            '</b></div><div class="stat"><span class="tiny muted">' +
+            t('kills') +
+            '</span><b>' +
+            s.kills +
+            '</b></div><div class="stat"><span class="tiny muted">' +
+            t('played') +
+            '</span><b>' +
+            s.m +
+            '</b></div></div>' +
+            '<h2>' +
+            t('nextMatch') +
+            '</h2>' +
+            (next
+              ? matchCard(next) + roomBox(next)
+              : '<div class="card empty">' + t('noNext') + '</div>') +
+            (S.ann.length
+              ? '<h2>📣 ' +
+                t('announcements') +
+                '</h2><div class="card">' +
+                S.ann
+                  .slice()
+                  .reverse()
+                  .slice(0, 3)
+                  .map(function (a) {
+                    return (
+                      '<div class="lr"><div class="grow small">' +
+                      esc(a.text) +
+                      '<div class="tiny muted">' +
+                      fmtTime(a.ts) +
+                      '</div></div></div>'
+                    );
+                  })
+                  .join('') +
+                '</div>'
+              : '') +
+            (rec.length
+              ? '<h2>⚡ ' +
+                t('upcoming') +
+                '</h2>' +
+                rec.map(matchCard).join('')
+              : '') +
+            '<div class="card small muted">🛡 ' +
+            t('noFee') +
+            '</div></div>'
+          );
+        }
+        function roomBox(m) {
+          var p = me(),
+            joined = p && inMatch(m, p.id);
+          if (!isAdmin() && !joined) return '';
+          var st = matchStatus(m);
+          if (st === 'completed' || st === 'cancelled') return '';
+          var revealAt = m.start - S.settings.reveal * 6e4;
+          if (!isAdmin() && now() < revealAt)
+            return (
+              '<div class="room small">🔒 ' +
+              t('roomSoon', { n: S.settings.reveal }) +
+              ' <span class="cd" data-cd="' +
+              revealAt +
+              '"></span></div>'
+            );
+          if (!m.room.id)
+            return '<div class="room small">🔒 ' + t('roomNotSet') + '</div>';
+          return (
+            '<div class="room st"><div class="row between"><div><div class="tiny muted b">' +
+            t('roomId') +
+            '</div><code>' +
+            esc(m.room.id) +
+            '</code></div><button class="btn sm sec" data-copy="' +
+            esc(m.room.id) +
+            '">' +
+            t('copy') +
+            '</button></div>' +
+            '<div class="row between"><div><div class="tiny muted b">' +
+            t('pass') +
+            '</div><code>' +
+            esc(m.room.pass || '—') +
+            '</code></div><button class="btn sm sec" data-copy="' +
+            esc(m.room.pass || '') +
+            '">' +
+            t('copy') +
+            '</button></div></div>'
+          );
+        }
+        function vGate() {
+          if (NET === 'connecting')
+            return (
+              '<div class="stack" style="padding-top:30vh;text-align:center"><div class="av" style="margin:0 auto;width:60px;height:60px;font-size:28px;border-radius:18px">⚔</div><p class="muted">' +
+              t('connecting') +
+              '</p></div>'
+            );
+          if (NET === 'error')
+            return (
+              '<div class="stack" style="padding-top:22vh;text-align:center"><div class="av" style="margin:0 auto;width:60px;height:60px;font-size:28px;border-radius:18px">⚔</div><p class="muted">' +
+              t('offline') +
+              '</p><button class="btn" data-a="retry">' +
+              t('retry') +
+              '</button></div>'
+            );
+          if (authMode === 'pin' || authMode === 'pinNew') {
+            var nw = authMode === 'pinNew';
+            return (
+              '<div class="stack" style="padding-top:5vh"><div class="av" style="width:60px;height:60px;font-size:28px;border-radius:18px">⚔</div><h1>' +
+              t('welcome') +
+              '</h1><p class="muted">' +
+              t('welcomeSub') +
+              '</p><div class="seg">' +
+              langSeg() +
+              '</div>' +
+              '<div class="card st"><h3>🎮 ' +
+              (nw ? t('register2') : t('playerLogin')) +
+              '</h3>' +
+              (nw
+                ? '<label class="f">' +
+                  t('ign') +
+                  '<input id="lg_ign" maxlength="24" autocomplete="nickname"></label>'
+                : '') +
+              '<label class="f">' +
+              t('uid') +
+              '<input id="lg_uid" inputmode="numeric" maxlength="12" autocomplete="username"></label>' +
+              '<label class="f">' +
+              t('pinLbl') +
+              '<input id="lg_pin" type="password" inputmode="numeric" maxlength="6" autocomplete="' +
+              (nw ? 'new-password' : 'current-password') +
+              '"></label>' +
+              (nw
+                ? '<label class="f">' +
+                  t('pinRep') +
+                  '<input id="lg_pin2" type="password" inputmode="numeric" maxlength="6"></label>'
+                : '') +
+              '<button class="btn" data-a="' +
+              (nw ? 'pinRegister' : 'pinLogin') +
+              '">' +
+              (nw ? t('register2') : t('login')) +
+              '</button>' +
+              '<button class="btn sec sm" data-a="authMode" data-m="' +
+              (nw ? 'pin' : 'pinNew') +
+              '">' +
+              (nw ? t('haveAcc') + ' ' + t('login') : t('newPlayer')) +
+              '</button>' +
+              '<p class="tiny muted">🔒 ' +
+              t('pinWhy') +
+              '</p></div>' +
+              '<button class="btn sec sm" data-a="authMode" data-m="in" style="align-self:center">🛠 ' +
+              t('adminLogin') +
+              '</button>' +
+              '<div class="card small muted">🛡 ' +
+              t('noFee') +
+              '</div></div>'
+            );
+          }
+          var up = authMode === 'up';
+          return (
+            '<div class="stack" style="padding-top:6vh"><div class="av" style="width:60px;height:60px;font-size:28px;border-radius:18px">⚔</div><h1>' +
+            t('welcome') +
+            '</h1><p class="muted">' +
+            t('welcomeSub') +
+            '</p><div class="seg">' +
+            langSeg() +
+            '</div>' +
+            '<div class="card st"><h3>' +
+            (up ? t('signUp') : t('signIn')) +
+            '</h3><label class="f">' +
+            t('email') +
+            '<input type="email" id="au_email" autocomplete="email"></label><label class="f">' +
+            t('password') +
+            '<input type="password" id="au_pass" autocomplete="' +
+            (up ? 'new-password' : 'current-password') +
+            '"></label>' +
+            '<button class="btn" data-a="' +
+            (up ? 'signUp' : 'signIn') +
+            '">' +
+            (up ? t('signUp') : t('signIn')) +
+            '</button>' +
+            '<button class="btn sec sm" data-a="authToggle">' +
+            (up
+              ? t('haveAcc') + ' ' + t('signIn')
+              : t('noAcc') + ' ' + t('signUp')) +
+            '</button></div>' +
+            '<button class="btn sec sm" data-a="authMode" data-m="pin" style="align-self:center">' +
+            t('backPlayer') +
+            '</button>' +
+            '<div class="card small muted">🛡 ' +
+            t('noFee') +
+            '</div></div>'
+          );
+        }
+        var authMode = 'pin';
+        var PDOM = '@players.arenaboard.app';
+        function pEmail(u) {
+          return 'p' + u + PDOM;
+        }
+        function pPass(u, pin) {
+          return 'AB!' + pin + '#' + u;
+        }
+        function isPinAcct() {
+          return !!(
+            SESSION &&
+            SESSION.user &&
+            SESSION.user.email &&
+            SESSION.user.email.slice(-PDOM.length) === PDOM
+          );
+        }
+        function pinUid() {
+          return isPinAcct() ? SESSION.user.email.slice(1, -PDOM.length) : '';
+        }
+        function vMatches() {
+          var list = S.matches.filter(function (m) {
+            var s = matchStatus(m);
+            return (
+              (mFilter === 'all' ||
+                s === mFilter ||
+                (mFilter === 'upcoming' && s === 'live')) &&
+              (modeFilter === 'all' || m.mode === modeFilter)
+            );
+          });
+          list.sort(function (a, b) {
+            return mFilter === 'completed'
+              ? b.start - a.start
+              : a.start - b.start;
+          });
+          return (
+            '<div class="stack">' +
+            hdr(
+              t('matches'),
+              isAdmin()
+                ? '<button class="btn sm" data-a="newMatch">＋ ' +
+                    t('newMatch') +
+                    '</button>'
+                : ''
+            ) +
+            (isAdmin()
+              ? '<div class="seg"><button class="' +
+                (adminMTab === 'list' ? 'on' : '') +
+                '" data-amt="list">' +
+                t('matches') +
+                '</button><button class="' +
+                (adminMTab === 'tpl' ? 'on' : '') +
+                '" data-amt="tpl">' +
+                t('templates') +
+                '</button></div>'
+              : '') +
+            (isAdmin() && adminMTab === 'tpl'
+              ? vTemplates()
+              : '<div class="chips">' +
+                ['upcoming', 'completed', 'all']
+                  .map(function (f) {
+                    return (
+                      '<button class="chip' +
+                      (mFilter === f ? ' on' : '') +
+                      '" data-mf="' +
+                      f +
+                      '">' +
+                      t(f) +
+                      '</button>'
+                    );
+                  })
+                  .join('') +
+                '<span style="width:8px"></span>' +
+                ['all', 'solo', 'duo', 'squad']
+                  .map(function (f) {
+                    return (
+                      '<button class="chip' +
+                      (modeFilter === f ? ' on' : '') +
+                      '" data-mo="' +
+                      f +
+                      '">' +
+                      (f === 'all' ? '🎮' : t(f)) +
+                      '</button>'
+                    );
+                  })
+                  .join('') +
+                '</div>' +
+                (list.length
+                  ? list.map(matchCard).join('')
+                  : '<div class="card empty">—</div>')) +
+            '</div>'
+          );
+        }
+        function vTemplates() {
+          var dn =
+            S.settings.lang === 'en'
+              ? ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
+              : ['র', 'সো', 'ম', 'বু', 'বৃ', 'শু', 'শ'];
+          return (
+            '<button class="btn sec" data-a="newTpl">＋ ' +
+            t('newTemplate') +
+            '</button>' +
+            (S.templates.length
+              ? S.templates
+                  .map(function (tp) {
+                    return (
+                      '<div class="card row between"><div><h3>' +
+                      esc(tp.title) +
+                      '</h3><div class="small muted">' +
+                      t(tp.mode) +
+                      ' · ' +
+                      tp.time +
+                      ' · ' +
+                      tp.days
+                        .map(function (d) {
+                          return dn[d];
+                        })
+                        .join(' ') +
+                      '</div></div><button class="btn sm no" data-deltpl="' +
+                      tp.id +
+                      '">' +
+                      t('del') +
+                      '</button></div>'
+                    );
+                  })
+                  .join('')
+              : '<div class="card empty">—</div>') +
+            '<div class="card small muted">ℹ ' +
+            t('generated', { n: '↻' }) +
+            '</div>'
+          );
+        }
+        function openMatch(id) {
+          var m = M(id);
+          if (!m) return;
+          openMatchId = id;
+          derive();
+          var p = me(),
+            joined = p && inMatch(m, p.id),
+            st = matchStatus(m),
+            err = canJoin(m);
+          var ents = m.entries
+            .map(function (e) {
+              var rt = entryPlayers(e).map(function (id) {
+                return pst(id).rating;
+              });
+              var avg = rt.length
+                ? Math.round(
+                    rt.reduce(function (a, b) {
+                      return a + b;
+                    }, 0) / rt.length
+                  )
+                : 1000;
+              var flagged =
+                isAdmin() &&
+                entryPlayers(e).some(function (id) {
+                  var x = P(id);
+                  return (
+                    x &&
+                    (x.banned ||
+                      S.reports.some(function (r) {
+                        return r.target === id && r.status === 'open';
+                      }))
+                  );
+                });
+              return (
+                '<div class="lr"><div class="av">' +
+                esc(entryName(e).charAt(0)) +
+                '</div><div class="grow"><b class="small">' +
+                esc(entryName(e)) +
+                '</b>' +
+                (flagged ? ' <span class="tag t-r">⚠</span>' : '') +
+                '<div class="tiny muted">' +
+                t('rating') +
+                ' ' +
+                avg +
+                '</div></div></div>'
+              );
+            })
+            .join('');
+          var res = '';
+          if (st === 'completed' && m.results.length) {
+            res =
+              '<h3>' +
+              t('results') +
+              '</h3><table class="rt"><tr><th>#</th><th></th><th>' +
+              t('kills') +
+              '</th><th>' +
+              t('pts') +
+              '</th></tr>' +
+              m.results
+                .slice()
+                .sort(function (a, b) {
+                  return a.pos - b.pos;
+                })
+                .map(function (r) {
+                  var e = byId(m.entries, r.eid);
+                  return (
+                    '<tr><td><span class="rank ' +
+                    (r.pos <= 3 ? 'r' + r.pos : '') +
+                    '">' +
+                    r.pos +
+                    '</span></td><td>' +
+                    esc(e ? entryName(e) : '?') +
+                    (e && e.k === 't' && r.mk
+                      ? '<div class="tiny muted">' +
+                        Object.keys(r.mk)
+                          .map(function (pid) {
+                            var x = P(pid);
+                            return x ? esc(x.ign) + ' ' + r.mk[pid] : '';
+                          })
+                          .join(' · ') +
+                        '</div>'
+                      : '') +
+                    '</td><td>' +
+                    r.kills +
+                    '</td><td><b>' +
+                    r.pts +
+                    '</b></td></tr>'
+                  );
+                })
+                .join('') +
+              '</table>';
+            if (isAdmin() && m.flags.length)
+              res +=
+                '<div class="card st" style="background:var(--redBg)">' +
+                m.flags
+                  .map(function (f) {
+                    var x = P(f.pid);
+                    return (
+                      '<div class="small">⚠ <b>' +
+                      esc(x ? x.ign : '?') +
+                      '</b> — ' +
+                      t(f.code) +
+                      (f.v ? ' (' + f.v + ')' : '') +
+                      '</div>'
+                    );
+                  })
+                  .join('') +
+                '</div>';
+          }
+          var actions = '';
+          if (isAdmin()) {
+            actions =
+              '<div class="grid2">' +
+              (st !== 'completed' && st !== 'cancelled'
+                ? '<button class="btn sec" data-a="room" data-id="' +
+                  m.id +
+                  '">🔑 ' +
+                  t('setRoom') +
+                  '</button>'
+                : '') +
+              (st !== 'cancelled'
+                ? '<button class="btn" data-a="results" data-id="' +
+                  m.id +
+                  '">📝 ' +
+                  (st === 'completed' ? t('edit') : t('enterResults')) +
+                  '</button>'
+                : '') +
+              (st === 'upcoming'
+                ? '<button class="btn no" data-a="cancelM" data-id="' +
+                  m.id +
+                  '">' +
+                  t('cancelMatch') +
+                  '</button>'
+                : '') +
+              '<button class="btn sec" data-a="shareM" data-id="' +
+              m.id +
+              '">📤 ' +
+              t('share') +
+              '</button></div>';
+          } else {
+            if (st === 'upcoming' && !m.tid)
+              actions = joined
+                ? '<button class="btn no block" data-a="leave" data-id="' +
+                  m.id +
+                  '">' +
+                  t('leave') +
+                  '</button>'
+                : '<button class="btn block" data-a="join" data-id="' +
+                  m.id +
+                  '" ' +
+                  (err ? 'disabled' : '') +
+                  '>⚔ ' +
+                  t('join') +
+                  '</button>' +
+                  (err
+                    ? '<div class="tiny muted" style="text-align:center">' +
+                      esc(err) +
+                      '</div>'
+                    : '');
+            if (m.tid && st === 'upcoming')
+              actions =
+                '<div class="small muted">🏆 ' + t('viaTourney') + '</div>';
+            if (joined && (st === 'live' || st === 'completed'))
+              actions +=
+                '<button class="btn sec block" data-a="report" data-id="' +
+                m.id +
+                '">🚩 ' +
+                t('report') +
+                '</button>';
+            actions +=
+              '<button class="btn sec block" data-a="shareM" data-id="' +
+              m.id +
+              '">📤 ' +
+              t('share') +
+              '</button>';
+          }
+          modal(
+            '<div class="row between"><div class="row">' +
+              modeTag(m.mode) +
+              statusTag(m) +
+              '</div><button class="btn sm sec" data-a="mclose">✕</button></div>' +
+              '<h2>' +
+              esc(m.title) +
+              '</h2><div class="small muted">🗓 ' +
+              fmtTime(m.start) +
+              ' · 🗺 ' +
+              esc(m.map) +
+              ' · ' +
+              t('killPts') +
+              ': ' +
+              m.killPts +
+              '</div>' +
+              (m.prize
+                ? '<div class="small">🎁 <b>' +
+                  esc(m.prize) +
+                  '</b>' +
+                  (m.sponsor ? ' · ⭐ ' + esc(m.sponsor) : '') +
+                  '</div>'
+                : '') +
+              (m.yt
+                ? '<a class="small" href="' +
+                  esc(m.yt) +
+                  '" target="_blank" rel="noopener">▶ YouTube live</a>'
+                : '') +
+              roomBox(m) +
+              actions +
+              res +
+              '<div class="tiny muted">' +
+              t('placePts') +
+              ': ' +
+              m.pp.join(', ') +
+              '</div>' +
+              '<h3>' +
+              t('entries') +
+              ' (' +
+              m.entries.length +
+              '/' +
+              m.slots +
+              ')</h3><div class="card" style="padding:4px 12px">' +
+              (ents || '<div class="empty">—</div>') +
+              '</div>' +
+              '<div class="card small muted">📜 ' +
+              t('rulesText') +
+              '</div>'
+          );
+        }
+        function vTourneys() {
+          var list = S.tourneys.slice().reverse();
+          return (
+            '<div class="stack">' +
+            hdr(
+              t('tourneys'),
+              isAdmin()
+                ? '<button class="btn sm" data-a="newT">＋ ' +
+                    t('newTourney') +
+                    '</button>'
+                : ''
+            ) +
+            (list.length
+              ? list
+                  .map(function (tr) {
+                    var st = tr.stages[tr.stages.length - 1];
+                    var champ = tourneyChampion(tr);
+                    return (
+                      '<div class="card click st" data-ot="' +
+                      tr.id +
+                      '"><div class="row between">' +
+                      modeTag(tr.mode) +
+                      (champ
+                        ? '<span class="tag t-g">🏆 ' + esc(champ) + '</span>'
+                        : '<span class="tag t-acc">' +
+                          esc(st.name) +
+                          '</span>') +
+                      '</div><h3>' +
+                      esc(tr.name) +
+                      '</h3><div class="small muted">🎁 ' +
+                      esc(tr.prize || '—') +
+                      (tr.sponsor ? ' · ⭐ ' + esc(tr.sponsor) : '') +
+                      '</div><div class="tiny muted">' +
+                      t('registered') +
+                      ' ' +
+                      tr.stages[0].entrants.length +
+                      '/' +
+                      tr.slots +
+                      ' · 🗓 ' +
+                      fmtTime(tr.stages[0].start) +
+                      '</div></div>'
+                    );
+                  })
+                  .join('')
+              : '<div class="card empty">—</div>') +
+            '</div>'
+          );
+        }
+        function tourneyChampion(tr) {
+          if (tr.stages.length < 2) return null;
+          var si = tr.stages.length - 1,
+            st = tr.stages[si];
+          if (
+            !st.matchIds.length ||
+            st.matchIds.some(function (id) {
+              var m = M(id);
+              return m && m.status !== 'completed';
+            })
+          )
+            return null;
+          var top = tourneyStandings(tr, si)[0];
+          return top ? refName(top.ref) : null;
+        }
+        function refName(r) {
+          if (r.k === 'p') {
+            var p = P(r.id);
+            return p ? p.ign : '?';
+          }
+          var tm = TM(r.id);
+          return tm ? tm.name : '?';
+        }
+        function openTourney(id) {
+          var tr = TR(id);
+          if (!tr) return;
+          openTourneyId = id;
+          derive();
+          var p = me(),
+            champ = tourneyChampion(tr);
+          var html =
+            '<div class="row between">' +
+            modeTag(tr.mode) +
+            '<button class="btn sm sec" data-a="mclose">✕</button></div><h2>' +
+            esc(tr.name) +
+            '</h2><div class="small muted">🎁 ' +
+            esc(tr.prize || '—') +
+            (tr.sponsor ? ' · ⭐ ' + esc(tr.sponsor) : '') +
+            '</div>';
+          if (champ)
+            html +=
+              '<div class="hero"><div class="lbl">🏆 ' +
+              t('champion') +
+              '</div><div class="disp" style="font-size:28px">' +
+              esc(champ) +
+              '</div></div>';
+          if (
+            !isAdmin() &&
+            tr.stages.length === 1 &&
+            now() < tr.stages[0].start
+          ) {
+            var reg =
+              p &&
+              tr.stages[0].entrants.some(function (r) {
+                return (
+                  (r.k === 'p'
+                    ? [r.id]
+                    : (TM(r.id) || { members: [] }).members
+                  ).indexOf(p.id) >= 0
+                );
+              });
+            html += reg
+              ? '<span class="tag t-g">✓ ' + t('registered') + '</span>'
+              : '<button class="btn block" data-a="treg" data-id="' +
+                tr.id +
+                '">' +
+                t('register') +
+                '</button>';
+          }
+          tr.stages.forEach(function (st, si) {
+            var rows = tourneyStandings(tr, si);
+            html +=
+              '<div class="row between"><h3>' +
+              t('stage') +
+              ' ' +
+              (si + 1) +
+              ': ' +
+              esc(st.name) +
+              '</h3>' +
+              (si < tr.stages.length - 1 || !champ
+                ? '<span class="tiny muted">' +
+                  (st.qualify && si === 0
+                    ? t('qualify', { n: st.qualify })
+                    : '') +
+                  '</span>'
+                : '') +
+              '</div>' +
+              '<div class="chips">' +
+              st.matchIds
+                .map(function (mid, i) {
+                  var m = M(mid);
+                  return m
+                    ? '<button class="chip' +
+                        (m.status === 'completed' ? ' on' : '') +
+                        '" data-om="' +
+                        mid +
+                        '">#' +
+                        (i + 1) +
+                        ' ' +
+                        esc(m.map) +
+                        '</button>'
+                    : '';
+                })
+                .join('') +
+              '</div>' +
+              '<table class="rt"><tr><th>#</th><th></th><th>' +
+              t('booyah') +
+              '</th><th>' +
+              t('kills') +
+              '</th><th>' +
+              t('pts') +
+              '</th></tr>' +
+              rows
+                .map(function (r, i) {
+                  var q = si === 0 && tr.stages.length === 1 && i < st.qualify;
+                  return (
+                    '<tr><td><span class="rank ' +
+                    (i < 3 ? 'r' + (i + 1) : '') +
+                    '">' +
+                    (i + 1) +
+                    '</span></td><td>' +
+                    esc(refName(r.ref)) +
+                    (q ? ' <span class="tag t-g">Q</span>' : '') +
+                    '</td><td>' +
+                    r.booyah +
+                    '</td><td>' +
+                    r.kills +
+                    '</td><td><b>' +
+                    r.pts +
+                    '</b></td></tr>'
+                  );
+                })
+                .join('') +
+              '</table>';
+          });
+          if (isAdmin() && tr.stages.length === 1)
+            html +=
+              '<button class="btn block" data-a="advance" data-id="' +
+              tr.id +
+              '">' +
+              t('advance', { n: tr.stages[0].qualify }) +
+              '</button>';
+          html +=
+            '<button class="btn sec block" data-a="shareT" data-id="' +
+            tr.id +
+            '">📤 ' +
+            t('share') +
+            '</button>';
+          modal(html);
+        }
+        function vBoard() {
+          var tabs = ['season', 'fraggers', 'ratings', 'teams'];
+          var html =
+            '<div class="stack">' +
+            hdr(t('board')) +
+            '<div class="seg">' +
+            tabs
+              .map(function (k) {
+                return (
+                  '<button class="' +
+                  (boardTab === k ? 'on' : '') +
+                  '" data-bt="' +
+                  k +
+                  '">' +
+                  t(k === 'season' ? 'seasonPts' : k) +
+                  '</button>'
+                );
+              })
+              .join('') +
+            '</div>';
+          var rows;
+          if (boardTab === 'teams') {
+            rows = S.teams
+              .map(function (x) {
+                var s = D.ts[x.id] || { pts: 0, kills: 0, booyah: 0, m: 0 };
+                return {
+                  n: x.name + ' [' + x.tag + ']',
+                  v: s.pts,
+                  sub:
+                    s.m +
+                    ' ' +
+                    t('matchesN') +
+                    ' · ' +
+                    s.booyah +
+                    ' 🏆 · ' +
+                    s.kills +
+                    ' 🎯',
+                };
+              })
+              .sort(function (a, b) {
+                return b.v - a.v;
+              });
+          } else {
+            rows = S.players
+              .filter(function (p) {
+                return !p.banned;
+              })
+              .map(function (p) {
+                var s = pst(p.id);
+                var v =
+                  boardTab === 'season'
+                    ? s.pts
+                    : boardTab === 'fraggers'
+                    ? s.kills
+                    : s.rating;
+                return {
+                  n: p.ign,
+                  me: p.id === S.me.pid,
+                  v: v,
+                  sub:
+                    boardTab === 'fraggers'
+                      ? (s.m ? (s.kills / s.m).toFixed(1) : '0') + ' ' + t('kd')
+                      : boardTab === 'ratings'
+                      ? s.m + ' ' + t('matchesN')
+                      : tierOf(s.pts).name + ' · ' + s.booyah + ' 🏆',
+                };
+              })
+              .filter(function (r) {
+                return boardTab === 'ratings' || r.v > 0 || r.me;
+              })
+              .sort(function (a, b) {
+                return b.v - a.v;
+              });
+          }
+          html += rows.length
+            ? '<div class="card" style="padding:4px 12px">' +
+              rows
+                .slice(0, 50)
+                .map(function (r, i) {
+                  return (
+                    '<div class="lr"' +
+                    (r.me
+                      ? ' style="background:var(--accBg);margin:0 -12px;padding:9px 12px"'
+                      : '') +
+                    '><span class="rank ' +
+                    (i < 3 ? 'r' + (i + 1) : '') +
+                    '">' +
+                    (i + 1) +
+                    '</span><div class="grow"><b class="small">' +
+                    esc(r.n) +
+                    (r.me ? ' (' + t('you') + ')' : '') +
+                    '</b><div class="tiny muted">' +
+                    r.sub +
+                    '</div></div><b class="disp" style="font-size:20px">' +
+                    r.v +
+                    '</b></div>'
+                  );
+                })
+                .join('') +
+              '</div>'
+            : '<div class="card empty">—</div>';
+          return html + '</div>';
+        }
+        function langSeg() {
+          return ['bn', 'en']
+            .map(function (l) {
+              return (
+                '<button data-lang="' +
+                l +
+                '" class="' +
+                (S.settings.lang === l ? 'on' : '') +
+                '">' +
+                (l === 'bn' ? 'বাংলা' : 'English') +
+                '</button>'
+              );
+            })
+            .join('');
+        }
+        function profileForm(p) {
+          p = p || {};
+          var lock = isPinAcct();
+          return (
+            '<div class="card st"><label class="f">' +
+            t('ign') +
+            '<input id="pf_ign" maxlength="24" value="' +
+            esc(p.ign || '') +
+            '"></label><label class="f">' +
+            t('uid') +
+            '<input id="pf_uid" inputmode="numeric" maxlength="12" value="' +
+            esc(p.uid || pinUid()) +
+            '"' +
+            (lock ? ' readonly style="opacity:.6"' : '') +
+            '></label><button class="btn" data-a="saveProfile">' +
+            (p.id ? t('save') : t('create')) +
+            '</button></div>'
+          );
+        }
+        function vProfile() {
+          var p = me();
+          if (!p) return vHome();
+          var s = pst(p.id),
+            tm = p.teamId ? TM(p.teamId) : null,
+            b = badgesOf(p);
+          var teamHtml = tm
+            ? '<div class="card st"><div class="row between"><div><h3>' +
+              esc(tm.name) +
+              ' <span class="tag t-acc">' +
+              esc(tm.tag) +
+              '</span></h3><div class="tiny muted">' +
+              t('inviteCode') +
+              ': <b class="mono">' +
+              esc(tm.code) +
+              '</b> <button class="btn sm sec" data-copy="' +
+              esc(tm.code) +
+              '">' +
+              t('copy') +
+              '</button></div></div></div>' +
+              tm.members
+                .map(function (id) {
+                  var x = P(id);
+                  return x
+                    ? '<div class="lr"><div class="av">' +
+                        esc(x.ign.charAt(0)) +
+                        '</div><div class="grow"><b class="small">' +
+                        esc(x.ign) +
+                        '</b>' +
+                        (tm.captain === id
+                          ? ' <span class="tag t-acc">' +
+                            t('captain') +
+                            '</span>'
+                          : '') +
+                        '<div class="tiny muted">' +
+                        t('rating') +
+                        ' ' +
+                        pst(id).rating +
+                        '</div></div></div>'
+                    : '';
+                })
+                .join('') +
+              '<button class="btn sm no" data-a="leaveTeam">' +
+              t('leaveTeam') +
+              '</button></div>'
+            : '<div class="card st"><p class="muted small">' +
+              t('noTeam') +
+              '</p><div class="grid2"><button class="btn" data-a="createTeam">' +
+              t('createTeam') +
+              '</button><button class="btn sec" data-a="joinTeam">' +
+              t('joinTeam') +
+              '</button></div></div>';
+          return (
+            '<div class="stack">' +
+            hdr(t('profile')) +
+            '<div class="card row"><div class="av" style="width:54px;height:54px;font-size:24px">' +
+            esc(p.ign.charAt(0)) +
+            '</div><div class="grow"><h2>' +
+            esc(p.ign) +
+            '</h2><div class="tiny muted">UID ' +
+            esc(p.uid) +
+            ' · ' +
+            t('trust') +
+            ' ' +
+            (p.trust == null ? 100 : p.trust) +
+            '%' +
+            (p.warns ? ' · ⚠ ' + p.warns + ' ' + t('warnings') : '') +
+            '</div></div><span class="tag" style="background:' +
+            tierOf(s.pts).color +
+            '22;color:' +
+            tierOf(s.pts).color +
+            '">' +
+            tierOf(s.pts).name +
+            '</span></div>' +
+            '<div class="grid3"><div class="stat"><span class="tiny muted">' +
+            t('rating') +
+            '</span><b>' +
+            s.rating +
+            '</b></div><div class="stat"><span class="tiny muted">' +
+            t('kd') +
+            '</span><b>' +
+            (s.m ? (s.kills / s.m).toFixed(1) : '0') +
+            '</b></div><div class="stat"><span class="tiny muted">' +
+            t('avgPos') +
+            '</span><b>' +
+            (s.m ? (s.posSum / s.m).toFixed(1) : '—') +
+            '</b></div>' +
+            '<div class="stat"><span class="tiny muted">' +
+            t('booyah') +
+            '</span><b>' +
+            s.booyah +
+            '</b></div><div class="stat"><span class="tiny muted">Top 3</span><b>' +
+            s.top3 +
+            '</b></div><div class="stat"><span class="tiny muted">' +
+            t('played') +
+            '</span><b>' +
+            s.m +
+            '</b></div></div>' +
+            ratingSpark(s) +
+            '<h3>' +
+            t('badges') +
+            '</h3><div class="row wrap">' +
+            (b.length
+              ? b
+                  .map(function (x) {
+                    return (
+                      '<span class="tag t-acc">' + x[0] + ' ' + x[1] + '</span>'
+                    );
+                  })
+                  .join('')
+              : '<span class="small muted">—</span>') +
+            '</div>' +
+            '<h3>' +
+            t('myTeam') +
+            '</h3>' +
+            teamHtml +
+            '<h3>' +
+            t('edit') +
+            '</h3>' +
+            profileForm(p) +
+            settingsCommon() +
+            '</div>'
+          );
+        }
+        function ratingSpark(s) {
+          if (!s.hist.length) return '';
+          // rebuild rating path from hist using kills/pos is not enough; show kills per match bars instead
+          var h = s.hist.slice(-12),
+            mx = Math.max.apply(
+              null,
+              h
+                .map(function (x) {
+                  return x.k;
+                })
+                .concat([1])
+            );
+          return (
+            '<div class="card st"><div class="row between"><b class="small">🎯 ' +
+            t('kills') +
+            ' · ' +
+            t('matches') +
+            '</b><span class="tiny muted">' +
+            h.length +
+            '</span></div><svg viewBox="0 0 ' +
+            h.length * 24 +
+            ' 60" style="width:100%;height:60px" preserveAspectRatio="none">' +
+            h
+              .map(function (x, i) {
+                var hh = Math.max(3, (x.k / mx) * 50);
+                return (
+                  '<rect x="' +
+                  (i * 24 + 4) +
+                  '" y="' +
+                  (55 - hh) +
+                  '" width="16" height="' +
+                  hh +
+                  '" rx="4" fill="' +
+                  (x.pos === 1 ? '#FFB020' : 'var(--acc)') +
+                  '"><title>' +
+                  x.k +
+                  ' kills · #' +
+                  x.pos +
+                  '</title></rect>'
+                );
+              })
+              .join('') +
+            '</svg></div>'
+          );
+        }
+        function settingsCommon() {
+          var canAdmin = MYPROFILE && MYPROFILE.role === 'admin';
+          return (
+            '<h3>' +
+            t('settings') +
+            '</h3><div class="card st"><div class="seg">' +
+            langSeg() +
+            '</div>' +
+            (canAdmin
+              ? '<div class="seg"><button class="' +
+                (!isAdmin() ? 'on' : '') +
+                '" data-role="player">🎮 ' +
+                t('playerMode') +
+                '</button><button class="' +
+                (isAdmin() ? 'on' : '') +
+                '" data-role="admin">🛠 ' +
+                t('adminMode') +
+                '</button></div>'
+              : '') +
+            '<label class="row small b"><input type="checkbox" style="width:auto" data-a="theme" ' +
+            (S.settings.theme === 'light' ? 'checked' : '') +
+            '> ☀ ' +
+            t('theme') +
+            '</label>' +
+            '<div class="row wrap"><button class="btn sec sm" data-a="notif">🔔 ' +
+            t('notif') +
+            '</button><button class="btn sec sm" data-a="sync">↻ ' +
+            t('syncNow') +
+            '</button></div></div>' +
+            '<div class="card st"><b class="small">👤 ' +
+            t('account') +
+            '</b><div class="small muted">' +
+            esc(
+              isPinAcct() ? 'UID ' + pinUid() : SESSION && SESSION.user.email
+            ) +
+            (canAdmin ? ' · <span class="tag t-acc">ADMIN</span>' : '') +
+            '</div>' +
+            (canAdmin
+              ? ''
+              : '<div class="tiny muted">' + t('adminHow') + '</div>') +
+            (isPinAcct()
+              ? '<button class="btn sec sm" data-a="changePin">🔑 ' +
+                t('changePin') +
+                '</button>'
+              : '') +
+            '<button class="btn no sm" data-a="logout">' +
+            t('logout') +
+            '</button></div>' +
+            '<div class="card st"><b class="small">📲 ' +
+            t('install') +
+            '</b><p class="small muted">' +
+            t('installNote') +
+            '</p><p class="tiny muted">' +
+            t('onlineNote') +
+            '</p></div>'
+          );
+        }
+        /* ---- admin views ---- */
+        function vDash() {
+          var live = S.matches.filter(function (m) {
+            return matchStatus(m) === 'live';
+          });
+          var up = S.matches
+            .filter(function (m) {
+              return matchStatus(m) === 'upcoming';
+            })
+            .sort(function (a, b) {
+              return a.start - b.start;
+            });
+          var openR = S.reports.filter(function (r) {
+            return r.status === 'open';
+          });
+          var noRoom = up.filter(function (m) {
+            return !m.room.id && m.start - now() < 2 * 36e5;
+          });
+          return (
+            '<div class="stack">' +
+            hdr(t('dash')) +
+            '<div class="grid4"><div class="stat"><span class="tiny muted">' +
+            t('players') +
+            '</span><b>' +
+            S.players.length +
+            '</b></div><div class="stat"><span class="tiny muted">' +
+            t('teams') +
+            '</span><b>' +
+            S.teams.length +
+            '</b></div><div class="stat"><span class="tiny muted">' +
+            t('upcoming') +
+            '</span><b>' +
+            up.length +
+            '</b></div><div class="stat"><span class="tiny muted">' +
+            t('openReports') +
+            '</span><b style="color:var(--red)">' +
+            openR.length +
+            '</b></div></div>' +
+            (live.length
+              ? '<h2>🔴 ' +
+                t('pending') +
+                '</h2>' +
+                live.map(matchCard).join('')
+              : '') +
+            (noRoom.length
+              ? '<h2>🔑 ' +
+                t('roomNotSet') +
+                '</h2>' +
+                noRoom.map(matchCard).join('')
+              : '') +
+            '<h2>📣 ' +
+            t('announcements') +
+            '</h2><div class="card st"><textarea id="annTxt" rows="2" placeholder="' +
+            t('annPh') +
+            '"></textarea><button class="btn" data-a="postAnn">' +
+            t('post') +
+            '</button>' +
+            S.ann
+              .slice()
+              .reverse()
+              .map(function (a) {
+                return (
+                  '<div class="lr"><div class="grow small">' +
+                  esc(a.text) +
+                  '<div class="tiny muted">' +
+                  fmtTime(a.ts) +
+                  '</div></div><button class="btn sm no" data-delann="' +
+                  a.id +
+                  '">✕</button></div>'
+                );
+              })
+              .join('') +
+            '</div>' +
+            '<h2>⚡ ' +
+            t('upcoming') +
+            '</h2>' +
+            (up.slice(0, 4).map(matchCard).join('') ||
+              '<div class="card empty">—</div>') +
+            '</div>'
+          );
+        }
+        function vPlayers() {
+          var openR = S.reports.filter(function (r) {
+            return r.status === 'open';
+          });
+          var uidCount = {};
+          S.players.forEach(function (p) {
+            uidCount[p.uid] = (uidCount[p.uid] || 0) + 1;
+          });
+          return (
+            '<div class="stack">' +
+            hdr(t('players')) +
+            '<h2>🚩 ' +
+            t('openReports') +
+            ' (' +
+            openR.length +
+            ')</h2>' +
+            (openR.length
+              ? openR
+                  .map(function (r) {
+                    var tg = P(r.target),
+                      rp = P(r.reporter),
+                      m = M(r.matchId);
+                    var priors = S.reports.filter(function (x) {
+                      return x.target === r.target;
+                    }).length;
+                    return (
+                      '<div class="card st"><div class="row between"><b>' +
+                      esc(tg ? tg.ign : '?') +
+                      '</b><span class="tag t-r">' +
+                      t('r_' + r.reason) +
+                      '</span></div><div class="tiny muted">' +
+                      esc(rp ? rp.ign : '?') +
+                      ' → ' +
+                      esc(m ? m.title : '') +
+                      ' · ' +
+                      fmtTime(r.ts) +
+                      ' · ' +
+                      priors +
+                      ' ' +
+                      t('reports') +
+                      ' · ' +
+                      t('trust') +
+                      ' ' +
+                      (tg ? (tg.trust == null ? 100 : tg.trust) : '') +
+                      '%</div>' +
+                      (r.evidence
+                        ? '<a class="small" href="' +
+                          esc(r.evidence) +
+                          '" target="_blank" rel="noopener">🔗 ' +
+                          esc(r.evidence) +
+                          '</a>'
+                        : '') +
+                      (r.note
+                        ? '<div class="small">' + esc(r.note) + '</div>'
+                        : '') +
+                      '<div class="grid3"><button class="btn sm sec" data-rep="dismiss" data-id="' +
+                      r.id +
+                      '">' +
+                      t('dismiss') +
+                      '</button><button class="btn sm" style="background:var(--acc2)" data-rep="warn" data-id="' +
+                      r.id +
+                      '">' +
+                      t('warn') +
+                      '</button><button class="btn sm no" data-rep="ban" data-id="' +
+                      r.id +
+                      '">' +
+                      t('ban') +
+                      '</button></div></div>'
+                    );
+                  })
+                  .join('')
+              : '<div class="card empty">✓</div>') +
+            '<h2>' +
+            t('players') +
+            ' (' +
+            S.players.length +
+            ')</h2><div class="card" style="padding:4px 12px">' +
+            S.players
+              .slice()
+              .sort(function (a, b) {
+                return (
+                  (b.banned ? 1 : 0) - (a.banned ? 1 : 0) ||
+                  (a.trust || 100) - (b.trust || 100)
+                );
+              })
+              .map(function (p) {
+                var s = pst(p.id),
+                  tm = p.teamId ? TM(p.teamId) : null;
+                var fl = [];
+                if (uidCount[p.uid] > 1) fl.push('UID×' + uidCount[p.uid]);
+                if ((p.trust == null ? 100 : p.trust) < 70)
+                  fl.push(t('trust') + ' ' + p.trust + '%');
+                if (
+                  S.reports.some(function (r) {
+                    return r.target === p.id && r.status === 'open';
+                  })
+                )
+                  fl.push('🚩');
+                return (
+                  '<div class="lr"><div class="av">' +
+                  esc(p.ign.charAt(0)) +
+                  '</div><div class="grow"><b class="small">' +
+                  esc(p.ign) +
+                  '</b>' +
+                  (p.banned ? ' <span class="tag t-r">BANNED</span>' : '') +
+                  fl
+                    .map(function (f) {
+                      return ' <span class="tag t-r">' + esc(f) + '</span>';
+                    })
+                    .join('') +
+                  '<div class="tiny muted">UID ' +
+                  esc(p.uid) +
+                  (tm ? ' · ' + esc(tm.tag) : '') +
+                  ' · R ' +
+                  s.rating +
+                  ' · ' +
+                  s.m +
+                  'M · ' +
+                  s.kills +
+                  'K</div></div><button class="btn sm sec" data-a="resetPin" data-id="' +
+                  p.id +
+                  '">🔑</button><button class="btn sm ' +
+                  (p.banned ? 'sec' : 'no') +
+                  '" data-ban="' +
+                  p.id +
+                  '">' +
+                  (p.banned ? t('unban') : t('ban')) +
+                  '</button></div>'
+                );
+              })
+              .join('') +
+            '</div></div>'
+          );
+        }
+        function vSettings() {
+          return (
+            '<div class="stack">' +
+            hdr(t('settings')) +
+            '<div class="card st"><label class="f">' +
+            t('revealMins') +
+            '<input type="number" id="st_rev" min="1" max="180" value="' +
+            S.settings.reveal +
+            '"></label><button class="btn" data-a="saveSettings">' +
+            t('save') +
+            '</button></div>' +
+            '<div class="card st"><b>' +
+            t('season') +
+            ' ' +
+            S.settings.season +
+            '</b><button class="btn sec" data-a="newSeason">' +
+            t('newSeason') +
+            '</button>' +
+            (S.archive.length
+              ? S.archive
+                  .map(function (a) {
+                    return (
+                      '<div class="small muted">' +
+                      t('season') +
+                      ' ' +
+                      a.season +
+                      ': 🥇 ' +
+                      esc((a.top || []).join(', ')) +
+                      '</div>'
+                    );
+                  })
+                  .join('')
+              : '') +
+            '</div>' +
+            '<div class="card st"><b>💾 ' +
+            t('backup') +
+            '</b><div class="row wrap"><button class="btn sm sec" data-a="export">' +
+            t('exportB') +
+            '</button></div></div>' +
+            settingsCommon() +
+            '</div>'
+          );
+        }
+        /* ============ modals ============ */
+        function modal(h) {
+          $('layer').innerHTML =
+            '<div class="modal-bg" data-bg="1"><div class="modal stack">' +
+            h +
+            '</div></div>';
+          tick();
+        }
+        function closeModal() {
+          $('layer').innerHTML = '';
+          openMatchId = null;
+          openTourneyId = null;
+          ocrRows = null;
+        }
+        function confirmBox(msg, yes) {
+          modal(
+            '<h3>' +
+              esc(msg) +
+              '</h3><div class="grid2"><button class="btn sec" data-a="mclose">' +
+              t('cancel') +
+              '</button><button class="btn no" id="yesBtn">' +
+              t('ok') +
+              '</button></div>'
+          );
+          $('yesBtn').onclick = function () {
+            closeModal();
+            yes();
+            render();
+          };
+        }
+        function dtLocal(ts) {
+          var d = new Date(ts - new Date().getTimezoneOffset() * 6e4);
+          return d.toISOString().slice(0, 16);
+        }
+        function matchForm() {
+          var d = new Date(now() + 36e5 * 2);
+          d.setMinutes(0, 0, 0);
+          modal(
+            '<h2>' +
+              t('newMatch') +
+              '</h2><label class="f">' +
+              t('title') +
+              '<input id="nm_t" maxlength="60" placeholder="Night Squad Clash"></label>' +
+              '<div class="grid2"><label class="f">' +
+              t('mode') +
+              '<select id="nm_mode"><option value="squad">' +
+              t('squad') +
+              '</option><option value="duo">' +
+              t('duo') +
+              '</option><option value="solo">' +
+              t('solo') +
+              '</option></select></label><label class="f">' +
+              t('map') +
+              '<select id="nm_map"><option>Bermuda</option><option>Purgatory</option><option>Kalahari</option><option>Alpine</option><option>NeXTerra</option><option>Solara</option></select></label></div>' +
+              '<div class="grid2"><label class="f">' +
+              t('start') +
+              '<input type="datetime-local" id="nm_start" value="' +
+              dtLocal(d.getTime()) +
+              '"></label><label class="f">' +
+              t('slots') +
+              '<input type="number" id="nm_slots" min="2" max="100" placeholder="auto"></label></div>' +
+              '<div class="grid2"><label class="f">' +
+              t('prize') +
+              '<input id="nm_prize" placeholder="Points / sponsor gift"></label><label class="f">' +
+              t('sponsor') +
+              '<input id="nm_sp"></label></div>' +
+              '<div class="grid2"><label class="f">' +
+              t('killPts') +
+              '<input type="number" id="nm_kp" value="1" min="0" max="10"></label><label class="f">' +
+              t('placePts') +
+              '<input id="nm_pp" value="' +
+              DEF_PP.join(',') +
+              '"></label></div>' +
+              '<div class="grid2"><label class="f">' +
+              t('minR') +
+              '<input type="number" id="nm_min"></label><label class="f">' +
+              t('maxR') +
+              '<input type="number" id="nm_max"></label></div>' +
+              '<label class="f">' +
+              t('yt') +
+              '<input id="nm_yt" placeholder="https://youtube.com/..."></label>' +
+              '<div class="small muted">🛡 ' +
+              t('noFee') +
+              '</div><div class="grid2"><button class="btn sec" data-a="mclose">' +
+              t('cancel') +
+              '</button><button class="btn" data-a="createMatch">' +
+              t('create') +
+              '</button></div>'
+          );
+        }
+        function roomForm(m) {
+          modal(
+            '<h2>🔑 ' +
+              t('setRoom') +
+              '</h2><div class="small muted">' +
+              esc(m.title) +
+              '</div><label class="f">' +
+              t('roomId') +
+              '<input id="rm_id" inputmode="numeric" value="' +
+              esc(m.room.id) +
+              '"></label><label class="f">' +
+              t('pass') +
+              '<input id="rm_pass" value="' +
+              esc(m.room.pass) +
+              '"></label><label class="f">' +
+              t('yt') +
+              '<input id="rm_yt" value="' +
+              esc(m.yt) +
+              '"></label><div class="small muted">' +
+              t('roomLocked', { n: S.settings.reveal }) +
+              '</div><div class="grid2"><button class="btn sec" data-a="mclose">' +
+              t('cancel') +
+              '</button><button class="btn" data-a="saveRoom" data-id="' +
+              m.id +
+              '">' +
+              t('save') +
+              '</button></div>'
+          );
+        }
+        var ocrRows = null;
+        function resultsForm(m) {
+          var existing = {};
+          m.results.forEach(function (r) {
+            existing[r.eid] = r;
+          });
+          var rows = m.entries
+            .map(function (e, i) {
+              var r = existing[e.id] || {};
+              var pl = entryPlayers(e);
+              return (
+                '<tr data-eid="' +
+                e.id +
+                '"><td style="width:58px"><input type="number" min="1" class="rpos" value="' +
+                (r.pos || '') +
+                '"></td><td><b class="small">' +
+                esc(entryName(e)) +
+                '</b>' +
+                (e.k === 't'
+                  ? '<div class="row wrap" style="gap:4px;margin-top:4px">' +
+                    pl
+                      .map(function (pid) {
+                        var x = P(pid);
+                        return (
+                          '<label class="tiny" style="display:flex;align-items:center;gap:3px">' +
+                          esc(x ? x.ign : '?') +
+                          '<input type="number" min="0" style="width:52px" class="rmk" data-pid="' +
+                          pid +
+                          '" value="' +
+                          (r.mk && r.mk[pid] != null ? r.mk[pid] : '') +
+                          '"></label>'
+                        );
+                      })
+                      .join('') +
+                    '</div>'
+                  : '') +
+                '</td><td style="width:64px">' +
+                (e.k === 'p'
+                  ? '<input type="number" min="0" class="rk" value="' +
+                    (r.kills != null ? r.kills : '') +
+                    '">'
+                  : '<span class="tiny muted">Σ</span>') +
+                '</td></tr>'
+              );
+            })
+            .join('');
+          modal(
+            '<div class="row between"><h2>📝 ' +
+              t('results') +
+              '</h2><button class="btn sm sec" data-a="mclose">✕</button></div><div class="small muted">' +
+              esc(m.title) +
+              ' · ' +
+              m.entries.length +
+              ' ' +
+              t('entries') +
+              '</div>' +
+              '<div class="card st"><label class="btn sec" style="cursor:pointer">📷 ' +
+              t('ocr') +
+              '<input type="file" accept="image/*" id="ocrFile" style="display:none"></label><div id="ocrStatus" class="tiny muted"></div>' +
+              '<label class="f">' +
+              t('pasteText') +
+              '<textarea id="ocrText" rows="3" placeholder="1 Bengal Wolves NightOwl 5&#10;2 RageX 3"></textarea></label><button class="btn sm sec" data-a="parseText" data-id="' +
+              m.id +
+              '">' +
+              t('parse') +
+              '</button></div>' +
+              '<table class="rt"><tr><th>' +
+              t('pos') +
+              '</th><th></th><th>' +
+              t('kills') +
+              '</th></tr>' +
+              rows +
+              '</table>' +
+              '<button class="btn ok block" data-a="publish" data-id="' +
+              m.id +
+              '">✅ ' +
+              t('publish') +
+              '</button>'
+          );
+        }
+        function applyParsed(m, parsed) {
+          var n = 0,
+            order = {};
+          Object.keys(parsed).forEach(function (pid) {
+            var x = parsed[pid];
+            var tr = document.querySelector('tr[data-eid="' + x.eid + '"]');
+            if (!tr) return;
+            var e = byId(m.entries, x.eid);
+            if (e.k === 'p') {
+              tr.querySelector('.rk').value = x.kills;
+            } else {
+              var inp = tr.querySelector('.rmk[data-pid="' + pid + '"]');
+              if (inp) inp.value = x.kills;
+            }
+            var posIn = tr.querySelector('.rpos');
+            if (x.pos) posIn.value = x.pos;
+            else if (!order[x.eid]) {
+              order[x.eid] = x.order;
+            }
+            n++;
+          });
+          // entries without explicit pos: rank by order of first appearance
+          var noPos = Object.keys(order).sort(function (a, b) {
+            return order[a] - order[b];
+          });
+          var used = {};
+          document.querySelectorAll('.rpos').forEach(function (i) {
+            if (i.value) used[i.value] = 1;
+          });
+          var next = 1;
+          noPos.forEach(function (eid) {
+            var tr = document.querySelector('tr[data-eid="' + eid + '"] .rpos');
+            if (tr && !tr.value) {
+              while (used[next]) next++;
+              tr.value = next;
+              used[next] = 1;
+            }
+          });
+          toast(t('filled', { n: n }));
+        }
+        function collectResults(m) {
+          var rows = [],
+            missing = [];
+          document.querySelectorAll('tr[data-eid]').forEach(function (tr) {
+            var eid = tr.getAttribute('data-eid'),
+              e = byId(m.entries, eid),
+              pos = +tr.querySelector('.rpos').value;
+            if (!pos) {
+              missing.push(eid);
+              return;
+            }
+            var r = { eid: eid, pos: pos, kills: 0 };
+            if (e.k === 'p')
+              r.kills = Math.max(0, +(tr.querySelector('.rk').value || 0));
+            else {
+              r.mk = {};
+              tr.querySelectorAll('.rmk').forEach(function (i) {
+                var k = Math.max(0, +(i.value || 0));
+                r.mk[i.getAttribute('data-pid')] = k;
+                r.kills += k;
+              });
+            }
+            rows.push(r);
+          });
+          // unplaced entries go to the bottom in entry order
+          var maxPos = rows.reduce(function (a, r) {
+            return Math.max(a, r.pos);
+          }, 0);
+          missing.forEach(function (eid) {
+            rows.push({ eid: eid, pos: ++maxPos, kills: 0, mk: {} });
+          });
+          return rows;
+        }
+        function tourneyForm() {
+          var d = new Date(now() + 864e5);
+          d.setHours(20, 0, 0, 0);
+          modal(
+            '<h2>🏆 ' +
+              t('newTourney') +
+              '</h2><label class="f">' +
+              t('title') +
+              '<input id="nt_name" maxlength="50" placeholder="Bengal Cup Season 1"></label>' +
+              '<div class="grid2"><label class="f">' +
+              t('mode') +
+              '<select id="nt_mode"><option value="squad">' +
+              t('squad') +
+              '</option><option value="duo">' +
+              t('duo') +
+              '</option><option value="solo">' +
+              t('solo') +
+              '</option></select></label><label class="f">' +
+              t('slots') +
+              '<input type="number" id="nt_slots" value="12" min="2" max="100"></label></div>' +
+              '<div class="grid3"><label class="f">' +
+              t('stage1') +
+              '<input type="number" id="nt_q" value="3" min="1" max="10"></label><label class="f">' +
+              t('qualN') +
+              '<input type="number" id="nt_qn" value="6" min="1"></label><label class="f">' +
+              t('finals') +
+              '<input type="number" id="nt_f" value="2" min="1" max="10"></label></div>' +
+              '<div class="grid2"><label class="f">' +
+              t('start') +
+              '<input type="datetime-local" id="nt_start" value="' +
+              dtLocal(d.getTime()) +
+              '"></label><label class="f">' +
+              t('gap') +
+              '<input type="number" id="nt_gap" value="30" min="10"></label></div>' +
+              '<div class="grid2"><label class="f">' +
+              t('prize') +
+              '<input id="nt_prize" placeholder="Trophy + sponsor gifts"></label><label class="f">' +
+              t('sponsor') +
+              '<input id="nt_sp"></label></div>' +
+              '<div class="small muted">🛡 ' +
+              t('noFee') +
+              '</div><div class="grid2"><button class="btn sec" data-a="mclose">' +
+              t('cancel') +
+              '</button><button class="btn" data-a="createT">' +
+              t('create') +
+              '</button></div>'
+          );
+        }
+        function tplForm() {
+          var dn =
+            S.settings.lang === 'en'
+              ? ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
+              : ['র', 'সো', 'ম', 'বু', 'বৃ', 'শু', 'শ'];
+          modal(
+            '<h2>' +
+              t('newTemplate') +
+              '</h2><label class="f">' +
+              t('title') +
+              '<input id="tp_t" placeholder="Daily 9PM Squad"></label><div class="grid3"><label class="f">' +
+              t('mode') +
+              '<select id="tp_mode"><option value="squad">' +
+              t('squad') +
+              '</option><option value="duo">' +
+              t('duo') +
+              '</option><option value="solo">' +
+              t('solo') +
+              '</option></select></label><label class="f">' +
+              t('time') +
+              '<input type="time" id="tp_time" value="21:00"></label><label class="f">' +
+              t('map') +
+              '<input id="tp_map" value="Bermuda"></label></div>' +
+              '<div class="f small b">' +
+              t('days') +
+              '</div><div class="chips">' +
+              dn
+                .map(function (n, i) {
+                  return (
+                    '<button class="chip on" data-day="' +
+                    i +
+                    '">' +
+                    n +
+                    '</button>'
+                  );
+                })
+                .join('') +
+              '</div>' +
+              '<label class="f">' +
+              t('prize') +
+              '<input id="tp_prize" value="Points"></label><div class="grid2"><button class="btn sec" data-a="mclose">' +
+              t('cancel') +
+              '</button><button class="btn" data-a="createTpl">' +
+              t('create') +
+              '</button></div>'
+          );
+        }
+        function reportForm(m) {
+          var p = me();
+          var opts = [];
+          m.entries.forEach(function (e) {
+            entryPlayers(e).forEach(function (pid) {
+              if (pid !== p.id) {
+                var x = P(pid);
+                if (x)
+                  opts.push(
+                    '<option value="' + pid + '">' + esc(x.ign) + '</option>'
+                  );
+              }
+            });
+          });
+          modal(
+            '<h2>🚩 ' +
+              t('report') +
+              '</h2><label class="f">' +
+              t('players') +
+              '<select id="rp_t">' +
+              opts.join('') +
+              '</select></label><label class="f">' +
+              t('reason') +
+              '<select id="rp_r"><option value="hack">' +
+              t('r_hack') +
+              '</option><option value="team">' +
+              t('r_team') +
+              '</option><option value="abuse">' +
+              t('r_abuse') +
+              '</option><option value="other">' +
+              t('r_other') +
+              '</option></select></label>' +
+              '<label class="f">' +
+              t('evidence') +
+              '<input id="rp_e" placeholder="https://"></label><textarea id="rp_n" rows="2" placeholder="…"></textarea><div class="grid2"><button class="btn sec" data-a="mclose">' +
+              t('cancel') +
+              '</button><button class="btn no" data-a="sendReport" data-id="' +
+              m.id +
+              '">' +
+              t('report') +
+              '</button></div>'
+          );
+        }
+        function shareText(m) {
+          var s =
+            '🔥 ' +
+            m.title +
+            '\n🗓 ' +
+            fmtTime(m.start) +
+            '\n🎮 ' +
+            t(m.mode) +
+            ' · ' +
+            m.map +
+            '\n' +
+            (m.prize ? '🎁 ' + m.prize + '\n' : '') +
+            (m.sponsor ? '⭐ ' + m.sponsor + '\n' : '');
+          if (m.status === 'completed') {
+            s +=
+              '\n🏆 ' +
+              t('results') +
+              ':\n' +
+              m.results
+                .slice()
+                .sort(function (a, b) {
+                  return a.pos - b.pos;
+                })
+                .slice(0, 10)
+                .map(function (r) {
+                  var e = byId(m.entries, r.eid);
+                  return (
+                    '#' +
+                    r.pos +
+                    ' ' +
+                    (e ? entryName(e) : '?') +
+                    ' — ' +
+                    r.kills +
+                    ' kills, ' +
+                    r.pts +
+                    ' pts'
+                  );
+                })
+                .join('\n');
+          } else
+            s +=
+              '👥 ' +
+              t('slots') +
+              ' ' +
+              m.entries.length +
+              '/' +
+              m.slots +
+              '\n' +
+              t('noFee');
+          return s;
+        }
+        function shareTourney(tr) {
+          var si = tr.stages.length - 1;
+          return (
+            '🏆 ' +
+            tr.name +
+            ' — ' +
+            tr.stages[si].name +
+            '\n' +
+            tourneyStandings(tr, si)
+              .slice(0, 10)
+              .map(function (r, i) {
+                return (
+                  '#' + (i + 1) + ' ' + refName(r.ref) + ' — ' + r.pts + ' pts'
+                );
+              })
+              .join('\n')
+          );
+        }
+        function shareModal(txt) {
+          modal(
+            '<h2>📤 ' +
+              t('share') +
+              '</h2><textarea id="shTxt" rows="9" readonly>' +
+              esc(txt) +
+              '</textarea><div class="grid2"><button class="btn sec" data-copy-ta="shTxt">' +
+              t('copy') +
+              '</button><a class="btn" style="text-decoration:none;background:#25D366;color:#062" href="https://wa.me/?text=' +
+              encodeURIComponent(txt) +
+              '" target="_blank" rel="noopener">WhatsApp</a></div><button class="btn sec" data-a="mclose">' +
+              t('close') +
+              '</button>'
+          );
+        }
+        function copyText(s) {
+          try {
+            navigator.clipboard.writeText(s).then(
+              function () {
+                toast(t('copied'));
+              },
+              function () {
+                toast(s);
+              }
+            );
+          } catch (e) {
+            toast(s);
+          }
+        }
+
+        /* ============ events ============ */
+        function val(id) {
+          var e = $(id);
+          return e ? e.value.trim() : '';
+        }
+        document.addEventListener('click', function (ev) {
+          var el = ev.target.closest(
+            '[data-go],[data-om],[data-ot],[data-mf],[data-mo],[data-bt],[data-amt],[data-lang],[data-role],[data-a],[data-copy],[data-copy-ta],[data-ban],[data-rep],[data-delann],[data-deltpl],[data-day],[data-bg]'
+          );
+          if (!el) return;
+          var d = el.dataset;
+          if (d.bg) {
+            if (ev.target === el) closeModal();
+            return;
+          }
+          if (d.go) {
+            closeModal();
+            view = d.go;
+            render();
+            if (isAdmin())
+              runTemplates()
+                .then(function (n) {
+                  if (n) schedulePull();
+                })
+                .catch(function () {});
+            return;
+          }
+          if (d.om) {
+            openMatch(d.om);
+            return;
+          }
+          if (d.ot) {
+            openTourney(d.ot);
+            return;
+          }
+          if (d.mf) {
+            mFilter = d.mf;
+            render();
+            return;
+          }
+          if (d.mo) {
+            modeFilter = d.mo;
+            render();
+            return;
+          }
+          if (d.bt) {
+            boardTab = d.bt;
+            render();
+            return;
+          }
+          if (d.amt) {
+            adminMTab = d.amt;
+            render();
+            return;
+          }
+          if (d.lang) {
+            var keep = {};
+            ['pf_ign', 'pf_uid', 'au_email', 'au_pass'].forEach(function (k) {
+              var e = $(k);
+              if (e) keep[k] = e.value;
+            });
+            PREF.lang = d.lang;
+            savePref();
+            render();
+            for (var k in keep) if ($(k)) $(k).value = keep[k];
+            return;
+          }
+          if (d.copy != null) {
+            copyText(d.copy);
+            return;
+          }
+          if (d.copyTa) {
+            var ta = $(d.copyTa);
+            ta.select();
+            copyText(ta.value);
+            return;
+          }
+          if (d.day != null) {
+            el.classList.toggle('on');
+            return;
+          }
+          if (d.delann) {
+            run(function () {
+              return sb.from('announcements').delete().eq('id', d.delann);
+            });
+            return;
+          }
+          if (d.deltpl) {
+            run(function () {
+              return sb.from('templates').delete().eq('id', d.deltpl);
+            });
+            return;
+          }
+          if (d.ban) {
+            var bp = P(d.ban);
+            run(function () {
+              return rpc('admin_set_ban', {
+                p_player: bp.id,
+                p_banned: !bp.banned,
+              });
+            }, '✓');
+            return;
+          }
+          if (d.rep) {
+            run(function () {
+              return rpc('admin_report', { p_report: d.id, p_action: d.rep });
+            }, '✓');
+            return;
+          }
+          if (d.role) {
+            PREF.adminView = d.role === 'admin';
+            savePref();
+            S.me.role =
+              MYPROFILE && MYPROFILE.role === 'admin' && PREF.adminView
+                ? 'admin'
+                : 'player';
+            view = isAdmin() ? 'dash' : 'home';
+            render();
+            if (isAdmin())
+              runTemplates()
+                .then(function (n) {
+                  if (n) schedulePull();
+                })
+                .catch(function (e) {
+                  toast('⚠ ' + niceErr(e));
+                });
+            return;
+          }
+          var a = d.a,
+            id = d.id,
+            m = id ? M(id) : null;
+          switch (a) {
+            case 'mclose':
+              closeModal();
+              return;
+            case 'retry':
+              boot();
+              return;
+            case 'authToggle':
+              authMode = authMode === 'up' ? 'in' : 'up';
+              render();
+              return;
+            case 'authMode':
+              authMode = d.m;
+              render();
+              return;
+            case 'pinLogin':
+            case 'pinRegister': {
+              var lu = val('lg_uid'),
+                lp = $('lg_pin').value.trim(),
+                reg = a === 'pinRegister',
+                li = reg ? val('lg_ign') : '';
+              if (!/^\d{8,12}$/.test(lu)) {
+                toast(t('uidBad'));
+                return;
+              }
+              if (!/^\d{4,6}$/.test(lp)) {
+                toast(t('pinFmt'));
+                return;
+              }
+              if (reg) {
+                if (li.length < 2) {
+                  toast(t('ignBad'));
+                  return;
+                }
+                if ($('lg_pin2').value.trim() !== lp) {
+                  toast(t('pinMismatch'));
+                  return;
+                }
+              }
+              if (busy) return;
+              busy = true;
+              window.__busy = 1;
+              var done = function () {
+                busy = false;
+                window.__busy = 0;
+              };
+              if (!reg) {
+                sb.auth
+                  .signInWithPassword({
+                    email: pEmail(lu),
+                    password: pPass(lu, lp),
+                  })
+                  .then(function (r) {
+                    done();
+                    if (r.error)
+                      toast(
+                        '⚠ ' +
+                          (/Invalid login/i.test(r.error.message)
+                            ? t('wrongPin')
+                            : niceErr(r.error))
+                      );
+                  })
+                  .catch(function (e) {
+                    done();
+                    toast('⚠ ' + niceErr(e));
+                  });
+                return;
+              }
+              pendingProfile = { ign: li, uid: lu };
+              sb.auth
+                .signUp({ email: pEmail(lu), password: pPass(lu, lp) })
+                .then(async function (r) {
+                  if (r.error) {
+                    done();
+                    pendingProfile = null;
+                    toast(
+                      '⚠ ' +
+                        (/already registered|already exists/i.test(
+                          r.error.message
+                        )
+                          ? t('uidRegistered')
+                          : niceErr(r.error))
+                    );
+                    return;
+                  }
+                  if (!r.data.session) {
+                    done();
+                    pendingProfile = null;
+                    toast(t('confirmOff'));
+                    return;
+                  }
+                  SESSION = r.data.session;
+                  await createPendingProfile();
+                  done();
+                })
+                .catch(function (e) {
+                  done();
+                  pendingProfile = null;
+                  toast('⚠ ' + niceErr(e));
+                });
+              return;
+            }
+            case 'changePin':
+              modal(
+                '<h2>🔑 ' +
+                  t('changePin') +
+                  '</h2><label class="f">' +
+                  t('newPinL') +
+                  '<input id="cp1" type="password" inputmode="numeric" maxlength="6"></label><label class="f">' +
+                  t('pinRep') +
+                  '<input id="cp2" type="password" inputmode="numeric" maxlength="6"></label><div class="grid2"><button class="btn sec" data-a="mclose">' +
+                  t('cancel') +
+                  '</button><button class="btn" data-a="doChangePin">' +
+                  t('save') +
+                  '</button></div>'
+              );
+              return;
+            case 'doChangePin': {
+              var n1 = $('cp1').value.trim();
+              if (!/^\d{4,6}$/.test(n1)) {
+                toast(t('pinFmt'));
+                return;
+              }
+              if ($('cp2').value.trim() !== n1) {
+                toast(t('pinMismatch'));
+                return;
+              }
+              run(function () {
+                return sb.auth.updateUser({ password: pPass(pinUid(), n1) });
+              }, t('pinChanged'));
+              return;
+            }
+            case 'resetPin': {
+              var rp = P(id);
+              modal(
+                '<h2>🔑 ' +
+                  t('resetPin') +
+                  '</h2><p class="small muted">' +
+                  esc(t('resetFor', { n: rp ? rp.ign : '' })) +
+                  '</p><input id="rpn" inputmode="numeric" maxlength="6" placeholder="1234"><div class="grid2"><button class="btn sec" data-a="mclose">' +
+                  t('cancel') +
+                  '</button><button class="btn" data-a="doResetPin" data-id="' +
+                  id +
+                  '">' +
+                  t('save') +
+                  '</button></div>'
+              );
+              return;
+            }
+            case 'doResetPin': {
+              var np = $('rpn').value.trim();
+              if (!/^\d{4,6}$/.test(np)) {
+                toast(t('pinFmt'));
+                return;
+              }
+              run(function () {
+                return rpc('admin_reset_pin', { p_player: id, p_pin: np });
+              }, t('pinChanged'));
+              return;
+            }
+            case 'signIn':
+            case 'signUp': {
+              var em = val('au_email'),
+                pw = $('au_pass').value;
+              if (!/^\S+@\S+\.\S+$/.test(em) || pw.length < 6) {
+                toast('⚠ ' + t('email') + ' / ' + t('password'));
+                return;
+              }
+              busy = true;
+              var pr =
+                a === 'signIn'
+                  ? sb.auth.signInWithPassword({ email: em, password: pw })
+                  : sb.auth.signUp({ email: em, password: pw });
+              pr.then(function (r) {
+                busy = false;
+                if (r.error) {
+                  toast('⚠ ' + niceErr(r.error));
+                  return;
+                }
+                if (a === 'signUp' && !r.data.session) {
+                  authMode = 'in';
+                  render();
+                  toast(t('checkEmail'));
+                }
+              }).catch(function (e) {
+                busy = false;
+                toast('⚠ ' + niceErr(e));
+              });
+              return;
+            }
+            case 'logout':
+              sb.auth.signOut().then(function () {
+                authMode = 'pin';
+                SESSION = null;
+                MYPROFILE = null;
+                S = fresh();
+                view = 'home';
+                render();
+              });
+              return;
+            case 'sync':
+              run(function () {
+                return null;
+              }, '✓');
+              return;
+            case 'theme':
+              PREF.theme = PREF.theme === 'light' ? 'dark' : 'light';
+              savePref();
+              render();
+              return;
+            case 'notif':
+              askNotif();
+              try {
+                if (
+                  window.Notification &&
+                  Notification.permission === 'granted'
+                )
+                  toast('🔔 ✓');
+              } catch (e) {}
+              return;
+            case 'saveProfile': {
+              var ign = val('pf_ign'),
+                u = val('pf_uid');
+              if (ign.length < 2) {
+                toast(t('ignBad'));
+                return;
+              }
+              if (!/^\d{8,12}$/.test(u)) {
+                toast(t('uidBad'));
+                return;
+              }
+              if (
+                S.players.some(function (p) {
+                  return p.uid === u && p.id !== SESSION.user.id;
+                })
+              ) {
+                toast(t('uidTaken'));
+                return;
+              }
+              run(function () {
+                return MYPROFILE
+                  ? sb
+                      .from('profiles')
+                      .update({ ign: ign, game_uid: u })
+                      .eq('id', MYPROFILE.id)
+                  : sb
+                      .from('profiles')
+                      .insert({ id: SESSION.user.id, ign: ign, game_uid: u });
+              }, '✓');
+              return;
+            }
+            case 'join':
+              joinMatch(m);
+              return;
+            case 'leave':
+              leaveMatch(m);
+              return;
+            case 'report':
+              reportForm(m);
+              return;
+            case 'sendReport': {
+              var tgt = $('rp_t').value;
+              if (!tgt) return;
+              run(function () {
+                return sb
+                  .from('reports')
+                  .insert({
+                    match_id: m.id,
+                    reporter: SESSION.user.id,
+                    target: tgt,
+                    reason: $('rp_r').value,
+                    evidence: val('rp_e'),
+                    note: val('rp_n'),
+                  });
+              }, t('reported'));
+              return;
+            }
+            case 'shareM':
+              shareModal(shareText(m));
+              return;
+            case 'shareT':
+              shareModal(shareTourney(TR(id)));
+              return;
+            case 'treg':
+              tourneyRegister(TR(id));
+              return;
+            case 'advance':
+              advanceTourney(TR(id));
+              return;
+            case 'createTeam':
+              modal(
+                '<h2>' +
+                  t('createTeam') +
+                  '</h2><label class="f">' +
+                  t('teamName') +
+                  '<input id="tm_n" maxlength="24"></label><label class="f">' +
+                  t('teamTag') +
+                  '<input id="tm_t" maxlength="4" style="text-transform:uppercase"></label><div class="grid2"><button class="btn sec" data-a="mclose">' +
+                  t('cancel') +
+                  '</button><button class="btn" data-a="doCreateTeam">' +
+                  t('create') +
+                  '</button></div>'
+              );
+              return;
+            case 'doCreateTeam': {
+              var n = val('tm_n'),
+                tg2 = val('tm_t').toUpperCase();
+              if (n.length < 2 || !/^[A-Z0-9]{2,4}$/.test(tg2)) {
+                toast('⚠ ' + t('teamTag'));
+                return;
+              }
+              run(function () {
+                return rpc('create_team', { p_name: n, p_tag: tg2 });
+              }, '✓');
+              return;
+            }
+            case 'joinTeam':
+              modal(
+                '<h2>' +
+                  t('joinTeam') +
+                  '</h2><input id="tm_code" maxlength="6" style="text-transform:uppercase;font-size:20px;letter-spacing:3px"><div class="grid2"><button class="btn sec" data-a="mclose">' +
+                  t('cancel') +
+                  '</button><button class="btn" data-a="doJoinTeam">' +
+                  t('join') +
+                  '</button></div>'
+              );
+              return;
+            case 'doJoinTeam': {
+              var code = val('tm_code').toUpperCase();
+              if (code.length !== 6) {
+                toast(t('codeBad'));
+                return;
+              }
+              run(function () {
+                return rpc('join_team', { p_code: code });
+              }, '✓');
+              return;
+            }
+            case 'leaveTeam':
+              confirmBox(t('leaveTeam') + '?', function () {
+                run(function () {
+                  return rpc('leave_team');
+                });
+              });
+              return;
+            /* admin */
+            case 'newMatch':
+              matchForm();
+              return;
+            case 'createMatch': {
+              var title = val('nm_t') || 'Custom Room',
+                mode = $('nm_mode').value,
+                st = new Date($('nm_start').value).getTime();
+              if (!st || isNaN(st)) {
+                toast('⚠ ' + t('start'));
+                return;
+              }
+              var pp = $('nm_pp')
+                .value.split(',')
+                .map(function (x) {
+                  return Math.max(0, parseInt(x, 10) || 0);
+                });
+              var row = {
+                title: title,
+                mode: mode,
+                map: $('nm_map').value,
+                start_at: new Date(st).toISOString(),
+                slots: Math.min(
+                  200,
+                  Math.max(2, +$('nm_slots').value || defSlots(mode))
+                ),
+                prize: val('nm_prize'),
+                sponsor: val('nm_sp'),
+                kill_pts: Math.min(20, Math.max(0, +$('nm_kp').value || 0)),
+                place_pts: pp.length ? pp : DEF_PP.slice(),
+                min_rating: +$('nm_min').value || null,
+                max_rating: +$('nm_max').value || null,
+                yt: val('nm_yt'),
+                season: S.settings.season,
+              };
+              mFilter = 'upcoming';
+              run(function () {
+                return sb.from('matches').insert(row);
+              }, '✓');
+              return;
+            }
+            case 'room':
+              roomForm(m);
+              return;
+            case 'saveRoom': {
+              var rid = val('rm_id'),
+                rpw = val('rm_pass'),
+                yt = val('rm_yt');
+              delete PREF.notified[m.id];
+              savePref();
+              run(async function () {
+                await q(
+                  sb
+                    .from('match_rooms')
+                    .upsert({ match_id: m.id, room_id: rid, room_pass: rpw })
+                );
+                await q(sb.from('matches').update({ yt: yt }).eq('id', m.id));
+              }, '✓');
+              return;
+            }
+            case 'results':
+              run(function () {
+                return null;
+              }).then(function () {
+                var mm = M(id);
+                if (mm) resultsForm(mm);
+              });
+              return;
+            case 'parseText': {
+              applyParsed(m, parseResultText(m, $('ocrText').value));
+              return;
+            }
+            case 'publish': {
+              var rows = collectResults(m);
+              if (!rows.length) {
+                toast('⚠ ' + t('entries') + ': 0');
+                return;
+              }
+              var have = rows.length;
+              sb.from('match_entries')
+                .select('*')
+                .eq('match_id', m.id)
+                .range(0, 999)
+                .then(function (r) {
+                  if (!r.error && r.data && r.data.length !== have) {
+                    toast(
+                      '⚠ ' +
+                        t('entries') +
+                        ' ' +
+                        have +
+                        ' → ' +
+                        r.data.length +
+                        ' — ' +
+                        t('edit')
+                    );
+                    pull().then(function () {
+                      resultsForm(M(m.id));
+                    });
+                    return;
+                  }
+                  publishResults(m, rows).then(function (ok) {
+                    if (ok) openMatch(m.id);
+                  });
+                });
+              return;
+            }
+            case 'cancelM':
+              confirmBox(t('cancelMatch') + '?', function () {
+                run(function () {
+                  return sb
+                    .from('matches')
+                    .update({ status: 'cancelled' })
+                    .eq('id', m.id);
+                });
+              });
+              return;
+            case 'newT':
+              tourneyForm();
+              return;
+            case 'createT': {
+              var nm = val('nt_name') || 'Tournament',
+                mo = $('nt_mode').value,
+                s0 = new Date($('nt_start').value).getTime();
+              if (!s0 || isNaN(s0)) {
+                toast('⚠ ' + t('start'));
+                return;
+              }
+              var trn = {
+                id: newId(),
+                name: nm.slice(0, 60),
+                mode: mo,
+                slots: Math.min(200, Math.max(2, +$('nt_slots').value || 12)),
+                prize: val('nt_prize'),
+                sponsor: val('nt_sp'),
+                gap: Math.max(10, +$('nt_gap').value || 30),
+                finalsCount: Math.min(20, Math.max(1, +$('nt_f').value || 2)),
+                maps: [
+                  'Bermuda',
+                  'Purgatory',
+                  'Kalahari',
+                  'Alpine',
+                  'NeXTerra',
+                ],
+              };
+              var st0 = {
+                name: 'Qualifiers',
+                count: Math.min(10, Math.max(1, +$('nt_q').value || 3)),
+                qualify: Math.max(1, +$('nt_qn').value || 6),
+                entrants: [],
+                matchIds: [],
+                start: s0,
+              };
+              var mrows = stageMatchRows(trn, st0, 0);
+              run(async function () {
+                await q(
+                  sb
+                    .from('tournaments')
+                    .insert({
+                      id: trn.id,
+                      name: trn.name,
+                      mode: trn.mode,
+                      slots: trn.slots,
+                      prize: trn.prize,
+                      sponsor: trn.sponsor,
+                      gap: trn.gap,
+                      finals_count: trn.finalsCount,
+                      maps: trn.maps,
+                      stages: [st0],
+                    })
+                );
+                await q(sb.from('matches').insert(mrows));
+              }, '✓').then(function (ok) {
+                if (ok) openTourney(trn.id);
+              });
+              return;
+            }
+            case 'newTpl':
+              tplForm();
+              return;
+            case 'createTpl': {
+              var days = [];
+              document.querySelectorAll('[data-day].on').forEach(function (b) {
+                days.push(+b.dataset.day);
+              });
+              var tpr = {
+                title: val('tp_t') || 'Daily match',
+                mode: $('tp_mode').value,
+                time: $('tp_time').value || '21:00',
+                map: val('tp_map') || 'Bermuda',
+                days: days,
+                prize: val('tp_prize'),
+                sponsor: '',
+              };
+              run(async function () {
+                await q(sb.from('templates').insert(tpr));
+                await pull();
+                var n = await runTemplates();
+                toast(t('generated', { n: n }));
+              });
+              return;
+            }
+            case 'postAnn': {
+              var tx = val('annTxt');
+              if (!tx) return;
+              run(function () {
+                return sb
+                  .from('announcements')
+                  .insert({ text: tx.slice(0, 500) });
+              }, '✓');
+              return;
+            }
+            case 'saveSettings': {
+              var rv = +$('st_rev').value;
+              if (!(rv >= 1 && rv <= 180)) {
+                toast('⚠ ' + t('revealMins'));
+                return;
+              }
+              run(function () {
+                return sb
+                  .from('app_settings')
+                  .update({ reveal_min: rv })
+                  .eq('id', 1);
+              }, '✓');
+              return;
+            }
+            case 'newSeason':
+              confirmBox(t('seasonQ'), function () {
+                derive();
+                var top = S.players
+                  .map(function (p) {
+                    return [p.ign, pst(p.id).pts];
+                  })
+                  .sort(function (a, b) {
+                    return b[1] - a[1];
+                  })
+                  .slice(0, 3)
+                  .map(function (x) {
+                    return x[0] + ' (' + x[1] + ')';
+                  });
+                var arch = (S.archive || []).concat([
+                  { season: S.settings.season, top: top, ts: now() },
+                ]);
+                run(function () {
+                  return sb
+                    .from('app_settings')
+                    .update({ season: S.settings.season + 1, archive: arch })
+                    .eq('id', 1);
+                }, '✓');
+              });
+              return;
+            case 'export': {
+              var json = JSON.stringify(S);
+              modal(
+                '<h2>' +
+                  t('exportB') +
+                  '</h2><textarea id="exTa" rows="7" class="mono" readonly>' +
+                  esc(json) +
+                  '</textarea><div class="grid2"><button class="btn sec" data-a="mclose">' +
+                  t('close') +
+                  '</button><button class="btn" data-copy-ta="exTa">' +
+                  t('copy') +
+                  '</button></div>'
+              );
+              return;
+            }
+          }
+        });
+        document.addEventListener('change', function (ev) {
+          var el = ev.target;
+          if (el.id === 'ocrFile' && el.files[0] && openMatchId) {
+            var m = M(openMatchId),
+              st = $('ocrStatus');
+            st.textContent = t('ocrLoading');
+            loadTess()
+              .then(function () {
+                return Tesseract.recognize(el.files[0], 'eng');
+              })
+              .then(function (r) {
+                var txt = r.data.text || '';
+                $('ocrText').value = txt;
+                applyParsed(m, parseResultText(m, txt));
+                st.textContent = '✓';
+              })
+              .catch(function () {
+                st.textContent = t('ocrFail');
+              });
+          }
+        });
+        window.addEventListener('hashchange', function () {
+          var h = location.hash.slice(1);
+          var tabs = isAdmin() ? ADMIN_TABS : PLAYER_TABS;
+          if (tabs.indexOf(h) >= 0 && h !== view) {
+            view = h;
+            render();
+          }
+        });
+        document.addEventListener('visibilitychange', function () {
+          if (!document.hidden) schedulePull();
+        });
+
+        /* openMatch tracks id so results modal OCR knows the match */
+        var _rf = resultsForm;
+        resultsForm = function (m) {
+          openMatchId = m.id;
+          _rf(m);
+        };
+
+        /* back handling for the Android wrapper */
+        window.__ABONLINE = 1;
+        window.__AB = {
+          back: function () {
+            if ($('layer').innerHTML) {
+              closeModal();
+              return true;
+            }
+            var first = isAdmin() ? 'dash' : 'home';
+            if (view !== first) {
+              view = first;
+              render();
+              return true;
+            }
+            return false;
+          },
+          get S() {
+            return S;
+          },
+          parse: function (mid, txt) {
+            return parseResultText(M(mid), txt);
+          },
+          derive: function () {
+            return derive();
+          },
+          publish: function (mid, rows) {
+            return publishResults(M(mid), rows);
+          },
+          advance: function (id) {
+            advanceTourney(TR(id));
+          },
+          stand: function (id, si) {
+            return tourneyStandings(TR(id), si);
+          },
+          runTemplates: runTemplates,
+        };
+
+        var h0 = location.hash.slice(1);
+        if (PLAYER_TABS.concat(ADMIN_TABS).indexOf(h0) >= 0) view = h0;
+        var channel = null;
+        async function boot() {
+          NET = 'connecting';
+          render();
+          try {
+            await libLoad();
+            if (!sb)
+              sb = window.supabase.createClient(SB_URL, SB_KEY, {
+                auth: {
+                  persistSession: true,
+                  autoRefreshToken: true,
+                  detectSessionInUrl: false,
+                },
+              });
+            var r = await sb.auth.getSession();
+            if (r.error) throw r.error;
+            SESSION = r.data.session;
+            if (SESSION) await pull();
+            NET = 'ok';
+            render();
+            if (!boot.wired) {
+              boot.wired = 1;
+              sb.auth.onAuthStateChange(function (evt, sess) {
+                var was = SESSION && SESSION.user.id;
+                SESSION = sess;
+                if (sess && sess.user.id !== was) {
+                  pull()
+                    .then(function () {
+                      render();
+                      subscribe();
+                    })
+                    .catch(function () {
+                      NET = 'error';
+                      render();
+                    });
+                } else if (!sess) {
+                  render();
+                }
+              });
+              setInterval(function () {
+                if (SESSION && !document.hidden) schedulePull();
+              }, 60000);
+            }
+            if (SESSION) subscribe();
+            if (isAdmin())
+              runTemplates()
+                .then(function (n) {
+                  if (n) schedulePull();
+                })
+                .catch(function () {});
+          } catch (e) {
+            console.error(e);
+            NET = 'error';
+            render();
+          }
+        }
+        function subscribe() {
+          if (channel || !sb) return;
+          try {
+            channel = sb
+              .channel('arena-all')
+              .on(
+                'postgres_changes',
+                { event: '*', schema: 'public' },
+                function () {
+                  schedulePull();
+                }
+              )
+              .subscribe();
+          } catch (e) {}
+        }
+        boot();
+        setInterval(tick, 1000);
+      })();
+    </script>
+  </body>
+</html>
