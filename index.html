@@ -199,6 +199,9 @@ wlNote:['If someone leaves or misses check-in, the next person on the waitlist g
 ciSettings:['Match check-in (fills no-show slots from the waitlist)','ম্যাচ চেক-ইন (না-আসা স্লট ওয়েটলিস্ট থেকে ভরবে)'],ciOpenL:['Check-in opens (min before start)','চেক-ইন খোলে (শুরুর কত মিনিট আগে)'],ciRelL:['Check-in deadline (min before start)','চেক-ইন শেষ (শুরুর কত মিনিট আগে)'],
 pushBanner:['🔔 Turn on notifications — Room ID & new match alerts, even when the app is closed','🔔 নোটিফিকেশন চালু করুন — অ্যাপ বন্ধ থাকলেও রুম আইডি ও নতুন ম্যাচের খবর'],turnOn:['Turn on','চালু করুন'],
 pushOnOk:['Notifications on 🔔','নোটিফিকেশন চালু 🔔'],pushDenied:['Notifications are blocked — allow them in your browser/app settings.','নোটিফিকেশন ব্লক করা — ব্রাউজার/অ্যাপ সেটিংসে অনুমতি দিন।'],pushNo:['This browser cannot get notifications. On iPhone, install the app first (Share → Add to Home Screen).','এই ব্রাউজারে নোটিফিকেশন হয় না। iPhone-এ আগে অ্যাপ ইনস্টল করুন।'],pushIsOn:['Notifications on','নোটিফিকেশন চালু'],
+switchTeam:['Join another team (code)','অন্য টিমে জয়েন (কোড)'],switchWarn:['You will leave "{t}" and join the new team. If you are alone in "{t}", it will be deleted; if you are captain, another member becomes captain.','আপনি "{t}" ছেড়ে নতুন টিমে যাবেন। "{t}"-এ একা থাকলে টিমটা মুছে যাবে; ক্যাপ্টেন হলে অন্য সদস্য ক্যাপ্টেন হবে।'],
+teamLink:['Team invite link','টিম ইনভাইট লিংক'],teamInviteMsg:['Join my squad "{n}" on {b}! Tap to join: {l}','{b}-এ আমার স্কোয়াড "{n}"-এ যোগ দাও! জয়েন করতে ট্যাপ করো: {l}'],
+teamJoinQ:['Join the team with code {c}?','কোড {c}-এর টিমে জয়েন করবেন?'],notNow:['Not now','এখন না'],teamJoined:['You joined the team! 🎮','আপনি টিমে জয়েন করেছেন! 🎮'],
 featVidL:['Featured YouTube video (plays on players\' Home)','ফিচার্ড YouTube ভিডিও (প্লেয়ারদের হোমে চলবে)'],featured:['Featured video','ফিচার্ড ভিডিও'],follow:['Follow us','আমাদের ফলো করুন'],watchCh:['Watch on YouTube','YouTube-এ দেখুন'],badVid:['That is not a YouTube video link.','এটা YouTube ভিডিও লিংক নয়।'],newPlayer:['New player? Register','নতুন প্লেয়ার? রেজিস্টার'],register2:['Register','রেজিস্টার'],login:['Log in','লগইন'],
 pinLbl:['PIN (4–6 digits)','পিন (৪–৬ সংখ্যা)'],pinRep:['Repeat PIN','আবার পিন দিন'],pinMismatch:['PINs do not match.','দুটো পিন মেলেনি।'],pinFmt:['PIN must be 4–6 digits.','পিন ৪–৬ সংখ্যার হতে হবে।'],
 wrongPin:['Wrong UID or PIN.','UID বা পিন ভুল।'],uidRegistered:['This UID is already registered — log in with your PIN.','এই UID আগেই রেজিস্টার্ড — পিন দিয়ে লগইন করুন।'],
@@ -211,7 +214,7 @@ resetPin:['Reset PIN','পিন রিসেট'],resetFor:['Set a new PIN for 
 /* ============ online storage (Supabase) ============ */
 var SB_URL='https://ttzcdffcujamvaaizmmk.supabase.co',SB_KEY='sb_publishable_SXIF2On5o8BTFyyb8Sh3pw_zO8sSqLF';
 var PREF_KEY='arenaboard.prefs';
-try{var _qs=new URLSearchParams(location.search),_rf=_qs.get('ref');if(_rf&&/^\d{8,12}$/.test(_rf)){var _pp=JSON.parse(localStorage.getItem('arenaboard.prefs')||'{}');_pp.ref=_rf;localStorage.setItem('arenaboard.prefs',JSON.stringify(_pp))}if(_rf)history.replaceState(null,'',location.pathname+location.hash)}catch(e){}
+try{var _qs=new URLSearchParams(location.search),_rf=_qs.get('ref'),_tm=_qs.get('team');if(_tm&&/^[A-Za-z0-9]{6}$/.test(_tm)){var _p2=JSON.parse(localStorage.getItem('arenaboard.prefs')||'{}');_p2.teamJoin=_tm.toUpperCase();localStorage.setItem('arenaboard.prefs',JSON.stringify(_p2));history.replaceState(null,'',location.pathname+location.hash)}if(_rf&&/^\d{8,12}$/.test(_rf)){var _pp=JSON.parse(localStorage.getItem('arenaboard.prefs')||'{}');_pp.ref=_rf;localStorage.setItem('arenaboard.prefs',JSON.stringify(_pp))}if(_rf)history.replaceState(null,'',location.pathname+location.hash)}catch(e){}
 var PREF=(function(){try{return JSON.parse(localStorage.getItem(PREF_KEY)||'{}')}catch(e){return {}}})();
 PREF.lang=PREF.lang||'en';PREF.theme=PREF.theme||'dark';PREF.notified=PREF.notified||{};
 function savePref(){try{localStorage.setItem(PREF_KEY,JSON.stringify(PREF))}catch(e){}}
@@ -490,6 +493,7 @@ function render(){
   var fn={home:vHome,matches:vMatches,tourneys:vTourneys,board:vBoard,profile:vProfile,hub:vHub,dash:vDash,players:vPlayers,settings:vSettings}[view];
   $('app').innerHTML=fn();
   celebrateCheck();
+  setTimeout(teamJoinPrompt,300);
   try{if(location.hash.slice(1)!==view)history.replaceState(null,'','#'+view)}catch(e){}
   tick();
 }
@@ -688,7 +692,7 @@ function vProfile(){
   var s=pst(p.id),tm=p.teamId?TM(p.teamId):null,b=badgesOf(p);
   var teamHtml=tm?'<div class="card st"><div class="row between"><div><h3>'+esc(tm.name)+' <span class="tag t-acc">'+esc(tm.tag)+'</span></h3><div class="tiny muted">'+t('inviteCode')+': <b class="mono">'+esc(tm.code)+'</b> <button class="btn sm sec" data-copy="'+esc(tm.code)+'">'+t('copy')+'</button></div></div></div>'+
     tm.members.map(function(id){var x=P(id);return x?'<div class="lr">'+avHtml(x)+'<div class="grow"><b class="small">'+esc(x.ign)+'</b>'+(tm.captain===id?' <span class="tag t-acc">'+t('captain')+'</span>':'')+'<div class="tiny muted">'+t('rating')+' '+pst(id).rating+'</div></div></div>':''}).join('')+
-    '<button class="btn sm no" data-a="leaveTeam">'+t('leaveTeam')+'</button></div>':
+    teamInviteBlock(tm)+'<div class="grid2"><button class="btn sm sec" data-a="joinTeam">🔁 '+t('switchTeam')+'</button><button class="btn sm no" data-a="leaveTeam">'+t('leaveTeam')+'</button></div></div>':
     '<div class="card st"><p class="muted small">'+t('noTeam')+'</p><div class="grid2"><button class="btn" data-a="createTeam">'+t('createTeam')+'</button><button class="btn sec" data-a="joinTeam">'+t('joinTeam')+'</button></div></div>';
   return '<div class="stack">'+hdr(t('profile'))+
    '<div class="card row">'+avHtml(p,54)+'<div class="grow"><h2>'+esc(p.ign)+'</h2><div class="tiny muted">UID '+esc(p.uid)+' · '+t('trust')+' '+(p.trust==null?100:p.trust)+'%'+(p.warns?' · ⚠ '+p.warns+' '+t('warnings'):'')+'</div></div><span class="tag" style="background:'+tierOf(s.pts).color+'22;color:'+tierOf(s.pts).color+'">'+tierOf(s.pts).name+'</span></div>'+
@@ -893,6 +897,11 @@ function founderNo(p){if(!p||p.role==='admin')return 0;var lim=+cfg('founderLimi
 var REC_TIERS=[[3,'🎖','Recruiter'],[10,'🎖🎖','Squad Builder'],[25,'🏅','Legend Recruiter']];
 function invitesOf(p){var all=S.players.filter(function(x){return x.invitedBy===p.id});return {joined:all.length,played:all.filter(function(x){return pst(x.id).m>0}).length}}
 function recTier(n){var t0=null;REC_TIERS.forEach(function(x){if(n>=x[0])t0=x});return t0}
+function teamInviteBlock(tm){if(!tm.code)return '';var l=location.origin+location.pathname+'?team='+tm.code,msg=t('teamInviteMsg',{n:tm.name,b:brandName(),l:l});
+  return '<div class="st" style="gap:6px"><b class="tiny muted">🔗 '+t('teamLink')+'</b><div class="mono" style="word-break:break-all;background:var(--card2);padding:8px;border-radius:8px">'+esc(l)+'</div><div class="grid2"><button class="btn sm sec" data-copy="'+esc(l)+'">'+t('copy')+'</button><a class="btn sm" style="text-decoration:none;background:#25D366;color:#062" href="https://wa.me/?text='+encodeURIComponent(msg)+'" target="_blank" rel="noopener">💬 WhatsApp</a></div></div>'}
+var teamPromptShown=false;
+function teamJoinPrompt(){if(teamPromptShown||!PREF.teamJoin||!me()||$('layer').innerHTML)return;teamPromptShown=true;var cur=me().teamId?TM(me().teamId):null;
+  modal('<h2>🎮 '+esc(t('teamJoinQ',{c:PREF.teamJoin}))+'</h2>'+(cur?'<div class="card small" style="border-color:var(--acc2)">⚠ '+esc(t('switchWarn',{t:cur.name}))+'</div>':'')+'<input id="tm_code" type="hidden" value="'+esc(PREF.teamJoin)+'"><div class="grid2"><button class="btn sec" data-a="teamNotNow">'+t('notNow')+'</button><button class="btn" data-a="doJoinTeam">'+t('join')+'</button></div>')}
 function inviteLink(p){return location.origin+location.pathname+'?ref='+encodeURIComponent(p.uid)}
 function inviteCard(p){var iv=invitesOf(p),tr=recTier(iv.played),nx=null;REC_TIERS.forEach(function(x){if(!nx&&iv.played<x[0])nx=x});var link=inviteLink(p),msg=t('inviteMsg',{b:brandName(),l:link});
   return '<div class="card st" style="border-color:var(--acc)"><div class="row between"><b class="small">🔗 '+t('inviteTitle')+'</b>'+(tr?'<span class="tag t-acc">'+tr[1]+' '+tr[2]+'</span>':'')+'</div>'+
@@ -1203,8 +1212,8 @@ document.addEventListener('click',function(ev){
   case 'advance':advanceTourney(TR(id));return;
   case 'createTeam':modal('<h2>'+t('createTeam')+'</h2><label class="f">'+t('teamName')+'<input id="tm_n" maxlength="24"></label><label class="f">'+t('teamTag')+'<input id="tm_t" maxlength="4" style="text-transform:uppercase"></label><div class="grid2"><button class="btn sec" data-a="mclose">'+t('cancel')+'</button><button class="btn" data-a="doCreateTeam">'+t('create')+'</button></div>');return;
   case 'doCreateTeam':{var n=val('tm_n'),tg2=val('tm_t').toUpperCase();if(n.length<2||!/^[A-Z0-9]{2,4}$/.test(tg2)){toast('⚠ '+t('teamTag'));return}run(function(){return rpc('create_team',{p_name:n,p_tag:tg2})},'✓');return}
-  case 'joinTeam':modal('<h2>'+t('joinTeam')+'</h2><input id="tm_code" maxlength="6" style="text-transform:uppercase;font-size:20px;letter-spacing:3px"><div class="grid2"><button class="btn sec" data-a="mclose">'+t('cancel')+'</button><button class="btn" data-a="doJoinTeam">'+t('join')+'</button></div>');return;
-  case 'doJoinTeam':{var code=val('tm_code').toUpperCase();if(code.length!==6){toast(t('codeBad'));return}run(function(){return rpc('join_team',{p_code:code})},'✓');return}
+  case 'joinTeam':{var cur=me()&&me().teamId?TM(me().teamId):null;modal('<h2>'+t('joinTeam')+'</h2>'+(cur?'<div class="card small" style="border-color:var(--acc2)">⚠ '+esc(t('switchWarn',{t:cur.name}))+'</div>':'')+'<input id="tm_code" maxlength="6" value="'+esc(d.v||'')+'" style="text-transform:uppercase;font-size:20px;letter-spacing:3px"><div class="grid2"><button class="btn sec" data-a="mclose">'+t('cancel')+'</button><button class="btn" data-a="doJoinTeam">'+t('join')+'</button></div>');return}
+  case 'doJoinTeam':{var code=val('tm_code').toUpperCase();if(code.length!==6){toast(t('codeBad'));return}delete PREF.teamJoin;savePref();run(function(){return rpc('join_team',{p_code:code})},t('teamJoined'));return}
   case 'leaveTeam':confirmBox(t('leaveTeam')+'?',function(){run(function(){return rpc('leave_team')})});return;
   /* admin */
   case 'newMatch':matchForm();return;
@@ -1245,6 +1254,7 @@ document.addEventListener('click',function(ev){
   case 'makeAdmin':{var pid=$('ad_pick').value;if(!pid){toast(t('pickPlayer'));return}var pa=P(pid);confirmBox(t('adminQ',{n:pa?pa.ign:''}),function(){run(function(){return rpc('admin_set_role',{p_player:pid,p_role:'admin'})},'✓')});return}
   case 'setRole':{var pr2=P(id);confirmBox(t('removeAdmin')+': '+(pr2?pr2.ign:'')+'?',function(){run(function(){return rpc('admin_set_role',{p_player:id,p_role:d.r})},'✓')});return}
   case 'exp':exportData(d.k);return;
+  case 'teamNotNow':delete PREF.teamJoin;savePref();closeModal();return;
   case 'pushOn':enablePush().catch(function(e){toast('⚠ '+niceErr(e))});return;
   case 'pushDismiss':PREF.pushDismiss=1;savePref();render();return;
   case 'mcheckin':run(function(){return rpc('checkin_match',{p_match:id})},t('ciOk')).then(function(ok){if(ok&&openMatchId===id)openMatch(id)});return;
