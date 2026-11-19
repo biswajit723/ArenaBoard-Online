@@ -176,6 +176,12 @@ inviteTitle:['Invite friends','বন্ধুদের আনুন'],inviteNot
 invJoined:['joined','জয়েন করেছে'],invPlayed:['played','খেলেছে'],invitedBy:['Invited by UID {u} 🎁','UID {u} আপনাকে ইনভাইট করেছে 🎁'],shareInvite:['Share invite','ইনভাইট শেয়ার'],
 inviteMsg:['Join my free Free Fire tournaments on {b}! No entry fee, real matches, leaderboards 🔥 Register here: {l}','{b}-এ আমার ফ্রি Free Fire টুর্নামেন্টে যোগ দাও! কোনো এন্ট্রি ফি নেই 🔥 এখানে রেজিস্টার করো: {l}'],
 founderL:['Founder badge for the first N players','প্রথম কতজন Founder ব্যাজ পাবে'],recruiters:['Recruiters','রিক্রুটার'],nextRec:['{n} more to {b}','{b} পেতে আর {n} জন'],founderOf:['Founder #{n}','ফাউন্ডার #{n}'],
+promoPost:['Promo post','প্রোমো পোস্ট'],shareImage:['Share / save image','ছবি শেয়ার / সেভ'],copyCaption:['Copy caption','ক্যাপশন কপি'],shareBoth:['Share image + caption','ছবি + ক্যাপশন শেয়ার'],
+tipIg:['Instagram: share or save the image, post it, then paste the caption (tap Copy caption first).','Instagram: ছবি শেয়ার/সেভ করে পোস্ট করুন, তারপর ক্যাপশন পেস্ট করুন।'],
+tipYt:['YouTube app → Create (+) → Post → add the image and paste the caption.','YouTube অ্যাপ → Create (+) → Post → ছবি দিন, ক্যাপশন পেস্ট করুন।'],
+tipWa:['Send the message with the WhatsApp button, or share the image to your group / status.','WhatsApp বাটনে মেসেজ পাঠান, বা ছবি গ্রুপ/স্ট্যাটাসে শেয়ার করুন।'],
+imgSaved:['Image saved ✓ (caption copied)','ছবি সেভ হয়েছে ✓ (ক্যাপশন কপি হয়েছে)'],promoStudio:['Promo studio','প্রোমো স্টুডিও'],promoNote:['Ready-made posts with your logo for Instagram, YouTube and WhatsApp. Edit the caption if you like.','আপনার লোগোসহ Instagram, YouTube, WhatsApp-এর রেডি পোস্ট। চাইলে ক্যাপশন বদলান।'],
+weeklyRecap:['Weekly recap','সাপ্তাহিক রিক্যাপ'],nextMatchPost:['Next match','পরের ম্যাচ'],lastResults:['Last results','শেষ রেজাল্ট'],hashtagsL:['Hashtags for posts','পোস্টের হ্যাশট্যাগ'],
 featVidL:['Featured YouTube video (plays on players\' Home)','ফিচার্ড YouTube ভিডিও (প্লেয়ারদের হোমে চলবে)'],featured:['Featured video','ফিচার্ড ভিডিও'],follow:['Follow us','আমাদের ফলো করুন'],watchCh:['Watch on YouTube','YouTube-এ দেখুন'],badVid:['That is not a YouTube video link.','এটা YouTube ভিডিও লিংক নয়।'],newPlayer:['New player? Register','নতুন প্লেয়ার? রেজিস্টার'],register2:['Register','রেজিস্টার'],login:['Log in','লগইন'],
 pinLbl:['PIN (4–6 digits)','পিন (৪–৬ সংখ্যা)'],pinRep:['Repeat PIN','আবার পিন দিন'],pinMismatch:['PINs do not match.','দুটো পিন মেলেনি।'],pinFmt:['PIN must be 4–6 digits.','পিন ৪–৬ সংখ্যার হতে হবে।'],
 wrongPin:['Wrong UID or PIN.','UID বা পিন ভুল।'],uidRegistered:['This UID is already registered — log in with your PIN.','এই UID আগেই রেজিস্টার্ড — পিন দিয়ে লগইন করুন।'],
@@ -586,7 +592,7 @@ function openMatch(id){
     actions='<div class="grid2">'+(st!=='completed'&&st!=='cancelled'?'<button class="btn sec" data-a="room" data-id="'+m.id+'">🔑 '+t('setRoom')+'</button>':'')+
       (st!=='cancelled'?'<button class="btn" data-a="results" data-id="'+m.id+'">📝 '+(st==='completed'?t('edit'):t('enterResults'))+'</button>':'')+
       (st==='upcoming'?'<button class="btn no" data-a="cancelM" data-id="'+m.id+'">'+t('cancelMatch')+'</button>':'')+
-      '<button class="btn sec" data-a="shareM" data-id="'+m.id+'">📤 '+t('share')+'</button></div>';
+      '<button class="btn sec" data-a="shareM" data-id="'+m.id+'">📤 '+t('share')+'</button>'+(st!=='cancelled'?'<button class="btn" style="grid-column:1/-1" data-a="promo" data-k="'+(st==='completed'?'results':'match')+'" data-id="'+m.id+'">📣 '+t('promoPost')+'</button>':'')+'</div>';
   }else{
     if(st==='upcoming'&&!m.tid)actions=joined?'<button class="btn no block" data-a="leave" data-id="'+m.id+'">'+t('leave')+'</button>':'<button class="btn block" data-a="join" data-id="'+m.id+'" '+(err?'disabled':'')+'>⚔ '+t('join')+'</button>'+(err?'<div class="tiny muted" style="text-align:center">'+esc(err)+'</div>':'');
     if(m.tid&&st==='upcoming')actions='<div class="small muted">🏆 '+t('viaTourney')+'</div>';
@@ -627,6 +633,7 @@ function openTourney(id){
      '<table class="rt"><tr><th>#</th><th></th><th>'+t('booyah')+'</th><th>'+t('kills')+'</th><th>'+t('pts')+'</th></tr>'+rows.map(function(r,i){var q=si===0&&tr.stages.length===1&&i<st.qualify;return '<tr><td><span class="rank '+(i<3?'r'+(i+1):'')+'">'+(i+1)+'</span></td><td>'+esc(refName(r.ref))+(q?' <span class="tag t-g">Q</span>':'')+'</td><td>'+r.booyah+'</td><td>'+r.kills+'</td><td><b>'+r.pts+'</b></td></tr>'}).join('')+'</table>';
   });
   if(isAdmin()&&tr.stages.length===1)html+='<button class="btn block" data-a="advance" data-id="'+tr.id+'">'+t('advance',{n:tr.stages[0].qualify})+'</button>';
+  if(isAdmin())html+='<button class="btn block" data-a="promo" data-k="tourney" data-id="'+tr.id+'">📣 '+t('promoPost')+'</button>';
   html+='<button class="btn sec block" data-a="shareT" data-id="'+tr.id+'">📤 '+t('share')+'</button>';
   modal(html);
 }
@@ -685,7 +692,7 @@ function vDash(){
    '<div class="grid4"><div class="stat"><span class="tiny muted">'+t('players')+'</span><b>'+S.players.length+'</b></div><div class="stat"><span class="tiny muted">'+t('teams')+'</span><b>'+S.teams.length+'</b></div><div class="stat"><span class="tiny muted">'+t('upcoming')+'</span><b>'+up.length+'</b></div><div class="stat"><span class="tiny muted">'+t('openReports')+'</span><b style="color:var(--red)">'+openR.length+'</b></div></div>'+
    (live.length?'<h2>🔴 '+t('pending')+'</h2>'+live.map(matchCard).join(''):'')+
    (noRoom.length?'<h2>🔑 '+t('roomNotSet')+'</h2>'+noRoom.map(matchCard).join(''):'')+
-   adminClipsBlock()+'<h2>📣 '+t('announcements')+'</h2><div class="card st"><textarea id="annTxt" rows="2" placeholder="'+t('annPh')+'"></textarea><button class="btn" data-a="postAnn">'+t('post')+'</button>'+
+   adminClipsBlock()+promoStudioCard()+'<h2>📣 '+t('announcements')+'</h2><div class="card st"><textarea id="annTxt" rows="2" placeholder="'+t('annPh')+'"></textarea><button class="btn" data-a="postAnn">'+t('post')+'</button>'+
    S.ann.slice().reverse().map(function(a){return '<div class="lr"><div class="grow small">'+esc(a.text)+'<div class="tiny muted">'+fmtTime(a.ts)+'</div></div><button class="btn sm no" data-delann="'+a.id+'">✕</button></div>'}).join('')+'</div>'+
    '<h2>⚡ '+t('upcoming')+'</h2>'+(up.slice(0,4).map(matchCard).join('')||'<div class="card empty">—</div>')+'</div>';
 }
@@ -713,7 +720,7 @@ function vSettings(){
    '<h2>🏠 '+t('community')+'</h2><div class="card st">'+inp('cf_name',t('commName'),c.name||'','maxlength="40" placeholder="ArenaBoard"')+
      '<label class="f">'+t('rulesL')+'<textarea id="cf_rules" rows="4" maxlength="1500" placeholder="'+esc(t('rulesText'))+'">'+esc(c.rules||'')+'</textarea></label>'+
      inp('cf_wa',t('waL'),c.wa||'','placeholder="https://chat.whatsapp.com/..."')+'<div class="grid2">'+inp('cf_yt',t('ytL'),c.yt||'','placeholder="https://youtube.com/@..."')+inp('cf_ig',t('igL'),c.ig||'','placeholder="https://instagram.com/..."')+'</div>'+
-     inp('cf_contact',t('contactL'),c.contact||'','maxlength="80"')+inp('cf_vid',t('featVidL'),c.featVid||'','placeholder="https://youtu.be/..."')+'</div>'+
+     inp('cf_contact',t('contactL'),c.contact||'','maxlength="80"')+inp('cf_tags',t('hashtagsL'),cfg('hashtags','#FreeFire #FreeFireIndia #FFTournament #CustomRoom #Esports #FreeTournament'),'maxlength="300"')+inp('cf_vid',t('featVidL'),c.featVid||'','placeholder="https://youtu.be/..."')+'</div>'+
    '<h2>🎮 '+t('matchDefaults')+'</h2><div class="card st"><div class="grid2">'+inp('cf_kill',t('killPts'),cfg('defKill',1),'type="number" min="0" max="20"')+
      '<label class="f">'+t('defMap')+'<select id="cf_map">'+maps.map(function(m){return '<option'+(cfg('defMap','Bermuda')===m?' selected':'')+'>'+m+'</option>'}).join('')+'</select></label></div>'+
      inp('cf_pp',t('placePts'),cfgPP().join(','))+'<div class="grid3">'+inp('cf_ss',t('slotsSolo'),defSlots('solo'),'type="number" min="2" max="200"')+inp('cf_sd',t('slotsDuo'),defSlots('duo'),'type="number" min="2" max="200"')+inp('cf_sq',t('slotsSquad'),defSlots('squad'),'type="number" min="2" max="200"')+'</div>'+
@@ -960,6 +967,98 @@ function challengeForm(){var p=me(),mt=TM(p.teamId),d=new Date(now()+864e5);d.se
    '<div class="grid2"><label class="f">'+t('mode')+'<select id="ch_mode"><option value="squad">'+t('squad')+'</option><option value="duo">'+t('duo')+'</option></select></label><label class="f">'+t('start')+'<input type="datetime-local" id="ch_start" value="'+dtLocal(d.getTime())+'"></label></div>'+
    '<label class="f">'+t('trashTalk')+'<input id="ch_msg" maxlength="140" placeholder="Ready to lose? 😈"></label><div class="grid2"><button class="btn sec" data-a="mclose">'+t('cancel')+'</button><button class="btn" data-a="sendChallenge">'+t('send')+'</button></div>')}
 
+/* ============ PROMO STUDIO: auto posts for Instagram / YouTube / WhatsApp (English) ============ */
+var LOGO_IMG=null;(function(){try{var im=new Image();im.onload=function(){LOGO_IMG=im};im.src='icons/icon-512.png'}catch(e){}})();
+function siteLink(){return location.origin+location.pathname}
+function enTime(ts){return new Date(ts).toLocaleString('en-IN',{weekday:'short',day:'numeric',month:'short',hour:'numeric',minute:'2-digit'})}
+function enDate(ts){return new Date(ts).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}
+function modeName(m){return m==='solo'?'Solo':m==='duo'?'Duo':'Squad'}
+function tags(){return cfg('hashtags','#FreeFire #FreeFireIndia #FFTournament #CustomRoom #Esports #FreeTournament')}
+function foundersLeft(){var lim=+cfg('founderLimit',50)||50,n=S.players.filter(function(x){return x.role!=='admin'}).length;return {left:Math.max(0,lim-n),limit:lim}}
+function weeklyData(){derive();var ws=weekStart(),we=ws+7*864e5,pts={},kills={};
+  S.matches.forEach(function(m){if(m.status!=='completed'||m.start<ws||m.start>=we)return;m.results.forEach(function(r){var e=byId(m.entries,r.eid);if(!e)return;entryPlayers(e).forEach(function(pid){pts[pid]=(pts[pid]||0)+r.pts;kills[pid]=(kills[pid]||0)+(e.k==='p'?r.kills:((r.mk&&r.mk[pid])||0))})})});
+  function top(o,n){return Object.keys(o).map(function(k){return [k,o[k]]}).sort(function(a,b){return b[1]-a[1]}).slice(0,n).map(function(x){var p=P(x[0]);return {ign:p?p.ign:'?',v:x[1]}})}
+  var played=S.matches.filter(function(m){return m.status==='completed'&&m.start>=ws&&m.start<we}).length;
+  return {from:ws,to:we-1,top:top(pts,3),frag:top(kills,1)[0]||null,matches:played}}
+
+/* ---- post content ---- */
+function promoContent(type,d){var b=brandName(),L=siteLink(),rv=S.settings.reveal,h=tags(),c={};
+  if(type==='match'){var m=d,spon=m.sponsor?'⭐ Sponsored by '+m.sponsor:'';
+    c.badge='NEW MATCH';c.title=m.title;c.rows=[['🎮','Mode',modeName(m.mode)],['🗺','Map',m.map],['🗓','Time',enTime(m.start)],['👥','Slots',m.slots+' (first come, first served)'],['🎁','Prize',m.prize||'Points + glory']];c.box='FREE ENTRY';c.cta='Register free 👉 '+L.replace(/^https?:\/\//,'');
+    c.ig='🔥 NEW MATCH ALERT 🔥\n'+m.title+'\n\n🎮 Mode: '+modeName(m.mode)+'  |  🗺 Map: '+m.map+'\n🗓 '+enTime(m.start)+'\n👥 Only '+m.slots+' slots — first come, first served\n🎁 Prize: '+(m.prize||'Points + glory')+(spon?'\n'+spon:'')+'\n\n✅ 100% FREE entry — no fees, ever\n🔑 Room ID unlocks in the app '+rv+' min before start\n👉 Register now — link in bio\n\n'+h;
+    c.yt='🔥 New '+modeName(m.mode)+' match on '+b+'!\n'+m.title+' — '+enTime(m.start)+' on '+m.map+'.\n'+m.slots+' slots, free entry'+(m.prize?', prize: '+m.prize:'')+'.\nRegister here 👉 '+L;
+    c.wa='*🔥 NEW MATCH: '+m.title+'*\n🎮 '+modeName(m.mode)+' · 🗺 '+m.map+'\n🗓 '+enTime(m.start)+'\n👥 '+m.slots+' slots · ✅ FREE entry'+(m.prize?'\n🎁 '+m.prize:'')+'\n\n👉 Join here: '+L;}
+  else if(type==='tourney'){var tr=d,st=tr.stages[0]||{count:0,qualify:0,start:now()};
+    c.badge='TOURNAMENT';c.title=tr.name;c.rows=[['🎮','Mode',modeName(tr.mode)],['🗓','Starts',enTime(st.start)],['🏁','Format',st.count+' qualifier'+(st.count>1?'s':'')+' → top '+st.qualify+' → '+tr.finalsCount+' final'+(tr.finalsCount>1?'s':'')],['👥','Slots',tr.slots+' '+(tr.mode==='solo'?'players':'teams')],['🎁','Prize',tr.prize||'Trophy + glory']];c.box='FREE ENTRY';c.cta='Register free 👉 '+L.replace(/^https?:\/\//,'');
+    c.ig='🏆 TOURNAMENT ANNOUNCEMENT 🏆\n'+tr.name+'\n\n🎮 '+modeName(tr.mode)+'  |  👥 '+tr.slots+' '+(tr.mode==='solo'?'players':'teams')+'\n🗓 Starts '+enTime(st.start)+'\n🏁 '+st.count+' qualifier match'+(st.count>1?'es':'')+' → top '+st.qualify+' go to the finals\n🎁 Prize: '+(tr.prize||'Trophy + glory')+(tr.sponsor?'\n⭐ Sponsored by '+tr.sponsor:'')+'\n\n✅ FREE to enter — captains register the team in the app\n👉 Link in bio\n\n'+h;
+    c.yt='🏆 '+tr.name+' is open for registration!\n'+modeName(tr.mode)+' · starts '+enTime(st.start)+' · '+tr.slots+' slots · free entry.\nTop '+st.qualify+' from the qualifiers reach the finals.\nRegister 👉 '+L;
+    c.wa='*🏆 '+tr.name+'*\n🎮 '+modeName(tr.mode)+' · 👥 '+tr.slots+' slots\n🗓 Starts '+enTime(st.start)+'\n🏁 Qualifiers → top '+st.qualify+' → Finals'+(tr.prize?'\n🎁 '+tr.prize:'')+'\n✅ FREE entry\n\n👉 Register: '+L;}
+  else if(type==='founder'){var f=foundersLeft();
+    c.badge='FOUNDER OFFER';c.title='Only '+f.left+' Founder spots left!';c.rows=[['🌟','Reward','Lifetime Founder badge'],['🎮','Play','Free custom-room matches'],['🏆','Climb','Leaderboards & MVP'],['💸','Cost','Zero. Always free.']];c.box=f.left+' / '+f.limit+' LEFT';c.cta='Claim yours 👉 '+L.replace(/^https?:\/\//,'');
+    c.ig='🌟 BE A FOUNDER 🌟\nThe first '+f.limit+' players on '+b+' get a LIFETIME Founder badge — only '+f.left+' spots left!\n\n🎮 Free custom-room matches every week\n🏆 Leaderboards, MVP votes, missions & XP\n🔗 Invite your squad and earn Recruiter badges\n✅ No entry fee. Ever.\n\n👉 Register now — link in bio\n\n'+h;
+    c.yt='🌟 Founder badge alert! The first '+f.limit+' players on '+b+' get a lifetime Founder badge — '+f.left+' spots left.\nFree matches, leaderboards, no entry fee.\nRegister 👉 '+L;
+    c.wa='*🌟 Only '+f.left+' Founder spots left!*\nFirst '+f.limit+' players on '+b+' get a lifetime Founder badge.\n🎮 Free matches · 🏆 Leaderboards · ✅ No fees\n\n👉 Register: '+L;}
+  else if(type==='results'){var m2=d,res=m2.results.slice().sort(function(a,b){return a.pos-b.pos}).slice(0,3),mv=mvpOf(m2),medal=['🥇','🥈','🥉'];
+    var lines=res.map(function(r,i){var e=byId(m2.entries,r.eid);return medal[i]+' '+(e?entryName(e):'?')+' — '+r.pts+' pts ('+r.kills+' kills)'});var mvn=mv&&P(mv.pid)?P(mv.pid).ign:'';
+    c.badge='RESULTS';c.title=m2.title;c.rows=res.map(function(r,i){var e=byId(m2.entries,r.eid);return [medal[i],(e?entryName(e):'?').slice(0,18),r.pts+' pts · '+r.kills+' kills']}).concat(mvn?[['⭐','MVP',mvn]]:[]);c.box='GG!';c.cta='Next match 👉 '+L.replace(/^https?:\/\//,'');
+    c.ig='🏆 RESULTS — '+m2.title+'\n\n'+lines.join('\n')+(mvn?'\n⭐ MVP: '+mvn:'')+'\n\nGG to everyone who played! 🔥\nWant to be on this list? Next match is free — link in bio\n\n'+h;
+    c.yt='🏆 Results — '+m2.title+'\n'+lines.join('\n')+(mvn?'\n⭐ MVP: '+mvn:'')+'\nNext match 👉 '+L;
+    c.wa='*🏆 RESULTS — '+m2.title+'*\n'+lines.join('\n')+(mvn?'\n⭐ MVP: '+mvn:'')+'\n\nNext match 👉 '+L;}
+  else if(type==='weekly'){var w=weeklyData(),medal2=['🥇','🥈','🥉'],tl=w.top.map(function(x,i){return medal2[i]+' '+x.ign+' — '+x.v+' pts'});
+    c.badge='WEEKLY RECAP';c.title='Week of '+enDate(w.from);c.rows=w.top.map(function(x,i){return [medal2[i],x.ign.slice(0,18),x.v+' pts']}).concat(w.frag?[['🎯','Top fragger',w.frag.ign+' · '+w.frag.v+' kills']]:[]).concat([['🎮','Matches played',String(w.matches)]]);c.box='TOP OF THE WEEK';c.cta='Join next week 👉 '+L.replace(/^https?:\/\//,'');
+    c.ig='📊 WEEKLY RECAP ('+enDate(w.from)+' – '+enDate(w.to)+')\n\n'+(tl.length?tl.join('\n'):'No matches this week')+(w.frag?'\n🎯 Top fragger: '+w.frag.ign+' ('+w.frag.v+' kills)':'')+'\n🎮 '+w.matches+' matches played\n\nCan you top the board next week? Free entry — link in bio\n\n'+h;
+    c.yt='📊 Weekly recap on '+b+'\n'+tl.join('\n')+(w.frag?'\n🎯 Top fragger: '+w.frag.ign:'')+'\nPlay next week 👉 '+L;
+    c.wa='*📊 Weekly recap ('+enDate(w.from)+' – '+enDate(w.to)+')*\n'+(tl.join('\n')||'No matches this week')+(w.frag?'\n🎯 Top fragger: '+w.frag.ign:'')+'\n\n👉 Play next week: '+L;}
+  return c}
+
+/* ---- poster drawing (brand: black + red, with logo) ---- */
+function promoCanvas(c,fmt){var W=1080,H=fmt==='square'?1080:fmt==='story'?1920:1350,cv=document.createElement('canvas');cv.width=W;cv.height=H;var x=cv.getContext('2d');
+  var g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,'#14060a');g.addColorStop(.55,'#3a0710');g.addColorStop(1,'#0b0b0f');x.fillStyle=g;x.fillRect(0,0,W,H);
+  var rg=x.createRadialGradient(W*.85,H*.12,10,W*.85,H*.12,W*.7);rg.addColorStop(0,'rgba(255,40,40,.45)');rg.addColorStop(1,'rgba(255,40,40,0)');x.fillStyle=rg;x.fillRect(0,0,W,H);
+  x.strokeStyle='rgba(255,60,60,.25)';x.lineWidth=3;for(var i=0;i<6;i++){x.beginPath();x.moveTo(W*(.55+i*.08),0);x.lineTo(W*(.15+i*.08),H);x.stroke()}
+  var top=fmt==='story'?150:70,sc=fmt==='square'?.86:1;
+  if(LOGO_IMG){try{x.save();x.beginPath();x.arc(70+80,top+80,80,0,7);x.clip();x.drawImage(LOGO_IMG,70,top,160,160);x.restore()}catch(e){}}
+  x.fillStyle='#fff';x.font='bold 46px Rajdhani, Inter, sans-serif';x.fillText(brandName().toUpperCase(),260,top+70);
+  x.fillStyle='#ff4d4d';x.font='bold 30px Inter, sans-serif';x.fillText('FREE TOURNAMENTS · NO ENTRY FEE',260,top+118);
+  var y=top+230;x.fillStyle='#ff2d2d';roundRect(x,70,y,x.measureText(c.badge).width+80,64,32);x.font='bold 34px Inter, sans-serif';var bw=x.measureText(c.badge).width;roundRect(x,70,y,bw+64,64,32);x.fill();x.fillStyle='#fff';x.fillText(c.badge,102,y+45);
+  y+=120;x.fillStyle='#fff';x.font='bold '+Math.round(96*sc)+'px Rajdhani, Inter, sans-serif';y=wrapLines(x,c.title,70,y+40,W-140,Math.round(100*sc),3);
+  y+=30;(c.rows||[]).slice(0,6).forEach(function(r){x.fillStyle='rgba(0,0,0,.4)';roundRect(x,70,y,W-140,Math.round(104*sc),24);x.fill();
+    x.font=Math.round(46*sc)+'px sans-serif';x.fillStyle='#fff';x.fillText(r[0],100,y+Math.round(68*sc));
+    x.fillStyle='rgba(255,255,255,.65)';x.font='600 '+Math.round(32*sc)+'px Inter, sans-serif';x.fillText(r[1],180,y+Math.round(64*sc));
+    x.fillStyle='#fff';x.font='bold '+Math.round(36*sc)+'px Inter, sans-serif';var tx=String(r[2]);while(x.measureText(tx).width>W-560&&tx.length>4)tx=tx.slice(0,-2);if(tx!==String(r[2]))tx+='…';x.textAlign='right';x.fillText(tx,W-100,y+Math.round(66*sc));x.textAlign='left';
+    y+=Math.round(122*sc)});
+  var by=fmt==='story'?H-420:H-240;x.fillStyle='#ffb020';x.font='bold 40px Inter, sans-serif';var boxw=x.measureText(c.box).width+70;roundRect(x,70,by,boxw,76,20);x.fill();x.fillStyle='#1a0a00';x.fillText(c.box,105,by+52);
+  x.fillStyle='#fff';x.font='bold 40px Inter, sans-serif';x.fillText(c.cta,70,by+150);
+  return cv}
+function wrapLines(x,t,X,Y,maxW,lh,maxL){var w=String(t).split(' '),line='',y=Y,n=0;for(var i=0;i<w.length;i++){var test=line+w[i]+' ';if(x.measureText(test).width>maxW&&line){x.fillText(line,X,y);n++;line=w[i]+' ';y+=lh;if(n>=maxL-1){line=w.slice(i).join(' ');while(x.measureText(line+'…').width>maxW&&line.length>3)line=line.slice(0,-1);if(i<w.length-1||line!==w[i])line+=(line===w.slice(i).join(' ')?'':'…');break}}else line=test}x.fillText(line,X,y);return y+lh*.4}
+
+/* ---- the promo modal ---- */
+var PROMO={type:null,data:null,fmt:'post',tab:'ig',url:''};
+function openPromo(type,data){PROMO.type=type;PROMO.data=data;PROMO.fmt='post';PROMO.tab='ig';paintPromo()}
+function paintPromo(){var c=promoContent(PROMO.type,PROMO.data),cv=promoCanvas(c,PROMO.fmt);PROMO.url=cv.toDataURL('image/png');PROMO.c=c;
+  var cap=PROMO.tab==='ig'?c.ig:PROMO.tab==='yt'?c.yt:c.wa;
+  modal('<div class="row between"><h2>📣 '+t('promoPost')+'</h2><button class="btn sm sec" data-a="mclose">✕</button></div>'+
+   '<div class="seg">'+[['post','4:5 Post'],['square','1:1 Square'],['story','9:16 Story']].map(function(f){return '<button class="'+(PROMO.fmt===f[0]?'on':'')+'" data-a="promoFmt" data-v="'+f[0]+'">'+f[1]+'</button>'}).join('')+'</div>'+
+   '<img id="promoImg" src="'+PROMO.url+'" alt="" style="width:100%;border-radius:12px;max-height:52vh;object-fit:contain;background:#000">'+
+   '<button class="btn" data-a="promoShareImg">📤 '+t('shareImage')+'</button>'+
+   '<div class="seg">'+[['ig','📸 Instagram'],['yt','▶ YouTube'],['wa','💬 WhatsApp']].map(function(f){return '<button class="'+(PROMO.tab===f[0]?'on':'')+'" data-a="promoTab" data-v="'+f[0]+'">'+f[1]+'</button>'}).join('')+'</div>'+
+   '<textarea id="promoCap" rows="9">'+esc(cap)+'</textarea>'+
+   '<div class="grid2"><button class="btn sec" data-copy-ta="promoCap">📋 '+t('copyCaption')+'</button>'+
+   (PROMO.tab==='wa'?'<a class="btn" style="text-decoration:none;background:#25D366;color:#062" href="https://wa.me/?text='+encodeURIComponent(cap)+'" target="_blank" rel="noopener">💬 WhatsApp</a>':'<button class="btn sec" data-a="promoShareAll">📤 '+t('shareBoth')+'</button>')+'</div>'+
+   '<p class="tiny muted">'+t(PROMO.tab==='ig'?'tipIg':PROMO.tab==='yt'?'tipYt':'tipWa')+'</p>')}
+function promoFile(){var bin=atob(PROMO.url.split(',')[1]),arr=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);var name=(PROMO.type||'post')+'-'+PROMO.fmt+'.png';var blob=new Blob([arr],{type:'image/png'});var f=null;try{f=new File([blob],name,{type:'image/png'})}catch(e){}return {blob:blob,file:f,name:name}}
+function promoShare(withText){var p=promoFile(),cap=$('promoCap')?$('promoCap').value:'';
+  if(p.file&&navigator.canShare&&navigator.canShare({files:[p.file]})){var o={files:[p.file]};if(withText)o.text=cap;navigator.share(o).catch(function(){});if(withText)copyText(cap);return}
+  try{var a=document.createElement('a');a.href=URL.createObjectURL(p.blob);a.download=p.name;document.body.appendChild(a);a.click();setTimeout(function(){a.remove()},500)}catch(e){}
+  if(withText)copyText(cap);toast(t('imgSaved'))}
+function promoStudioCard(){var f=foundersLeft(),up=S.matches.filter(function(m){return matchStatus(m)==='upcoming'}).sort(function(a,b){return a.start-b.start})[0],last=S.matches.filter(function(m){return m.status==='completed'&&m.results.length}).sort(function(a,b){return b.start-a.start})[0],tr=S.tourneys.slice(-1)[0];
+  return '<h2>📣 '+t('promoStudio')+'</h2><div class="card st"><p class="small muted">'+t('promoNote')+'</p><div class="grid2">'+
+   (f.left>0?'<button class="btn sec sm" data-a="promo" data-k="founder">🌟 Founder ('+f.left+' left)</button>':'')+
+   '<button class="btn sec sm" data-a="promo" data-k="weekly">📊 '+t('weeklyRecap')+'</button>'+
+   (up?'<button class="btn sec sm" data-a="promo" data-k="match" data-id="'+up.id+'">🔥 '+t('nextMatchPost')+'</button>':'')+
+   (last?'<button class="btn sec sm" data-a="promo" data-k="results" data-id="'+last.id+'">🏆 '+t('lastResults')+'</button>':'')+
+   (tr?'<button class="btn sec sm" data-a="promo" data-k="tourney" data-id="'+tr.id+'">🏆 '+esc(tr.name.slice(0,16))+'</button>':'')+'</div></div>'}
+
 /* ============ events ============ */
 function val(id){var e=$(id);return e?e.value.trim():''}
 document.addEventListener('click',function(ev){
@@ -1037,7 +1136,7 @@ document.addEventListener('click',function(ev){
   case 'createMatch':{var title=val('nm_t')||'Custom Room',mode=$('nm_mode').value,st=new Date($('nm_start').value).getTime();if(!st||isNaN(st)){toast('⚠ '+t('start'));return}
     var pp=$('nm_pp').value.split(',').map(function(x){return Math.max(0,parseInt(x,10)||0)});
     var row={title:title,mode:mode,map:$('nm_map').value,start_at:new Date(st).toISOString(),slots:Math.min(200,Math.max(2,+$('nm_slots').value||defSlots(mode))),prize:val('nm_prize'),sponsor:val('nm_sp'),kill_pts:Math.min(20,Math.max(0,+$('nm_kp').value||0)),place_pts:pp.length?pp:DEF_PP.slice(),min_rating:+$('nm_min').value||null,max_rating:+$('nm_max').value||null,yt:val('nm_yt'),season:S.settings.season};
-    mFilter='upcoming';run(function(){return sb.from('matches').insert(row)},'✓');return}
+    mFilter='upcoming';run(function(){return sb.from('matches').insert(row)},'✓').then(function(ok){if(!ok)return;var nm=S.matches.filter(function(x){return x.title===row.title&&Math.abs(x.start-st)<2000}).slice(-1)[0];if(nm)openPromo('match',nm)});return}
   case 'room':roomForm(m);return;
   case 'saveRoom':{var rid=val('rm_id'),rpw=val('rm_pass'),yt=val('rm_yt');delete PREF.notified[m.id];savePref();
     run(async function(){await q(sb.from('match_rooms').upsert({match_id:m.id,room_id:rid,room_pass:rpw}));await q(sb.from('matches').update({yt:yt}).eq('id',m.id))},'✓');return}
@@ -1053,7 +1152,7 @@ document.addEventListener('click',function(ev){
     var trn={id:newId(),name:nm.slice(0,60),mode:mo,slots:Math.min(200,Math.max(2,+$('nt_slots').value||12)),prize:val('nt_prize'),sponsor:val('nt_sp'),gap:Math.max(10,+$('nt_gap').value||30),finalsCount:Math.min(20,Math.max(1,+$('nt_f').value||2)),maps:['Bermuda','Purgatory','Kalahari','Alpine','NeXTerra']};
     var st0={name:'Qualifiers',count:Math.min(10,Math.max(1,+$('nt_q').value||3)),qualify:Math.max(1,+$('nt_qn').value||6),entrants:[],matchIds:[],start:s0};
     var mrows=stageMatchRows(trn,st0,0);
-    run(async function(){await q(sb.from('tournaments').insert({id:trn.id,name:trn.name,mode:trn.mode,slots:trn.slots,prize:trn.prize,sponsor:trn.sponsor,gap:trn.gap,finals_count:trn.finalsCount,maps:trn.maps,stages:[st0]}));await q(sb.from('matches').insert(mrows))},'✓').then(function(ok){if(ok)openTourney(trn.id)});return}
+    run(async function(){await q(sb.from('tournaments').insert({id:trn.id,name:trn.name,mode:trn.mode,slots:trn.slots,prize:trn.prize,sponsor:trn.sponsor,gap:trn.gap,finals_count:trn.finalsCount,maps:trn.maps,stages:[st0]}));await q(sb.from('matches').insert(mrows))},'✓').then(function(ok){if(ok&&TR(trn.id))openPromo('tourney',TR(trn.id))});return}
   case 'newTpl':tplForm();return;
   case 'createTpl':{var days=[];document.querySelectorAll('[data-day].on').forEach(function(b){days.push(+b.dataset.day)});
     var tpr={title:val('tp_t')||'Daily match',mode:$('tp_mode').value,time:$('tp_time').value||'21:00',map:val('tp_map')||'Bermuda',days:days,prize:val('tp_prize'),sponsor:''};
@@ -1063,7 +1162,7 @@ document.addEventListener('click',function(ev){
     var urls=['cf_wa','cf_yt','cf_ig'];for(var ui=0;ui<urls.length;ui++){var uv=val(urls[ui]);if(uv&&!/^https?:\/\//i.test(uv)){toast('⚠ https://…');return}}
     var fv=val('cf_vid');if(fv&&!ytId(fv)){toast('⚠ '+t('badVid'));return}
     var ppv=val('cf_pp').split(',').map(function(x){return Math.max(0,parseInt(x,10)||0)}).filter(function(x,i,a){return a.length});
-    var cfgNew=Object.assign({},S.config||{},{name:val('cf_name').slice(0,40),rules:$('cf_rules').value.trim().slice(0,1500),wa:val('cf_wa'),yt:val('cf_yt'),ig:val('cf_ig'),contact:val('cf_contact').slice(0,80),featVid:fv,
+    var cfgNew=Object.assign({},S.config||{},{name:val('cf_name').slice(0,40),rules:$('cf_rules').value.trim().slice(0,1500),wa:val('cf_wa'),yt:val('cf_yt'),ig:val('cf_ig'),contact:val('cf_contact').slice(0,80),hashtags:val('cf_tags').slice(0,300),featVid:fv,
       defKill:Math.min(20,Math.max(0,+$('cf_kill').value||0)),defMap:$('cf_map').value,defPP:ppv.length?ppv.slice(0,30):DEF_PP.slice(),defPrize:val('cf_prize').slice(0,80),
       slotsSolo:Math.min(200,Math.max(2,+$('cf_ss').value||48)),slotsDuo:Math.min(200,Math.max(2,+$('cf_sd').value||24)),slotsSquad:Math.min(200,Math.max(2,+$('cf_sq').value||12)),
       regOpen:$('cf_reg').checked,founderLimit:Math.min(1000,Math.max(0,+$('cf_fl').value||0)),killFlag:Math.min(60,Math.max(3,+$('cf_kf').value||10))});
@@ -1071,6 +1170,11 @@ document.addEventListener('click',function(ev){
   case 'makeAdmin':{var pid=$('ad_pick').value;if(!pid){toast(t('pickPlayer'));return}var pa=P(pid);confirmBox(t('adminQ',{n:pa?pa.ign:''}),function(){run(function(){return rpc('admin_set_role',{p_player:pid,p_role:'admin'})},'✓')});return}
   case 'setRole':{var pr2=P(id);confirmBox(t('removeAdmin')+': '+(pr2?pr2.ign:'')+'?',function(){run(function(){return rpc('admin_set_role',{p_player:id,p_role:d.r})},'✓')});return}
   case 'exp':exportData(d.k);return;
+  case 'promo':{var pd=d.k==='match'||d.k==='results'?M(id):d.k==='tourney'?TR(id):null;if((d.k==='match'||d.k==='results'||d.k==='tourney')&&!pd)return;openPromo(d.k,pd);return}
+  case 'promoFmt':PROMO.fmt=d.v;paintPromo();return;
+  case 'promoTab':PROMO.tab=d.v;paintPromo();return;
+  case 'promoShareImg':promoShare(false);return;
+  case 'promoShareAll':promoShare(true);return;
   case 'installApp':if(!deferredInstall){toast(t('installAndroid'));return}deferredInstall.prompt();deferredInstall.userChoice.then(function(){deferredInstall=null;render()}).catch(function(){});return;
   case 'checkin':run(async function(){var n=await rpc('daily_checkin');setTimeout(function(){confetti(90);toast(t('checkinOk',{n:n}))},50)});return;
   case 'setAvatar':run(function(){return sb.from('profiles').update({avatar:d.v}).eq('id',S.me.pid)});return;
