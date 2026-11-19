@@ -172,6 +172,10 @@ checkinOk:['Checked in! 🔥 {n}-day streak','চেক-ইন হয়েছ�
 installApp:['Install app','অ্যাপ ইনস্টল'],installedOk:['App installed ✓ — open it from your app drawer.','অ্যাপ ইনস্টল হয়েছে ✓ — অ্যাপ লিস্ট থেকে খুলুন।'],runningAsApp:['Running as an installed app ✓','ইনস্টল করা অ্যাপ হিসেবে চলছে ✓'],
 installAndroid:['Android (Chrome): tap ⋮ menu → "Install app".','Android (Chrome): ⋮ মেনু → "Install app"।'],installIos:['iPhone (Safari): tap Share → "Add to Home Screen".','iPhone (Safari): Share → "Add to Home Screen"।'],
 installBanner:['Install the app for a faster, full-screen experience','দ্রুত, ফুল-স্ক্রিন অভিজ্ঞতার জন্য অ্যাপ ইনস্টল করুন'],
+inviteTitle:['Invite friends','বন্ধুদের আনুন'],inviteNote:['Share your link. When a friend registers and plays 1 match, it counts for your badges.','লিংক শেয়ার করুন। বন্ধু রেজিস্টার করে ১টা ম্যাচ খেললে আপনার ব্যাজে গোনা হবে।'],
+invJoined:['joined','জয়েন করেছে'],invPlayed:['played','খেলেছে'],invitedBy:['Invited by UID {u} 🎁','UID {u} আপনাকে ইনভাইট করেছে 🎁'],shareInvite:['Share invite','ইনভাইট শেয়ার'],
+inviteMsg:['Join my free Free Fire tournaments on {b}! No entry fee, real matches, leaderboards 🔥 Register here: {l}','{b}-এ আমার ফ্রি Free Fire টুর্নামেন্টে যোগ দাও! কোনো এন্ট্রি ফি নেই 🔥 এখানে রেজিস্টার করো: {l}'],
+founderL:['Founder badge for the first N players','প্রথম কতজন Founder ব্যাজ পাবে'],recruiters:['Recruiters','রিক্রুটার'],nextRec:['{n} more to {b}','{b} পেতে আর {n} জন'],founderOf:['Founder #{n}','ফাউন্ডার #{n}'],
 featVidL:['Featured YouTube video (plays on players\' Home)','ফিচার্ড YouTube ভিডিও (প্লেয়ারদের হোমে চলবে)'],featured:['Featured video','ফিচার্ড ভিডিও'],follow:['Follow us','আমাদের ফলো করুন'],watchCh:['Watch on YouTube','YouTube-এ দেখুন'],badVid:['That is not a YouTube video link.','এটা YouTube ভিডিও লিংক নয়।'],newPlayer:['New player? Register','নতুন প্লেয়ার? রেজিস্টার'],register2:['Register','রেজিস্টার'],login:['Log in','লগইন'],
 pinLbl:['PIN (4–6 digits)','পিন (৪–৬ সংখ্যা)'],pinRep:['Repeat PIN','আবার পিন দিন'],pinMismatch:['PINs do not match.','দুটো পিন মেলেনি।'],pinFmt:['PIN must be 4–6 digits.','পিন ৪–৬ সংখ্যার হতে হবে।'],
 wrongPin:['Wrong UID or PIN.','UID বা পিন ভুল।'],uidRegistered:['This UID is already registered — log in with your PIN.','এই UID আগেই রেজিস্টার্ড — পিন দিয়ে লগইন করুন।'],
@@ -184,6 +188,7 @@ resetPin:['Reset PIN','পিন রিসেট'],resetFor:['Set a new PIN for 
 /* ============ online storage (Supabase) ============ */
 var SB_URL='https://ttzcdffcujamvaaizmmk.supabase.co',SB_KEY='sb_publishable_SXIF2On5o8BTFyyb8Sh3pw_zO8sSqLF';
 var PREF_KEY='arenaboard.prefs';
+try{var _qs=new URLSearchParams(location.search),_rf=_qs.get('ref');if(_rf&&/^\d{8,12}$/.test(_rf)){var _pp=JSON.parse(localStorage.getItem('arenaboard.prefs')||'{}');_pp.ref=_rf;localStorage.setItem('arenaboard.prefs',JSON.stringify(_pp))}if(_rf)history.replaceState(null,'',location.pathname+location.hash)}catch(e){}
 var PREF=(function(){try{return JSON.parse(localStorage.getItem(PREF_KEY)||'{}')}catch(e){return {}}})();
 PREF.lang=PREF.lang||'en';PREF.theme=PREF.theme||'dark';PREF.notified=PREF.notified||{};
 function savePref(){try{localStorage.setItem(PREF_KEY,JSON.stringify(PREF))}catch(e){}}
@@ -205,7 +210,7 @@ async function pull(){
   var r=await Promise.all(names.map(fetchAll));
   var st=r[0][0]||{},pr=r[1],tm=r[2],tc=r[3],ma=r[4],en=r[5],rs=r[6],rm=r[7],tr=r[8],tp=r[9],rp=r[10],an=r[11];
   S.config=st.config||{};PREF.brand=S.config.name||'';savePref();document.title=brandName();S.settings.reveal=st.reveal_min||10;S.settings.season=st.season||1;S.archive=st.archive||[];
-  S.players=pr.map(function(p){return {id:p.id,ign:p.ign,uid:p.game_uid,role:p.role,avatar:p.avatar||'',banned:p.banned,trust:p.trust,warns:p.warns,teamId:p.team_id,created:ts(p.created_at)}});
+  S.players=pr.map(function(p){return {id:p.id,ign:p.ign,uid:p.game_uid,role:p.role,avatar:p.avatar||'',invitedBy:p.invited_by||null,banned:p.banned,trust:p.trust,warns:p.warns,teamId:p.team_id,created:ts(p.created_at)}});
   var codes={};tc.forEach(function(c){codes[c.team_id]=c.code});
   S.teams=tm.map(function(t){return {id:t.id,name:t.name,tag:t.tag,captain:t.captain,code:codes[t.id]||'',created:ts(t.created_at),
     members:S.players.filter(function(p){return p.teamId===t.id}).sort(function(a,b){return a.created-b.created}).map(function(p){return p.id})}});
@@ -231,9 +236,10 @@ async function pull(){
   NET='ok';
 }
 var pendingProfile=null;
+async function inviterId(myUid){var r=PREF.ref;if(!r||r===myUid)return null;try{var q2=await sb.from('profiles').select('*').eq('game_uid',r).range(0,5);var rows=(q2.data||[]).filter(function(x){return x.id!==(SESSION&&SESSION.user.id)});var pl=rows.filter(function(x){return x.role==='player'})[0]||rows[0];return pl?pl.id:null}catch(e){return null}}
 async function createPendingProfile(){
   if(!pendingProfile||!SESSION)return;var pp=pendingProfile;pendingProfile=null;
-  try{if(!byId(S.players,SESSION.user.id)){var r=await sb.from('profiles').insert({id:SESSION.user.id,ign:pp.ign,game_uid:pp.uid});if(r.error)throw r.error}
+  try{if(!byId(S.players,SESSION.user.id)){var inv=await inviterId(pp.uid);var row0={id:SESSION.user.id,ign:pp.ign,game_uid:pp.uid};if(inv)row0.invited_by=inv;var r=await sb.from('profiles').insert(row0);if(!r.error&&inv){delete PREF.ref;savePref()}if(r.error)throw r.error}
     await pull();render();toast('✓')}catch(e){toast('⚠ '+niceErr(e))}
 }
 var pullTimer=null;
@@ -312,7 +318,9 @@ function tierOf(pts){var cur=TIERS[0],nx=null;for(var i=0;i<TIERS.length;i++){if
 function badgesOf(p){var s=pst(p.id),b=[];
   if(s.kills>0)b.push(['🩸','First Blood']);if(s.booyah>=1)b.push(['🏆','Booyah']);if(s.booyah>=3)b.push(['👑','Booyah King']);
   if(s.maxK>=10)b.push(['🎯','Sharpshooter']);if(s.m>=20)b.push(['🛡️','Veteran']);if(s.m>=5&&s.posSum/s.m<=5)b.push(['📈','Consistent']);
-  if(s.m>=10&&(p.trust==null||p.trust>=100))b.push(['✅','Clean Record']);return b}
+  if(s.m>=10&&(p.trust==null||p.trust>=100))b.push(['✅','Clean Record']);
+  try{var fn=founderNo(p);if(fn)b.unshift(['🌟','Founder #'+fn]);var rt=recTier(invitesOf(p).played);if(rt)b.push([rt[1],rt[2]]);if(mvpCount(p.id))b.push(['⭐','MVP ×'+mvpCount(p.id)])}catch(e){}
+  return b}
 
 /* entries use {id: entryId, k:'p'|'t', ref: playerId|teamId} */
 function refOf(e){return {k:e.k,id:e.ref}}
@@ -483,7 +491,7 @@ function vHome(){
    '<div class="hero st"><div class="row between"><div><div class="lbl">'+t('tier')+' · '+t('season')+' '+S.settings.season+'</div><div class="disp" style="font-size:30px">'+tier.name+'</div></div><div style="text-align:right"><div class="lbl">'+t('seasonPts')+'</div><div class="disp" style="font-size:30px">'+s.pts+'</div></div></div>'+
    '<div class="bar" style="background:rgba(255,255,255,.2)"><i style="width:'+Math.round(tier.prog*100)+'%;background:#fff"></i></div><div class="tiny" style="opacity:.85">'+(tier.next?(tier.next[1]-s.pts)+' '+t('nextTier')+' ('+tier.next[0]+')':'MAX')+'</div></div>'+
    '<div class="grid4"><div class="stat"><span class="tiny muted">'+t('rating')+'</span><b>'+s.rating+'</b></div><div class="stat"><span class="tiny muted">'+t('booyah')+'</span><b>'+s.booyah+'</b></div><div class="stat"><span class="tiny muted">'+t('kills')+'</span><b>'+s.kills+'</b></div><div class="stat"><span class="tiny muted">'+t('played')+'</span><b>'+s.m+'</b></div></div>'+
-   xpWidgets(p)+featuredVideo()+'<h2>'+t('nextMatch')+'</h2>'+(next?matchCard(next)+roomBox(next):'<div class="card empty">'+t('noNext')+'</div>')+
+   xpWidgets(p)+(founderNo(p)?'<div class="card row" style="background:linear-gradient(90deg,#3a2a05,#1D2430)"><span style="font-size:26px">🌟</span><div class="grow"><b>'+t('founderOf',{n:founderNo(p)})+'</b><div class="tiny muted">'+esc(brandName())+'</div></div></div>':'')+featuredVideo()+'<h2>'+t('nextMatch')+'</h2>'+(next?matchCard(next)+roomBox(next):'<div class="card empty">'+t('noNext')+'</div>')+
    (S.ann.length?'<h2>📣 '+t('announcements')+'</h2><div class="card">'+S.ann.slice().reverse().slice(0,3).map(function(a){return '<div class="lr"><div class="grow small">'+esc(a.text)+'<div class="tiny muted">'+fmtTime(a.ts)+'</div></div></div>'}).join('')+'</div>':'')+
    (rec.length?'<h2>⚡ '+t('upcoming')+'</h2>'+rec.map(matchCard).join(''):'')+
    communityCard()+
@@ -521,6 +529,7 @@ function vGate(){
   if(authMode==='pin'||authMode==='pinNew'){var nw=authMode==='pinNew';
     return '<div class="stack" style="padding-top:5vh"><img src="icons/icon-192.png" alt="" style="width:84px;height:84px;border-radius:50%;display:block;box-shadow:0 0 24px rgba(255,40,40,.35)"><h1>'+esc(S.settings.lang==='en'?'Welcome to '+brandName():brandName()+'-এ স্বাগতম')+'</h1><p class="muted">'+t('welcomeSub')+'</p><div class="seg">'+langSeg()+'</div>'+
      '<div class="card st"><h3>🎮 '+(nw?t('register2'):t('playerLogin'))+'</h3>'+
+     (PREF.ref?'<div class="tag t-g" style="align-self:flex-start">'+esc(t('invitedBy',{u:PREF.ref}))+'</div>':'')+
      (nw?'<label class="f">'+t('ign')+'<input id="lg_ign" maxlength="24" autocomplete="nickname"></label>':'')+
      '<label class="f">'+t('uid')+'<input id="lg_uid" inputmode="numeric" maxlength="12" autocomplete="username"></label>'+
      '<label class="f">'+t('pinLbl')+'<input id="lg_pin" type="password" inputmode="numeric" maxlength="6" autocomplete="'+(nw?'new-password':'current-password')+'"></label>'+
@@ -540,7 +549,7 @@ function vGate(){
    '<button class="btn sec sm" data-a="authMode" data-m="pin" style="align-self:center">'+t('backPlayer')+'</button>'+
    '<div class="card small muted">🛡 '+t('noFee')+'</div></div>';
 }
-var authMode='pin';
+var authMode=(function(){try{return JSON.parse(localStorage.getItem('arenaboard.prefs')||'{}').ref?'pinNew':'pin'}catch(e){return 'pin'}})();
 var PDOM='@players.arenaboard.app';
 function pEmail(u){return 'p'+u+PDOM}
 function pPass(u,pin){return 'AB!'+pin+'#'+u}
@@ -622,11 +631,12 @@ function openTourney(id){
   modal(html);
 }
 function vBoard(){
-  var tabs=['season','fraggers','ratings','teams'];
+  var tabs=['season','fraggers','ratings','teams','recruiters'];
   var html='<div class="stack">'+hdr(t('board'))+'<div class="seg">'+tabs.map(function(k){return '<button class="'+(boardTab===k?'on':'')+'" data-bt="'+k+'">'+t(k==='season'?'seasonPts':k)+'</button>'}).join('')+'</div>';
   var rows;
-  if(boardTab==='teams'){rows=S.teams.map(function(x){var s=D.ts[x.id]||{pts:0,kills:0,booyah:0,m:0};return {n:x.name+' ['+x.tag+']',v:s.pts,sub:s.m+' '+t('matchesN')+' · '+s.booyah+' 🏆 · '+s.kills+' 🎯'}}).sort(function(a,b){return b.v-a.v})}
-  else{rows=S.players.filter(function(p){return !p.banned}).map(function(p){var s=pst(p.id);var v=boardTab==='season'?s.pts:boardTab==='fraggers'?s.kills:s.rating;return {n:p.ign,me:p.id===S.me.pid,v:v,sub:boardTab==='fraggers'?(s.m?(s.kills/s.m).toFixed(1):'0')+' '+t('kd'):boardTab==='ratings'?s.m+' '+t('matchesN'):tierOf(s.pts).name+' · '+s.booyah+' 🏆'}}).filter(function(r){return boardTab==='ratings'||r.v>0||r.me}).sort(function(a,b){return b.v-a.v})}
+  if(boardTab==='recruiters'){rows=S.players.filter(function(p){return !p.banned&&p.role!=='admin'}).map(function(p){var iv=invitesOf(p),tr=recTier(iv.played);return {n:p.ign,me:p.id===S.me.pid,v:iv.played,sub:iv.joined+' '+t('invJoined')+(tr?' · '+tr[1]+' '+tr[2]:'')}}).filter(function(r){return r.v>0||r.me}).sort(function(a,b){return b.v-a.v})}
+  else if(boardTab==='teams'){rows=S.teams.map(function(x){var s=D.ts[x.id]||{pts:0,kills:0,booyah:0,m:0};return {n:x.name+' ['+x.tag+']',v:s.pts,sub:s.m+' '+t('matchesN')+' · '+s.booyah+' 🏆 · '+s.kills+' 🎯'}}).sort(function(a,b){return b.v-a.v})}
+  else{rows=S.players.filter(function(p){return !p.banned}).map(function(p){var s=pst(p.id);var v=boardTab==='season'?s.pts:boardTab==='fraggers'?s.kills:s.rating;return {n:(founderNo(p)?'🌟 ':'')+p.ign,me:p.id===S.me.pid,v:v,sub:boardTab==='fraggers'?(s.m?(s.kills/s.m).toFixed(1):'0')+' '+t('kd'):boardTab==='ratings'?s.m+' '+t('matchesN'):tierOf(s.pts).name+' · '+s.booyah+' 🏆'}}).filter(function(r){return boardTab==='ratings'||r.v>0||r.me}).sort(function(a,b){return b.v-a.v})}
   html+=(rows.length?'<div class="card" style="padding:4px 12px">'+rows.slice(0,50).map(function(r,i){return '<div class="lr"'+(r.me?' style="background:var(--accBg);margin:0 -12px;padding:9px 12px"':'')+'><span class="rank '+(i<3?'r'+(i+1):'')+'">'+(i+1)+'</span><div class="grow"><b class="small">'+esc(r.n)+(r.me?' ('+t('you')+')':'')+'</b><div class="tiny muted">'+r.sub+'</div></div><b class="disp" style="font-size:20px">'+r.v+'</b></div>'}).join('')+'</div>':'<div class="card empty">—</div>');
   return html+'</div>';
 }
@@ -646,7 +656,7 @@ function vProfile(){
    ratingSpark(s)+
       '<div class="card st"><b class="small">🎭 '+t('avatar')+'</b><div class="row wrap" style="gap:6px">'+AVATARS.map(function(a){return '<button class="chip'+(p.avatar===a?' on':'')+'" data-a="setAvatar" data-v="'+a+'" style="font-size:18px;padding:4px 9px">'+a+'</button>'}).join('')+'</div><button class="btn sec sm" data-a="shareCard">📸 '+t('shareCard')+'</button></div>'+
 '<h3>'+t('badges')+'</h3><div class="row wrap">'+(b.length?b.map(function(x){return '<span class="tag t-acc">'+x[0]+' '+x[1]+'</span>'}).join(''):'<span class="small muted">—</span>')+'</div>'+
-   (socialRow()?'<div class="card">'+socialRow()+'</div>':'')+'<h3>'+t('myTeam')+'</h3>'+teamHtml+
+   inviteCard(p)+(socialRow()?'<div class="card">'+socialRow()+'</div>':'')+'<h3>'+t('myTeam')+'</h3>'+teamHtml+
    '<h3>'+t('edit')+'</h3>'+profileForm(p)+
    settingsCommon()+'</div>';
 }
@@ -688,7 +698,7 @@ function vPlayers(){
      '<div class="grid3"><button class="btn sm sec" data-rep="dismiss" data-id="'+r.id+'">'+t('dismiss')+'</button><button class="btn sm" style="background:var(--acc2)" data-rep="warn" data-id="'+r.id+'">'+t('warn')+'</button><button class="btn sm no" data-rep="ban" data-id="'+r.id+'">'+t('ban')+'</button></div></div>'}).join(''):'<div class="card empty">✓</div>')+
    '<h2>'+t('players')+' ('+S.players.length+')</h2><div class="card" style="padding:4px 12px">'+S.players.slice().sort(function(a,b){return (b.banned?1:0)-(a.banned?1:0)||(a.trust||100)-(b.trust||100)}).map(function(p){var s=pst(p.id),tm=p.teamId?TM(p.teamId):null;
      var fl=[];if(uidCount[p.uid]>1)fl.push('UID×'+uidCount[p.uid]);if((p.trust==null?100:p.trust)<70)fl.push(t('trust')+' '+p.trust+'%');if(S.reports.some(function(r){return r.target===p.id&&r.status==='open'}))fl.push('🚩');
-     return '<div class="lr"><div class="av">'+esc(p.ign.charAt(0))+'</div><div class="grow"><b class="small">'+esc(p.ign)+'</b>'+(p.banned?' <span class="tag t-r">BANNED</span>':'')+fl.map(function(f){return ' <span class="tag t-r">'+esc(f)+'</span>'}).join('')+'<div class="tiny muted">UID '+esc(p.uid)+(tm?' · '+esc(tm.tag):'')+' · R '+s.rating+' · '+s.m+'M · '+s.kills+'K</div></div><button class="btn sm sec" data-a="resetPin" data-id="'+p.id+'">🔑</button><button class="btn sm '+(p.banned?'sec':'no')+'" data-ban="'+p.id+'">'+(p.banned?t('unban'):t('ban'))+'</button></div>'}).join('')+'</div></div>';
+     return '<div class="lr"><div class="av">'+esc(p.ign.charAt(0))+'</div><div class="grow"><b class="small">'+esc(p.ign)+'</b>'+(p.banned?' <span class="tag t-r">BANNED</span>':'')+fl.map(function(f){return ' <span class="tag t-r">'+esc(f)+'</span>'}).join('')+'<div class="tiny muted">'+(founderNo(p)?'🌟#'+founderNo(p)+' · ':'')+'UID '+esc(p.uid)+(p.invitedBy&&P(p.invitedBy)?' · ← '+esc(P(p.invitedBy).ign):'')+(tm?' · '+esc(tm.tag):'')+' · R '+s.rating+' · '+s.m+'M · '+s.kills+'K</div></div><button class="btn sm sec" data-a="resetPin" data-id="'+p.id+'">🔑</button><button class="btn sm '+(p.banned?'sec':'no')+'" data-ban="'+p.id+'">'+(p.banned?t('unban'):t('ban'))+'</button></div>'}).join('')+'</div></div>';
 }
 function vSettings(){
   derive();
@@ -709,7 +719,7 @@ function vSettings(){
      inp('cf_pp',t('placePts'),cfgPP().join(','))+'<div class="grid3">'+inp('cf_ss',t('slotsSolo'),defSlots('solo'),'type="number" min="2" max="200"')+inp('cf_sd',t('slotsDuo'),defSlots('duo'),'type="number" min="2" max="200"')+inp('cf_sq',t('slotsSquad'),defSlots('squad'),'type="number" min="2" max="200"')+'</div>'+
      inp('cf_prize',t('defPrize'),c.defPrize||'','maxlength="80" placeholder="Points"')+'</div>'+
    '<h2>🛡 '+t('safety')+'</h2><div class="card st"><label class="row small b"><input type="checkbox" id="cf_reg" style="width:auto" '+(c.regOpen===false?'':'checked')+'> '+t('regOpenL')+'</label>'+
-     '<div class="grid2">'+inp('st_rev',t('revealMins'),S.settings.reveal,'type="number" min="1" max="180"')+inp('cf_kf',t('killFlagL'),cfg('killFlag',10),'type="number" min="3" max="60"')+'</div></div>'+
+     '<div class="grid2">'+inp('st_rev',t('revealMins'),S.settings.reveal,'type="number" min="1" max="180"')+inp('cf_kf',t('killFlagL'),cfg('killFlag',10),'type="number" min="3" max="60"')+'</div>'+inp('cf_fl',t('founderL'),cfg('founderLimit',50),'type="number" min="0" max="1000"')+'</div>'+
    '<button class="btn block" data-a="saveSettings">💾 '+t('saveAll')+'</button>'+
    '<h2>🛠 '+t('admins')+' ('+admins.length+')</h2><div class="card st">'+admins.map(function(p){return '<div class="lr"><div class="av">'+esc(p.ign.charAt(0))+'</div><div class="grow"><b class="small">'+esc(p.ign)+'</b><div class="tiny muted">UID '+esc(p.uid)+'</div></div>'+(p.id===S.me.pid?'<span class="tag t-acc">'+t('you')+'</span>':'<button class="btn sm no" data-a="setRole" data-id="'+p.id+'" data-r="player">'+t('removeAdmin')+'</button>')+'</div>'}).join('')+
      '<div class="row"><select id="ad_pick" class="grow"><option value="">'+t('pickPlayer')+'</option>'+others.map(function(p){return '<option value="'+p.id+'">'+esc(p.ign)+' · '+esc(p.uid)+'</option>'}).join('')+'</select><button class="btn sm" data-a="makeAdmin">'+t('makeAdmin')+'</button></div></div>'+
@@ -838,6 +848,17 @@ function pastMissionXP(pid){var first=Infinity;pst(pid).hist.forEach(function(h)
 function xpOf(pid){var s=pst(pid);return s.m*20+s.kills*5+s.booyah*50+s.top3*15+myCheckins(pid).length*10+mvpCount(pid)*40+pastMissionXP(pid)}
 function levelOf(xp){var lv=Math.floor(Math.sqrt(xp/40))+1,cur=Math.pow(lv-1,2)*40,nx=Math.pow(lv,2)*40;return {lv:lv,prog:(xp-cur)/(nx-cur),next:nx-xp}}
 function frameOf(lv){var f=FRAMES[0];FRAMES.forEach(function(x){if(lv>=x[0])f=x});return f}
+function founderNo(p){if(!p||p.role==='admin')return 0;var lim=+cfg('founderLimit',50)||50;var list=S.players.filter(function(x){return x.role!=='admin'}).sort(function(a,b){return a.created-b.created});var i=list.indexOf(p);return i>=0&&i<lim?i+1:0}
+var REC_TIERS=[[3,'🎖','Recruiter'],[10,'🎖🎖','Squad Builder'],[25,'🏅','Legend Recruiter']];
+function invitesOf(p){var all=S.players.filter(function(x){return x.invitedBy===p.id});return {joined:all.length,played:all.filter(function(x){return pst(x.id).m>0}).length}}
+function recTier(n){var t0=null;REC_TIERS.forEach(function(x){if(n>=x[0])t0=x});return t0}
+function inviteLink(p){return location.origin+location.pathname+'?ref='+encodeURIComponent(p.uid)}
+function inviteCard(p){var iv=invitesOf(p),tr=recTier(iv.played),nx=null;REC_TIERS.forEach(function(x){if(!nx&&iv.played<x[0])nx=x});var link=inviteLink(p),msg=t('inviteMsg',{b:brandName(),l:link});
+  return '<div class="card st" style="border-color:var(--acc)"><div class="row between"><b class="small">🔗 '+t('inviteTitle')+'</b>'+(tr?'<span class="tag t-acc">'+tr[1]+' '+tr[2]+'</span>':'')+'</div>'+
+   '<div class="mono" style="word-break:break-all;background:var(--card2);padding:8px;border-radius:8px">'+esc(link)+'</div>'+
+   '<div class="grid2"><button class="btn sec sm" data-copy="'+esc(link)+'">'+t('copy')+'</button><a class="btn sm" style="text-decoration:none;background:#25D366;color:#062" href="https://wa.me/?text='+encodeURIComponent(msg)+'" target="_blank" rel="noopener">💬 '+t('shareInvite')+'</a></div>'+
+   '<div class="row between small"><span>👥 '+iv.joined+' '+t('invJoined')+' · 🎮 '+iv.played+' '+t('invPlayed')+'</span>'+(nx?'<span class="tiny muted">'+t('nextRec',{n:nx[0]-iv.played,b:nx[2]})+'</span>':'')+'</div>'+
+   (nx?'<div class="bar"><i style="width:'+Math.round(iv.played/nx[0]*100)+'%"></i></div>':'')+'<p class="tiny muted">'+t('inviteNote')+'</p></div>'}
 function avHtml(p,size){if(!p)return '<div class="av">?</div>';var lv=levelOf(xpOf(p.id)).lv,f=frameOf(lv),sz=size||36;
   return '<div class="av" style="width:'+sz+'px;height:'+sz+'px;font-size:'+Math.round(sz*.5)+'px;'+(f[1]?'box-shadow:0 0 0 2px '+f[1]+',0 0 12px '+f[1]+'66;':'')+'">'+esc(p.avatar||p.ign.charAt(0).toUpperCase())+'</div>'}
 
@@ -997,7 +1018,7 @@ document.addEventListener('click',function(ev){
   case 'saveProfile':{var ign=val('pf_ign'),u=val('pf_uid');
     if(ign.length<2){toast(t('ignBad'));return}if(!/^\d{8,12}$/.test(u)){toast(t('uidBad'));return}
     if(!(MYPROFILE&&MYPROFILE.role==='admin')&&S.players.some(function(p){return p.uid===u&&p.id!==SESSION.user.id&&p.role!=='admin'})){toast(isPinAcct()?t('uidTakenPin'):t('uidTaken'));return}
-    run(function(){return MYPROFILE?sb.from('profiles').update({ign:ign,game_uid:u}).eq('id',MYPROFILE.id):sb.from('profiles').insert({id:SESSION.user.id,ign:ign,game_uid:u})},'✓');return}
+    run(async function(){if(MYPROFILE)return sb.from('profiles').update({ign:ign,game_uid:u}).eq('id',MYPROFILE.id);var inv=await inviterId(u);var row1={id:SESSION.user.id,ign:ign,game_uid:u};if(inv)row1.invited_by=inv;var rr=await sb.from('profiles').insert(row1);if(!rr.error&&inv){delete PREF.ref;savePref()}return rr},'✓');return}
   case 'join':joinMatch(m);return;
   case 'leave':leaveMatch(m);return;
   case 'report':reportForm(m);return;
@@ -1045,7 +1066,7 @@ document.addEventListener('click',function(ev){
     var cfgNew=Object.assign({},S.config||{},{name:val('cf_name').slice(0,40),rules:$('cf_rules').value.trim().slice(0,1500),wa:val('cf_wa'),yt:val('cf_yt'),ig:val('cf_ig'),contact:val('cf_contact').slice(0,80),featVid:fv,
       defKill:Math.min(20,Math.max(0,+$('cf_kill').value||0)),defMap:$('cf_map').value,defPP:ppv.length?ppv.slice(0,30):DEF_PP.slice(),defPrize:val('cf_prize').slice(0,80),
       slotsSolo:Math.min(200,Math.max(2,+$('cf_ss').value||48)),slotsDuo:Math.min(200,Math.max(2,+$('cf_sd').value||24)),slotsSquad:Math.min(200,Math.max(2,+$('cf_sq').value||12)),
-      regOpen:$('cf_reg').checked,killFlag:Math.min(60,Math.max(3,+$('cf_kf').value||10))});
+      regOpen:$('cf_reg').checked,founderLimit:Math.min(1000,Math.max(0,+$('cf_fl').value||0)),killFlag:Math.min(60,Math.max(3,+$('cf_kf').value||10))});
     run(function(){return sb.from('app_settings').update({reveal_min:rv,config:cfgNew}).eq('id',1)},'✓');return}
   case 'makeAdmin':{var pid=$('ad_pick').value;if(!pid){toast(t('pickPlayer'));return}var pa=P(pid);confirmBox(t('adminQ',{n:pa?pa.ign:''}),function(){run(function(){return rpc('admin_set_role',{p_player:pid,p_role:'admin'})},'✓')});return}
   case 'setRole':{var pr2=P(id);confirmBox(t('removeAdmin')+': '+(pr2?pr2.ign:'')+'?',function(){run(function(){return rpc('admin_set_role',{p_player:id,p_role:d.r})},'✓')});return}
