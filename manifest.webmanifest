@@ -1,6 +1,6 @@
 {
-  "name": "ArenaBoard",
-  "short_name": "ArenaBoard",
+  "name": "JIT ESPORTS",
+  "short_name": "JIT ESPORTS",
   "description": "Free custom-room tournaments — matches, teams, leaderboards. No entry fees.",
   "id": "/",
   "start_url": "/",
@@ -9,10 +9,29 @@
   "orientation": "portrait",
   "background_color": "#0E1117",
   "theme_color": "#0E1117",
-  "categories": ["games", "sports", "entertainment"],
+  "categories": [
+    "games",
+    "sports",
+    "entertainment"
+  ],
   "icons": [
-    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
   ]
 }

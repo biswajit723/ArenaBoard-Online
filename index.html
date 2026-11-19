@@ -6,11 +6,20 @@
 <meta name="theme-color" content="#0E1117">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="ArenaBoard">
+<meta name="apple-mobile-web-app-title" content="JIT ESPORTS">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<title>ArenaBoard</title>
+<title>JIT ESPORTS — Free Tournaments</title>
+<meta name="description" content="Free custom-room tournaments — no entry fee. Join matches, climb leaderboards, win MVP.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="JIT ESPORTS">
+<meta property="og:title" content="JIT ESPORTS — Free Tournaments">
+<meta property="og:description" content="Free custom-room matches every week. No entry fee. Leaderboards, MVP, missions. Register in 1 minute!">
+<meta property="og:image" content="icons/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;600;800&family=Noto+Sans+Bengali:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0E1117;--card:#161B24;--card2:#1D2430;--line:#283141;--ink:#EEF2F7;--muted:#8E9AAD;--acc:#FF7A1A;--acc2:#FFB020;--accBg:#2D1F12;--green:#2BD67B;--greenBg:#12291D;--red:#FF5A5F;--redBg:#2E1618;--blue:#5AA9FF;--blueBg:#13233A;--purple:#B57CFF;--purpleBg:#24183A}
@@ -183,6 +192,13 @@ tipWa:['Send the message with the WhatsApp button, or share the image to your gr
 imgSaved:['Image saved ✓ (caption copied)','ছবি সেভ হয়েছে ✓ (ক্যাপশন কপি হয়েছে)'],promoStudio:['Promo studio','প্রোমো স্টুডিও'],promoNote:['Ready-made posts with your logo for Instagram, YouTube and WhatsApp. Edit the caption if you like.','আপনার লোগোসহ Instagram, YouTube, WhatsApp-এর রেডি পোস্ট। চাইলে ক্যাপশন বদলান।'],
 weeklyRecap:['Weekly recap','সাপ্তাহিক রিক্যাপ'],nextMatchPost:['Next match','পরের ম্যাচ'],lastResults:['Last results','শেষ রেজাল্ট'],hashtagsL:['Hashtags for posts','পোস্টের হ্যাশট্যাগ'],
 suggestions:['Suggestions','সাজেশন'],more:['More','আরো'],
+ciOpens:['✅ Check-in opens at {t}. Check in before {r} — if people are waiting, no-shows lose their slot.','✅ চেক-ইন খুলবে {t}-এ। {r}-এর আগে চেক-ইন করুন — কেউ অপেক্ষায় থাকলে না-আসাদের স্লট চলে যাবে।'],
+ciNow:['✅ I\'m ready — Check in','✅ আমি রেডি — চেক-ইন'],ciCloses:['closes in','বন্ধ হবে'],ciDone:['✅ Checked in — you\'re ready!','✅ চেক-ইন হয়েছে — আপনি রেডি!'],ciClosed:['⛔ Check-in closed — your slot may go to the waitlist.','⛔ চেক-ইন বন্ধ — স্লট ওয়েটলিস্টে যেতে পারে।'],
+ciOk:['Checked in! See you in the room 🎮','চেক-ইন হয়েছে! রুমে দেখা হবে 🎮'],wlJoin:['⏳ Join waitlist','⏳ ওয়েটলিস্টে নাম দিন'],wlWaiting:['waiting','অপেক্ষায়'],wlPos:['⏳ You are #{n} on the waitlist','⏳ ওয়েটলিস্টে আপনি #{n}'],wlLeave:['Leave waitlist','ওয়েটলিস্ট ছাড়ুন'],
+wlNote:['If someone leaves or misses check-in, the next person on the waitlist gets the slot automatically.','কেউ ছেড়ে দিলে বা চেক-ইন না করলে ওয়েটলিস্টের পরের জন নিজে থেকেই স্লট পাবে।'],wlOk:['You are #{n} on the waitlist ⏳','ওয়েটলিস্টে আপনি #{n} ⏳'],
+ciSettings:['Match check-in (fills no-show slots from the waitlist)','ম্যাচ চেক-ইন (না-আসা স্লট ওয়েটলিস্ট থেকে ভরবে)'],ciOpenL:['Check-in opens (min before start)','চেক-ইন খোলে (শুরুর কত মিনিট আগে)'],ciRelL:['Check-in deadline (min before start)','চেক-ইন শেষ (শুরুর কত মিনিট আগে)'],
+pushBanner:['🔔 Turn on notifications — Room ID & new match alerts, even when the app is closed','🔔 নোটিফিকেশন চালু করুন — অ্যাপ বন্ধ থাকলেও রুম আইডি ও নতুন ম্যাচের খবর'],turnOn:['Turn on','চালু করুন'],
+pushOnOk:['Notifications on 🔔','নোটিফিকেশন চালু 🔔'],pushDenied:['Notifications are blocked — allow them in your browser/app settings.','নোটিফিকেশন ব্লক করা — ব্রাউজার/অ্যাপ সেটিংসে অনুমতি দিন।'],pushNo:['This browser cannot get notifications. On iPhone, install the app first (Share → Add to Home Screen).','এই ব্রাউজারে নোটিফিকেশন হয় না। iPhone-এ আগে অ্যাপ ইনস্টল করুন।'],pushIsOn:['Notifications on','নোটিফিকেশন চালু'],
 featVidL:['Featured YouTube video (plays on players\' Home)','ফিচার্ড YouTube ভিডিও (প্লেয়ারদের হোমে চলবে)'],featured:['Featured video','ফিচার্ড ভিডিও'],follow:['Follow us','আমাদের ফলো করুন'],watchCh:['Watch on YouTube','YouTube-এ দেখুন'],badVid:['That is not a YouTube video link.','এটা YouTube ভিডিও লিংক নয়।'],newPlayer:['New player? Register','নতুন প্লেয়ার? রেজিস্টার'],register2:['Register','রেজিস্টার'],login:['Log in','লগইন'],
 pinLbl:['PIN (4–6 digits)','পিন (৪–৬ সংখ্যা)'],pinRep:['Repeat PIN','আবার পিন দিন'],pinMismatch:['PINs do not match.','দুটো পিন মেলেনি।'],pinFmt:['PIN must be 4–6 digits.','পিন ৪–৬ সংখ্যার হতে হবে।'],
 wrongPin:['Wrong UID or PIN.','UID বা পিন ভুল।'],uidRegistered:['This UID is already registered — log in with your PIN.','এই UID আগেই রেজিস্টার্ড — পিন দিয়ে লগইন করুন।'],
@@ -222,20 +238,21 @@ async function pull(){
   S.teams=tm.map(function(t){return {id:t.id,name:t.name,tag:t.tag,captain:t.captain,code:codes[t.id]||'',created:ts(t.created_at),
     members:S.players.filter(function(p){return p.teamId===t.id}).sort(function(a,b){return a.created-b.created}).map(function(p){return p.id})}});
   var ents={},ress={},rooms={};
-  en.forEach(function(e){(ents[e.match_id]=ents[e.match_id]||[]).push({id:e.id,k:e.kind,ref:e.kind==='p'?e.player_id:e.team_id,ts:ts(e.created_at)})});
+  en.forEach(function(e){(ents[e.match_id]=ents[e.match_id]||[]).push({id:e.id,k:e.kind,ref:e.kind==='p'?e.player_id:e.team_id,ts:ts(e.created_at),checked:!!e.checked_in})});
   rs.forEach(function(x){(ress[x.match_id]=ress[x.match_id]||[]).push({eid:x.entry_id,pos:x.pos,kills:x.kills,mk:x.member_kills||{},pts:x.pts})});
   rm.forEach(function(x){rooms[x.match_id]={id:x.room_id,pass:x.room_pass}});
   S.matches=ma.map(function(m){return {id:m.id,title:m.title,mode:m.mode,map:m.map,start:ts(m.start_at),slots:m.slots,prize:m.prize,sponsor:m.sponsor,killPts:m.kill_pts,pp:m.place_pts||[],minR:m.min_rating,maxR:m.max_rating,
-    room:rooms[m.id]||{id:'',pass:''},yt:m.yt,tid:m.tournament_id,stage:m.stage,status:m.status,entries:(ents[m.id]||[]).sort(function(a,b){return a.ts-b.ts}),results:ress[m.id]||[],flags:m.flags||[],season:m.season,tpl:m.tpl_key,live:m.live||null,challenge:!!m.challenge}});
+    room:rooms[m.id]||{id:'',pass:''},yt:m.yt,tid:m.tournament_id,stage:m.stage,status:m.status,entries:(ents[m.id]||[]).sort(function(a,b){return a.ts-b.ts}),results:ress[m.id]||[],flags:m.flags||[],season:m.season,tpl:m.tpl_key,live:m.live||null,challenge:!!m.challenge,released:!!m.released}});
   S.tourneys=tr.map(function(t){return {id:t.id,name:t.name,mode:t.mode,slots:t.slots,prize:t.prize,sponsor:t.sponsor,gap:t.gap,finalsCount:t.finals_count,maps:t.maps,stages:t.stages||[],created:ts(t.created_at)}}).sort(function(a,b){return a.created-b.created});
   S.templates=tp.map(function(t){return {id:t.id,title:t.title,mode:t.mode,map:t.map,time:t.time,days:t.days,prize:t.prize,sponsor:t.sponsor}});
   S.reports=rp.map(function(x){return {id:x.id,matchId:x.match_id,reporter:x.reporter,target:x.target,reason:x.reason,evidence:x.evidence,note:x.note,status:x.status,ts:ts(x.created_at)}});
   S.ann=an.map(function(a){return {id:a.id,text:a.text,ts:ts(a.created_at)}}).sort(function(a,b){return a.ts-b.ts});
-  var ex=await Promise.all(['checkins','mvp_votes','clips','clip_likes','challenges'].map(function(tb){return fetchAll(tb).catch(function(){return []})}));
+  var ex=await Promise.all(['checkins','mvp_votes','clips','clip_likes','challenges','waitlist'].map(function(tb){return fetchAll(tb).catch(function(){return []})}));
   S.checkins=ex[0].map(function(c){return {pid:c.player_id,day:String(c.day).slice(0,10)}});
   S.votes=ex[1].map(function(v){return {matchId:v.match_id,voter:v.voter,target:v.target}});
   S.clips=ex[2].map(function(c){return {id:c.id,pid:c.player_id,url:c.url,title:c.title,status:c.status,ts:ts(c.created_at)}});
   S.likes={};ex[3].forEach(function(l){(S.likes[l.clip_id]=S.likes[l.clip_id]||[]).push(l.player_id)});
+  S.waitlist=(ex[5]||[]).map(function(w){return {id:w.id,matchId:w.match_id,k:w.kind,ref:w.kind==='p'?w.player_id:w.team_id,ts:ts(w.created_at)}}).sort(function(a,b){return a.ts-b.ts});
   S.challenges=ex[4].map(function(c){return {id:c.id,from:c.from_team,to:c.to_team,mode:c.mode,start:ts(c.start_at),msg:c.message,status:c.status,matchId:c.match_id,ts:ts(c.created_at)}});
   MYPROFILE=byId(S.players,SESSION.user.id);
   S.me.pid=MYPROFILE?MYPROFILE.id:null;
@@ -282,7 +299,7 @@ function fmtTime(ts){var d=new Date(ts);return d.toLocaleString(S.settings.lang=
 function cd(ms){if(ms<=0)return '0:00';var s=Math.floor(ms/1000),d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60),ss=s%60;return d?d+'d '+h+'h':h?h+'h '+m+'m':m+':'+(ss<10?'0':'')+ss}
 function need(mode){return mode==='solo'?1:mode==='duo'?2:4}
 function cfg(k,d){var c=S.config||{};return (c[k]==null||c[k]==='')?d:c[k]}
-function brandName(){return cfg('name','')||PREF.brand||'ArenaBoard'}
+function brandName(){return cfg('name','')||PREF.brand||'JIT ESPORTS'}
 function cfgPP(){var a=cfg('defPP',null);return Array.isArray(a)&&a.length?a.slice():DEF_PP.slice()}
 function defSlots(mode){return Math.max(2,Math.min(200,+cfg(mode==='solo'?'slotsSolo':mode==='duo'?'slotsDuo':'slotsSquad',0)||(mode==='solo'?48:mode==='duo'?24:12)))}
 var DEF_PP=[12,9,8,7,6,5,4,3,2,1];
@@ -445,6 +462,7 @@ var lastRoomPull=0;
 function tick(){
   document.querySelectorAll('[data-cd]').forEach(function(el){var ms=+el.getAttribute('data-cd')-now();el.textContent=ms>0?cd(ms):t('live')});
   var p=me();if(!p)return;
+  if(sb&&SESSION&&ciCfg().on)S.matches.forEach(function(m){if(m.released||releaseTried[m.id]||m.status!=='scheduled'||!hasCheckin(m))return;var rt=m.start-ciCfg().rel*6e4;if(now()>=rt&&now()<m.start+36e5){releaseTried[m.id]=1;sb.rpc('release_noshows',{p_match:m.id}).then(function(r){if(!r.error)schedulePull()})}});
   if(now()-lastRoomPull>20000&&S.matches.some(function(m){return matchStatus(m)==='upcoming'&&inMatch(m,p.id)&&!m.room.id&&now()>=m.start-S.settings.reveal*6e4})){lastRoomPull=now();schedulePull()}
   S.matches.forEach(function(m){
     if(matchStatus(m)!=='upcoming'||!inMatch(m,p.id)||!m.room.id||S.me.notified[m.id])return;
@@ -483,7 +501,7 @@ function matchCard(m){
   return '<div class="card click st" data-om="'+m.id+'"><div class="row between"><div class="row">'+modeTag(m.mode)+statusTag(m)+(joined?'<span class="tag t-g">✓ '+t('joined')+'</span>':'')+(m.flags&&m.flags.length&&isAdmin()?'<span class="tag t-r">⚠ '+m.flags.length+'</span>':'')+'</div><span class="tiny muted">'+esc(m.map)+'</span></div>'+
    '<h3>'+esc(m.title)+'</h3><div class="small muted">🗓 '+fmtTime(m.start)+(m.prize?' · 🎁 '+esc(m.prize):'')+'</div>'+
    (m.sponsor?'<div class="tiny"><span class="tag t-acc">⭐ '+esc(m.sponsor)+'</span></div>':'')+
-   '<div class="row between tiny muted"><span>'+t('slots')+' '+m.entries.length+'/'+m.slots+'</span>'+(m.minR||m.maxR?'<span>⚖ '+(m.minR||0)+'–'+(m.maxR||'∞')+'</span>':'')+'</div><div class="bar"><i style="width:'+pct+'%"></i></div></div>';
+   '<div class="row between tiny muted"><span>'+t('slots')+' '+m.entries.length+'/'+m.slots+(waitCount(m)?' · ⏳ '+waitCount(m):'')+'</span>'+(m.minR||m.maxR?'<span>⚖ '+(m.minR||0)+'–'+(m.maxR||'∞')+'</span>':'')+'</div><div class="bar"><i style="width:'+pct+'%"></i></div></div>';
 }
 function vHome(){
   var p=me();
@@ -494,7 +512,7 @@ function vHome(){
   var next=mine[0];
   var rec=S.matches.filter(function(m){return matchStatus(m)==='upcoming'&&!m.tid&&!inMatch(m,p.id)&&!canJoin(m)}).sort(function(a,b){return a.start-b.start}).slice(0,3);
   return '<div class="stack">'+hdr('🔥 '+esc(p.ign),'<div data-go="profile" style="cursor:pointer">'+avHtml(p,44)+'</div>')+
-   (deferredInstall&&!isStandalone()?'<div class="card row between" style="border-color:var(--acc)"><span class="small b">📲 '+t('installBanner')+'</span><button class="btn sm" data-a="installApp">'+t('installApp')+'</button></div>':'')+socialRow()+(p.banned?'<div class="card t-r b">⛔ '+t('banned')+'</div>':'')+
+   (deferredInstall&&!isStandalone()?'<div class="card row between" style="border-color:var(--acc)"><span class="small b">📲 '+t('installBanner')+'</span><button class="btn sm" data-a="installApp">'+t('installApp')+'</button></div>':'')+checkinAlerts(p)+pushBanner()+socialRow()+(p.banned?'<div class="card t-r b">⛔ '+t('banned')+'</div>':'')+
    '<div class="hero st"><div class="row between"><div><div class="lbl">'+t('tier')+' · '+t('season')+' '+S.settings.season+'</div><div class="disp" style="font-size:30px">'+tier.name+'</div></div><div style="text-align:right"><div class="lbl">'+t('seasonPts')+'</div><div class="disp" style="font-size:30px">'+s.pts+'</div></div></div>'+
    '<div class="bar" style="background:rgba(255,255,255,.2)"><i style="width:'+Math.round(tier.prog*100)+'%;background:#fff"></i></div><div class="tiny" style="opacity:.85">'+(tier.next?(tier.next[1]-s.pts)+' '+t('nextTier')+' ('+tier.next[0]+')':'MAX')+'</div></div>'+
    '<div class="grid4"><div class="stat"><span class="tiny muted">'+t('rating')+'</span><b>'+s.rating+'</b></div><div class="stat"><span class="tiny muted">'+t('booyah')+'</span><b>'+s.booyah+'</b></div><div class="stat"><span class="tiny muted">'+t('kills')+'</span><b>'+s.kills+'</b></div><div class="stat"><span class="tiny muted">'+t('played')+'</span><b>'+s.m+'</b></div></div>'+
@@ -519,7 +537,21 @@ function communityCard(){
    (ct?'<div class="small">📞 '+esc(ct)+'</div>':'')+
    (ru?'<details><summary class="small b" style="cursor:pointer">📜 '+t('rules')+'</summary><div class="small muted" style="white-space:pre-line;margin-top:6px">'+esc(ru)+'</div></details>':'')+'</div>';
 }
-function roomBox(m){
+function ciCfg(){return {on:cfg('checkinOn',true)!==false,open:+cfg('checkinOpen',15)||15,rel:+cfg('checkinRelease',5)||5}}
+function hasCheckin(m){return ciCfg().on&&!m.tid&&!m.challenge}
+function checkinBox(m){var p=me();if(!p||isAdmin()||!hasCheckin(m)||matchStatus(m)!=='upcoming')return '';var e=inMatch(m,p.id);if(!e)return '';var c=ciCfg(),openAt=m.start-c.open*6e4,relAt=m.start-c.rel*6e4;
+  if(e.checked)return '<div class="card small b" style="border-color:var(--green);color:var(--green)">'+t('ciDone')+'</div>';
+  if(m.released||now()>=relAt)return '<div class="card small" style="border-color:var(--red);color:var(--red)">'+t('ciClosed')+'</div>';
+  if(now()<openAt)return '<div class="card small muted">'+t('ciOpens',{t:enTime(openAt).split(', ').pop(),r:enTime(relAt).split(', ').pop()})+' <span class="cd" data-cd="'+openAt+'"></span></div>';
+  return '<button class="btn ok block" data-a="mcheckin" data-id="'+m.id+'">'+t('ciNow')+'</button><div class="tiny muted" style="text-align:center">'+t('ciCloses')+' <span class="cd" data-cd="'+relAt+'"></span></div>'}
+function myWait(m){var p=me();if(!p)return 0;var list=(S.waitlist||[]).filter(function(w){return w.matchId===m.id});for(var i=0;i<list.length;i++){var w=list[i];if((w.k==='p'&&w.ref===p.id)||(w.k==='t'&&w.ref===p.teamId))return i+1}return 0}
+function waitCount(m){return (S.waitlist||[]).filter(function(w){return w.matchId===m.id}).length}
+var releaseTried={};
+function checkinAlerts(p){if(!p)return '';var c=ciCfg();if(!c.on)return '';
+  return S.matches.filter(function(m){if(matchStatus(m)!=='upcoming'||!hasCheckin(m)||m.released)return false;var e=inMatch(m,p.id);return e&&!e.checked&&now()>=m.start-c.open*6e4&&now()<m.start-c.rel*6e4}).map(function(m){
+    return '<div class="card st" style="border-color:var(--green)"><b class="small">✅ '+esc(m.title)+' — '+enTime(m.start).split(', ').pop()+'</b><button class="btn ok" data-a="mcheckin" data-id="'+m.id+'">'+t('ciNow')+'</button><div class="tiny muted">'+t('ciCloses')+' <span class="cd" data-cd="'+(m.start-c.rel*6e4)+'"></span></div></div>'}).join('')}
+function roomBox(m){return checkinBox(m)+roomBox0(m)}
+function roomBox0(m){
   var p=me(),joined=p&&inMatch(m,p.id);
   if(!isAdmin()&&!joined)return '';
   var st=matchStatus(m);if(st==='completed'||st==='cancelled')return '';
@@ -582,7 +614,7 @@ function openMatch(id){
   var p=me(),joined=p&&inMatch(m,p.id),st=matchStatus(m),err=canJoin(m);
   var ents=m.entries.map(function(e){var rt=entryPlayers(e).map(function(id){return pst(id).rating});var avg=rt.length?Math.round(rt.reduce(function(a,b){return a+b},0)/rt.length):1000;
     var flagged=isAdmin()&&entryPlayers(e).some(function(id){var x=P(id);return x&&(x.banned||S.reports.some(function(r){return r.target===id&&r.status==='open'}))});
-    return '<div class="lr">'+(e.k==='p'?avHtml(P(e.ref)):'<div class="av">'+esc(entryName(e).charAt(0))+'</div>')+'<div class="grow"><b class="small">'+esc(entryName(e))+'</b>'+(flagged?' <span class="tag t-r">⚠</span>':'')+'<div class="tiny muted">'+t('rating')+' '+avg+'</div></div></div>'}).join('');
+    return '<div class="lr">'+(e.k==='p'?avHtml(P(e.ref)):'<div class="av">'+esc(entryName(e).charAt(0))+'</div>')+'<div class="grow"><b class="small">'+esc(entryName(e))+'</b>'+(e.checked&&hasCheckin(m)&&matchStatus(m)==='upcoming'?' <span class="tag t-g">✅</span>':'')+(flagged?' <span class="tag t-r">⚠</span>':'')+'<div class="tiny muted">'+t('rating')+' '+avg+'</div></div></div>'}).join('');
   var res='';
   if(st==='completed'&&m.results.length){
     res='<h3>'+t('results')+'</h3><table class="rt"><tr><th>#</th><th></th><th>'+t('kills')+'</th><th>'+t('pts')+'</th></tr>'+m.results.slice().sort(function(a,b){return a.pos-b.pos}).map(function(r){var e=byId(m.entries,r.eid);return '<tr><td><span class="rank '+(r.pos<=3?'r'+r.pos:'')+'">'+r.pos+'</span></td><td>'+esc(e?entryName(e):'?')+(e&&e.k==='t'&&r.mk?'<div class="tiny muted">'+Object.keys(r.mk).map(function(pid){var x=P(pid);return x?esc(x.ign)+' '+r.mk[pid]:''}).join(' · ')+'</div>':'')+'</td><td>'+r.kills+'</td><td><b>'+r.pts+'</b></td></tr>'}).join('')+'</table>';
@@ -596,6 +628,7 @@ function openMatch(id){
       '<button class="btn sec" data-a="shareM" data-id="'+m.id+'">📤 '+t('share')+'</button>'+(st!=='cancelled'?'<button class="btn" style="grid-column:1/-1" data-a="promo" data-k="'+(st==='completed'?'results':'match')+'" data-id="'+m.id+'">📣 '+t('promoPost')+'</button>':'')+'</div>';
   }else{
     if(st==='upcoming'&&!m.tid)actions=joined?'<button class="btn no block" data-a="leave" data-id="'+m.id+'">'+t('leave')+'</button>':'<button class="btn block" data-a="join" data-id="'+m.id+'" '+(err?'disabled':'')+'>⚔ '+t('join')+'</button>'+(err?'<div class="tiny muted" style="text-align:center">'+esc(err)+'</div>':'');
+    if(st==='upcoming'&&!joined&&hasCheckin(m)&&m.entries.length>=m.slots&&me()){var wp=myWait(m);actions=wp?'<div class="card st"><b class="small">'+t('wlPos',{n:wp})+'</b><button class="btn sec sm" data-a="wlLeave" data-id="'+m.id+'">'+t('wlLeave')+'</button><div class="tiny muted">'+t('wlNote')+'</div></div>':'<button class="btn block" style="background:var(--purple)" data-a="wlJoin" data-id="'+m.id+'">'+t('wlJoin')+' ('+waitCount(m)+' '+t('wlWaiting')+')</button><div class="tiny muted" style="text-align:center">'+t('wlNote')+'</div>'}
     if(m.tid&&st==='upcoming')actions='<div class="small muted">🏆 '+t('viaTourney')+'</div>';
     if(joined&&(st==='live'||st==='completed'))actions+='<button class="btn sec block" data-a="report" data-id="'+m.id+'">🚩 '+t('report')+'</button>';
     actions+='<button class="btn sec block" data-a="shareM" data-id="'+m.id+'">📤 '+t('share')+'</button>';
@@ -679,7 +712,7 @@ function settingsCommon(){
   return '<h3>'+t('settings')+'</h3><div class="card st"><div class="seg">'+langSeg()+'</div>'+
    (canAdmin?'<div class="seg"><button class="'+(!isAdmin()?'on':'')+'" data-role="player">🎮 '+t('playerMode')+'</button><button class="'+(isAdmin()?'on':'')+'" data-role="admin">🛠 '+t('adminMode')+'</button></div>':'')+
    '<label class="row small b"><input type="checkbox" style="width:auto" data-a="theme" '+(S.settings.theme==='light'?'checked':'')+'> ☀ '+t('theme')+'</label>'+
-   '<div class="row wrap"><button class="btn sec sm" data-a="notif">🔔 '+t('notif')+'</button><button class="btn sec sm" data-a="sync">↻ '+t('syncNow')+'</button></div></div>'+
+   '<div class="row wrap"><button class="btn sec sm" data-a="pushOn">🔔 '+(pushGranted()&&PREF.pushOn?'✓ '+t('pushIsOn'):t('notif'))+'</button><button class="btn sec sm" data-a="sync">↻ '+t('syncNow')+'</button></div></div>'+
    '<div class="card st"><b class="small">👤 '+t('account')+'</b><div class="small muted">'+esc(isPinAcct()?'UID '+pinUid():(SESSION&&SESSION.user.email))+(canAdmin?' · <span class="tag t-acc">ADMIN</span>':'')+'</div>'+(canAdmin?'':'<div class="tiny muted">'+t('adminHow')+'</div>')+(isPinAcct()?'<button class="btn sec sm" data-a="changePin">🔑 '+t('changePin')+'</button>':'')+'<button class="btn no sm" data-a="logout">'+t('logout')+'</button></div>'+
    installCard();
 }
@@ -727,7 +760,7 @@ function vSettings(){
      inp('cf_pp',t('placePts'),cfgPP().join(','))+'<div class="grid3">'+inp('cf_ss',t('slotsSolo'),defSlots('solo'),'type="number" min="2" max="200"')+inp('cf_sd',t('slotsDuo'),defSlots('duo'),'type="number" min="2" max="200"')+inp('cf_sq',t('slotsSquad'),defSlots('squad'),'type="number" min="2" max="200"')+'</div>'+
      inp('cf_prize',t('defPrize'),c.defPrize||'','maxlength="80" placeholder="Points"')+'</div>'+
    '<h2>🛡 '+t('safety')+'</h2><div class="card st"><label class="row small b"><input type="checkbox" id="cf_reg" style="width:auto" '+(c.regOpen===false?'':'checked')+'> '+t('regOpenL')+'</label>'+
-     '<div class="grid2">'+inp('st_rev',t('revealMins'),S.settings.reveal,'type="number" min="1" max="180"')+inp('cf_kf',t('killFlagL'),cfg('killFlag',10),'type="number" min="3" max="60"')+'</div>'+inp('cf_fl',t('founderL'),cfg('founderLimit',50),'type="number" min="0" max="1000"')+'</div>'+
+     '<div class="grid2">'+inp('st_rev',t('revealMins'),S.settings.reveal,'type="number" min="1" max="180"')+inp('cf_kf',t('killFlagL'),cfg('killFlag',10),'type="number" min="3" max="60"')+'</div>'+inp('cf_fl',t('founderL'),cfg('founderLimit',50),'type="number" min="0" max="1000"')+'<label class="row small b"><input type="checkbox" id="cf_ci" style="width:auto" '+(ciCfg().on?'checked':'')+'> '+t('ciSettings')+'</label><div class="grid2">'+inp('cf_cio',t('ciOpenL'),ciCfg().open,'type="number" min="2" max="120"')+inp('cf_cir',t('ciRelL'),ciCfg().rel,'type="number" min="1" max="60"')+'</div></div>'+
    '<button class="btn block" data-a="saveSettings">💾 '+t('saveAll')+'</button>'+
    '<h2>🛠 '+t('admins')+' ('+admins.length+')</h2><div class="card st">'+admins.map(function(p){return '<div class="lr"><div class="av">'+esc(p.ign.charAt(0))+'</div><div class="grow"><b class="small">'+esc(p.ign)+'</b><div class="tiny muted">UID '+esc(p.uid)+'</div></div>'+(p.id===S.me.pid?'<span class="tag t-acc">'+t('you')+'</span>':'<button class="btn sm no" data-a="setRole" data-id="'+p.id+'" data-r="player">'+t('removeAdmin')+'</button>')+'</div>'}).join('')+
      '<div class="row"><select id="ad_pick" class="grow"><option value="">'+t('pickPlayer')+'</option>'+others.map(function(p){return '<option value="'+p.id+'">'+esc(p.ign)+' · '+esc(p.uid)+'</option>'}).join('')+'</select><button class="btn sm" data-a="makeAdmin">'+t('makeAdmin')+'</button></div></div>'+
@@ -1152,7 +1185,7 @@ document.addEventListener('click',function(ev){
   case 'signIn':case 'signUp':{var em=val('au_email'),pw=$('au_pass').value;if(!/^\S+@\S+\.\S+$/.test(em)||pw.length<6){toast('⚠ '+t('email')+' / '+t('password'));return}
     busy=true;var pr=a==='signIn'?sb.auth.signInWithPassword({email:em,password:pw}):sb.auth.signUp({email:em,password:pw});
     pr.then(function(r){busy=false;if(r.error){toast('⚠ '+niceErr(r.error));return}if(a==='signUp'&&!r.data.session){authMode='in';render();toast(t('checkEmail'))}}).catch(function(e){busy=false;toast('⚠ '+niceErr(e))});return}
-  case 'logout':sb.auth.signOut().then(function(){authMode='pin';SESSION=null;MYPROFILE=null;S=fresh();view='home';render()});return;
+  case 'logout':pushUnsub().then(function(){return sb.auth.signOut()}).then(function(){authMode='pin';SESSION=null;MYPROFILE=null;S=fresh();view='home';render()});return;
   case 'sync':run(function(){return null},'✓');return;
   case 'theme':PREF.theme=PREF.theme==='light'?'dark':'light';savePref();render();return;
   case 'notif':askNotif();try{if(window.Notification&&Notification.permission==='granted')toast('🔔 ✓')}catch(e){}return;
@@ -1207,11 +1240,16 @@ document.addEventListener('click',function(ev){
     var cfgNew=Object.assign({},S.config||{},{name:val('cf_name').slice(0,40),rules:$('cf_rules').value.trim().slice(0,1500),wa:val('cf_wa'),yt:val('cf_yt'),ig:val('cf_ig'),contact:val('cf_contact').slice(0,80),hashtags:val('cf_tags').slice(0,300),featVid:fv,
       defKill:Math.min(20,Math.max(0,+$('cf_kill').value||0)),defMap:$('cf_map').value,defPP:ppv.length?ppv.slice(0,30):DEF_PP.slice(),defPrize:val('cf_prize').slice(0,80),
       slotsSolo:Math.min(200,Math.max(2,+$('cf_ss').value||48)),slotsDuo:Math.min(200,Math.max(2,+$('cf_sd').value||24)),slotsSquad:Math.min(200,Math.max(2,+$('cf_sq').value||12)),
-      regOpen:$('cf_reg').checked,founderLimit:Math.min(1000,Math.max(0,+$('cf_fl').value||0)),killFlag:Math.min(60,Math.max(3,+$('cf_kf').value||10))});
+      regOpen:$('cf_reg').checked,checkinOn:$('cf_ci').checked,checkinOpen:Math.min(120,Math.max(2,+$('cf_cio').value||15)),checkinRelease:Math.min(60,Math.max(1,+$('cf_cir').value||5)),founderLimit:Math.min(1000,Math.max(0,+$('cf_fl').value||0)),killFlag:Math.min(60,Math.max(3,+$('cf_kf').value||10))});
     run(function(){return sb.from('app_settings').update({reveal_min:rv,config:cfgNew}).eq('id',1)},'✓');return}
   case 'makeAdmin':{var pid=$('ad_pick').value;if(!pid){toast(t('pickPlayer'));return}var pa=P(pid);confirmBox(t('adminQ',{n:pa?pa.ign:''}),function(){run(function(){return rpc('admin_set_role',{p_player:pid,p_role:'admin'})},'✓')});return}
   case 'setRole':{var pr2=P(id);confirmBox(t('removeAdmin')+': '+(pr2?pr2.ign:'')+'?',function(){run(function(){return rpc('admin_set_role',{p_player:id,p_role:d.r})},'✓')});return}
   case 'exp':exportData(d.k);return;
+  case 'pushOn':enablePush().catch(function(e){toast('⚠ '+niceErr(e))});return;
+  case 'pushDismiss':PREF.pushDismiss=1;savePref();render();return;
+  case 'mcheckin':run(function(){return rpc('checkin_match',{p_match:id})},t('ciOk')).then(function(ok){if(ok&&openMatchId===id)openMatch(id)});return;
+  case 'wlJoin':run(async function(){var n=await rpc('join_waitlist',{p_match:id});setTimeout(function(){toast(t('wlOk',{n:n}))},50)}).then(function(ok){if(ok)openMatch(id)});return;
+  case 'wlLeave':run(function(){return rpc('leave_waitlist',{p_match:id})},'✓').then(function(ok){if(ok)openMatch(id)});return;
   case 'sug':{var tf=$(d.f);if(tf){tf.value=d.t;tf.focus();try{tf.setSelectionRange(tf.value.length,tf.value.length)}catch(e){}}return}
   case 'sugMore':SUG_SEED[d.w]=(SUG_SEED[d.w]||0)+1;if(d.w==='ann'&&$('annSug'))$('annSug').innerHTML=sugChips(annSugs(),'annTxt','ann',3);else if(d.w==='nm')refreshNameSug();else refreshTourneySug();return;
   case 'promo':{var pd=d.k==='match'||d.k==='results'?M(id):d.k==='tourney'?TR(id):null;if((d.k==='match'||d.k==='results'||d.k==='tourney')&&!pd)return;openPromo(d.k,pd);return}
@@ -1269,6 +1307,18 @@ window.__ABONLINE=1;window.__AB={back:function(){if($('layer').innerHTML){closeM
 var h0=location.hash.slice(1);if(PLAYER_TABS.concat(ADMIN_TABS).indexOf(h0)>=0)view=h0;
 var channel=null;var BOOT_ERR='';
 var deferredInstall=null;
+var VAPID_PUBLIC='BPMx63PABTNBGkXXOn6rYBHUI-qppgfXrU2XCPEyGuCRkbBpP4Nody61YpbKZ610la99z9eww1o_TsBeQgkV2qM';
+function pushOk(){return 'serviceWorker' in navigator&&'PushManager' in window&&'Notification' in window}
+function pushGranted(){try{return Notification.permission==='granted'}catch(e){return false}}
+function b64u(s){var p='='.repeat((4-s.length%4)%4),b=atob((s+p).replace(/-/g,'+').replace(/_/g,'/')),a=new Uint8Array(b.length);for(var i=0;i<b.length;i++)a[i]=b.charCodeAt(i);return a}
+async function enablePush(){if(!pushOk()){toast(t('pushNo'));return}
+  var perm=await Notification.requestPermission();if(perm!=='granted'){toast(t('pushDenied'));return}
+  var reg=await navigator.serviceWorker.ready,sub=await reg.pushManager.getSubscription();
+  if(!sub)sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64u(VAPID_PUBLIC)});
+  var j=sub.toJSON();await rpc('save_push_sub',{p_endpoint:j.endpoint,p_p256dh:j.keys.p256dh,p_auth:j.keys.auth});PREF.pushOn=1;savePref();toast(t('pushOnOk'));render()}
+async function pushUnsub(){try{var reg=await navigator.serviceWorker.getRegistration();var s2=reg&&await reg.pushManager.getSubscription();if(s2&&sb)await sb.rpc('remove_push_sub',{p_endpoint:s2.endpoint})}catch(e){}}
+function pushBanner(){if(!me()||!pushOk()||pushGranted()&&PREF.pushOn||PREF.pushDismiss)return '';
+  return '<div class="card row between" style="border-color:var(--blue)"><span class="small b">'+t('pushBanner')+'</span><div class="row"><button class="btn sm" data-a="pushOn">'+t('turnOn')+'</button><button class="btn sm sec" data-a="pushDismiss">✕</button></div></div>'}
 function isStandalone(){try{return window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true}catch(e){return false}}
 window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredInstall=e;var typing=document.activeElement&&/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName);if(!typing&&!$('layer').innerHTML)render()});
 window.addEventListener('appinstalled',function(){deferredInstall=null;toast(t('installedOk'));render()});

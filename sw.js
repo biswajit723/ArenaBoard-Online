@@ -1,6 +1,6 @@
 // ArenaBoard service worker — makes the app installable and opens fast / offline.
 // Live data (Supabase) is never cached here.
-const CACHE = 'arenaboard-v6';
+const CACHE = 'arenaboard-v7';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png'];
 const LIB = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
 
@@ -28,4 +28,24 @@ self.addEventListener('fetch', (e) => {
     }));
   }
   // Everything else (Supabase API, YouTube, fonts) goes straight to the network.
+});
+
+// ---- phone notifications (sent by the "notify" Edge Function) ----
+self.addEventListener('push', (e) => {
+  let d = {};
+  try { d = e.data ? e.data.json() : {}; } catch (x) { d = { body: e.data ? e.data.text() : '' }; }
+  e.waitUntil(self.registration.showNotification(d.title || 'JIT ESPORTS', {
+    body: d.body || '', icon: 'icons/icon-192.png', badge: 'icons/icon-192.png',
+    data: { url: d.url || './' }, vibrate: [120, 60, 120], tag: d.tag || undefined,
+  }));
+});
+self.addEventListener('notificationclick', (e) => {
+  e.notification.close();
+  const url = new URL((e.notification.data && e.notification.data.url) || './', self.registration.scope).href;
+  e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((list) => {
+    for (const c of list) {
+      if (c.url.startsWith(self.registration.scope)) { c.focus(); if ('navigate' in c) c.navigate(url); return; }
+    }
+    return self.clients.openWindow(url);
+  }));
 });
