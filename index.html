@@ -182,6 +182,7 @@ tipYt:['YouTube app → Create (+) → Post → add the image and paste the capt
 tipWa:['Send the message with the WhatsApp button, or share the image to your group / status.','WhatsApp বাটনে মেসেজ পাঠান, বা ছবি গ্রুপ/স্ট্যাটাসে শেয়ার করুন।'],
 imgSaved:['Image saved ✓ (caption copied)','ছবি সেভ হয়েছে ✓ (ক্যাপশন কপি হয়েছে)'],promoStudio:['Promo studio','প্রোমো স্টুডিও'],promoNote:['Ready-made posts with your logo for Instagram, YouTube and WhatsApp. Edit the caption if you like.','আপনার লোগোসহ Instagram, YouTube, WhatsApp-এর রেডি পোস্ট। চাইলে ক্যাপশন বদলান।'],
 weeklyRecap:['Weekly recap','সাপ্তাহিক রিক্যাপ'],nextMatchPost:['Next match','পরের ম্যাচ'],lastResults:['Last results','শেষ রেজাল্ট'],hashtagsL:['Hashtags for posts','পোস্টের হ্যাশট্যাগ'],
+suggestions:['Suggestions','সাজেশন'],more:['More','আরো'],
 featVidL:['Featured YouTube video (plays on players\' Home)','ফিচার্ড YouTube ভিডিও (প্লেয়ারদের হোমে চলবে)'],featured:['Featured video','ফিচার্ড ভিডিও'],follow:['Follow us','আমাদের ফলো করুন'],watchCh:['Watch on YouTube','YouTube-এ দেখুন'],badVid:['That is not a YouTube video link.','এটা YouTube ভিডিও লিংক নয়।'],newPlayer:['New player? Register','নতুন প্লেয়ার? রেজিস্টার'],register2:['Register','রেজিস্টার'],login:['Log in','লগইন'],
 pinLbl:['PIN (4–6 digits)','পিন (৪–৬ সংখ্যা)'],pinRep:['Repeat PIN','আবার পিন দিন'],pinMismatch:['PINs do not match.','দুটো পিন মেলেনি।'],pinFmt:['PIN must be 4–6 digits.','পিন ৪–৬ সংখ্যার হতে হবে।'],
 wrongPin:['Wrong UID or PIN.','UID বা পিন ভুল।'],uidRegistered:['This UID is already registered — log in with your PIN.','এই UID আগেই রেজিস্টার্ড — পিন দিয়ে লগইন করুন।'],
@@ -692,7 +693,7 @@ function vDash(){
    '<div class="grid4"><div class="stat"><span class="tiny muted">'+t('players')+'</span><b>'+S.players.length+'</b></div><div class="stat"><span class="tiny muted">'+t('teams')+'</span><b>'+S.teams.length+'</b></div><div class="stat"><span class="tiny muted">'+t('upcoming')+'</span><b>'+up.length+'</b></div><div class="stat"><span class="tiny muted">'+t('openReports')+'</span><b style="color:var(--red)">'+openR.length+'</b></div></div>'+
    (live.length?'<h2>🔴 '+t('pending')+'</h2>'+live.map(matchCard).join(''):'')+
    (noRoom.length?'<h2>🔑 '+t('roomNotSet')+'</h2>'+noRoom.map(matchCard).join(''):'')+
-   adminClipsBlock()+promoStudioCard()+'<h2>📣 '+t('announcements')+'</h2><div class="card st"><textarea id="annTxt" rows="2" placeholder="'+t('annPh')+'"></textarea><button class="btn" data-a="postAnn">'+t('post')+'</button>'+
+   adminClipsBlock()+promoStudioCard()+'<h2>📣 '+t('announcements')+'</h2><div class="card st">'+annSugHtml()+'<textarea id="annTxt" rows="3" placeholder="'+t('annPh')+'"></textarea><button class="btn" data-a="postAnn">'+t('post')+'</button>'+
    S.ann.slice().reverse().map(function(a){return '<div class="lr"><div class="grow small">'+esc(a.text)+'<div class="tiny muted">'+fmtTime(a.ts)+'</div></div><button class="btn sm no" data-delann="'+a.id+'">✕</button></div>'}).join('')+'</div>'+
    '<h2>⚡ '+t('upcoming')+'</h2>'+(up.slice(0,4).map(matchCard).join('')||'<div class="card empty">—</div>')+'</div>';
 }
@@ -753,10 +754,10 @@ function modal(h){$('layer').innerHTML='<div class="modal-bg" data-bg="1"><div c
 function closeModal(){$('layer').innerHTML='';openMatchId=null;openTourneyId=null;ocrRows=null}
 function confirmBox(msg,yes){modal('<h3>'+esc(msg)+'</h3><div class="grid2"><button class="btn sec" data-a="mclose">'+t('cancel')+'</button><button class="btn no" id="yesBtn">'+t('ok')+'</button></div>');$('yesBtn').onclick=function(){closeModal();yes();render()}}
 function dtLocal(ts){var d=new Date(ts-new Date().getTimezoneOffset()*6e4);return d.toISOString().slice(0,16)}
-var _matchFormDefaults=function(){try{$('nm_kp').value=cfg('defKill',1);$('nm_pp').value=cfgPP().join(',');$('nm_prize').value=cfg('defPrize','');var mp=cfg('defMap','');if(mp)$('nm_map').value=mp;$('nm_slots').placeholder=defSlots($('nm_mode').value)}catch(e){}};
+var _matchFormDefaults=function(){try{setTimeout(refreshNameSug,0);$('nm_kp').value=cfg('defKill',1);$('nm_pp').value=cfgPP().join(',');$('nm_prize').value=cfg('defPrize','');var mp=cfg('defMap','');if(mp)$('nm_map').value=mp;$('nm_slots').placeholder=defSlots($('nm_mode').value)}catch(e){}};
 function matchForm(){setTimeout(_matchFormDefaults,0);
   var d=new Date(now()+36e5*2);d.setMinutes(0,0,0);
-  modal('<h2>'+t('newMatch')+'</h2><label class="f">'+t('title')+'<input id="nm_t" maxlength="60" placeholder="Night Squad Clash"></label>'+
+  modal('<h2>'+t('newMatch')+'</h2><label class="f">'+t('title')+'<input id="nm_t" maxlength="60" placeholder="Night Squad Clash"></label><div id="nmSug"></div>'+
    '<div class="grid2"><label class="f">'+t('mode')+'<select id="nm_mode"><option value="squad">'+t('squad')+'</option><option value="duo">'+t('duo')+'</option><option value="solo">'+t('solo')+'</option></select></label><label class="f">'+t('map')+'<select id="nm_map"><option>Bermuda</option><option>Purgatory</option><option>Kalahari</option><option>Alpine</option><option>NeXTerra</option><option>Solara</option></select></label></div>'+
    '<div class="grid2"><label class="f">'+t('start')+'<input type="datetime-local" id="nm_start" value="'+dtLocal(d.getTime())+'"></label><label class="f">'+t('slots')+'<input type="number" id="nm_slots" min="2" max="100" placeholder="auto"></label></div>'+
    '<div class="grid2"><label class="f">'+t('prize')+'<input id="nm_prize" placeholder="Points / sponsor gift"></label><label class="f">'+t('sponsor')+'<input id="nm_sp"></label></div>'+
@@ -806,9 +807,9 @@ function collectResults(m){
   missing.forEach(function(eid){rows.push({eid:eid,pos:++maxPos,kills:0,mk:{}})});
   return rows;
 }
-function tourneyForm(){
+function tourneyForm(){setTimeout(refreshTourneySug,0);
   var d=new Date(now()+864e5);d.setHours(20,0,0,0);
-  modal('<h2>🏆 '+t('newTourney')+'</h2><label class="f">'+t('title')+'<input id="nt_name" maxlength="50" placeholder="Bengal Cup Season 1"></label>'+
+  modal('<h2>🏆 '+t('newTourney')+'</h2><label class="f">'+t('title')+'<input id="nt_name" maxlength="50" placeholder="Bengal Cup Season 1"></label><div id="ntSug"></div>'+
    '<div class="grid2"><label class="f">'+t('mode')+'<select id="nt_mode"><option value="squad">'+t('squad')+'</option><option value="duo">'+t('duo')+'</option><option value="solo">'+t('solo')+'</option></select></label><label class="f">'+t('slots')+'<input type="number" id="nt_slots" value="12" min="2" max="100"></label></div>'+
    '<div class="grid3"><label class="f">'+t('stage1')+'<input type="number" id="nt_q" value="3" min="1" max="10"></label><label class="f">'+t('qualN')+'<input type="number" id="nt_qn" value="6" min="1"></label><label class="f">'+t('finals')+'<input type="number" id="nt_f" value="2" min="1" max="10"></label></div>'+
    '<div class="grid2"><label class="f">'+t('start')+'<input type="datetime-local" id="nt_start" value="'+dtLocal(d.getTime())+'"></label><label class="f">'+t('gap')+'<input type="number" id="nt_gap" value="30" min="10"></label></div>'+
@@ -1059,6 +1060,47 @@ function promoStudioCard(){var f=foundersLeft(),up=S.matches.filter(function(m){
    (last?'<button class="btn sec sm" data-a="promo" data-k="results" data-id="'+last.id+'">🏆 '+t('lastResults')+'</button>':'')+
    (tr?'<button class="btn sec sm" data-a="promo" data-k="tourney" data-id="'+tr.id+'">🏆 '+esc(tr.name.slice(0,16))+'</button>':'')+'</div></div>'}
 
+/* ============ SMART SUGGESTIONS: announcement texts, match & tournament names ============ */
+var SUG_SEED={nm:0,ann:0,nt:0};
+function pick(arr,seed,n){var out=[],L=arr.length;if(!L)return out;for(var i=0;i<L&&out.length<n;i++){var v=arr[(i+seed*n)%L];if(out.indexOf(v)<0)out.push(v)}return out}
+function dayPart(ts){var h=new Date(ts).getHours();return h<5?'Midnight':h<12?'Morning':h<17?'Afternoon':h<20?'Evening':'Night'}
+function weekday(ts){return new Date(ts).toLocaleDateString('en-IN',{weekday:'long'})}
+function shortBrand(){var b=brandName();return b.length>14?b.split(' ')[0]:b}
+function nameSugs(mode,ts,map){mode=mode||'squad';ts=ts||now();map=map||'Bermuda';
+  var M=modeName(mode),dp=dayPart(ts),wd=weekday(ts),br=shortBrand(),n=S.matches.filter(function(m){return m.mode===mode}).length+1;
+  var words=['Clash','Showdown','Rush','Royale','Knockout','Battle','Brawl','Frenzy','Warzone','Takedown'];
+  var pats=[function(w){return dp+' '+M+' '+w+' #'+n},function(w){return wd+' '+M+' '+w},function(w){return map+' '+M+' '+w},function(w){return br+' '+M+' '+w+' #'+n}];
+  var list=[];for(var pass=0;pass<4;pass++){words.forEach(function(w,i){list.push(pats[(i+pass)%4](w))})}
+  list=list.concat([wd+' '+dp+' Fight Night',M+' Kill Race — '+map,br+' Daily '+M,'Rank Push '+M+' Lobby','Last Squad Standing'.replace('Squad',M),M+' Practice Scrim']);
+  return list}
+function tourneySugs(mode){var br=shortBrand(),M=modeName(mode||'squad'),s=S.settings.season||1,mon=new Date().toLocaleDateString('en-IN',{month:'long'});
+  return [br+' '+M+' Cup S'+s,br+' Championship S'+s,mon+' '+M+' Masters','Bengal '+M+' League',br+' Weekend Warriors','Road to Champion — '+M,br+' Founders Cup','Kolkata '+M+' Clash']}
+function annSugs(){var out=[],up=S.matches.filter(function(m){return matchStatus(m)==='upcoming'}).sort(function(a,b){return a.start-b.start}),rv=S.settings.reveal;
+  if(up[0]){var m=up[0],left=Math.max(0,m.slots-m.entries.length);
+    out.push('🔥 '+m.title+' starts '+enTime(m.start)+' — only '+left+' slot'+(left===1?'':'s')+' left! Join now in Matches.');
+    out.push('🔑 Room ID for '+m.title+' unlocks '+rv+' min before start. Be online and ready!');
+    out.push('⏰ Reminder: '+m.title+' ('+modeName(m.mode)+', '+m.map+') — '+enTime(m.start)+'. Don\'t be late, late players are not re-added.')}
+  if(up[1])out.push('📅 Next up: '+up.slice(0,3).map(function(m){return m.title+' ('+enTime(m.start)+')'}).join(' · '));
+  var last=S.matches.filter(function(m){return m.status==='completed'&&m.results.length}).sort(function(a,b){return b.start-a.start})[0];
+  if(last){var w=last.results.slice().sort(function(a,b){return a.pos-b.pos})[0],we=w&&byId(last.entries,w.eid),mv=mvpOf(last),mp=mv&&P(mv.pid);
+    out.push('🏆 Congrats '+(we?entryName(we):'the winners')+' for winning '+last.title+'!'+(mp?' ⭐ MVP: '+mp.ign+'.':'')+' GG everyone!');
+    out.push('⭐ MVP voting is open for '+last.title+' — players from that match, vote now!')}
+  var tr=S.tourneys.filter(function(x){return x.stages.length===1&&x.stages[0].start>now()}).slice(-1)[0];
+  if(tr)out.push('🏆 '+tr.name+' registration is open ('+tr.stages[0].entrants.length+'/'+tr.slots+') — captains, register your team now!');
+  var f=foundersLeft();if(f.left>0)out.push('🌟 Only '+f.left+' Founder spots left! Invite friends with your link in Profile and grab the badge.');
+  out.push('🎯 Weekly missions reset on Monday — check in every day for +10 XP and keep your 🔥 streak!');
+  out.push('🎬 Post your best clip in the Hub — the most-liked clip gets featured this week!');
+  out.push('🔗 Bring your squad! 3 friends who play a match = 🎖 Recruiter badge.');
+  out.push('⚠ Fair play: no hacks, no teaming, no emulators. Report cheaters with a video link — we check every report.');
+  if(safeUrl(cfg('wa','')))out.push('💬 Join our WhatsApp group for room updates and match news (link on the Home screen).');
+  return out}
+function sugChips(list,field,which,n){var seed=SUG_SEED[which]||0,sel=pick(list,seed,n);
+  return '<div class="st" style="gap:6px"><div class="row between"><span class="tiny muted b">✨ '+t('suggestions')+'</span><button class="btn sm sec" style="min-height:26px;padding:0 8px" data-a="sugMore" data-w="'+which+'">🔀 '+t('more')+'</button></div>'+
+   '<div class="row wrap" style="gap:6px">'+sel.map(function(s){return '<button class="chip" style="white-space:normal;text-align:left;font-weight:600" data-a="sug" data-f="'+field+'" data-t="'+esc(s)+'">'+esc(s)+'</button>'}).join('')+'</div></div>'}
+function annSugHtml(){return '<div id="annSug">'+sugChips(annSugs(),'annTxt','ann',3)+'</div>'}
+function refreshNameSug(){var box=$('nmSug');if(!box)return;var st=new Date(($('nm_start')||{}).value||'').getTime()||now();box.innerHTML=sugChips(nameSugs(($('nm_mode')||{}).value,st,($('nm_map')||{}).value),'nm_t','nm',4)}
+function refreshTourneySug(){var box=$('ntSug');if(!box)return;box.innerHTML=sugChips(tourneySugs(($('nt_mode')||{}).value),'nt_name','nt',4)}
+
 /* ============ events ============ */
 function val(id){var e=$(id);return e?e.value.trim():''}
 document.addEventListener('click',function(ev){
@@ -1133,7 +1175,7 @@ document.addEventListener('click',function(ev){
   case 'leaveTeam':confirmBox(t('leaveTeam')+'?',function(){run(function(){return rpc('leave_team')})});return;
   /* admin */
   case 'newMatch':matchForm();return;
-  case 'createMatch':{var title=val('nm_t')||'Custom Room',mode=$('nm_mode').value,st=new Date($('nm_start').value).getTime();if(!st||isNaN(st)){toast('⚠ '+t('start'));return}
+  case 'createMatch':{var title=val('nm_t')||nameSugs($('nm_mode').value,new Date($('nm_start').value).getTime()||now(),$('nm_map').value)[0],mode=$('nm_mode').value,st=new Date($('nm_start').value).getTime();if(!st||isNaN(st)){toast('⚠ '+t('start'));return}
     var pp=$('nm_pp').value.split(',').map(function(x){return Math.max(0,parseInt(x,10)||0)});
     var row={title:title,mode:mode,map:$('nm_map').value,start_at:new Date(st).toISOString(),slots:Math.min(200,Math.max(2,+$('nm_slots').value||defSlots(mode))),prize:val('nm_prize'),sponsor:val('nm_sp'),kill_pts:Math.min(20,Math.max(0,+$('nm_kp').value||0)),place_pts:pp.length?pp:DEF_PP.slice(),min_rating:+$('nm_min').value||null,max_rating:+$('nm_max').value||null,yt:val('nm_yt'),season:S.settings.season};
     mFilter='upcoming';run(function(){return sb.from('matches').insert(row)},'✓').then(function(ok){if(!ok)return;var nm=S.matches.filter(function(x){return x.title===row.title&&Math.abs(x.start-st)<2000}).slice(-1)[0];if(nm)openPromo('match',nm)});return}
@@ -1148,7 +1190,7 @@ document.addEventListener('click',function(ev){
       publishResults(m,rows).then(function(ok){if(ok)openMatch(m.id)})});return}
   case 'cancelM':confirmBox(t('cancelMatch')+'?',function(){run(function(){return sb.from('matches').update({status:'cancelled'}).eq('id',m.id)})});return;
   case 'newT':tourneyForm();return;
-  case 'createT':{var nm=val('nt_name')||'Tournament',mo=$('nt_mode').value,s0=new Date($('nt_start').value).getTime();if(!s0||isNaN(s0)){toast('⚠ '+t('start'));return}
+  case 'createT':{var nm=val('nt_name')||tourneySugs($('nt_mode').value)[0],mo=$('nt_mode').value,s0=new Date($('nt_start').value).getTime();if(!s0||isNaN(s0)){toast('⚠ '+t('start'));return}
     var trn={id:newId(),name:nm.slice(0,60),mode:mo,slots:Math.min(200,Math.max(2,+$('nt_slots').value||12)),prize:val('nt_prize'),sponsor:val('nt_sp'),gap:Math.max(10,+$('nt_gap').value||30),finalsCount:Math.min(20,Math.max(1,+$('nt_f').value||2)),maps:['Bermuda','Purgatory','Kalahari','Alpine','NeXTerra']};
     var st0={name:'Qualifiers',count:Math.min(10,Math.max(1,+$('nt_q').value||3)),qualify:Math.max(1,+$('nt_qn').value||6),entrants:[],matchIds:[],start:s0};
     var mrows=stageMatchRows(trn,st0,0);
@@ -1170,6 +1212,8 @@ document.addEventListener('click',function(ev){
   case 'makeAdmin':{var pid=$('ad_pick').value;if(!pid){toast(t('pickPlayer'));return}var pa=P(pid);confirmBox(t('adminQ',{n:pa?pa.ign:''}),function(){run(function(){return rpc('admin_set_role',{p_player:pid,p_role:'admin'})},'✓')});return}
   case 'setRole':{var pr2=P(id);confirmBox(t('removeAdmin')+': '+(pr2?pr2.ign:'')+'?',function(){run(function(){return rpc('admin_set_role',{p_player:id,p_role:d.r})},'✓')});return}
   case 'exp':exportData(d.k);return;
+  case 'sug':{var tf=$(d.f);if(tf){tf.value=d.t;tf.focus();try{tf.setSelectionRange(tf.value.length,tf.value.length)}catch(e){}}return}
+  case 'sugMore':SUG_SEED[d.w]=(SUG_SEED[d.w]||0)+1;if(d.w==='ann'&&$('annSug'))$('annSug').innerHTML=sugChips(annSugs(),'annTxt','ann',3);else if(d.w==='nm')refreshNameSug();else refreshTourneySug();return;
   case 'promo':{var pd=d.k==='match'||d.k==='results'?M(id):d.k==='tourney'?TR(id):null;if((d.k==='match'||d.k==='results'||d.k==='tourney')&&!pd)return;openPromo(d.k,pd);return}
   case 'promoFmt':PROMO.fmt=d.v;paintPromo();return;
   case 'promoTab':PROMO.tab=d.v;paintPromo();return;
@@ -1205,6 +1249,8 @@ document.addEventListener('click',function(ev){
 });
 document.addEventListener('change',function(ev){
   var el=ev.target;
+  if(el.id==='nm_mode'||el.id==='nm_start'||el.id==='nm_map')refreshNameSug();
+  if(el.id==='nt_mode')refreshTourneySug();
   if(el.id==='ocrFile'&&el.files[0]&&openMatchId){
     var m=M(openMatchId),st=$('ocrStatus');st.textContent=t('ocrLoading');
     loadTess().then(function(){return Tesseract.recognize(el.files[0],'eng')}).then(function(r){var txt=r.data.text||'';$('ocrText').value=txt;applyParsed(m,parseResultText(m,txt));st.textContent='✓'}).catch(function(){st.textContent=t('ocrFail')});
