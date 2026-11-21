@@ -202,6 +202,10 @@ pushOnOk:['Notifications on 🔔','নোটিফিকেশন চালু �
 switchTeam:['Join another team (code)','অন্য টিমে জয়েন (কোড)'],switchWarn:['You will leave "{t}" and join the new team. If you are alone in "{t}", it will be deleted; if you are captain, another member becomes captain.','আপনি "{t}" ছেড়ে নতুন টিমে যাবেন। "{t}"-এ একা থাকলে টিমটা মুছে যাবে; ক্যাপ্টেন হলে অন্য সদস্য ক্যাপ্টেন হবে।'],
 teamLink:['Team invite link','টিম ইনভাইট লিংক'],teamInviteMsg:['Join my squad "{n}" on {b}! Tap to join: {l}','{b}-এ আমার স্কোয়াড "{n}"-এ যোগ দাও! জয়েন করতে ট্যাপ করো: {l}'],
 teamJoinQ:['Join the team with code {c}?','কোড {c}-এর টিমে জয়েন করবেন?'],notNow:['Not now','এখন না'],teamJoined:['You joined the team! 🎮','আপনি টিমে জয়েন করেছেন! 🎮'],
+socialTitle:['Auto social posts','অটো সোশ্যাল পোস্ট'],socialNote:['New matches, tournaments and results are posted with a banner to your Telegram, Discord, Facebook Page and Instagram automatically (set up once in Supabase). WhatsApp and YouTube stay one-tap share.','নতুন ম্যাচ, টুর্নামেন্ট আর রেজাল্ট ব্যানারসহ অটো পোস্ট হবে।'],
+socialAutoL:['Auto-post new matches, tournaments and results','নতুন ম্যাচ/টুর্নামেন্ট/রেজাল্ট অটো পোস্ট'],socialRemindL:['Post a "last call" reminder 1 hour before each match','ম্যাচের ১ ঘণ্টা আগে রিমাইন্ডার'],
+socialRefresh:['Refresh','রিফ্রেশ'],socialQueued:['📣 Banner sent for auto-posting','📣 ব্যানার অটো পোস্টে পাঠানো হয়েছে'],socialFail:['Auto-post failed','অটো পোস্ট হয়নি'],
+socialNone:['No auto posts yet.','এখনো কোনো অটো পোস্ট নেই।'],socialSending:['posting…','পোস্ট হচ্ছে…'],socialAgain:['Post again','আবার পোস্ট'],autoPostNow:['Auto-post to my channels','আমার চ্যানেলে অটো পোস্ট'],
 featVidL:['Featured YouTube video (plays on players\' Home)','ফিচার্ড YouTube ভিডিও (প্লেয়ারদের হোমে চলবে)'],featured:['Featured video','ফিচার্ড ভিডিও'],follow:['Follow us','আমাদের ফলো করুন'],watchCh:['Watch on YouTube','YouTube-এ দেখুন'],badVid:['That is not a YouTube video link.','এটা YouTube ভিডিও লিংক নয়।'],newPlayer:['New player? Register','নতুন প্লেয়ার? রেজিস্টার'],register2:['Register','রেজিস্টার'],login:['Log in','লগইন'],
 pinLbl:['PIN (4–6 digits)','পিন (৪–৬ সংখ্যা)'],pinRep:['Repeat PIN','আবার পিন দিন'],pinMismatch:['PINs do not match.','দুটো পিন মেলেনি।'],pinFmt:['PIN must be 4–6 digits.','পিন ৪–৬ সংখ্যার হতে হবে।'],
 wrongPin:['Wrong UID or PIN.','UID বা পিন ভুল।'],uidRegistered:['This UID is already registered — log in with your PIN.','এই UID আগেই রেজিস্টার্ড — পিন দিয়ে লগইন করুন।'],
@@ -432,7 +436,7 @@ function publishResults(m,rows){
     });
   });
   var payload=rows.map(function(r){return {entry_id:r.eid,pos:r.pos,kills:r.kills,member_kills:r.mk||{},pts:r.pts}});
-  return run(function(){return rpc('publish_results',{p_match:m.id,p_rows:payload,p_flags:flags})},t('published'));
+  return run(function(){return rpc('publish_results',{p_match:m.id,p_rows:payload,p_flags:flags})},t('published')).then(function(ok){if(ok&&M(m.id)&&M(m.id).results.length)autoSocial('results',M(m.id));return ok});
 }
 function lev(a,b){if(a===b)return 0;var m=a.length,n=b.length;if(!m)return n;if(!n)return m;var d=[];for(var i=0;i<=m;i++){d[i]=[i]}for(var j=1;j<=n;j++)d[0][j]=j;for(i=1;i<=m;i++)for(j=1;j<=n;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[m][n]}
 function sim(a,b){var mx=Math.max(a.length,b.length);return mx?1-lev(a,b)/mx:0}
@@ -730,7 +734,7 @@ function vDash(){
    '<div class="grid4"><div class="stat"><span class="tiny muted">'+t('players')+'</span><b>'+S.players.length+'</b></div><div class="stat"><span class="tiny muted">'+t('teams')+'</span><b>'+S.teams.length+'</b></div><div class="stat"><span class="tiny muted">'+t('upcoming')+'</span><b>'+up.length+'</b></div><div class="stat"><span class="tiny muted">'+t('openReports')+'</span><b style="color:var(--red)">'+openR.length+'</b></div></div>'+
    (live.length?'<h2>🔴 '+t('pending')+'</h2>'+live.map(matchCard).join(''):'')+
    (noRoom.length?'<h2>🔑 '+t('roomNotSet')+'</h2>'+noRoom.map(matchCard).join(''):'')+
-   adminClipsBlock()+promoStudioCard()+'<h2>📣 '+t('announcements')+'</h2><div class="card st">'+annSugHtml()+'<textarea id="annTxt" rows="3" placeholder="'+t('annPh')+'"></textarea><button class="btn" data-a="postAnn">'+t('post')+'</button>'+
+   adminClipsBlock()+promoStudioCard()+socialCard()+'<h2>📣 '+t('announcements')+'</h2><div class="card st">'+annSugHtml()+'<textarea id="annTxt" rows="3" placeholder="'+t('annPh')+'"></textarea><button class="btn" data-a="postAnn">'+t('post')+'</button>'+
    S.ann.slice().reverse().map(function(a){return '<div class="lr"><div class="grow small">'+esc(a.text)+'<div class="tiny muted">'+fmtTime(a.ts)+'</div></div><button class="btn sm no" data-delann="'+a.id+'">✕</button></div>'}).join('')+'</div>'+
    '<h2>⚡ '+t('upcoming')+'</h2>'+(up.slice(0,4).map(matchCard).join('')||'<div class="card empty">—</div>')+'</div>';
 }
@@ -1088,6 +1092,7 @@ function paintPromo(){var c=promoContent(PROMO.type,PROMO.data),cv=promoCanvas(c
    '<textarea id="promoCap" rows="9">'+esc(cap)+'</textarea>'+
    '<div class="grid2"><button class="btn sec" data-copy-ta="promoCap">📋 '+t('copyCaption')+'</button>'+
    (PROMO.tab==='wa'?'<a class="btn" style="text-decoration:none;background:#25D366;color:#062" href="https://wa.me/?text='+encodeURIComponent(cap)+'" target="_blank" rel="noopener">💬 WhatsApp</a>':'<button class="btn sec" data-a="promoShareAll">📤 '+t('shareBoth')+'</button>')+'</div>'+
+   (isAdmin()?'<button class="btn block" data-a="promoAuto" style="background:#2a7fff">🤖 '+t('autoPostNow')+'</button>':'')+
    '<p class="tiny muted">'+t(PROMO.tab==='ig'?'tipIg':PROMO.tab==='yt'?'tipYt':'tipWa')+'</p>')}
 function promoFile(){var bin=atob(PROMO.url.split(',')[1]),arr=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);var name=(PROMO.type||'post')+'-'+PROMO.fmt+'.png';var blob=new Blob([arr],{type:'image/png'});var f=null;try{f=new File([blob],name,{type:'image/png'})}catch(e){}return {blob:blob,file:f,name:name}}
 function promoShare(withText){var p=promoFile(),cap=$('promoCap')?$('promoCap').value:'';
@@ -1142,6 +1147,50 @@ function sugChips(list,field,which,n){var seed=SUG_SEED[which]||0,sel=pick(list,
 function annSugHtml(){return '<div id="annSug">'+sugChips(annSugs(),'annTxt','ann',3)+'</div>'}
 function refreshNameSug(){var box=$('nmSug');if(!box)return;var st=new Date(($('nm_start')||{}).value||'').getTime()||now();box.innerHTML=sugChips(nameSugs(($('nm_mode')||{}).value,st,($('nm_map')||{}).value),'nm_t','nm',4)}
 function refreshTourneySug(){var box=$('ntSug');if(!box)return;box.innerHTML=sugChips(tourneySugs(($('nt_mode')||{}).value),'nt_name','nt',4)}
+
+/* ============ AUTO SOCIAL: banner → Storage → social_queue → Edge Function posts it ============ */
+function socialOn(){return cfg('socialAuto',true)!==false}
+function socialLink(){var l=siteLink();return /^https:\/\//.test(l)?l.slice(0,300):''}
+function canvasBlob(cv){return new Promise(function(res){try{cv.toBlob(function(b){res(b)},'image/png')}catch(e){res(null)}})}
+var SOCIAL_BUSY=false;
+async function autoSocial(kind,data,opt){opt=opt||{};
+  if(!isAdmin()||(!opt.manual&&!socialOn())||SOCIAL_BUSY)return false;
+  SOCIAL_BUSY=true;
+  try{var c=promoContent(kind,data),blob=await canvasBlob(promoCanvas(c,'post'));if(!blob)throw new Error('image');
+    var path=kind+'/'+((data&&data.id)||'post')+'-'+Date.now()+'.png';
+    var up=await sb.storage.from('banners').upload(path,blob,{contentType:'image/png',upsert:false});if(up.error)throw up.error;
+    var url=sb.storage.from('banners').getPublicUrl(path).data.publicUrl;
+    var cap=(opt.tab==='ig'&&opt.text)?opt.text:c.ig,sh=(opt.tab&&opt.tab!=='ig'&&opt.text)?opt.text:c.yt;
+    var row={kind:kind,image_url:url,caption:String(cap).slice(0,2200),short:String(sh).slice(0,1000),link:socialLink()};
+    if(data&&data.id&&/^[0-9a-f-]{36}$/i.test(data.id))row.ref_id=data.id;
+    var r=await sb.from('social_queue').insert(row);if(r.error)throw r.error;
+    if(opt.manual)toast(t('socialQueued'));setTimeout(loadSocialLog,4000);return true}
+  catch(e){toast('⚠ '+t('socialFail')+': '+niceErr(e));return false}
+  finally{SOCIAL_BUSY=false}}
+async function socialRepost(id){var r=(SOCIAL_LOG||[]).filter(function(x){return x.id===id})[0];if(!r)return;
+  var row={kind:r.kind,image_url:r.image_url,caption:r.caption,short:r.short,link:r.link};if(r.ref_id&&r.kind!=='reminder')row.ref_id=r.ref_id;if(r.kind==='reminder')row.kind='custom';
+  var x=await sb.from('social_queue').insert(row);if(x.error){toast('⚠ '+niceErr(x.error));return}toast(t('socialQueued'));setTimeout(loadSocialLog,4000)}
+var SOCIAL_LOG=null;
+var SOC_KIND={match:'🔥 New match',tourney:'🏆 Tournament',results:'🏅 Results',reminder:'⏰ Last call',founder:'🌟 Founder',weekly:'📊 Weekly recap',custom:'📣 Post'};
+var SOC_NAMES={telegram:'Telegram',discord:'Discord',facebook:'Facebook',instagram:'Instagram'};
+function socialLogHtml(){if(SOCIAL_LOG===null)return '<p class="tiny muted">…</p>';if(!SOCIAL_LOG.length)return '<p class="tiny muted">'+t('socialNone')+'</p>';
+  return SOCIAL_LOG.slice(0,8).map(function(r){var res=r.result||{},bits=Object.keys(SOC_NAMES).filter(function(k){return res[k]}).map(function(k){var o=res[k];return '<span title="'+esc(o.ok?'':o.error||'')+'" style="margin-right:8px">'+(o.ok?'✅':'❌')+' '+SOC_NAMES[k]+'</span>'}).join('');
+    var st=r.status==='queued'||r.status==='sending'?'⏳ '+t('socialSending'):r.status==='done'?'✅':r.status==='partial'?'⚠':'❌';
+    var err=Object.keys(SOC_NAMES).filter(function(k){return res[k]&&!res[k].ok}).map(function(k){return SOC_NAMES[k]+': '+res[k].error}).join(' · ')||res.note||'';
+    return '<div class="card st" style="padding:10px;margin:6px 0"><div class="row between"><b class="small">'+st+' '+esc(SOC_KIND[r.kind]||r.kind)+'</b><span class="tiny muted">'+esc(enTime(new Date(r.created_at).getTime()))+'</span></div>'+
+      '<div class="tiny">'+(bits||'')+'</div>'+(err?'<div class="tiny" style="color:#ff8a8a">'+esc(String(err).slice(0,240))+'</div>':'')+
+      (r.status!=='queued'&&r.status!=='sending'?'<button class="btn sec sm" data-a="socRepost" data-id="'+r.id+'">🔁 '+t('socialAgain')+'</button>':'')+'</div>'}).join('')}
+async function loadSocialLog(){if(!isAdmin())return;try{var r=await sb.from('social_queue').select('*').range(0,49);if(r.error)throw r.error;
+  SOCIAL_LOG=(r.data||[]).sort(function(a,b){return new Date(b.created_at)-new Date(a.created_at)})}catch(e){SOCIAL_LOG=[]}
+  var el=$('socialLog');if(el)el.innerHTML=socialLogHtml()}
+function socialCard(){setTimeout(function(){var el=$('socialLog');if(!el)return;if(SOCIAL_LOG===null)loadSocialLog();else el.innerHTML=socialLogHtml()},0);
+  return '<h2>🤖 '+t('socialTitle')+'</h2><div class="card st"><p class="small muted">'+t('socialNote')+'</p>'+
+   '<label class="row small b"><input type="checkbox" id="soc_auto" style="width:auto" '+(socialOn()?'checked':'')+'> '+t('socialAutoL')+'</label>'+
+   '<label class="row small b"><input type="checkbox" id="soc_rem" style="width:auto" '+(cfg('socialRemind',true)!==false?'checked':'')+'> '+t('socialRemindL')+'</label>'+
+   '<div class="grid2"><button class="btn sec sm" data-a="socSave">💾 '+t('save')+'</button><button class="btn sec sm" data-a="socLoad">🔄 '+t('socialRefresh')+'</button></div>'+
+   '<div id="socialLog"></div></div>'}
+function socialSave(){var c=Object.assign({},S.config||{});c.socialAuto=$('soc_auto').checked;c.socialRemind=$('soc_rem').checked;
+  return run(function(){return sb.from('app_settings').update({config:c}).eq('id',1)},'✓')}
 
 /* ============ events ============ */
 function val(id){var e=$(id);return e?e.value.trim():''}
@@ -1220,7 +1269,7 @@ document.addEventListener('click',function(ev){
   case 'createMatch':{var title=val('nm_t')||nameSugs($('nm_mode').value,new Date($('nm_start').value).getTime()||now(),$('nm_map').value)[0],mode=$('nm_mode').value,st=new Date($('nm_start').value).getTime();if(!st||isNaN(st)){toast('⚠ '+t('start'));return}
     var pp=$('nm_pp').value.split(',').map(function(x){return Math.max(0,parseInt(x,10)||0)});
     var row={title:title,mode:mode,map:$('nm_map').value,start_at:new Date(st).toISOString(),slots:Math.min(200,Math.max(2,+$('nm_slots').value||defSlots(mode))),prize:val('nm_prize'),sponsor:val('nm_sp'),kill_pts:Math.min(20,Math.max(0,+$('nm_kp').value||0)),place_pts:pp.length?pp:DEF_PP.slice(),min_rating:+$('nm_min').value||null,max_rating:+$('nm_max').value||null,yt:val('nm_yt'),season:S.settings.season};
-    mFilter='upcoming';run(function(){return sb.from('matches').insert(row)},'✓').then(function(ok){if(!ok)return;var nm=S.matches.filter(function(x){return x.title===row.title&&Math.abs(x.start-st)<2000}).slice(-1)[0];if(nm)openPromo('match',nm)});return}
+    mFilter='upcoming';run(function(){return sb.from('matches').insert(row)},'✓').then(function(ok){if(!ok)return;var nm=S.matches.filter(function(x){return x.title===row.title&&Math.abs(x.start-st)<2000}).slice(-1)[0];if(nm){openPromo('match',nm);autoSocial('match',nm)}});return}
   case 'room':roomForm(m);return;
   case 'saveRoom':{var rid=val('rm_id'),rpw=val('rm_pass'),yt=val('rm_yt');delete PREF.notified[m.id];savePref();
     run(async function(){await q(sb.from('match_rooms').upsert({match_id:m.id,room_id:rid,room_pass:rpw}));await q(sb.from('matches').update({yt:yt}).eq('id',m.id))},'✓');return}
@@ -1236,7 +1285,7 @@ document.addEventListener('click',function(ev){
     var trn={id:newId(),name:nm.slice(0,60),mode:mo,slots:Math.min(200,Math.max(2,+$('nt_slots').value||12)),prize:val('nt_prize'),sponsor:val('nt_sp'),gap:Math.max(10,+$('nt_gap').value||30),finalsCount:Math.min(20,Math.max(1,+$('nt_f').value||2)),maps:['Bermuda','Purgatory','Kalahari','Alpine','NeXTerra']};
     var st0={name:'Qualifiers',count:Math.min(10,Math.max(1,+$('nt_q').value||3)),qualify:Math.max(1,+$('nt_qn').value||6),entrants:[],matchIds:[],start:s0};
     var mrows=stageMatchRows(trn,st0,0);
-    run(async function(){await q(sb.from('tournaments').insert({id:trn.id,name:trn.name,mode:trn.mode,slots:trn.slots,prize:trn.prize,sponsor:trn.sponsor,gap:trn.gap,finals_count:trn.finalsCount,maps:trn.maps,stages:[st0]}));await q(sb.from('matches').insert(mrows))},'✓').then(function(ok){if(ok&&TR(trn.id))openPromo('tourney',TR(trn.id))});return}
+    run(async function(){await q(sb.from('tournaments').insert({id:trn.id,name:trn.name,mode:trn.mode,slots:trn.slots,prize:trn.prize,sponsor:trn.sponsor,gap:trn.gap,finals_count:trn.finalsCount,maps:trn.maps,stages:[st0]}));await q(sb.from('matches').insert(mrows))},'✓').then(function(ok){if(ok&&TR(trn.id)){openPromo('tourney',TR(trn.id));autoSocial('tourney',TR(trn.id))}});return}
   case 'newTpl':tplForm();return;
   case 'createTpl':{var days=[];document.querySelectorAll('[data-day].on').forEach(function(b){days.push(+b.dataset.day)});
     var tpr={title:val('tp_t')||'Daily match',mode:$('tp_mode').value,time:$('tp_time').value||'21:00',map:val('tp_map')||'Bermuda',days:days,prize:val('tp_prize'),sponsor:''};
@@ -1254,6 +1303,10 @@ document.addEventListener('click',function(ev){
   case 'makeAdmin':{var pid=$('ad_pick').value;if(!pid){toast(t('pickPlayer'));return}var pa=P(pid);confirmBox(t('adminQ',{n:pa?pa.ign:''}),function(){run(function(){return rpc('admin_set_role',{p_player:pid,p_role:'admin'})},'✓')});return}
   case 'setRole':{var pr2=P(id);confirmBox(t('removeAdmin')+': '+(pr2?pr2.ign:'')+'?',function(){run(function(){return rpc('admin_set_role',{p_player:id,p_role:d.r})},'✓')});return}
   case 'exp':exportData(d.k);return;
+  case 'promoAuto':autoSocial(PROMO.type,PROMO.data,{manual:true,tab:PROMO.tab==='wa'?'yt':PROMO.tab,text:$('promoCap')?$('promoCap').value:''});return;
+  case 'socSave':socialSave();return;
+  case 'socLoad':SOCIAL_LOG=null;loadSocialLog();return;
+  case 'socRepost':socialRepost(id);return;
   case 'teamNotNow':delete PREF.teamJoin;savePref();closeModal();return;
   case 'pushOn':enablePush().catch(function(e){toast('⚠ '+niceErr(e))});return;
   case 'pushDismiss':PREF.pushDismiss=1;savePref();render();return;
