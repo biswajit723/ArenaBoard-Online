@@ -102,6 +102,8 @@ img{max-width:100%}
 html,body{overflow-x:hidden;max-width:100%}
 .tab{min-width:0}.tab>*{flex-shrink:0}
 @media (max-width:380px){.tab{font-size:9.5px;letter-spacing:-.2px}}
+.vmark{display:inline-block;margin-left:4px;width:16px;height:16px;line-height:16px;border-radius:50%;background:#1d9bf0;color:#fff;font-size:10px;text-align:center;vertical-align:middle;font-weight:900}
+.hof{border-color:#d4a73c;background:linear-gradient(160deg,rgba(212,167,60,.12),transparent 60%)}
 </style>
 </head>
 <body>
@@ -260,6 +262,18 @@ bh_ratings:['Skill rating (starts at 1000). Beat stronger players to climb faste
 bh_districts:['Points of all players from each district or city added together.','জেলা/শহরের সব প্লেয়ারের পয়েন্ট যোগ করে।'],bh_hunters:['Players who killed the admin in Hunt Jit matches.','হান্ট জিৎ ম্যাচে অ্যাডমিনকে কিল করেছে।'],
 bh_recruiters:['Friends you invited who played at least 1 match.','আপনার ইনভাইটে আসা বন্ধু যারা ১টা ম্যাচ খেলেছে।'],
 adminTab:['Admin','অ্যাডমিন'],overview:['Overview','ওভারভিউ'],socialAdm:['Promo & posts','প্রোমো ও পোস্ট'],
+hallOfFame:['Hall of Fame','হল অফ ফেম'],bh_hof:['Every season\'s champions stay here forever.','প্রতি সিজনের চ্যাম্পিয়নরা এখানে চিরকাল থাকবে।'],hofLive:['top 3 right now','এখন টপ ৩'],hofHow:['When the admin ends the season, the top 3, top fragger, MVP and best team enter the Hall of Fame.','সিজন শেষ হলে টপ ৩, টপ ফ্র্যাগার, MVP আর সেরা টিম হল অফ ফেমে উঠবে।'],hofNone:['No finished season yet.','এখনো কোনো সিজন শেষ হয়নি।'],
+vfTitle:['Verify your UID — get the ✔ badge','UID ভেরিফাই করুন — ✔ ব্যাজ পান'],vfHow:['1. Open Free Fire → tap your profile.\n2. Take a screenshot where your name and UID {u} are clearly visible.\n3. Upload it here. The admin checks it and gives you the ✔ Verified badge.','১. ফ্রি ফায়ারে প্রোফাইল খুলুন।\n২. নাম আর UID {u} দেখা যায় এমন স্ক্রিনশট নিন।\n৩. এখানে আপলোড করুন।'],
+vfSend:['Upload & send','আপলোড করে পাঠান'],vfSent:['Sent — the admin will check it soon','পাঠানো হয়েছে'],vfWait:['UID check sent — waiting for the admin','UID চেক পাঠানো হয়েছে — অ্যাডমিনের অপেক্ষা'],vfDone:['UID verified','UID ভেরিফায়েড'],vfDoneNote:['Your name shows a ✔ everywhere. Changing your UID removes it.','সব জায়গায় নামের পাশে ✔ দেখাবে।'],
+vfRejected:['Not approved','অনুমোদন হয়নি'],vfPick:['Choose your screenshot first','আগে স্ক্রিনশট বাছুন'],vfBadImg:['That is not a picture','এটা ছবি নয়'],vfAdmin:['UID checks','UID চেক'],vfAdminNote:['Compare the name and UID in the screenshot with the UID shown here. {n} players verified so far.','স্ক্রিনশটের নাম ও UID মিলিয়ে দেখুন।'],
+vfCheck:['Name and UID in the picture must match.','ছবির নাম ও UID মিলতে হবে।'],vfReason:['Reason (if rejecting)','বাতিলের কারণ'],vfR1:['UID not visible','UID দেখা যাচ্ছে না'],vfR2:['UID does not match','UID মিলছে না'],vfR3:['Not a Free Fire profile','ফ্রি ফায়ার প্রোফাইল নয়'],vfApprove:['Verify','ভেরিফাই'],vfNone:['No UID checks waiting.','কোনো UID চেক বাকি নেই।'],
+sponsorsT:['Sponsors','স্পনসর'],spCount:['Sponsors','স্পনসর'],pzAll:['Prizes','প্রাইজ'],pzGiven:['Given','দেওয়া হয়েছে'],pzPending:['Pending','বাকি'],pzGivenOne:['given','দেওয়া'],pzPendingOne:['pending','বাকি'],pzTitle:['Prizes','প্রাইজ'],
+pzMark:['Mark given','দেওয়া হয়েছে'],pzUndo:['Not given yet','এখনো দেওয়া হয়নি'],pzAdd:['Add a prize','প্রাইজ যোগ করুন'],pzName:['Prize','প্রাইজ'],pzNamePh:['e.g. Booyah prize, MVP T-shirt','যেমন বুইয়া প্রাইজ'],pzValue:['Value','মূল্য'],
+pzEvent:['For match / tournament','কোন ম্যাচ/টুর্নামেন্ট'],pzWinner:['Winner','বিজয়ী'],pzWinnerPh:['Player name (or team)','প্লেয়ারের নাম (বা টিম)'],pzNote:['Note (how it was given, proof…)','নোট'],pzMine:['My prizes','আমার প্রাইজ'],
+spOne:['Sponsor','স্পনসর'],spList:['Sponsors','স্পনসর'],spPublic:['shown in app','অ্যাপে দেখায়'],spHidden:['hidden','লুকানো'],spReport:['Sponsor report','স্পনসর রিপোর্ট'],spNone:['No sponsors yet.','এখনো স্পনসর নেই।'],
+spAdd:['Add a sponsor','স্পনসর যোগ করুন'],spName:['Sponsor name','স্পনসরের নাম'],spLink:['Their link (Instagram / shop / YouTube)','লিংক'],spContact:['Contact (only you see this)','যোগাযোগ (শুধু আপনি দেখবেন)'],spContactPh:['Phone / WhatsApp / Insta','ফোন / হোয়াটসঅ্যাপ'],
+spNote:['Notes (deal, dates…) — only you see this','নোট — শুধু আপনি দেখবেন'],spShow:['Show their name on the Home screen','হোম স্ক্রিনে নাম দেখান'],spTip:['Tip: write the same sponsor name in a match\'s "Sponsor" field — the report then counts those matches and players.','টিপ: ম্যাচের Sponsor ঘরে একই নাম লিখুন।'],
+spThanks:['Our sponsors','আমাদের স্পনসর'],delete:['Delete','মুছুন'],spNameNeed:['Enter the sponsor name','স্পনসরের নাম দিন'],pzNeed:['Enter the prize','প্রাইজ লিখুন'],
 featVidL:['Featured YouTube video (plays on players\' Home)','ফিচার্ড YouTube ভিডিও (প্লেয়ারদের হোমে চলবে)'],featured:['Featured video','ফিচার্ড ভিডিও'],follow:['Follow us','আমাদের ফলো করুন'],watchCh:['Watch on YouTube','YouTube-এ দেখুন'],badVid:['That is not a YouTube video link.','এটা YouTube ভিডিও লিংক নয়।'],newPlayer:['New player? Register','নতুন প্লেয়ার? রেজিস্টার'],register2:['Register','রেজিস্টার'],login:['Log in','লগইন'],
 pinLbl:['PIN (4–6 digits)','পিন (৪–৬ সংখ্যা)'],pinRep:['Repeat PIN','আবার পিন দিন'],pinMismatch:['PINs do not match.','দুটো পিন মেলেনি।'],pinFmt:['PIN must be 4–6 digits.','পিন ৪–৬ সংখ্যার হতে হবে।'],
 wrongPin:['Wrong UID or PIN.','UID বা পিন ভুল।'],uidRegistered:['This UID is already registered — log in with your PIN.','এই UID আগেই রেজিস্টার্ড — পিন দিয়ে লগইন করুন।'],
@@ -294,7 +308,7 @@ async function pull(){
   var r=await Promise.all(names.map(fetchAll));
   var st=r[0][0]||{},pr=r[1],tm=r[2],tc=r[3],ma=r[4],en=r[5],rs=r[6],rm=r[7],tr=r[8],tp=r[9],rp=r[10],an=r[11];
   S.config=st.config||{};PREF.brand=S.config.name||'';savePref();document.title=brandName();S.settings.reveal=st.reveal_min||10;S.settings.season=st.season||1;S.archive=st.archive||[];
-  S.players=pr.map(function(p){return {id:p.id,ign:p.ign,uid:p.game_uid,role:p.role,avatar:p.avatar||'',invitedBy:p.invited_by||null,banned:p.banned,trust:p.trust,warns:p.warns,teamId:p.team_id,created:ts(p.created_at),district:p.district||'',city:p.city||'',playRole:p.play_role||'',isHost:!!p.is_host,noshows:p.noshows||0,blockedUntil:p.blocked_until?ts(p.blocked_until):0}});
+  S.players=pr.map(function(p){return {id:p.id,ign:p.ign,uid:p.game_uid,role:p.role,avatar:p.avatar||'',invitedBy:p.invited_by||null,banned:p.banned,trust:p.trust,warns:p.warns,teamId:p.team_id,created:ts(p.created_at),district:p.district||'',city:p.city||'',playRole:p.play_role||'',isHost:!!p.is_host,verified:!!p.verified,noshows:p.noshows||0,blockedUntil:p.blocked_until?ts(p.blocked_until):0}});
   var codes={};tc.forEach(function(c){codes[c.team_id]=c.code});
   S.teams=tm.map(function(t){return {id:t.id,name:t.name,tag:t.tag,captain:t.captain,code:codes[t.id]||'',created:ts(t.created_at),
     members:S.players.filter(function(p){return p.teamId===t.id}).sort(function(a,b){return a.created-b.created}).map(function(p){return p.id})}});
@@ -315,8 +329,8 @@ async function pull(){
   S.likes={};ex[3].forEach(function(l){(S.likes[l.clip_id]=S.likes[l.clip_id]||[]).push(l.player_id)});
   S.waitlist=(ex[5]||[]).map(function(w){return {id:w.id,matchId:w.match_id,k:w.kind,ref:w.kind==='p'?w.player_id:w.team_id,ts:ts(w.created_at)}}).sort(function(a,b){return a.ts-b.ts});
   S.challenges=ex[4].map(function(c){return {id:c.id,from:c.from_team,to:c.to_team,mode:c.mode,start:ts(c.start_at),msg:c.message,status:c.status,matchId:c.match_id,ts:ts(c.created_at)}});
-  var gx=await Promise.all(['host_apps','noshows','lfg','team_invites','bounty_kills','team_recruit'].map(function(tb){return fetchAll(tb).catch(function(){return []})}));
-  S.hostApps=gx[0];S.noshows=gx[1];S.lfg=gx[2];S.invites=gx[3];S.bounty=gx[4];S.recruit=gx[5];
+  var gx=await Promise.all(['host_apps','noshows','lfg','team_invites','bounty_kills','team_recruit','uid_checks','sponsor_list','sponsors','prizes'].map(function(tb){return fetchAll(tb).catch(function(){return []})}));
+  S.hostApps=gx[0];S.noshows=gx[1];S.lfg=gx[2];S.invites=gx[3];S.bounty=gx[4];S.recruit=gx[5];S.uidChecks=gx[6];S.sponsorList=gx[7];S.sponsors=gx[8];S.prizes=gx[9];
   MYPROFILE=byId(S.players,SESSION.user.id);
   S.me.pid=MYPROFILE?MYPROFILE.id:null;
   S.me.role=(MYPROFILE&&MYPROFILE.role==='admin'&&PREF.adminView)?'admin':'player';
@@ -403,7 +417,7 @@ function pst(id){return (D&&D.ps[id])||{rating:1000,m:0,kills:0,booyah:0,top3:0,
 var TIERS=[['Bronze',0,'#C98A55'],['Silver',50,'#AEB8C6'],['Gold',150,'#F2B32E'],['Platinum',300,'#5ED1C9'],['Diamond',600,'#7DA8FF'],['Heroic',1000,'#FF6A3D'],['Master',1600,'#C77DFF']];
 function tierOf(pts){var cur=TIERS[0],nx=null;for(var i=0;i<TIERS.length;i++){if(pts>=TIERS[i][1]){cur=TIERS[i];nx=TIERS[i+1]||null}}return {name:cur[0],color:cur[2],next:nx,prog:nx?(pts-cur[1])/(nx[1]-cur[1]):1}}
 function badgesOf(p){var s=pst(p.id),b=[];
-  var bk=bountyCount(p.id);if(bk)b.push(['🎯','Jit Hunter'+(bk>1?' ×'+bk:'')]);if(p.isHost)b.push(['🎤','Host']);if(s.kills>0)b.push(['🩸','First Blood']);if(s.booyah>=1)b.push(['🏆','Booyah']);if(s.booyah>=3)b.push(['👑','Booyah King']);
+  var bk=bountyCount(p.id);if(bk)b.push(['🎯','Jit Hunter'+(bk>1?' ×'+bk:'')]);if(p.isHost)b.push(['🎤','Host']);if(p.verified)b.push(['✔','Verified']);if(s.kills>0)b.push(['🩸','First Blood']);if(s.booyah>=1)b.push(['🏆','Booyah']);if(s.booyah>=3)b.push(['👑','Booyah King']);
   if(s.maxK>=10)b.push(['🎯','Sharpshooter']);if(s.m>=20)b.push(['🛡️','Veteran']);if(s.m>=5&&s.posSum/s.m<=5)b.push(['📈','Consistent']);
   if(s.m>=10&&(p.trust==null||p.trust>=100))b.push(['✅','Clean Record']);
   try{var fn=founderNo(p);if(fn)b.unshift(['🌟','Founder #'+fn]);var rt=recTier(invitesOf(p).played);if(rt)b.push([rt[1],rt[2]]);if(mvpCount(p.id))b.push(['⭐','MVP ×'+mvpCount(p.id)])}catch(e){}
@@ -541,7 +555,7 @@ function svg(n){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColo
 
 /* ============ render ============ */
 var view='home',mFilter='upcoming',modeFilter='all',boardTab='season',openMatchId=null,openTourneyId=null,adminMTab='list';
-var PLAYER_TABS=['home','matches','tourneys','hub','board','profile'],ADMIN_TABS=['dash','amatches','atourneys','players','social','growth','settings'];
+var PLAYER_TABS=['home','matches','tourneys','hub','board','profile'],ADMIN_TABS=['dash','amatches','atourneys','players','social','sponsors','growth','settings'];
 function render(){
   S.settings.lang=PREF.lang;S.settings.theme=PREF.theme;
   document.documentElement.setAttribute('data-theme',S.settings.theme);
@@ -550,7 +564,7 @@ function render(){
   var canA=canAdminP(),tabs=PLAYER_TABS.concat(canA?['dash']:[]);if(tabs.indexOf(view)<0&&!(canA&&ADMIN_TABS.indexOf(view)>=0))view='home';S.me.role=(canA&&ADMIN_TABS.indexOf(view)>=0)?'admin':'player';
   var openR=S.reports.filter(function(r){return r.status==='open'}).length,pend=S.matches.filter(function(m){return matchStatus(m)==='live'}).length;
   $('tabs').innerHTML='<div class="in">'+tabs.map(function(k){var bd=k==='dash'?adminBadge():0;return '<button class="tab'+((view===k||(k==='dash'&&isAdmin()))?' on':'')+'" data-go="'+k+'">'+svg(k)+t(k==='dash'?'adminTab':k)+(bd?'<span class="badge">'+bd+'</span>':'')+'</button>'}).join('')+'</div>';
-  var fn={home:vHome,matches:vMatches,tourneys:vTourneys,board:vBoard,profile:vProfile,hub:vHub,dash:vDash,players:vPlayersAdmin,settings:vSettings,amatches:vMatches,atourneys:vTourneys,social:vSocialAdmin,growth:vGrowthAdmin}[view];
+  var fn={home:vHome,matches:vMatches,tourneys:vTourneys,board:vBoard,profile:vProfile,hub:vHub,dash:vDash,players:vPlayersAdmin,settings:vSettings,amatches:vMatches,atourneys:vTourneys,social:vSocialAdmin,growth:vGrowthAdmin,sponsors:vSponsorsAdmin}[view];
   paintApp((isAdmin()?adminNav():'')+fn());
   celebrateCheck();
   setTimeout(teamJoinPrompt,300);
@@ -576,7 +590,7 @@ function vHome(){
   var next=mine[0];
   var rec=S.matches.filter(function(m){return matchStatus(m)==='upcoming'&&!m.tid&&!inMatch(m,p.id)&&!canJoin(m)}).sort(function(a,b){return a.start-b.start}).slice(0,3);
   return '<div class="stack">'+hdr('🔥 '+esc(p.ign),'<div data-go="profile" style="cursor:pointer">'+avHtml(p,44)+'</div>')+
-   (deferredInstall&&!isStandalone()?'<div class="card row between" style="border-color:var(--acc)"><span class="small b">📲 '+t('installBanner')+'</span><button class="btn sm" data-a="installApp">'+t('installApp')+'</button></div>':'')+checkinAlerts(p)+pushBanner()+socialRow()+(p.banned?'<div class="card t-r b">⛔ '+t('banned')+'</div>':'')+
+   (deferredInstall&&!isStandalone()?'<div class="card row between" style="border-color:var(--acc)"><span class="small b">📲 '+t('installBanner')+'</span><button class="btn sm" data-a="installApp">'+t('installApp')+'</button></div>':'')+checkinAlerts(p)+pushBanner()+socialRow()+sponsorRow()+(p.banned?'<div class="card t-r b">⛔ '+t('banned')+'</div>':'')+
    '<div class="hero st"><div class="row between"><div><div class="lbl">'+t('tier')+' · '+t('season')+' '+S.settings.season+'</div><div class="disp" style="font-size:30px">'+tier.name+'</div></div><div style="text-align:right"><div class="lbl">'+t('seasonPts')+'</div><div class="disp" style="font-size:30px">'+s.pts+'</div></div></div>'+
    '<div class="bar" style="background:rgba(255,255,255,.2)"><i style="width:'+Math.round(tier.prog*100)+'%;background:#fff"></i></div><div class="tiny" style="opacity:.85">'+(tier.next?(tier.next[1]-s.pts)+' '+t('nextTier')+' ('+tier.next[0]+')':'MAX')+'</div></div>'+
    '<div class="grid4"><div class="stat"><span class="tiny muted">'+t('rating')+'</span><b>'+s.rating+'</b></div><div class="stat"><span class="tiny muted">'+t('booyah')+'</span><b>'+s.booyah+'</b></div><div class="stat"><span class="tiny muted">'+t('kills')+'</span><b>'+s.kills+'</b></div><div class="stat"><span class="tiny muted">'+t('played')+'</span><b>'+s.m+'</b></div></div>'+
@@ -678,7 +692,7 @@ function openMatch(id){
   var p=me(),joined=p&&inMatch(m,p.id),st=matchStatus(m),err=canJoin(m);
   var ents=m.entries.map(function(e){var rt=entryPlayers(e).map(function(id){return pst(id).rating});var avg=rt.length?Math.round(rt.reduce(function(a,b){return a+b},0)/rt.length):1000;
     var flagged=isAdmin()&&entryPlayers(e).some(function(id){var x=P(id);return x&&(x.banned||S.reports.some(function(r){return r.target===id&&r.status==='open'}))});
-    return '<div class="lr">'+(e.k==='p'?avHtml(P(e.ref)):'<div class="av">'+esc(entryName(e).charAt(0))+'</div>')+'<div class="grow"><b class="small">'+esc(entryName(e))+'</b>'+(e.checked&&hasCheckin(m)&&matchStatus(m)==='upcoming'?' <span class="tag t-g">✅</span>':'')+(flagged?' <span class="tag t-r">⚠</span>':'')+'<div class="tiny muted">'+t('rating')+' '+avg+'</div></div></div>'}).join('');
+    return '<div class="lr">'+(e.k==='p'?avHtml(P(e.ref)):'<div class="av">'+esc(entryName(e).charAt(0))+'</div>')+'<div class="grow"><b class="small">'+esc(entryName(e))+'</b>'+(e.k==='p'?vMark(P(e.ref)):'')+(e.checked&&hasCheckin(m)&&matchStatus(m)==='upcoming'?' <span class="tag t-g">✅</span>':'')+(flagged?' <span class="tag t-r">⚠</span>':'')+'<div class="tiny muted">'+t('rating')+' '+avg+'</div></div></div>'}).join('');
   var res='';
   if(st==='completed'&&m.results.length){
     res='<h3>'+t('results')+'</h3><table class="rt"><tr><th>#</th><th></th><th>'+t('kills')+'</th><th>'+t('pts')+'</th></tr>'+m.results.slice().sort(function(a,b){return a.pos-b.pos}).map(function(r){var e=byId(m.entries,r.eid);return '<tr><td><span class="rank '+(r.pos<=3?'r'+r.pos:'')+'">'+r.pos+'</span></td><td>'+esc(e?entryName(e):'?')+(e&&e.k==='t'&&r.mk?'<div class="tiny muted">'+Object.keys(r.mk).map(function(pid){var x=P(pid);return x?esc(x.ign)+' '+r.mk[pid]:''}).join(' · ')+'</div>':'')+'</td><td>'+r.kills+'</td><td><b>'+r.pts+'</b></td></tr>'}).join('')+'</table>';
@@ -745,7 +759,7 @@ function vProfile(){
     teamInviteBlock(tm)+'<div class="grid2"><button class="btn sm sec" data-a="joinTeam">🔁 '+t('switchTeam')+'</button><button class="btn sm no" data-a="leaveTeam">'+t('leaveTeam')+'</button></div></div>':
     '<div class="card st"><p class="muted small">'+t('noTeam')+'</p><div class="grid2"><button class="btn" data-a="createTeam">'+t('createTeam')+'</button><button class="btn sec" data-a="joinTeam">'+t('joinTeam')+'</button></div></div>';
   return '<div class="stack">'+hdr(t('profile'))+
-   '<div class="card row">'+avHtml(p,54)+'<div class="grow"><h2>'+esc(p.ign)+'</h2><div class="tiny muted">UID '+esc(p.uid)+' · '+t('trust')+' '+(p.trust==null?100:p.trust)+'%'+(p.warns?' · ⚠ '+p.warns+' '+t('warnings'):'')+'</div></div><span class="tag" style="background:'+tierOf(s.pts).color+'22;color:'+tierOf(s.pts).color+'">'+tierOf(s.pts).name+'</span></div>'+
+   '<div class="card row">'+avHtml(p,54)+'<div class="grow"><h2>'+esc(p.ign)+vMark(p)+'</h2><div class="tiny muted">UID '+esc(p.uid)+' · '+t('trust')+' '+(p.trust==null?100:p.trust)+'%'+(p.warns?' · ⚠ '+p.warns+' '+t('warnings'):'')+'</div></div><span class="tag" style="background:'+tierOf(s.pts).color+'22;color:'+tierOf(s.pts).color+'">'+tierOf(s.pts).name+'</span></div>'+
    '<div class="grid3"><div class="stat"><span class="tiny muted">'+t('rating')+'</span><b>'+s.rating+'</b></div><div class="stat"><span class="tiny muted">'+t('kd')+'</span><b>'+(s.m?(s.kills/s.m).toFixed(1):'0')+'</b></div><div class="stat"><span class="tiny muted">'+t('avgPos')+'</span><b>'+(s.m?(s.posSum/s.m).toFixed(1):'—')+'</b></div>'+
    '<div class="stat"><span class="tiny muted">'+t('booyah')+'</span><b>'+s.booyah+'</b></div><div class="stat"><span class="tiny muted">Top 3</span><b>'+s.top3+'</b></div><div class="stat"><span class="tiny muted">'+t('played')+'</span><b>'+s.m+'</b></div></div>'+
    ratingSpark(s)+
@@ -856,7 +870,7 @@ var ocrRows=null;
 function resultsForm(m){
   var existing={};m.results.forEach(function(r){existing[r.eid]=r});
   var rows=m.entries.map(function(e,i){var r=existing[e.id]||{};var pl=entryPlayers(e);
-    return '<tr data-eid="'+e.id+'"><td style="width:58px"><input type="number" min="1" class="rpos" value="'+(r.pos||'')+'"></td><td><b class="small">'+esc(entryName(e))+'</b>'+(e.k==='t'?'<div class="row wrap" style="gap:4px;margin-top:4px">'+pl.map(function(pid){var x=P(pid);return '<label class="tiny" style="display:flex;align-items:center;gap:3px">'+esc(x?x.ign:'?')+'<input type="number" min="0" style="width:52px" class="rmk" data-pid="'+pid+'" value="'+(r.mk&&r.mk[pid]!=null?r.mk[pid]:'')+'"></label>'}).join('')+'</div>':'')+'</td><td style="width:64px">'+(e.k==='p'?'<input type="number" min="0" class="rk" value="'+(r.kills!=null?r.kills:'')+'">':'<span class="tiny muted">Σ</span>')+'</td></tr>'}).join('');
+    return '<tr data-eid="'+e.id+'"><td style="width:58px"><input type="number" min="1" class="rpos" value="'+(r.pos||'')+'"></td><td><b class="small">'+esc(entryName(e))+'</b>'+(e.k==='p'?vMark(P(e.ref)):'')+(e.k==='t'?'<div class="row wrap" style="gap:4px;margin-top:4px">'+pl.map(function(pid){var x=P(pid);return '<label class="tiny" style="display:flex;align-items:center;gap:3px">'+esc(x?x.ign:'?')+'<input type="number" min="0" style="width:52px" class="rmk" data-pid="'+pid+'" value="'+(r.mk&&r.mk[pid]!=null?r.mk[pid]:'')+'"></label>'}).join('')+'</div>':'')+'</td><td style="width:64px">'+(e.k==='p'?'<input type="number" min="0" class="rk" value="'+(r.kills!=null?r.kills:'')+'">':'<span class="tiny muted">Σ</span>')+'</td></tr>'}).join('');
   modal('<div class="row between"><h2>📝 '+t('results')+'</h2><button class="btn sm sec" data-a="mclose">✕</button></div><div class="small muted">'+esc(m.title)+' · '+m.entries.length+' '+t('entries')+'</div>'+
    '<div class="card st"><label class="btn sec" style="cursor:pointer">📷 '+t('ocr')+'<input type="file" accept="image/*" id="ocrFile" style="display:none"></label><div id="ocrStatus" class="tiny muted"></div>'+
    '<label class="f">'+t('pasteText')+'<textarea id="ocrText" rows="3" placeholder="1 Bengal Wolves NightOwl 5&#10;2 RageX 3"></textarea></label><button class="btn sm sec" data-a="parseText" data-id="'+m.id+'">'+t('parse')+'</button></div>'+
@@ -1101,6 +1115,7 @@ function promoContent(type,d){var b=brandName(),L=siteLink(),rv=S.settings.revea
     c.yt='📊 Weekly recap on '+b+'\n'+tl.join('\n')+(w.frag?'\n🎯 Top fragger: '+w.frag.ign:'')+'\nPlay next week 👉 '+L;
     c.wa='*📊 Weekly recap ('+enDate(w.from)+' – '+enDate(w.to)+')*\n'+(tl.join('\n')||'No matches this week')+(w.frag?'\n🎯 Top fragger: '+w.frag.ign:'')+'\n\n👉 Play next week: '+L;}
   else if(type==='lfg'||type==='recruit'){c=lfgPromo(type,d)}
+  else if(type==='season'){c=seasonPromo(d)}
   return c}
 
 /* ---- poster drawing (brand: black + red, with logo) ---- */
@@ -1210,7 +1225,7 @@ async function autoSocial(kind,data,opt){opt=opt||{};
     var up=await sb.storage.from('banners').upload(path,blob,{contentType:'image/png',upsert:false});if(up.error)throw up.error;
     var url=sb.storage.from('banners').getPublicUrl(path).data.publicUrl;
     var cap=(opt.tab==='ig'&&opt.text)?opt.text:c.ig,sh=(opt.tab&&opt.tab!=='ig'&&opt.text)?opt.text:c.yt;
-    var row={kind:kind,image_url:url,caption:String(cap).slice(0,2200),short:String(sh).slice(0,1000),link:socialLink()};
+    var row={kind:kind==='season'?'custom':kind,image_url:url,caption:String(cap).slice(0,2200),short:String(sh).slice(0,1000),link:socialLink()};
     if(data&&data.id&&/^[0-9a-f-]{36}$/i.test(data.id))row.ref_id=data.id;
     var r=await sb.from('social_queue').insert(row);if(r.error)throw r.error;
     if(opt.manual)toast(t('socialQueued'));setTimeout(loadSocialLog,4000);return true}
@@ -1320,7 +1335,7 @@ try{var _lq=new URLSearchParams(location.search).get('lfg');if(_lq&&/^[0-9a-f-]{
 function lfgFocusCheck(){try{var f=localStorage.getItem('ab.lfgFocus');if(f&&me()&&SESSION){localStorage.removeItem('ab.lfgFocus');LFG_FOCUS=f;FINDER_TAB='players';view='hub';setTimeout(function(){var el=document.querySelector('[data-lfg="'+f+'"]');if(el)el.scrollIntoView({block:'center'})},400)}}catch(e){}}
 function lfgFresh(x){return now()-new Date(x.updated_at).getTime()<3*864e5}
 function recFresh(x){return now()-new Date(x.updated_at).getTime()<7*864e5}
-function memberLine(tm,pid){var q=P(pid);if(!q)return '';return '<div class="lr" style="padding:5px 0">'+avHtml(q,26)+'<div class="grow small"><b>'+esc(q.ign)+'</b>'+(tm.captain===pid?' <span class="tag">👑 '+t('captain')+'</span>':'')+roleTag(pid)+'</div><span class="tiny muted">⭐ '+pst(pid).rating+'</span></div>'}
+function memberLine(tm,pid){var q=P(pid);if(!q)return '';return '<div class="lr" style="padding:5px 0">'+avHtml(q,26)+'<div class="grow small"><b>'+esc(q.ign)+'</b>'+vMark(q)+(tm.captain===pid?' <span class="tag">👑 '+t('captain')+'</span>':'')+roleTag(pid)+'</div><span class="tiny muted">⭐ '+pst(pid).rating+'</span></div>'}
 function lfgBlock(){var p=me();if(!p)return '';var myT=p.teamId?TM(p.teamId):null,isCap=myT&&myT.captain===p.id,full=myT&&myT.members.length>=4;
   var mine=(S.lfg||[]).filter(function(x){return x.player_id===p.id})[0];
   var posts=(S.lfg||[]).filter(function(x){var q=P(x.player_id);return q&&!q.banned&&x.player_id!==p.id&&lfgFresh(x)}).sort(function(a,b){return (b.player_id===LFG_FOCUS)-(a.player_id===LFG_FOCUS)||new Date(b.updated_at)-new Date(a.updated_at)});
@@ -1340,7 +1355,7 @@ function lfgBlock(){var p=me();if(!p)return '';var myT=p.teamId?TM(p.teamId):nul
       (mine?'<button class="btn block" style="background:linear-gradient(90deg,#e1306c,#1877f2)" data-a="lfgShare">📤 '+t('shareLfg')+'</button>':'')+'</div>'}
     h+=posts.length?posts.slice(0,40).map(function(x){var q=P(x.player_id),s=pst(q.id),qt=q.teamId?TM(q.teamId):null,foc=x.player_id===LFG_FOCUS;
       var btn=isCap&&!full&&!(qt&&qt.id===myT.id)?(sent.indexOf(q.id)>=0?'<span class="tag t-g">'+t('invSent')+'</span>':'<button class="btn sm" data-a="tInvite" data-id="'+q.id+'">＋ '+t('invite')+'</button>'):'';
-      return '<div class="card st" data-lfg="'+q.id+'"'+(foc?' style="border-color:var(--acc);box-shadow:0 0 0 2px var(--acc)"':'')+'><div class="row between"><div class="row">'+avHtml(q)+'<div><b class="small">'+esc(q.ign)+'</b><div class="row wrap" style="gap:4px"><span class="tag t-acc">🎯 '+t('role_'+x.role)+'</span><span class="tag">'+t(x.mode)+'</span></div></div></div>'+btn+'</div>'+
+      return '<div class="card st" data-lfg="'+q.id+'"'+(foc?' style="border-color:var(--acc);box-shadow:0 0 0 2px var(--acc)"':'')+'><div class="row between"><div class="row">'+avHtml(q)+'<div><b class="small">'+esc(q.ign)+'</b>'+vMark(q)+'<div class="row wrap" style="gap:4px"><span class="tag t-acc">🎯 '+t('role_'+x.role)+'</span><span class="tag">'+t(x.mode)+'</span></div></div></div>'+btn+'</div>'+
         '<div class="tiny muted">⭐ '+s.rating+' · '+s.m+' '+t('matchesN')+' · '+(s.m?(s.kills/s.m).toFixed(1):'0')+' '+t('kd')+(locText(q)?' · 📍 '+esc(locText(q)):'')+(qt?' · 🛡 '+esc(qt.tag):'')+'</div>'+(x.note?'<div class="small">“'+esc(x.note)+'”</div>':'')+'</div>'}).join(''):'<div class="card small muted">'+t('lfgNone')+'</div>';
     if(isCap&&!full)h+='<div class="tiny muted">'+t('lfgCapTip')+'</div>';
   }else{
@@ -1415,7 +1430,7 @@ function bountyForm(m){var done=(S.bounty||[]).filter(function(x){return x.match
 function growthProfileCards(p){var bl=myBlock(),out='';
   if(bl)out+='<div class="card st" style="border-color:#ff4d4d;background:rgba(255,77,77,.08)"><b>🚫 '+t('blockedTitle')+'</b><div class="small">'+t('blockedUntil',{d:fmtTime(bl)})+'</div></div>';
   else if(p.noshows)out+='<div class="tiny muted">🚫 '+t('noShowsN',{n:p.noshows})+'</div>';
-  return out+locationCard(p)+hostCard()}
+  return out+verifyCard(p)+locationCard(p)+hostCard()+myPrizesCard()}
 
 /* ---- admin: host apps, blocks ---- */
 function hostAppsCard(){var pend=(S.hostApps||[]).filter(function(a){return a.status==='pending'&&P(a.player_id)});
@@ -1547,7 +1562,7 @@ function promoCanvas(c,fmt,ti){if(ti==null)ti=nextTheme();var T=THEMES[ti%THEMES
 function wrapTxt(x,t,maxW){var w=String(t).split(' '),out=[],line='';w.forEach(function(word){var test=line?line+' '+word:word;if(x.measureText(test).width>maxW&&line){out.push(line);line=word}else line=test});if(line)out.push(line);return out}
 
 /* ============ LEADERBOARD (clean, no overflow, fair ties) ============ */
-var BOARD_TABS=[['season','🏆','seasonPts','pts'],['fraggers','🎯','fraggers','kills'],['ratings','⭐','ratings','SR'],['teams','🛡','teams','pts'],['districts','📍','districts','pts'],['hunters','🔥','hunters','kills'],['recruiters','🤝','recruiters','👥']];
+var BOARD_TABS=[['season','🏆','seasonPts','pts'],['hof','🏛','hallOfFame',''],['fraggers','🎯','fraggers','kills'],['ratings','⭐','ratings','SR'],['teams','🛡','teams','pts'],['districts','📍','districts','pts'],['hunters','🔥','hunters','kills'],['recruiters','🤝','recruiters','👥']];
 function plural(n,one,many){return n+' '+(n===1?one:many)}
 function boardRows(k){var meId=S.me.pid,ps=S.players.filter(function(p){return !p.banned&&p.role!=='admin'}),rows;
   if(k==='districts')return districtRows().map(function(r){r.sub=r.sub.replace(/^1 players/,'1 player');return r});
@@ -1558,17 +1573,17 @@ function boardRows(k){var meId=S.me.pid,ps=S.players.filter(function(p){return !
     var v=k==='season'?s.pts:k==='fraggers'?s.kills:s.rating;
     var tie=k==='season'?[s.booyah,s.kills]:k==='fraggers'?[Math.round(kd*100),s.m]:[s.m];
     var sub=k==='fraggers'?kd.toFixed(1)+' '+t('kd')+' · '+plural(s.m,t('matchN1'),t('matchesN')):k==='ratings'?plural(s.m,t('matchN1'),t('matchesN'))+' · '+tierOf(s.pts).name:tierOf(s.pts).name+' · '+s.booyah+' 🏆 · '+s.kills+' 🎯';
-    return {n:(founderNo(p)?'🌟 ':'')+p.ign,me:p.id===meId,v:v,tie:tie,sub:sub,show:k==='ratings'?s.m>0:v>0}}).filter(function(r){return r.show||r.me})}
+    return {n:(founderNo(p)?'🌟 ':'')+p.ign,vm:!!p.verified,me:p.id===meId,v:v,tie:tie,sub:sub,show:k==='ratings'?s.m>0:v>0}}).filter(function(r){return r.show||r.me})}
 function rankRows(rows){rows.sort(function(a,b){if(b.v!==a.v)return b.v-a.v;var x=a.tie||[],y=b.tie||[];for(var i=0;i<Math.max(x.length,y.length);i++){if((y[i]||0)!==(x[i]||0))return (y[i]||0)-(x[i]||0)}return a.n.localeCompare(b.n)});
   var prev=null;rows.forEach(function(r,i){var same=prev&&prev.v===r.v&&JSON.stringify(prev.tie||[])===JSON.stringify(r.tie||[]);r.rank=same?prev.rank:i+1;prev=r});return rows}
-function boardRow(r,unit){return '<div class="lr brow'+(r.me?' bme':'')+'"><span class="rank '+(r.rank<=3?'r'+r.rank:'')+'">'+r.rank+'</span><div class="grow" style="min-width:0"><b class="small ell">'+esc(r.n)+(r.me?' <span class="tag t-acc">'+t('you')+'</span>':'')+'</b><div class="tiny muted ell">'+r.sub+'</div></div><div style="text-align:right"><b class="disp" style="font-size:20px">'+r.v+'</b><div class="tiny muted">'+unit+'</div></div></div>'}
+function boardRow(r,unit){return '<div class="lr brow'+(r.me?' bme':'')+'"><span class="rank '+(r.rank<=3?'r'+r.rank:'')+'">'+r.rank+'</span><div class="grow" style="min-width:0"><b class="small ell">'+esc(r.n)+(r.vm?vMark({verified:1}):'')+(r.me?' <span class="tag t-acc">'+t('you')+'</span>':'')+'</b><div class="tiny muted ell">'+r.sub+'</div></div><div style="text-align:right"><b class="disp" style="font-size:20px">'+r.v+'</b><div class="tiny muted">'+unit+'</div></div></div>'}
 function vBoard(){derive();var tab=BOARD_TABS.filter(function(x){return x[0]===boardTab})[0]||BOARD_TABS[0];boardTab=tab[0];
-  var rows=rankRows(boardRows(boardTab)),top=rows.slice(0,50),mine=rows.filter(function(r){return r.me})[0];
+  var rows=boardTab==='hof'?[]:rankRows(boardRows(boardTab)),top=rows.slice(0,50),mine=rows.filter(function(r){return r.me})[0];
   setTimeout(function(){var c=$('bchips'),o=c&&c.querySelector('.on');if(c&&o){var want=o.offsetLeft-(c.clientWidth-o.clientWidth)/2;if(Math.abs(c.scrollLeft-want)>4)c.scrollLeft=want}},0);
   return '<div class="stack">'+hdr(t('board'))+
    '<div class="bchips" id="bchips">'+BOARD_TABS.map(function(x){return '<button class="chip'+(boardTab===x[0]?' on':'')+'" data-bt="'+x[0]+'">'+x[1]+' '+t(x[2])+'</button>'}).join('')+'</div>'+
    (boardTab==='districts'?locSeg():'')+'<div class="tiny muted">'+t('bh_'+boardTab)+'</div>'+
-   (top.length?'<div class="card" style="padding:4px 12px">'+top.map(function(r){return boardRow(r,tab[3])}).join('')+'</div>':'<div class="card empty">'+t('bEmpty')+'</div>')+
+   (boardTab==='hof'?hofHtml():top.length?'<div class="card" style="padding:4px 12px">'+top.map(function(r){return boardRow(r,tab[3])}).join('')+'</div>':'<div class="card empty">'+t('bEmpty')+'</div>')+
    (mine&&mine.rank>50?'<div class="tiny muted" style="text-align:center">• • •</div><div class="card" style="padding:4px 12px">'+boardRow(mine,tab[3])+'</div>':'')+'</div>'}
 
 /* ============ ONE ADMIN TAB (all admin work in one place) ============ */
@@ -1577,10 +1592,10 @@ function adminCounts(){var c={rep:S.reports.filter(function(r){return r.status==
   live:S.matches.filter(function(m){return matchStatus(m)==='live'}).length,
   host:(S.hostApps||[]).filter(function(a){return a.status==='pending'}).length,
   social:(SOCIAL_LOG||[]).filter(function(r){return r.status==='pending'}).length,
-  clips:(S.clips||[]).filter(function(x){return x.status==='pending'}).length};return c}
-function adminBadge(){var c=adminCounts();return c.rep+c.live+c.host+c.social+c.clips}
-var ADMIN_NAV=[['dash','📊','overview'],['amatches','⚔','matches'],['atourneys','🏆','tourneys'],['players','👥','players'],['social','📣','socialAdm'],['growth','📈','growth'],['settings','⚙','settings']];
-function adminNav(){var c=adminCounts(),bd={dash:c.live+c.clips,players:c.rep+c.host,social:c.social};
+  clips:(S.clips||[]).filter(function(x){return x.status==='pending'}).length,uid:(S.uidChecks||[]).filter(function(x){return x.status==='pending'}).length,prize:(S.prizes||[]).filter(function(x){return x.status!=='given'}).length};return c}
+function adminBadge(){var c=adminCounts();return c.rep+c.live+c.host+c.social+c.clips+c.uid}
+var ADMIN_NAV=[['dash','📊','overview'],['amatches','⚔','matches'],['atourneys','🏆','tourneys'],['players','👥','players'],['social','📣','socialAdm'],['sponsors','🤝','sponsorsT'],['growth','📈','growth'],['settings','⚙','settings']];
+function adminNav(){var c=adminCounts(),bd={dash:c.live+c.clips,players:c.rep+c.host+c.uid,social:c.social,sponsors:c.prize};
   setTimeout(function(){var n=$('anav'),o=n&&n.querySelector('.on');if(n&&o){var want=o.offsetLeft-(n.clientWidth-o.clientWidth)/2;if(Math.abs(n.scrollLeft-want)>4)n.scrollLeft=want}},0);
   if(SOCIAL_LOG===null&&!adminNav._l){adminNav._l=1;setTimeout(function(){loadSocialLog().then(function(){adminNav._l=0;var n=(SOCIAL_LOG||[]).filter(function(r){return r.status==='pending'}).length;if(n&&!isTyping())render()})},50)}
   return '<div class="anav-wrap"><div class="tiny muted b" style="letter-spacing:1.2px">🛠 '+t('adminTab').toUpperCase()+'</div><div class="bchips" id="anav">'+ADMIN_NAV.map(function(x){var b=bd[x[0]]||0;return '<button class="chip'+(view===x[0]?' on':'')+'" data-go="'+x[0]+'">'+x[1]+' '+t(x[2])+(b?' <span class="cbadge">'+b+'</span>':'')+'</button>'}).join('')+'</div></div>'}
@@ -1588,7 +1603,115 @@ function annBlock(){return '<h2>📢 '+t('announcements')+'</h2><div class="card
    S.ann.slice().reverse().map(function(a){return '<div class="lr"><div class="grow small">'+esc(a.text)+'<div class="tiny muted">'+fmtTime(a.ts)+'</div></div><button class="btn sm no" data-delann="'+a.id+'">✕</button></div>'}).join('')+'</div>'}
 function vSocialAdmin(){return '<div class="stack">'+hdr('📣 '+t('socialAdm'))+promoStudioCard()+socialCard()+annBlock()+'</div>'}
 function vGrowthAdmin(){return '<div class="stack">'+hdr('📈 '+t('growth'))+growthCard().replace('<h2>📈 '+t('growth')+'</h2>','')+'</div>'}
-function vPlayersAdmin(){return '<div class="stack">'+vPlayers()+hostAppsCard()+'</div>'}
+function vPlayersAdmin(){return '<div class="stack">'+vPlayers()+uidChecksCard()+hostAppsCard()+'</div>'}
+
+/* ============ UID VERIFICATION · SEASON HALL OF FAME · SPONSORS ============ */
+function vMark(p){return p&&p.verified?' <span class="vmark" title="Verified UID">✔</span>':''}
+
+/* ---- UID verification (player) ---- */
+function myUidCheck(){var p=me();return p?(S.uidChecks||[]).filter(function(c){return c.player_id===p.id})[0]:null}
+function verifyCard(p){
+  if(p.verified)return '<div class="card st" style="border-color:#22c55e"><b class="small">✅ '+t('vfDone')+'</b><div class="tiny muted">'+t('vfDoneNote')+'</div></div>';
+  var c=myUidCheck();
+  if(c&&c.status==='pending')return '<div class="card st"><b class="small">⏳ '+t('vfWait')+'</b><div class="tiny muted">UID '+esc(p.uid)+'</div></div>';
+  return '<div class="card st"><b class="small">🪪 '+t('vfTitle')+'</b>'+(c&&c.status==='rejected'?'<div class="tiny" style="color:#ff8a8a">✕ '+t('vfRejected')+(c.note?': '+esc(c.note):'')+'</div>':'')+
+   '<div class="tiny muted" style="white-space:pre-line">'+t('vfHow',{u:esc(p.uid)})+'</div>'+
+   '<input type="file" id="vf_file" accept="image/*" style="padding:8px">'+
+   '<button class="btn sm" data-a="vfSend">📤 '+t('vfSend')+'</button></div>'}
+function shrinkImage(file,max){return new Promise(function(res,rej){var img=new Image(),u=URL.createObjectURL(file);
+  img.onload=function(){var k=Math.min(1,max/Math.max(img.width,img.height)),c=document.createElement('canvas');c.width=Math.round(img.width*k);c.height=Math.round(img.height*k);
+    c.getContext('2d').drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(u);c.toBlob(function(b){b?res(b):rej(new Error('image'))},'image/jpeg',0.85)};
+  img.onerror=function(){rej(new Error(t('vfBadImg')))};img.src=u})}
+async function vfSend(){var f=$('vf_file')&&$('vf_file').files[0];if(!f){toast('⚠ '+t('vfPick'));return}
+  if(!/^image\//.test(f.type)){toast('⚠ '+t('vfBadImg'));return}
+  return run(async function(){var blob=await shrinkImage(f,1280),path=S.me.pid+'/'+Date.now()+'.jpg';
+    var up=await sb.storage.from('proofs').upload(path,blob,{contentType:'image/jpeg',upsert:false});if(up.error)throw up.error;
+    await rpc('request_uid_check',{p_path:path})},'✓ '+t('vfSent'))}
+
+/* ---- UID verification (admin) ---- */
+var PROOF_URL={};
+function loadProofs(){document.querySelectorAll('img[data-proof]').forEach(function(im){var p=im.getAttribute('data-proof');
+  if(PROOF_URL[p]){im.src=PROOF_URL[p];return}
+  sb.storage.from('proofs').createSignedUrl(p,3600).then(function(r){if(r&&r.data&&r.data.signedUrl){PROOF_URL[p]=r.data.signedUrl;im.src=r.data.signedUrl}})})}
+function uidChecksCard(){var pend=(S.uidChecks||[]).filter(function(c){return c.status==='pending'&&P(c.player_id)});setTimeout(loadProofs,0);
+  var nv=S.players.filter(function(p){return p.verified}).length;
+  return '<h2>🪪 '+t('vfAdmin')+(pend.length?' <span class="tag t-r">'+pend.length+'</span>':'')+'</h2><div class="card st"><div class="tiny muted">'+t('vfAdminNote',{n:nv})+'</div>'+
+   (pend.length?pend.map(function(c){var q=P(c.player_id);return '<div class="card st" style="padding:10px"><div class="row between"><b>'+esc(q.ign)+'</b><span class="tag t-acc mono" style="font-size:15px">UID '+esc(q.uid)+'</span></div>'+
+     '<img data-proof="'+esc(c.image_path)+'" alt="screenshot" style="width:100%;max-height:420px;object-fit:contain;background:#000;border-radius:10px;min-height:120px">'+
+     '<div class="tiny muted">'+t('vfCheck')+'</div><select id="vfr_'+q.id+'"><option value="">'+t('vfReason')+'</option><option>'+t('vfR1')+'</option><option>'+t('vfR2')+'</option><option>'+t('vfR3')+'</option></select>'+
+     '<div class="grid2"><button class="btn no sm" data-a="vfReview" data-k="0" data-id="'+q.id+'">✕ '+t('reject')+'</button><button class="btn sm" data-a="vfReview" data-k="1" data-id="'+q.id+'">✔ '+t('vfApprove')+'</button></div></div>'}).join(''):'<div class="tiny muted">'+t('vfNone')+'</div>')+'</div>'}
+
+/* ---- Season Hall of Fame ---- */
+function seasonStats(season){var ps={},tsx={},mv={},nm=0,who={};
+  S.matches.forEach(function(m){if(m.status!=='completed'||!m.results.length||(m.season||1)!==season)return;nm++;
+    m.results.forEach(function(r){var e=byId(m.entries,r.eid);if(!e)return;entryPlayers(e).forEach(function(id){var s=ps[id]=ps[id]||{pts:0,kills:0,booyah:0,m:0};s.m++;s.pts+=r.pts;s.kills+=e.k==='p'?r.kills:((r.mk&&r.mk[id])||0);if(r.pos===1)s.booyah++;who[id]=1});
+      if(e.k==='t'){var q=tsx[e.ref]=tsx[e.ref]||{pts:0,booyah:0};q.pts+=r.pts;if(r.pos===1)q.booyah++}});
+    var x=mvpOf(m);if(x)mv[x.pid]=(mv[x.pid]||0)+1});
+  function best(o,f,tie){return Object.keys(o).filter(function(id){var p=P(id);return p&&p.role!=='admin'&&!p.banned}).sort(function(a,b){return (f(o[b])-f(o[a]))||((tie?tie(o[b])-tie(o[a]):0))})}
+  var top=best(ps,function(s){return s.pts},function(s){return s.booyah*1000+s.kills}).slice(0,3).map(function(id){return {ign:P(id).ign,pts:ps[id].pts,booyah:ps[id].booyah,kills:ps[id].kills}});
+  var fr=best(ps,function(s){return s.kills})[0],mvp=Object.keys(mv).filter(function(id){return P(id)}).sort(function(a,b){return mv[b]-mv[a]})[0];
+  var tm=Object.keys(tsx).filter(function(id){return TM(id)}).sort(function(a,b){return (tsx[b].pts-tsx[a].pts)||(tsx[b].booyah-tsx[a].booyah)})[0];
+  return {season:season,top:top,fragger:fr&&ps[fr].kills?{ign:P(fr).ign,kills:ps[fr].kills}:null,mvp:mvp?{ign:P(mvp).ign,n:mv[mvp]}:null,
+    team:tm?{name:TM(tm).name+' ['+TM(tm).tag+']',pts:tsx[tm].pts}:null,players:Object.keys(who).length,matches:nm}}
+function hofHtml(){var list=(S.archive||[]).slice().reverse(),cur=seasonStats(S.settings.season),medal=['🥇','🥈','🥉'];
+  var live='<div class="card st" style="border-color:var(--acc)"><b>⏳ '+t('season')+' '+S.settings.season+' — '+t('hofLive')+'</b>'+
+    (cur.top.length?cur.top.map(function(x,i){return '<div class="lr" style="padding:6px 0"><span style="font-size:20px">'+medal[i]+'</span><div class="grow small"><b>'+esc(x.ign)+'</b></div><b>'+x.pts+' pts</b></div>'}).join(''):'<div class="tiny muted">'+t('bEmpty')+'</div>')+'<div class="tiny muted">'+t('hofHow')+'</div></div>';
+  return live+(list.length?list.map(function(a){var h=a.hof;
+    if(!h)return '<div class="card st"><b>🏛 '+t('season')+' '+a.season+'</b><div class="small">🥇 '+esc((a.top||[]).join(', '))+'</div></div>';
+    return '<div class="card st hof"><div class="row between"><b style="font-size:17px">🏛 '+t('season')+' '+h.season+'</b><span class="tiny muted">'+(a.ts?esc(fmtTime(a.ts)):'')+'</span></div>'+
+      (h.top||[]).map(function(x,i){return '<div class="lr" style="padding:7px 0"><span style="font-size:24px">'+medal[i]+'</span><div class="grow"><b>'+esc(x.ign)+'</b><div class="tiny muted">'+x.booyah+' 🏆 · '+x.kills+' 🎯</div></div><b class="disp" style="font-size:20px">'+x.pts+'</b></div>'}).join('')+
+      '<div class="grid3">'+(h.fragger?'<div class="stat"><span class="tiny muted">🎯 '+t('fraggers')+'</span><b class="small">'+esc(h.fragger.ign)+'</b><span class="tiny">'+h.fragger.kills+' kills</span></div>':'')+
+      (h.mvp?'<div class="stat"><span class="tiny muted">⭐ MVP</span><b class="small">'+esc(h.mvp.ign)+'</b><span class="tiny">×'+h.mvp.n+'</span></div>':'')+
+      (h.team?'<div class="stat"><span class="tiny muted">🛡 '+t('teams')+'</span><b class="small">'+esc(h.team.name)+'</b><span class="tiny">'+h.team.pts+' pts</span></div>':'')+'</div>'+
+      '<div class="tiny muted">'+h.players+' '+t('playersN')+' · '+h.matches+' '+t('matchesN')+'</div></div>'}).join(''):'<div class="card empty">'+t('hofNone')+'</div>')}
+function seasonPromo(h){var L=siteLink(),medal=['🥇','🥈','🥉'],c={};
+  c.badge='HALL OF FAME';c.title='Season '+h.season+' Champions';
+  c.rows=(h.top||[]).map(function(x,i){return [medal[i],['#1','#2','#3'][i]+' · '+x.pts+' pts · '+x.booyah+' Booyah',x.ign.slice(0,18)]}).concat(h.fragger?[['🎯','Top fragger · '+h.fragger.kills+' kills',h.fragger.ign]]:[]).concat(h.mvp?[['⭐','Most MVPs · ×'+h.mvp.n,h.mvp.ign]]:[]).concat(h.team?[['🛡','Best team',h.team.name]]:[]);
+  c.box='SEASON '+(h.season+1)+' STARTS NOW';c.cta='Play free 👉 '+L.replace(/^https?:\/\//,'');
+  var lines=(h.top||[]).map(function(x,i){return medal[i]+' '+x.ign+' — '+x.pts+' pts'});
+  c.ig='🏛 SEASON '+h.season+' HALL OF FAME 🏛\n\n'+lines.join('\n')+(h.fragger?'\n🎯 Top fragger: '+h.fragger.ign+' ('+h.fragger.kills+' kills)':'')+(h.mvp?'\n⭐ Most MVPs: '+h.mvp.ign:'')+(h.team?'\n🛡 Best team: '+h.team.name:'')+
+    '\n\n'+h.players+' players · '+h.matches+' matches. GG to everyone! 🔥\nSeason '+(h.season+1)+' starts now — free entry, link in bio\n\n'+tags();
+  c.yt='🏛 Season '+h.season+' Hall of Fame on '+brandName()+'\n'+lines.join('\n')+(h.fragger?'\n🎯 Top fragger: '+h.fragger.ign:'')+'\nSeason '+(h.season+1)+' starts now 👉 '+L;
+  c.wa='*🏛 Season '+h.season+' Hall of Fame*\n'+lines.join('\n')+(h.fragger?'\n🎯 '+h.fragger.ign+' — '+h.fragger.kills+' kills':'')+(h.mvp?'\n⭐ MVP: '+h.mvp.ign:'')+'\n\n🔥 Season '+(h.season+1)+' starts now: '+L;
+  return c}
+
+/* ---- Sponsors & prizes ---- */
+var PRIZE_F='pending';
+function sponsorStats(sp){var nm=String(sp.name).trim().toLowerCase(),ms=S.matches.filter(function(m){return String(m.sponsor||'').trim().toLowerCase()===nm}),who={};
+  ms.forEach(function(m){m.entries.forEach(function(e){entryPlayers(e).forEach(function(id){who[id]=1})})});
+  var pz=(S.prizes||[]).filter(function(x){return x.sponsor_id===sp.id});
+  return {matches:ms.length,reach:Object.keys(who).length,given:pz.filter(function(x){return x.status==='given'}).length,pending:pz.filter(function(x){return x.status!=='given'}).length,prizes:pz}}
+function prizeFor(x){var m=x.match_id?M(x.match_id):null,tr=x.tournament_id?TR(x.tournament_id):null;return m?m.title:tr?'🏆 '+tr.name:''}
+function prizeWinner(x){var p=x.winner_id?P(x.winner_id):null;return p?p.ign:(x.winner_text||'—')}
+function vSponsorsAdmin(){var sps=(S.sponsors||[]).slice().sort(function(a,b){return String(a.name).localeCompare(b.name)}),pz=(S.prizes||[]).slice().sort(function(a,b){return new Date(b.created_at)-new Date(a.created_at)});
+  var given=pz.filter(function(x){return x.status==='given'}).length;
+  var events=S.matches.slice().sort(function(a,b){return b.start-a.start}).slice(0,40).map(function(m){return '<option value="m:'+m.id+'">'+esc(m.title)+' · '+esc(fmtTime(m.start))+'</option>'}).join('')+S.tourneys.slice().reverse().map(function(tr){return '<option value="t:'+tr.id+'">🏆 '+esc(tr.name)+'</option>'}).join('');
+  var list=pz.filter(function(x){return PRIZE_F==='all'||(PRIZE_F==='given'?x.status==='given':x.status!=='given')});
+  return '<div class="stack">'+hdr('🤝 '+t('sponsorsT'))+
+   '<div class="grid4"><div class="stat"><span class="tiny muted">'+t('spCount')+'</span><b>'+sps.length+'</b></div><div class="stat"><span class="tiny muted">'+t('pzAll')+'</span><b>'+pz.length+'</b></div><div class="stat"><span class="tiny muted">'+t('pzGiven')+'</span><b style="color:#22c55e">'+given+'</b></div><div class="stat"><span class="tiny muted">'+t('pzPending')+'</span><b style="color:#ffb020">'+(pz.length-given)+'</b></div></div>'+
+   '<h2>🎁 '+t('pzTitle')+'</h2><div class="seg">'+[['pending',t('pzPending')],['given',t('pzGiven')],['all',t('all')]].map(function(x){return '<button class="'+(PRIZE_F===x[0]?'on':'')+'" data-a="pzF" data-v="'+x[0]+'">'+x[1]+'</button>'}).join('')+'</div>'+
+   (list.length?list.map(function(x){var sp=byId(S.sponsors||[],x.sponsor_id);return '<div class="card st" style="padding:10px"><div class="row between"><b>'+esc(x.title)+(x.value?' <span class="tag">'+esc(x.value)+'</span>':'')+'</b>'+(x.status==='given'?'<span class="tag t-g">✓ '+t('pzGivenOne')+'</span>':'<span class="tag" style="background:#ffb02022;color:#ffb020">⏳ '+t('pzPendingOne')+'</span>')+'</div>'+
+     '<div class="tiny muted">🏅 '+esc(prizeWinner(x))+(prizeFor(x)?' · 🎮 '+esc(prizeFor(x)):'')+(sp?' · 🤝 '+esc(sp.name):'')+(x.given_at?' · '+esc(fmtTime(new Date(x.given_at).getTime())):'')+'</div>'+(x.note?'<div class="tiny">“'+esc(x.note)+'”</div>':'')+
+     '<div class="grid2">'+(x.status==='given'?'<button class="btn sec sm" data-a="pzUndo" data-id="'+x.id+'">↩ '+t('pzUndo')+'</button>':'<button class="btn sm" data-a="pzGive" data-id="'+x.id+'">✓ '+t('pzMark')+'</button>')+'<button class="btn no sm" data-a="pzDel" data-id="'+x.id+'">🗑</button></div></div>'}).join(''):'<div class="card empty">—</div>')+
+   '<div class="card st"><b class="small">➕ '+t('pzAdd')+'</b><div class="grid2"><label class="f">'+t('pzName')+'<input id="pz_t" maxlength="80" placeholder="'+t('pzNamePh')+'"></label><label class="f">'+t('pzValue')+'<input id="pz_v" maxlength="40" placeholder="₹500 / T-shirt"></label></div>'+
+   '<label class="f">'+t('spOne')+'<select id="pz_s"><option value="">—</option>'+sps.map(function(s){return '<option value="'+s.id+'">'+esc(s.name)+'</option>'}).join('')+'</select></label>'+
+   '<label class="f">'+t('pzEvent')+'<select id="pz_e"><option value="">—</option>'+events+'</select></label>'+
+   '<label class="f">'+t('pzWinner')+'<input id="pz_w" list="pzPl" maxlength="60" placeholder="'+t('pzWinnerPh')+'"><datalist id="pzPl">'+S.players.filter(function(p){return p.role!=='admin'}).map(function(p){return '<option value="'+esc(p.ign)+'">UID '+esc(p.uid)+'</option>'}).join('')+'</datalist></label>'+
+   '<input id="pz_n" maxlength="200" placeholder="'+t('pzNote')+'"><button class="btn" data-a="pzSave">💾 '+t('save')+'</button></div>'+
+   '<h2>🤝 '+t('spList')+'</h2>'+(sps.length?sps.map(function(s){var st=sponsorStats(s);return '<div class="card st"><div class="row between"><b>'+esc(s.name)+'</b>'+(s.public?'<span class="tag t-g">👁 '+t('spPublic')+'</span>':'<span class="tag">🔒 '+t('spHidden')+'</span>')+'</div>'+
+     (s.link?'<a class="tiny" href="'+esc(s.link)+'" target="_blank" rel="noopener">'+esc(s.link)+'</a>':'')+(s.contact?'<div class="tiny">📞 '+esc(s.contact)+'</div>':'')+(s.note?'<div class="tiny muted">'+esc(s.note)+'</div>':'')+
+     '<div class="tiny">🎮 '+st.matches+' '+t('matchesN')+' · 👥 '+st.reach+' '+t('playersN')+' · 🎁 '+st.given+' '+t('pzGivenOne')+' / '+st.pending+' '+t('pzPendingOne')+'</div>'+
+     '<div class="grid2"><button class="btn sec sm" data-a="spReport" data-id="'+s.id+'">📤 '+t('spReport')+'</button><button class="btn no sm" data-a="spDel" data-id="'+s.id+'">🗑</button></div></div>'}).join(''):'<div class="card empty">'+t('spNone')+'</div>')+
+   '<div class="card st"><b class="small">➕ '+t('spAdd')+'</b><label class="f">'+t('spName')+'<input id="sp_n" maxlength="60"></label><label class="f">'+t('spLink')+'<input id="sp_l" maxlength="200" placeholder="https://instagram.com/…"></label>'+
+   '<label class="f">'+t('spContact')+'<input id="sp_c" maxlength="80" placeholder="'+t('spContactPh')+'"></label><input id="sp_x" maxlength="300" placeholder="'+t('spNote')+'">'+
+   '<label class="row small b"><input type="checkbox" id="sp_p" style="width:auto" checked> '+t('spShow')+'</label><button class="btn" data-a="spSave">💾 '+t('save')+'</button><div class="tiny muted">'+t('spTip')+'</div></div></div>'}
+function sponsorReport(sp){var st=sponsorStats(sp),d=new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+  return '🤝 '+sp.name+' × '+brandName()+' — Sponsor report\n📅 '+d+'\n\n🎮 Matches sponsored: '+st.matches+'\n👥 Players reached: '+st.reach+'\n🎁 Prizes: '+st.given+' given, '+st.pending+' pending\n'+
+    st.prizes.map(function(x){return '• '+x.title+(x.value?' ('+x.value+')':'')+' → '+prizeWinner(x)+(x.status==='given'?' ✅':' ⏳')}).join('\n')+'\n\nThank you for supporting free esports! 🔥\n'+siteLink()}
+function sponsorRow(){var l=(S.sponsorList||[]);if(!l.length)return '';
+  return '<div class="card st" style="padding:10px"><div class="tiny muted b">⭐ '+t('spThanks')+'</div><div class="row wrap" style="gap:6px">'+l.map(function(s){var u=safeUrl(s.link);return u?'<a class="chip" href="'+esc(u)+'" target="_blank" rel="noopener" style="text-decoration:none">'+esc(s.name)+'</a>':'<span class="chip">'+esc(s.name)+'</span>'}).join('')+'</div></div>'}
+function myPrizesCard(){var p=me();if(!p)return '';var l=(S.prizes||[]).filter(function(x){return x.winner_id===p.id});if(!l.length)return '';
+  return '<h3>🎁 '+t('pzMine')+'</h3><div class="card" style="padding:4px 12px">'+l.map(function(x){var sp=byId(S.sponsors||[],x.sponsor_id);return '<div class="lr"><div class="grow small"><b>'+esc(x.title)+'</b>'+(x.value?' · '+esc(x.value):'')+'<div class="tiny muted">'+esc(prizeFor(x))+(sp?' · 🤝 '+esc(sp.name):'')+'</div></div>'+(x.status==='given'?'<span class="tag t-g">✓ '+t('pzGivenOne')+'</span>':'<span class="tag">⏳ '+t('pzPendingOne')+'</span>')+'</div>'}).join('')+'</div>'}
 
 /* ============ events ============ */
 function val(id){var e=$(id);return e?e.value.trim():''}
@@ -1705,6 +1828,21 @@ document.addEventListener('click',function(ev){
   case 'socSave':socialSave();return;
   case 'socLoad':SOCIAL_LOG=null;loadSocialLog();return;
   case 'socRepost':socialRepost(id);return;
+  case 'vfSend':vfSend();return;
+  case 'vfReview':{var why=$('vfr_'+id)?$('vfr_'+id).value:'';if(d.k!=='1'&&!why){toast('⚠ '+t('vfReason'));return}var vc=(S.uidChecks||[]).filter(function(x){return x.player_id===id})[0];run(function(){return rpc('review_uid',{p_player:id,p_ok:d.k==='1',p_note:d.k==='1'?'':why})},'✓').then(function(ok){if(ok&&vc&&vc.image_path){try{sb.storage.from('proofs').remove([vc.image_path]).catch(function(){})}catch(e){}}});return}
+  case 'pzF':PRIZE_F=d.v;render();return;
+  case 'pzSave':{var pt=val('pz_t');if(!pt){toast('⚠ '+t('pzNeed'));return}var wn=val('pz_w'),wp=S.players.filter(function(x){return x.role!=='admin'&&x.ign.toLowerCase()===wn.toLowerCase()})[0],ev=$('pz_e').value;
+    var row={title:pt.slice(0,80),value:val('pz_v').slice(0,40),note:val('pz_n').slice(0,200),sponsor_id:$('pz_s').value||null,winner_id:wp?wp.id:null,winner_text:wp?'':wn.slice(0,60)};
+    if(ev.indexOf('m:')===0)row.match_id=ev.slice(2);if(ev.indexOf('t:')===0)row.tournament_id=ev.slice(2);
+    run(function(){return sb.from('prizes').insert(row)},'🎁 ✓');return}
+  case 'pzGive':run(function(){return sb.from('prizes').update({status:'given',given_at:new Date().toISOString()}).eq('id',id)},'✓');return;
+  case 'pzUndo':run(function(){return sb.from('prizes').update({status:'pending',given_at:null}).eq('id',id)},'✓');return;
+  case 'pzDel':confirmBox(t('delete')+'?',function(){run(function(){return sb.from('prizes').delete().eq('id',id)},'✓')});return;
+  case 'spSave':{var sn=val('sp_n');if(!sn){toast('⚠ '+t('spNameNeed'));return}var sl=safeUrl(val('sp_l'));
+    run(function(){return sb.from('sponsors').insert({name:sn.slice(0,60),link:/^https:\/\//.test(sl)?sl.slice(0,200):'',contact:val('sp_c').slice(0,80),note:val('sp_x').slice(0,300),public:$('sp_p').checked})},'🤝 ✓');return}
+  case 'spDel':confirmBox(t('delete')+'?',function(){run(function(){return sb.from('sponsors').delete().eq('id',id)},'✓')});return;
+  case 'spReport':{var spx=byId(S.sponsors||[],id);if(!spx)return;var rep_=sponsorReport(spx);
+    modal('<div class="row between"><h2>📤 '+t('spReport')+'</h2><button class="btn sm sec" data-a="mclose">✕</button></div><textarea id="spRep" rows="12">'+esc(rep_)+'</textarea><div class="grid2"><button class="btn sec" data-copy-ta="spRep">📋 '+t('copy')+'</button><a class="btn" style="text-decoration:none;background:#25D366;color:#062" href="https://wa.me/?text='+encodeURIComponent(rep_)+'" target="_blank" rel="noopener">💬 WhatsApp</a></div>');return}
   case 'promoStyle':PROMO.theme=nextTheme();paintPromo();return;
   case 'socReview':{var okk=d.k==='1';(async function(){try{await rpc('review_social',{p_id:id,p_ok:okk});toast(okk?'✓ '+t('socialQueued'):'✓');SOCIAL_LOG=null;loadSocialLog()}catch(e){toast('⚠ '+niceErr(e))}})();return}
   case 'finderTab':FINDER_TAB=d.v;render();return;
@@ -1774,8 +1912,9 @@ document.addEventListener('click',function(ev){
   case 'clipSet':run(function(){return sb.from('clips').update({status:d.s}).eq('id',id)},'✓');return;
   case 'delCancelled':{var cids=S.matches.filter(function(x){return x.status==='cancelled'}).map(function(x){return x.id});if(!cids.length)return;
     confirmBox(t('delQ',{n:cids.length}),function(){run(async function(){for(var ci=0;ci<cids.length;ci++){await q(sb.from('matches').delete().eq('id',cids[ci]))}},'✓')});return}
-  case 'newSeason':confirmBox(t('seasonQ'),function(){derive();var top=S.players.map(function(p){return [p.ign,pst(p.id).pts]}).sort(function(a,b){return b[1]-a[1]}).slice(0,3).map(function(x){return x[0]+' ('+x[1]+')'});
-    var arch=(S.archive||[]).concat([{season:S.settings.season,top:top,ts:now()}]);run(function(){return sb.from('app_settings').update({season:S.settings.season+1,archive:arch}).eq('id',1)},'✓')});return;
+  case 'newSeason':confirmBox(t('seasonQ'),function(){derive();var h=seasonStats(S.settings.season),top=h.top.map(function(x){return x.ign+' ('+x.pts+')'});
+    var arch=(S.archive||[]).concat([{season:S.settings.season,top:top,ts:now(),hof:h}]);
+    run(function(){return sb.from('app_settings').update({season:S.settings.season+1,archive:arch}).eq('id',1)},'✓').then(function(ok){if(ok&&h.top.length){openPromo('season',h);autoSocial('season',h)}})});return;
   case 'export':{var json=JSON.stringify(S);modal('<h2>'+t('exportB')+'</h2><textarea id="exTa" rows="7" class="mono" readonly>'+esc(json)+'</textarea><div class="grid2"><button class="btn sec" data-a="mclose">'+t('close')+'</button><button class="btn" data-copy-ta="exTa">'+t('copy')+'</button></div>');return}
   }
 });
