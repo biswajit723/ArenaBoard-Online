@@ -93,6 +93,15 @@ body.ab-lock{overflow:hidden}
 .chip input[type=checkbox]{accent-color:var(--acc)}
 img{max-width:100%}
 @media (prefers-reduced-motion:reduce){.modal-bg.ab-in,.modal-bg.ab-in .modal{animation:none}.btn,.chip,.card.click{transition:none}}
+.bchips{display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:2px 2px 6px;scroll-behavior:smooth}.bchips::-webkit-scrollbar{display:none}
+.bchips .chip{flex:0 0 auto}.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.ell{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.brow{gap:10px}.bme{background:var(--accBg);margin:0 -12px;padding:9px 12px}
+.cbadge{display:inline-block;min-width:18px;padding:0 5px;border-radius:9px;background:#ff3b3b;color:#fff;font-size:11px;line-height:18px;text-align:center;margin-left:2px}
+.anav-wrap{position:sticky;top:0;z-index:6;background:var(--bg);padding:6px 0 2px;margin-bottom:4px}
+html,body{overflow-x:hidden;max-width:100%}
+.tab{min-width:0}.tab>*{flex-shrink:0}
+@media (max-width:380px){.tab{font-size:9.5px;letter-spacing:-.2px}}
 </style>
 </head>
 <body>
@@ -245,6 +254,12 @@ newStyle:['New style','নতুন স্টাইল'],socialWait:['Waiting fo
 socialFinderL:['Team finder posts (players & teams) can go to my channels','টিম ফাইন্ডার পোস্ট আমার চ্যানেলে যেতে পারে'],socialFautoL:['…without my approval (not recommended)','…আমার অনুমোদন ছাড়া (সুপারিশ করা হয় না)'],
 alsoPost:['Also post it on {b} channels','{b} চ্যানেলেও পোস্ট করুন'],finderSent:['📣 Sent to the admin — it will be posted after approval','📣 অ্যাডমিনের কাছে পাঠানো হয়েছে'],finderPosted:['📣 Posted on our channels!','📣 চ্যানেলে পোস্ট হয়েছে!'],
 finderLimit:['You can send 2 posts to our channels every 12 hours.','১২ ঘণ্টায় ২টি পোস্ট পাঠানো যায়।'],
+matchN1:['match','ম্যাচ'],bEmpty:['Nobody here yet — play a match to get on the board!','এখনো কেউ নেই — ম্যাচ খেলে বোর্ডে উঠুন!'],
+bh_season:['Points from every match this season. Ties: more Booyahs, then more kills.','এই সিজনের মোট পয়েন্ট।'],bh_fraggers:['Total kills this season. Ties: better K/D.','এই সিজনের মোট কিল।'],
+bh_ratings:['Skill rating (starts at 1000). Beat stronger players to climb faster.','স্কিল রেটিং (১০০০ থেকে শুরু)।'],bh_teams:['Team points from squad and duo matches.','টিমের মোট পয়েন্ট।'],
+bh_districts:['Points of all players from each district or city added together.','জেলা/শহরের সব প্লেয়ারের পয়েন্ট যোগ করে।'],bh_hunters:['Players who killed the admin in Hunt Jit matches.','হান্ট জিৎ ম্যাচে অ্যাডমিনকে কিল করেছে।'],
+bh_recruiters:['Friends you invited who played at least 1 match.','আপনার ইনভাইটে আসা বন্ধু যারা ১টা ম্যাচ খেলেছে।'],
+adminTab:['Admin','অ্যাডমিন'],overview:['Overview','ওভারভিউ'],socialAdm:['Promo & posts','প্রোমো ও পোস্ট'],
 featVidL:['Featured YouTube video (plays on players\' Home)','ফিচার্ড YouTube ভিডিও (প্লেয়ারদের হোমে চলবে)'],featured:['Featured video','ফিচার্ড ভিডিও'],follow:['Follow us','আমাদের ফলো করুন'],watchCh:['Watch on YouTube','YouTube-এ দেখুন'],badVid:['That is not a YouTube video link.','এটা YouTube ভিডিও লিংক নয়।'],newPlayer:['New player? Register','নতুন প্লেয়ার? রেজিস্টার'],register2:['Register','রেজিস্টার'],login:['Log in','লগইন'],
 pinLbl:['PIN (4–6 digits)','পিন (৪–৬ সংখ্যা)'],pinRep:['Repeat PIN','আবার পিন দিন'],pinMismatch:['PINs do not match.','দুটো পিন মেলেনি।'],pinFmt:['PIN must be 4–6 digits.','পিন ৪–৬ সংখ্যার হতে হবে।'],
 wrongPin:['Wrong UID or PIN.','UID বা পিন ভুল।'],uidRegistered:['This UID is already registered — log in with your PIN.','এই UID আগেই রেজিস্টার্ড — পিন দিয়ে লগইন করুন।'],
@@ -320,7 +335,7 @@ function rerender(){var openM=openMatchId,openT=openTourneyId,hasModal=!!$('laye
   smoothRerender(openM,openT,hasModal)}
 async function run(fn,okMsg){
   if(busy){toast(t('working'));return false}busy=true;window.__busy=1;document.body.style.cursor='progress';
-  try{var r=await fn();if(r&&r.error)throw r.error;await pull();closeModal();render();if(okMsg)toast(okMsg);return true}
+  var mseq=$('layer').innerHTML?MODAL_SEQ:-1;try{var r=await fn();if(r&&r.error)throw r.error;await pull();if(mseq===MODAL_SEQ)closeModal();render();if(okMsg)toast(okMsg);return true}
   catch(e){toast('⚠ '+niceErr(e));return false}
   finally{busy=false;window.__busy=0;document.body.style.cursor=''}
 }
@@ -526,17 +541,17 @@ function svg(n){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColo
 
 /* ============ render ============ */
 var view='home',mFilter='upcoming',modeFilter='all',boardTab='season',openMatchId=null,openTourneyId=null,adminMTab='list';
-var PLAYER_TABS=['home','matches','tourneys','hub','board','profile'],ADMIN_TABS=['dash','matches','tourneys','players','settings'];
+var PLAYER_TABS=['home','matches','tourneys','hub','board','profile'],ADMIN_TABS=['dash','amatches','atourneys','players','social','growth','settings'];
 function render(){
   S.settings.lang=PREF.lang;S.settings.theme=PREF.theme;
   document.documentElement.setAttribute('data-theme',S.settings.theme);
   if(NET!=='ok'||!SESSION){$('tabs').innerHTML='';$('app').innerHTML=vGate();return}document.documentElement.lang=S.settings.lang==='en'?'en':'bn';
   derive();lfgFocusCheck();
-  var tabs=isAdmin()?ADMIN_TABS:PLAYER_TABS;if(tabs.indexOf(view)<0)view=tabs[0];
+  var canA=canAdminP(),tabs=PLAYER_TABS.concat(canA?['dash']:[]);if(tabs.indexOf(view)<0&&!(canA&&ADMIN_TABS.indexOf(view)>=0))view='home';S.me.role=(canA&&ADMIN_TABS.indexOf(view)>=0)?'admin':'player';
   var openR=S.reports.filter(function(r){return r.status==='open'}).length,pend=S.matches.filter(function(m){return matchStatus(m)==='live'}).length;
-  $('tabs').innerHTML='<div class="in">'+tabs.map(function(k){var bd=(k==='players'&&openR)?openR:(k==='matches'&&isAdmin()&&pend)?pend:0;return '<button class="tab'+(view===k?' on':'')+'" data-go="'+k+'">'+svg(k)+t(k)+(bd?'<span class="badge">'+bd+'</span>':'')+'</button>'}).join('')+'</div>';
-  var fn={home:vHome,matches:vMatches,tourneys:vTourneys,board:vBoard,profile:vProfile,hub:vHub,dash:vDash,players:vPlayers,settings:vSettings}[view];
-  paintApp(fn());
+  $('tabs').innerHTML='<div class="in">'+tabs.map(function(k){var bd=k==='dash'?adminBadge():0;return '<button class="tab'+((view===k||(k==='dash'&&isAdmin()))?' on':'')+'" data-go="'+k+'">'+svg(k)+t(k==='dash'?'adminTab':k)+(bd?'<span class="badge">'+bd+'</span>':'')+'</button>'}).join('')+'</div>';
+  var fn={home:vHome,matches:vMatches,tourneys:vTourneys,board:vBoard,profile:vProfile,hub:vHub,dash:vDash,players:vPlayersAdmin,settings:vSettings,amatches:vMatches,atourneys:vTourneys,social:vSocialAdmin,growth:vGrowthAdmin}[view];
+  paintApp((isAdmin()?adminNav():'')+fn());
   celebrateCheck();
   setTimeout(teamJoinPrompt,300);
   try{if(location.hash.slice(1)!==view)history.replaceState(null,'','#'+view)}catch(e){}
@@ -691,7 +706,7 @@ function openMatch(id){
    '<div class="tiny muted">'+t('placePts')+': '+m.pp.join(', ')+'</div>'+
    '<h3>'+t('entries')+' ('+m.entries.length+'/'+m.slots+')</h3><div class="card" style="padding:4px 12px">'+(ents||'<div class="empty">—</div>')+'</div>'+
    '<div class="card small muted" style="white-space:pre-line">📜 '+esc(cfg('rules',t('rulesText')))+'</div>');
-  if($('chatBox'))loadChat(m.id);
+  MODAL_SRC='m';if($('chatBox'))loadChat(m.id);
 }
 function vTourneys(){
   var list=S.tourneys.slice().reverse();
@@ -718,18 +733,7 @@ function openTourney(id){
   if(isAdmin()&&tr.stages.length===1)html+='<button class="btn block" data-a="advance" data-id="'+tr.id+'">'+t('advance',{n:tr.stages[0].qualify})+'</button>';
   if(isAdmin())html+='<button class="btn block" data-a="promo" data-k="tourney" data-id="'+tr.id+'">📣 '+t('promoPost')+'</button>';
   html+='<button class="btn sec block" data-a="shareT" data-id="'+tr.id+'">📤 '+t('share')+'</button>';
-  modal(html);
-}
-function vBoard(){
-  var tabs=['season','fraggers','ratings','teams','districts','hunters','recruiters'];
-  var html='<div class="stack">'+hdr(t('board'))+'<div class="seg">'+tabs.map(function(k){return '<button class="'+(boardTab===k?'on':'')+'" data-bt="'+k+'">'+t(k==='season'?'seasonPts':k)+'</button>'}).join('')+'</div>';
-  var rows;
-  if(boardTab==='districts'){rows=districtRows()}else if(boardTab==='hunters'){rows=hunterRows()}else if(boardTab==='recruiters'){rows=S.players.filter(function(p){return !p.banned&&p.role!=='admin'}).map(function(p){var iv=invitesOf(p),tr=recTier(iv.played);return {n:p.ign,me:p.id===S.me.pid,v:iv.played,sub:iv.joined+' '+t('invJoined')+(tr?' · '+tr[1]+' '+tr[2]:'')}}).filter(function(r){return r.v>0||r.me}).sort(function(a,b){return b.v-a.v})}
-  else if(boardTab==='teams'){rows=S.teams.map(function(x){var s=D.ts[x.id]||{pts:0,kills:0,booyah:0,m:0};return {n:x.name+' ['+x.tag+']',v:s.pts,sub:s.m+' '+t('matchesN')+' · '+s.booyah+' 🏆 · '+s.kills+' 🎯'}}).sort(function(a,b){return b.v-a.v})}
-  else{rows=S.players.filter(function(p){return !p.banned}).map(function(p){var s=pst(p.id);var v=boardTab==='season'?s.pts:boardTab==='fraggers'?s.kills:s.rating;return {n:(founderNo(p)?'🌟 ':'')+p.ign,me:p.id===S.me.pid,v:v,sub:boardTab==='fraggers'?(s.m?(s.kills/s.m).toFixed(1):'0')+' '+t('kd'):boardTab==='ratings'?s.m+' '+t('matchesN'):tierOf(s.pts).name+' · '+s.booyah+' 🏆'}}).filter(function(r){return boardTab==='ratings'||r.v>0||r.me}).sort(function(a,b){return b.v-a.v})}
-  if(boardTab==='districts')html+=locSeg();
-  html+=(rows.length?'<div class="card" style="padding:4px 12px">'+rows.slice(0,50).map(function(r,i){return '<div class="lr"'+(r.me?' style="background:var(--accBg);margin:0 -12px;padding:9px 12px"':'')+'><span class="rank '+(i<3?'r'+(i+1):'')+'">'+(i+1)+'</span><div class="grow"><b class="small">'+esc(r.n)+(r.me?' ('+t('you')+')':'')+'</b><div class="tiny muted">'+r.sub+'</div></div><b class="disp" style="font-size:20px">'+r.v+'</b></div>'}).join('')+'</div>':'<div class="card empty">—</div>');
-  return html+'</div>';
+  modal(html);MODAL_SRC='t';
 }
 function langSeg(){return ['bn','en'].map(function(l){return '<button data-lang="'+l+'" class="'+(S.settings.lang===l?'on':'')+'">'+(l==='bn'?'বাংলা':'English')+'</button>'}).join('')}
 function profileForm(p){p=p||{};var lock=isPinAcct();return '<div class="card st"><label class="f">'+t('ign')+'<input id="pf_ign" maxlength="24" value="'+esc(p.ign||'')+'"></label><label class="f">'+t('uid')+'<input id="pf_uid" inputmode="numeric" maxlength="12" value="'+esc(p.uid||pinUid())+'"'+(lock?' readonly style="opacity:.6"':'')+'></label><button class="btn" data-a="saveProfile">'+(p.id?t('save'):t('create'))+'</button></div>'}
@@ -776,9 +780,7 @@ function vDash(){
    '<div class="grid4"><div class="stat"><span class="tiny muted">'+t('players')+'</span><b>'+S.players.length+'</b></div><div class="stat"><span class="tiny muted">'+t('teams')+'</span><b>'+S.teams.length+'</b></div><div class="stat"><span class="tiny muted">'+t('upcoming')+'</span><b>'+up.length+'</b></div><div class="stat"><span class="tiny muted">'+t('openReports')+'</span><b style="color:var(--red)">'+openR.length+'</b></div></div>'+
    (live.length?'<h2>🔴 '+t('pending')+'</h2>'+live.map(matchCard).join(''):'')+
    (noRoom.length?'<h2>🔑 '+t('roomNotSet')+'</h2>'+noRoom.map(matchCard).join(''):'')+
-   adminClipsBlock()+hostAppsCard()+growthCard()+promoStudioCard()+socialCard()+'<h2>📣 '+t('announcements')+'</h2><div class="card st">'+annSugHtml()+'<textarea id="annTxt" rows="3" placeholder="'+t('annPh')+'"></textarea><button class="btn" data-a="postAnn">'+t('post')+'</button>'+
-   S.ann.slice().reverse().map(function(a){return '<div class="lr"><div class="grow small">'+esc(a.text)+'<div class="tiny muted">'+fmtTime(a.ts)+'</div></div><button class="btn sm no" data-delann="'+a.id+'">✕</button></div>'}).join('')+'</div>'+
-   '<h2>⚡ '+t('upcoming')+'</h2>'+(up.slice(0,4).map(matchCard).join('')||'<div class="card empty">—</div>')+'</div>';
+   adminClipsBlock()+'<h2>⚡ '+t('upcoming')+'</h2>'+(up.slice(0,4).map(matchCard).join('')||'<div class="card empty">—</div>')+'</div>';
 }
 function vPlayers(){
   var openR=S.reports.filter(function(r){return r.status==='open'});
@@ -833,8 +835,8 @@ function exportData(k){
   modal('<h2>💾 '+esc(name)+'</h2><p class="small muted">'+esc(t('downloaded',{f:name}))+'</p><textarea id="exTa" rows="7" class="mono" readonly>'+esc(body.replace(/^﻿/,''))+'</textarea><div class="grid2"><button class="btn sec" data-a="mclose">'+t('close')+'</button><button class="btn" data-copy-ta="exTa">'+t('copy')+'</button></div>');
 }
 /* ============ modals ============ */
-function modal(h){if(h===MODAL_HTML&&$('layer').querySelector('.modal'))return;var fresh=!$('layer').innerHTML;MODAL_HTML=h;$('layer').innerHTML='<div class="modal-bg'+(fresh?' ab-in':'')+'" data-bg="1"><div class="modal stack">'+h+'</div></div>';tick()}
-function closeModal(){$('layer').innerHTML='';openMatchId=null;openTourneyId=null;ocrRows=null}
+function modal(h){if(h===MODAL_HTML&&$('layer').querySelector('.modal'))return;MODAL_SRC='';var fresh=!$('layer').innerHTML;if(fresh)MODAL_SEQ++;MODAL_HTML=h;$('layer').innerHTML='<div class="modal-bg'+(fresh?' ab-in':'')+'" data-bg="1"><div class="modal stack">'+h+'</div></div>';tick()}
+function closeModal(){MODAL_SRC='';$('layer').innerHTML='';openMatchId=null;openTourneyId=null;ocrRows=null}
 function confirmBox(msg,yes){modal('<h3>'+esc(msg)+'</h3><div class="grid2"><button class="btn sec" data-a="mclose">'+t('cancel')+'</button><button class="btn no" id="yesBtn">'+t('ok')+'</button></div>');$('yesBtn').onclick=function(){closeModal();yes();render()}}
 function dtLocal(ts){var d=new Date(ts-new Date().getTimezoneOffset()*6e4);return d.toISOString().slice(0,16)}
 var _matchFormDefaults=function(){try{setTimeout(refreshNameSug,0);$('nm_kp').value=cfg('defKill',1);$('nm_pp').value=cfgPP().join(',');$('nm_prize').value=cfg('defPrize','');var mp=cfg('defMap','');if(mp)$('nm_map').value=mp;$('nm_slots').placeholder=defSlots($('nm_mode').value)}catch(e){}};
@@ -1195,11 +1197,14 @@ function refreshTourneySug(){var box=$('ntSug');if(!box)return;box.innerHTML=sug
 /* ============ AUTO SOCIAL: banner → Storage → social_queue → Edge Function posts it ============ */
 function socialOn(){return cfg('socialAuto',true)!==false}
 function socialLink(){var l=siteLink();return /^https:\/\//.test(l)?l.slice(0,300):''}
-function canvasBlob(cv){return new Promise(function(res){try{cv.toBlob(function(b){res(b)},'image/png')}catch(e){res(null)}})}
-var SOCIAL_BUSY=false;
+function canvasBlob(cv){return new Promise(function(res){var done=false,fin=function(b){if(!done){done=true;res(b)}};
+  setTimeout(function(){if(done)return;try{var u=cv.toDataURL('image/png'),bin=atob(u.split(',')[1]),a=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);fin(new Blob([a],{type:'image/png'}))}catch(e){fin(null)}},4000);
+  try{cv.toBlob(function(b){fin(b)},'image/png')}catch(e){fin(null)}})}
+var SOCIAL_BUSY=0;
 async function autoSocial(kind,data,opt){opt=opt||{};
-  if(!isAdmin()||(!opt.manual&&!socialOn())||SOCIAL_BUSY)return false;
-  SOCIAL_BUSY=true;
+  if(!isAdmin()||(!opt.manual&&!socialOn()))return false;
+  if(SOCIAL_BUSY&&Date.now()-SOCIAL_BUSY<25000){if(opt.manual)toast(t('working'));return false}
+  SOCIAL_BUSY=Date.now();
   try{var c=promoContent(kind,data),blob=await canvasBlob(promoCanvas(c,'post',(PROMO.data===data&&PROMO.theme!=null)?PROMO.theme:undefined));if(!blob)throw new Error('image');
     var path=kind+'/'+((data&&data.id)||'post')+'-'+Date.now()+'.png';
     var up=await sb.storage.from('banners').upload(path,blob,{contentType:'image/png',upsert:false});if(up.error)throw up.error;
@@ -1210,7 +1215,7 @@ async function autoSocial(kind,data,opt){opt=opt||{};
     var r=await sb.from('social_queue').insert(row);if(r.error)throw r.error;
     if(opt.manual)toast(t('socialQueued'));setTimeout(loadSocialLog,4000);return true}
   catch(e){toast('⚠ '+t('socialFail')+': '+niceErr(e));return false}
-  finally{SOCIAL_BUSY=false}}
+  finally{SOCIAL_BUSY=0}}
 async function socialRepost(id){var r=(SOCIAL_LOG||[]).filter(function(x){return x.id===id})[0];if(!r)return;
   var row={kind:r.kind,image_url:r.image_url,caption:r.caption,short:r.short,link:r.link};if(r.ref_id&&r.kind!=='reminder')row.ref_id=r.ref_id;if(r.kind==='reminder')row.kind='custom';
   var x=await sb.from('social_queue').insert(row);if(x.error){toast('⚠ '+niceErr(x.error));return}toast(t('socialQueued'));setTimeout(loadSocialLog,4000)}
@@ -1446,17 +1451,19 @@ function growthCard(){var N=now(),W=7*864e5,pl=S.players.filter(function(p){retu
    '<div class="tiny muted">🚫 '+t('gNoShow',{n:ns30})+'</div></div>'}
 
 /* ============ SMOOTH MOBILE: no flicker, no lost typing, no scroll jumps ============ */
-var LAST_HTML='',LAST_VIEW='',MODAL_HTML='',PENDING_RR=false;
+var LAST_HTML='',LAST_VIEW='',MODAL_HTML='',MODAL_SRC='',MODAL_SEQ=0,PENDING_RR=false;
 function isTyping(){var a=document.activeElement;return !!(a&&/INPUT|TEXTAREA|SELECT/.test(a.tagName)&&a.type!=='checkbox'&&a.type!=='radio'&&a.type!=='button')}
 function paintApp(html){var changedView=view!==LAST_VIEW;
   if(!changedView&&html===LAST_HTML)return;           // nothing changed: keep the page exactly as it is
   var y=window.scrollY;$('app').innerHTML=html;LAST_HTML=html;
   if(changedView){LAST_VIEW=view;window.scrollTo(0,0)}else if(Math.abs(window.scrollY-y)>2)window.scrollTo(0,y)}
+var LAST_TOUCH=0,RR_TIMER=null;document.addEventListener('pointerdown',function(){LAST_TOUCH=Date.now()},true);
 function smoothRerender(openM,openT,hasModal){
-  if(isTyping()){PENDING_RR=true;return}             // never wipe what the player is typing
+  if(isTyping()){PENDING_RR=true;return}
+  var since=Date.now()-LAST_TOUCH;if(since<1200){clearTimeout(RR_TIMER);RR_TIMER=setTimeout(rerender,1250-since);return}             // never wipe what the player is typing
   var mo=document.querySelector('.modal'),ms=mo?mo.scrollTop:0;
   render();
-  if(hasModal&&openM&&!$('layer').querySelector('.rpos'))openMatch(openM);else if(hasModal&&openT)openTourney(openT);
+  if(hasModal&&openM&&MODAL_SRC==='m')openMatch(openM);else if(hasModal&&openT&&MODAL_SRC==='t')openTourney(openT);
   var m2=document.querySelector('.modal');if(m2&&ms)m2.scrollTop=ms}
 document.addEventListener('focusout',function(){setTimeout(function(){if(PENDING_RR&&!isTyping()){PENDING_RR=false;rerender()}},250)});
 (function(){function hook(){var L=$('layer');if(!L)return setTimeout(hook,50);
@@ -1538,6 +1545,50 @@ function promoCanvas(c,fmt,ti){if(ti==null)ti=nextTheme();var T=THEMES[ti%THEMES
   x.fillStyle=T.ink;x.font=pFont('bold',sq?38:42,'Inter, sans-serif');x.fillText(fitText(x,c.cta||'',W-M*2),M,boxY+(sq?140:150));
   return cv}
 function wrapTxt(x,t,maxW){var w=String(t).split(' '),out=[],line='';w.forEach(function(word){var test=line?line+' '+word:word;if(x.measureText(test).width>maxW&&line){out.push(line);line=word}else line=test});if(line)out.push(line);return out}
+
+/* ============ LEADERBOARD (clean, no overflow, fair ties) ============ */
+var BOARD_TABS=[['season','🏆','seasonPts','pts'],['fraggers','🎯','fraggers','kills'],['ratings','⭐','ratings','SR'],['teams','🛡','teams','pts'],['districts','📍','districts','pts'],['hunters','🔥','hunters','kills'],['recruiters','🤝','recruiters','👥']];
+function plural(n,one,many){return n+' '+(n===1?one:many)}
+function boardRows(k){var meId=S.me.pid,ps=S.players.filter(function(p){return !p.banned&&p.role!=='admin'}),rows;
+  if(k==='districts')return districtRows().map(function(r){r.sub=r.sub.replace(/^1 players/,'1 player');return r});
+  if(k==='hunters')return hunterRows();
+  if(k==='recruiters')return ps.map(function(p){var iv=invitesOf(p),tr=recTier(iv.played);return {n:p.ign,me:p.id===meId,v:iv.played,tie:[iv.joined],sub:iv.joined+' '+t('invJoined')+(tr?' · '+tr[1]+' '+tr[2]:'')}}).filter(function(r){return r.v>0||r.me});
+  if(k==='teams'){var my=me()&&me().teamId;return S.teams.map(function(x){var s=D.ts[x.id]||{pts:0,kills:0,booyah:0,m:0};return {n:x.name+' ['+x.tag+']',me:x.id===my,v:s.pts,tie:[s.booyah,s.kills],sub:plural(s.m,t('matchN1'),t('matchesN'))+' · '+s.booyah+' 🏆 · '+s.kills+' 🎯 · '+x.members.length+'/4'}}).filter(function(r){return r.v>0||r.me||r.sub.indexOf('0 ')!==0})}
+  return ps.map(function(p){var s=pst(p.id),kd=s.m?s.kills/s.m:0;
+    var v=k==='season'?s.pts:k==='fraggers'?s.kills:s.rating;
+    var tie=k==='season'?[s.booyah,s.kills]:k==='fraggers'?[Math.round(kd*100),s.m]:[s.m];
+    var sub=k==='fraggers'?kd.toFixed(1)+' '+t('kd')+' · '+plural(s.m,t('matchN1'),t('matchesN')):k==='ratings'?plural(s.m,t('matchN1'),t('matchesN'))+' · '+tierOf(s.pts).name:tierOf(s.pts).name+' · '+s.booyah+' 🏆 · '+s.kills+' 🎯';
+    return {n:(founderNo(p)?'🌟 ':'')+p.ign,me:p.id===meId,v:v,tie:tie,sub:sub,show:k==='ratings'?s.m>0:v>0}}).filter(function(r){return r.show||r.me})}
+function rankRows(rows){rows.sort(function(a,b){if(b.v!==a.v)return b.v-a.v;var x=a.tie||[],y=b.tie||[];for(var i=0;i<Math.max(x.length,y.length);i++){if((y[i]||0)!==(x[i]||0))return (y[i]||0)-(x[i]||0)}return a.n.localeCompare(b.n)});
+  var prev=null;rows.forEach(function(r,i){var same=prev&&prev.v===r.v&&JSON.stringify(prev.tie||[])===JSON.stringify(r.tie||[]);r.rank=same?prev.rank:i+1;prev=r});return rows}
+function boardRow(r,unit){return '<div class="lr brow'+(r.me?' bme':'')+'"><span class="rank '+(r.rank<=3?'r'+r.rank:'')+'">'+r.rank+'</span><div class="grow" style="min-width:0"><b class="small ell">'+esc(r.n)+(r.me?' <span class="tag t-acc">'+t('you')+'</span>':'')+'</b><div class="tiny muted ell">'+r.sub+'</div></div><div style="text-align:right"><b class="disp" style="font-size:20px">'+r.v+'</b><div class="tiny muted">'+unit+'</div></div></div>'}
+function vBoard(){derive();var tab=BOARD_TABS.filter(function(x){return x[0]===boardTab})[0]||BOARD_TABS[0];boardTab=tab[0];
+  var rows=rankRows(boardRows(boardTab)),top=rows.slice(0,50),mine=rows.filter(function(r){return r.me})[0];
+  setTimeout(function(){var c=$('bchips'),o=c&&c.querySelector('.on');if(c&&o){var want=o.offsetLeft-(c.clientWidth-o.clientWidth)/2;if(Math.abs(c.scrollLeft-want)>4)c.scrollLeft=want}},0);
+  return '<div class="stack">'+hdr(t('board'))+
+   '<div class="bchips" id="bchips">'+BOARD_TABS.map(function(x){return '<button class="chip'+(boardTab===x[0]?' on':'')+'" data-bt="'+x[0]+'">'+x[1]+' '+t(x[2])+'</button>'}).join('')+'</div>'+
+   (boardTab==='districts'?locSeg():'')+'<div class="tiny muted">'+t('bh_'+boardTab)+'</div>'+
+   (top.length?'<div class="card" style="padding:4px 12px">'+top.map(function(r){return boardRow(r,tab[3])}).join('')+'</div>':'<div class="card empty">'+t('bEmpty')+'</div>')+
+   (mine&&mine.rank>50?'<div class="tiny muted" style="text-align:center">• • •</div><div class="card" style="padding:4px 12px">'+boardRow(mine,tab[3])+'</div>':'')+'</div>'}
+
+/* ============ ONE ADMIN TAB (all admin work in one place) ============ */
+function canAdminP(){return !!(MYPROFILE&&MYPROFILE.role==='admin'&&!MYPROFILE.banned)}
+function adminCounts(){var c={rep:S.reports.filter(function(r){return r.status==='open'}).length,
+  live:S.matches.filter(function(m){return matchStatus(m)==='live'}).length,
+  host:(S.hostApps||[]).filter(function(a){return a.status==='pending'}).length,
+  social:(SOCIAL_LOG||[]).filter(function(r){return r.status==='pending'}).length,
+  clips:(S.clips||[]).filter(function(x){return x.status==='pending'}).length};return c}
+function adminBadge(){var c=adminCounts();return c.rep+c.live+c.host+c.social+c.clips}
+var ADMIN_NAV=[['dash','📊','overview'],['amatches','⚔','matches'],['atourneys','🏆','tourneys'],['players','👥','players'],['social','📣','socialAdm'],['growth','📈','growth'],['settings','⚙','settings']];
+function adminNav(){var c=adminCounts(),bd={dash:c.live+c.clips,players:c.rep+c.host,social:c.social};
+  setTimeout(function(){var n=$('anav'),o=n&&n.querySelector('.on');if(n&&o){var want=o.offsetLeft-(n.clientWidth-o.clientWidth)/2;if(Math.abs(n.scrollLeft-want)>4)n.scrollLeft=want}},0);
+  if(SOCIAL_LOG===null&&!adminNav._l){adminNav._l=1;setTimeout(function(){loadSocialLog().then(function(){adminNav._l=0;var n=(SOCIAL_LOG||[]).filter(function(r){return r.status==='pending'}).length;if(n&&!isTyping())render()})},50)}
+  return '<div class="anav-wrap"><div class="tiny muted b" style="letter-spacing:1.2px">🛠 '+t('adminTab').toUpperCase()+'</div><div class="bchips" id="anav">'+ADMIN_NAV.map(function(x){var b=bd[x[0]]||0;return '<button class="chip'+(view===x[0]?' on':'')+'" data-go="'+x[0]+'">'+x[1]+' '+t(x[2])+(b?' <span class="cbadge">'+b+'</span>':'')+'</button>'}).join('')+'</div></div>'}
+function annBlock(){return '<h2>📢 '+t('announcements')+'</h2><div class="card st">'+annSugHtml()+'<textarea id="annTxt" rows="3" placeholder="'+t('annPh')+'"></textarea><button class="btn" data-a="postAnn">'+t('post')+'</button>'+
+   S.ann.slice().reverse().map(function(a){return '<div class="lr"><div class="grow small">'+esc(a.text)+'<div class="tiny muted">'+fmtTime(a.ts)+'</div></div><button class="btn sm no" data-delann="'+a.id+'">✕</button></div>'}).join('')+'</div>'}
+function vSocialAdmin(){return '<div class="stack">'+hdr('📣 '+t('socialAdm'))+promoStudioCard()+socialCard()+annBlock()+'</div>'}
+function vGrowthAdmin(){return '<div class="stack">'+hdr('📈 '+t('growth'))+growthCard().replace('<h2>📈 '+t('growth')+'</h2>','')+'</div>'}
+function vPlayersAdmin(){return '<div class="stack">'+vPlayers()+hostAppsCard()+'</div>'}
 
 /* ============ events ============ */
 function val(id){var e=$(id);return e?e.value.trim():''}
@@ -1737,7 +1788,7 @@ document.addEventListener('change',function(ev){
     loadTess().then(function(){return Tesseract.recognize(el.files[0],'eng')}).then(function(r){var txt=r.data.text||'';$('ocrText').value=txt;applyParsed(m,parseResultText(m,txt));st.textContent='✓'}).catch(function(){st.textContent=t('ocrFail')});
   }
 });
-window.addEventListener('hashchange',function(){var h=location.hash.slice(1);var tabs=isAdmin()?ADMIN_TABS:PLAYER_TABS;if(tabs.indexOf(h)>=0&&h!==view){view=h;render()}});
+window.addEventListener('hashchange',function(){var h=location.hash.slice(1);var tabs=PLAYER_TABS.concat(canAdminP()?ADMIN_TABS:[]);if(tabs.indexOf(h)>=0&&h!==view){view=h;render()}});
 document.addEventListener('visibilitychange',function(){if(!document.hidden)schedulePull()});
 
 /* openMatch tracks id so results modal OCR knows the match */
