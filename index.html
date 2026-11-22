@@ -81,6 +81,18 @@ table.rt input{padding:6px;min-width:0}
 .hidden{display:none!important}
 a{color:var(--acc)}
 .mono{font-family:ui-monospace,Menlo,monospace;font-size:11.5px}
+html{-webkit-text-size-adjust:100%}*{-webkit-tap-highlight-color:transparent}
+button,a,label,select,.click,.chip,.tab,[data-a],[data-om],[data-ot],[data-go]{touch-action:manipulation}
+input,select,textarea{font-size:16px}
+.modal{max-height:90vh;max-height:90dvh;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.modal-bg{overscroll-behavior:contain}
+.modal-bg.ab-in{animation:abFade .15s ease-out}.modal-bg.ab-in .modal{animation:abUp .2s ease-out}
+@keyframes abFade{from{opacity:0}to{opacity:1}}@keyframes abUp{from{transform:translateY(28px);opacity:.5}to{transform:none;opacity:1}}
+body.ab-lock{overflow:hidden}
+.btn,.chip,.card.click{transition:transform .08s ease}.btn:active,.chip:active,.card.click:active{transform:scale(.97)}
+.chip input[type=checkbox]{accent-color:var(--acc)}
+img{max-width:100%}
+@media (prefers-reduced-motion:reduce){.modal-bg.ab-in,.modal-bg.ab-in .modal{animation:none}.btn,.chip,.card.click{transition:none}}
 </style>
 </head>
 <body>
@@ -225,6 +237,10 @@ bountyPick:['Pick Jit Hunters','জিৎ হান্টার বাছুন'
 blockedTitle:['Joining blocked','জয়েন ব্লক'],blockedUntil:['You missed too many matches. You can join again after {d}.','অনেক ম্যাচে আসেননি। {d} এর পর আবার জয়েন করতে পারবেন।'],noShowsN:['{n} no-show(s) so far','{n} বার আসেননি'],
 growth:['Growth','গ্রোথ'],gNew7:['New (7 days)','নতুন (৭ দিন)'],gNew30:['New (30 days)','নতুন (৩০ দিন)'],gActive:['Active (7 days)','অ্যাক্টিভ (৭ দিন)'],gFill:['Slots filled','স্লট ভরা'],gInv:['Invited → played','ইনভাইট → খেলেছে'],gRet:['Played 2+ matches','২+ ম্যাচ খেলেছে'],
 gWeeks:['New players per week','সপ্তাহে নতুন প্লেয়ার'],gNow:['now','এখন'],gDays:['Busiest days (players joined, 60 days)','ব্যস্ত দিন'],gDist:['Top districts','শীর্ষ জেলা'],gNoShow:['{n} no-shows in the last 30 days','গত ৩০ দিনে {n} না-আসা'],
+location:['Location & role','লোকেশন ও রোল'],cityL:['City / town','শহর'],districtL:['District','জেলা'],cityPh:['e.g. Barasat','যেমন বারাসাত'],choose:['choose','বাছুন'],otherDist:['Other (outside WB)','অন্য (পশ্চিমবঙ্গের বাইরে)'],myRole:['Your role in a team','টিমে আপনার রোল'],saveLoc:['Save location','লোকেশন সেভ'],
+fPlayers:['Players looking','প্লেয়ার খুঁজছে'],fTeams:['Teams recruiting','টিম লোক নিচ্ছে'],shareLfg:['Share my post (Insta, FB, WhatsApp…)','আমার পোস্ট শেয়ার'],shareRec:['Share recruiting post (Insta, FB, WhatsApp…)','রিক্রুট পোস্ট শেয়ার'],
+recAsk:['Need players? Post what your team needs','লোক লাগবে? পোস্ট করুন'],recLive:['Your recruiting post is live (7 days)','আপনার রিক্রুট পোস্ট চালু (৭ দিন)'],recNeed:['Roles you need:','যে রোল লাগবে:'],recNeedShort:['Need:','লাগবে:'],recPh:['e.g. Scrims every night 9 PM, Bengali/Hindi','যেমন রোজ রাত ৯টায় স্ক্রিম'],
+recCapOnly:['Only your team captain can post a recruiting ad.','শুধু ক্যাপ্টেন রিক্রুট পোস্ট দিতে পারে।'],recNone:['No team is recruiting right now.','এখন কোনো টিম লোক নিচ্ছে না।'],joinThis:['Join this team','এই টিমে জয়েন'],
 featVidL:['Featured YouTube video (plays on players\' Home)','ফিচার্ড YouTube ভিডিও (প্লেয়ারদের হোমে চলবে)'],featured:['Featured video','ফিচার্ড ভিডিও'],follow:['Follow us','আমাদের ফলো করুন'],watchCh:['Watch on YouTube','YouTube-এ দেখুন'],badVid:['That is not a YouTube video link.','এটা YouTube ভিডিও লিংক নয়।'],newPlayer:['New player? Register','নতুন প্লেয়ার? রেজিস্টার'],register2:['Register','রেজিস্টার'],login:['Log in','লগইন'],
 pinLbl:['PIN (4–6 digits)','পিন (৪–৬ সংখ্যা)'],pinRep:['Repeat PIN','আবার পিন দিন'],pinMismatch:['PINs do not match.','দুটো পিন মেলেনি।'],pinFmt:['PIN must be 4–6 digits.','পিন ৪–৬ সংখ্যার হতে হবে।'],
 wrongPin:['Wrong UID or PIN.','UID বা পিন ভুল।'],uidRegistered:['This UID is already registered — log in with your PIN.','এই UID আগেই রেজিস্টার্ড — পিন দিয়ে লগইন করুন।'],
@@ -259,7 +275,7 @@ async function pull(){
   var r=await Promise.all(names.map(fetchAll));
   var st=r[0][0]||{},pr=r[1],tm=r[2],tc=r[3],ma=r[4],en=r[5],rs=r[6],rm=r[7],tr=r[8],tp=r[9],rp=r[10],an=r[11];
   S.config=st.config||{};PREF.brand=S.config.name||'';savePref();document.title=brandName();S.settings.reveal=st.reveal_min||10;S.settings.season=st.season||1;S.archive=st.archive||[];
-  S.players=pr.map(function(p){return {id:p.id,ign:p.ign,uid:p.game_uid,role:p.role,avatar:p.avatar||'',invitedBy:p.invited_by||null,banned:p.banned,trust:p.trust,warns:p.warns,teamId:p.team_id,created:ts(p.created_at),district:p.district||'',isHost:!!p.is_host,noshows:p.noshows||0,blockedUntil:p.blocked_until?ts(p.blocked_until):0}});
+  S.players=pr.map(function(p){return {id:p.id,ign:p.ign,uid:p.game_uid,role:p.role,avatar:p.avatar||'',invitedBy:p.invited_by||null,banned:p.banned,trust:p.trust,warns:p.warns,teamId:p.team_id,created:ts(p.created_at),district:p.district||'',city:p.city||'',playRole:p.play_role||'',isHost:!!p.is_host,noshows:p.noshows||0,blockedUntil:p.blocked_until?ts(p.blocked_until):0}});
   var codes={};tc.forEach(function(c){codes[c.team_id]=c.code});
   S.teams=tm.map(function(t){return {id:t.id,name:t.name,tag:t.tag,captain:t.captain,code:codes[t.id]||'',created:ts(t.created_at),
     members:S.players.filter(function(p){return p.teamId===t.id}).sort(function(a,b){return a.created-b.created}).map(function(p){return p.id})}});
@@ -280,8 +296,8 @@ async function pull(){
   S.likes={};ex[3].forEach(function(l){(S.likes[l.clip_id]=S.likes[l.clip_id]||[]).push(l.player_id)});
   S.waitlist=(ex[5]||[]).map(function(w){return {id:w.id,matchId:w.match_id,k:w.kind,ref:w.kind==='p'?w.player_id:w.team_id,ts:ts(w.created_at)}}).sort(function(a,b){return a.ts-b.ts});
   S.challenges=ex[4].map(function(c){return {id:c.id,from:c.from_team,to:c.to_team,mode:c.mode,start:ts(c.start_at),msg:c.message,status:c.status,matchId:c.match_id,ts:ts(c.created_at)}});
-  var gx=await Promise.all(['host_apps','noshows','lfg','team_invites','bounty_kills'].map(function(tb){return fetchAll(tb).catch(function(){return []})}));
-  S.hostApps=gx[0];S.noshows=gx[1];S.lfg=gx[2];S.invites=gx[3];S.bounty=gx[4];
+  var gx=await Promise.all(['host_apps','noshows','lfg','team_invites','bounty_kills','team_recruit'].map(function(tb){return fetchAll(tb).catch(function(){return []})}));
+  S.hostApps=gx[0];S.noshows=gx[1];S.lfg=gx[2];S.invites=gx[3];S.bounty=gx[4];S.recruit=gx[5];
   MYPROFILE=byId(S.players,SESSION.user.id);
   S.me.pid=MYPROFILE?MYPROFILE.id:null;
   S.me.role=(MYPROFILE&&MYPROFILE.role==='admin'&&PREF.adminView)?'admin':'player';
@@ -297,7 +313,7 @@ async function createPendingProfile(){
 var pullTimer=null;
 function schedulePull(){clearTimeout(pullTimer);pullTimer=setTimeout(function(){pull().then(rerender).catch(function(){})},400)}
 function rerender(){var openM=openMatchId,openT=openTourneyId,hasModal=!!$('layer').innerHTML,typing=document.activeElement&&/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName);
-  if(hasModal&&typing)return; render(); if(hasModal&&openM&&!$('layer').querySelector('.rpos'))openMatch(openM); else if(hasModal&&openT)openTourney(openT)}
+  smoothRerender(openM,openT,hasModal)}
 async function run(fn,okMsg){
   if(busy){toast(t('working'));return false}busy=true;window.__busy=1;document.body.style.cursor='progress';
   try{var r=await fn();if(r&&r.error)throw r.error;await pull();closeModal();render();if(okMsg)toast(okMsg);return true}
@@ -511,12 +527,12 @@ function render(){
   S.settings.lang=PREF.lang;S.settings.theme=PREF.theme;
   document.documentElement.setAttribute('data-theme',S.settings.theme);
   if(NET!=='ok'||!SESSION){$('tabs').innerHTML='';$('app').innerHTML=vGate();return}document.documentElement.lang=S.settings.lang==='en'?'en':'bn';
-  derive();
+  derive();lfgFocusCheck();
   var tabs=isAdmin()?ADMIN_TABS:PLAYER_TABS;if(tabs.indexOf(view)<0)view=tabs[0];
   var openR=S.reports.filter(function(r){return r.status==='open'}).length,pend=S.matches.filter(function(m){return matchStatus(m)==='live'}).length;
   $('tabs').innerHTML='<div class="in">'+tabs.map(function(k){var bd=(k==='players'&&openR)?openR:(k==='matches'&&isAdmin()&&pend)?pend:0;return '<button class="tab'+(view===k?' on':'')+'" data-go="'+k+'">'+svg(k)+t(k)+(bd?'<span class="badge">'+bd+'</span>':'')+'</button>'}).join('')+'</div>';
   var fn={home:vHome,matches:vMatches,tourneys:vTourneys,board:vBoard,profile:vProfile,hub:vHub,dash:vDash,players:vPlayers,settings:vSettings}[view];
-  $('app').innerHTML=fn();
+  paintApp(fn());
   celebrateCheck();
   setTimeout(teamJoinPrompt,300);
   try{if(location.hash.slice(1)!==view)history.replaceState(null,'','#'+view)}catch(e){}
@@ -707,6 +723,7 @@ function vBoard(){
   if(boardTab==='districts'){rows=districtRows()}else if(boardTab==='hunters'){rows=hunterRows()}else if(boardTab==='recruiters'){rows=S.players.filter(function(p){return !p.banned&&p.role!=='admin'}).map(function(p){var iv=invitesOf(p),tr=recTier(iv.played);return {n:p.ign,me:p.id===S.me.pid,v:iv.played,sub:iv.joined+' '+t('invJoined')+(tr?' · '+tr[1]+' '+tr[2]:'')}}).filter(function(r){return r.v>0||r.me}).sort(function(a,b){return b.v-a.v})}
   else if(boardTab==='teams'){rows=S.teams.map(function(x){var s=D.ts[x.id]||{pts:0,kills:0,booyah:0,m:0};return {n:x.name+' ['+x.tag+']',v:s.pts,sub:s.m+' '+t('matchesN')+' · '+s.booyah+' 🏆 · '+s.kills+' 🎯'}}).sort(function(a,b){return b.v-a.v})}
   else{rows=S.players.filter(function(p){return !p.banned}).map(function(p){var s=pst(p.id);var v=boardTab==='season'?s.pts:boardTab==='fraggers'?s.kills:s.rating;return {n:(founderNo(p)?'🌟 ':'')+p.ign,me:p.id===S.me.pid,v:v,sub:boardTab==='fraggers'?(s.m?(s.kills/s.m).toFixed(1):'0')+' '+t('kd'):boardTab==='ratings'?s.m+' '+t('matchesN'):tierOf(s.pts).name+' · '+s.booyah+' 🏆'}}).filter(function(r){return boardTab==='ratings'||r.v>0||r.me}).sort(function(a,b){return b.v-a.v})}
+  if(boardTab==='districts')html+=locSeg();
   html+=(rows.length?'<div class="card" style="padding:4px 12px">'+rows.slice(0,50).map(function(r,i){return '<div class="lr"'+(r.me?' style="background:var(--accBg);margin:0 -12px;padding:9px 12px"':'')+'><span class="rank '+(i<3?'r'+(i+1):'')+'">'+(i+1)+'</span><div class="grow"><b class="small">'+esc(r.n)+(r.me?' ('+t('you')+')':'')+'</b><div class="tiny muted">'+r.sub+'</div></div><b class="disp" style="font-size:20px">'+r.v+'</b></div>'}).join('')+'</div>':'<div class="card empty">—</div>');
   return html+'</div>';
 }
@@ -716,7 +733,7 @@ function vProfile(){
   var p=me();if(!p)return vHome();
   var s=pst(p.id),tm=p.teamId?TM(p.teamId):null,b=badgesOf(p);
   var teamHtml=tm?'<div class="card st"><div class="row between"><div><h3>'+esc(tm.name)+' <span class="tag t-acc">'+esc(tm.tag)+'</span></h3><div class="tiny muted">'+t('inviteCode')+': <b class="mono">'+esc(tm.code)+'</b> <button class="btn sm sec" data-copy="'+esc(tm.code)+'">'+t('copy')+'</button></div></div></div>'+
-    tm.members.map(function(id){var x=P(id);return x?'<div class="lr">'+avHtml(x)+'<div class="grow"><b class="small">'+esc(x.ign)+'</b>'+(tm.captain===id?' <span class="tag t-acc">'+t('captain')+'</span>':'')+'<div class="tiny muted">'+t('rating')+' '+pst(id).rating+'</div></div></div>':''}).join('')+
+    tm.members.map(function(id){var x=P(id);return x?'<div class="lr">'+avHtml(x)+'<div class="grow"><b class="small">'+esc(x.ign)+'</b>'+(tm.captain===id?' <span class="tag t-acc">'+t('captain')+'</span>':'')+roleTag(id)+'<div class="tiny muted">'+t('rating')+' '+pst(id).rating+'</div></div></div>':''}).join('')+
     teamInviteBlock(tm)+'<div class="grid2"><button class="btn sm sec" data-a="joinTeam">🔁 '+t('switchTeam')+'</button><button class="btn sm no" data-a="leaveTeam">'+t('leaveTeam')+'</button></div></div>':
     '<div class="card st"><p class="muted small">'+t('noTeam')+'</p><div class="grid2"><button class="btn" data-a="createTeam">'+t('createTeam')+'</button><button class="btn sec" data-a="joinTeam">'+t('joinTeam')+'</button></div></div>';
   return '<div class="stack">'+hdr(t('profile'))+
@@ -812,7 +829,7 @@ function exportData(k){
   modal('<h2>💾 '+esc(name)+'</h2><p class="small muted">'+esc(t('downloaded',{f:name}))+'</p><textarea id="exTa" rows="7" class="mono" readonly>'+esc(body.replace(/^﻿/,''))+'</textarea><div class="grid2"><button class="btn sec" data-a="mclose">'+t('close')+'</button><button class="btn" data-copy-ta="exTa">'+t('copy')+'</button></div>');
 }
 /* ============ modals ============ */
-function modal(h){$('layer').innerHTML='<div class="modal-bg" data-bg="1"><div class="modal stack">'+h+'</div></div>';tick()}
+function modal(h){if(h===MODAL_HTML&&$('layer').querySelector('.modal'))return;var fresh=!$('layer').innerHTML;MODAL_HTML=h;$('layer').innerHTML='<div class="modal-bg'+(fresh?' ab-in':'')+'" data-bg="1"><div class="modal stack">'+h+'</div></div>';tick()}
 function closeModal(){$('layer').innerHTML='';openMatchId=null;openTourneyId=null;ocrRows=null}
 function confirmBox(msg,yes){modal('<h3>'+esc(msg)+'</h3><div class="grid2"><button class="btn sec" data-a="mclose">'+t('cancel')+'</button><button class="btn no" id="yesBtn">'+t('ok')+'</button></div>');$('yesBtn').onclick=function(){closeModal();yes();render()}}
 function dtLocal(ts){var d=new Date(ts-new Date().getTimezoneOffset()*6e4);return d.toISOString().slice(0,16)}
@@ -1077,6 +1094,7 @@ function promoContent(type,d){var b=brandName(),L=siteLink(),rv=S.settings.revea
     c.ig='📊 WEEKLY RECAP ('+enDate(w.from)+' – '+enDate(w.to)+')\n\n'+(tl.length?tl.join('\n'):'No matches this week')+(w.frag?'\n🎯 Top fragger: '+w.frag.ign+' ('+w.frag.v+' kills)':'')+'\n🎮 '+w.matches+' matches played\n\nCan you top the board next week? Free entry — link in bio\n\n'+h;
     c.yt='📊 Weekly recap on '+b+'\n'+tl.join('\n')+(w.frag?'\n🎯 Top fragger: '+w.frag.ign:'')+'\nPlay next week 👉 '+L;
     c.wa='*📊 Weekly recap ('+enDate(w.from)+' – '+enDate(w.to)+')*\n'+(tl.join('\n')||'No matches this week')+(w.frag?'\n🎯 Top fragger: '+w.frag.ign:'')+'\n\n👉 Play next week: '+L;}
+  else if(type==='lfg'||type==='recruit'){c=lfgPromo(type,d)}
   return c}
 
 /* ---- poster drawing (brand: black + red, with logo) ---- */
@@ -1090,7 +1108,7 @@ function promoCanvas(c,fmt){var W=1080,H=fmt==='square'?1080:fmt==='story'?1920:
   x.fillStyle='#ff4d4d';x.font='bold 30px Inter, sans-serif';x.fillText('FREE TOURNAMENTS · NO ENTRY FEE',260,top+118);
   var y=top+230;x.fillStyle='#ff2d2d';roundRect(x,70,y,x.measureText(c.badge).width+80,64,32);x.font='bold 34px Inter, sans-serif';var bw=x.measureText(c.badge).width;roundRect(x,70,y,bw+64,64,32);x.fill();x.fillStyle='#fff';x.fillText(c.badge,102,y+45);
   y+=120;x.fillStyle='#fff';x.font='bold '+Math.round(96*sc)+'px Rajdhani, Inter, sans-serif';y=wrapLines(x,c.title,70,y+40,W-140,Math.round(100*sc),3);
-  y+=30;(c.rows||[]).slice(0,6).forEach(function(r){x.fillStyle='rgba(0,0,0,.4)';roundRect(x,70,y,W-140,Math.round(104*sc),24);x.fill();
+  y+=30;var _rows=(c.rows||[]).slice(0,6),_by=(fmt==='story'?H-420:H-240)-24;if(_rows.length&&y+_rows.length*122*sc>_by)sc=Math.max(.6,(_by-y)/(_rows.length*122));_rows.forEach(function(r){x.fillStyle='rgba(0,0,0,.4)';roundRect(x,70,y,W-140,Math.round(104*sc),24);x.fill();
     x.font=Math.round(46*sc)+'px sans-serif';x.fillStyle='#fff';x.fillText(r[0],100,y+Math.round(68*sc));
     x.fillStyle='rgba(255,255,255,.65)';x.font='600 '+Math.round(32*sc)+'px Inter, sans-serif';x.fillText(r[1],180,y+Math.round(64*sc));
     x.fillStyle='#fff';x.font='bold '+Math.round(36*sc)+'px Inter, sans-serif';var tx=String(r[2]);while(x.measureText(tx).width>W-560&&tx.length>4)tx=tx.slice(0,-2);if(tx!==String(r[2]))tx+='…';x.textAlign='right';x.fillText(tx,W-100,y+Math.round(66*sc));x.textAlign='left';
@@ -1109,7 +1127,7 @@ function paintPromo(){var c=promoContent(PROMO.type,PROMO.data),cv=promoCanvas(c
    '<div class="seg">'+[['post','4:5 Post'],['square','1:1 Square'],['story','9:16 Story']].map(function(f){return '<button class="'+(PROMO.fmt===f[0]?'on':'')+'" data-a="promoFmt" data-v="'+f[0]+'">'+f[1]+'</button>'}).join('')+'</div>'+
    '<img id="promoImg" src="'+PROMO.url+'" alt="" style="width:100%;border-radius:12px;max-height:52vh;object-fit:contain;background:#000">'+
    '<button class="btn" data-a="promoShareImg">📤 '+t('shareImage')+'</button>'+
-   '<div class="seg">'+[['ig','📸 Instagram'],['yt','▶ YouTube'],['wa','💬 WhatsApp']].map(function(f){return '<button class="'+(PROMO.tab===f[0]?'on':'')+'" data-a="promoTab" data-v="'+f[0]+'">'+f[1]+'</button>'}).join('')+'</div>'+
+   '<div class="seg">'+[['ig','📸 Instagram'],['yt',(PROMO.type==='lfg'||PROMO.type==='recruit')?'📘 Facebook':'▶ YouTube'],['wa','💬 WhatsApp']].map(function(f){return '<button class="'+(PROMO.tab===f[0]?'on':'')+'" data-a="promoTab" data-v="'+f[0]+'">'+f[1]+'</button>'}).join('')+'</div>'+
    '<textarea id="promoCap" rows="9">'+esc(cap)+'</textarea>'+
    '<div class="grid2"><button class="btn sec" data-copy-ta="promoCap">📋 '+t('copyCaption')+'</button>'+
    (PROMO.tab==='wa'?'<a class="btn" style="text-decoration:none;background:#25D366;color:#062" href="https://wa.me/?text='+encodeURIComponent(cap)+'" target="_blank" rel="noopener">💬 WhatsApp</a>':'<button class="btn sec" data-a="promoShareAll">📤 '+t('shareBoth')+'</button>')+'</div>'+
@@ -1246,36 +1264,87 @@ function downloadIcs(){var list=calUpcoming();function f(x){return new Date(x).t
   lines.push('END:VCALENDAR');
   var b=new Blob([lines.join('\r\n')],{type:'text/calendar'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='jit-esports-matches.ics';document.body.appendChild(a);a.click();setTimeout(function(){a.remove()},500)}
 
-/* ---- districts ---- */
-function districtCard(p){return '<div class="card st"><b class="small">📍 '+t('district')+'</b><div class="tiny muted">'+t('districtNote')+'</div>'+
-  '<input id="pf_dist" list="distList" maxlength="30" placeholder="'+t('districtPh')+'" value="'+esc(p.district||'')+'"><datalist id="distList">'+WB_DISTRICTS.map(function(x){return '<option value="'+x+'">'}).join('')+'</datalist>'+
-  '<button class="btn sec sm" data-a="saveDistrict">💾 '+t('save')+'</button></div>'}
+/* ---- location (city + district) & role ---- */
+var WB_CITIES=['Kolkata','Howrah','Bidhannagar (Salt Lake)','Dum Dum','Barasat','Barrackpore','Habra','Bongaon','Basirhat','Kalyani','Krishnanagar','Ranaghat','Shantipur','Nabadwip','Serampore','Chinsurah','Chandannagar','Arambagh','Uluberia','Baruipur','Sonarpur','Diamond Harbour','Durgapur','Asansol','Bardhaman','Katwa','Kalna','Kharagpur','Medinipur','Haldia','Tamluk','Contai','Digha','Jhargram','Bankura','Bishnupur','Purulia','Suri','Bolpur','Rampurhat','Baharampur','Jangipur','Malda','Raiganj','Balurghat','Siliguri','Jalpaiguri','Cooch Behar','Alipurduar','Darjeeling','Kalimpong'];
+var ROLES=['rusher','sniper','support','igl','any'],LOC_MODE='district';
+function roleTag(pid){var q=P(pid);return q&&q.playRole?' <span class="tag t-acc">'+t('role_'+q.playRole)+'</span>':''}
+function locText(q){return [q.city,q.district].filter(Boolean).join(', ')}
+function locationCard(p){var inList=WB_DISTRICTS.indexOf(p.district)>=0;
+  return '<div class="card st"><b class="small">📍 '+t('location')+'</b><div class="tiny muted">'+t('districtNote')+'</div>'+
+   '<div class="grid2"><label class="f">'+t('cityL')+'<input id="pf_city" list="cityList" maxlength="30" autocomplete="off" placeholder="'+t('cityPh')+'" value="'+esc(p.city||'')+'"><datalist id="cityList">'+WB_CITIES.map(function(x){return '<option value="'+x+'">'}).join('')+'</datalist></label>'+
+   '<label class="f">'+t('districtL')+'<select id="pf_dist"><option value="">— '+t('choose')+' —</option>'+WB_DISTRICTS.map(function(x){return '<option'+(p.district===x?' selected':'')+'>'+x+'</option>'}).join('')+
+   (p.district&&!inList?'<option selected>'+esc(p.district)+'</option>':'')+'<option value="Other">'+t('otherDist')+'</option></select></label></div>'+
+   '<b class="small">🎯 '+t('myRole')+'</b><div class="row wrap" style="gap:6px">'+ROLES.map(function(r){return '<button class="chip'+(p.playRole===r?' on':'')+'" data-a="myRole" data-v="'+r+'">'+t('role_'+r)+'</button>'}).join('')+'</div>'+
+   '<button class="btn sec sm" data-a="saveDistrict">💾 '+t('saveLoc')+'</button></div>'}
 function normDist(s){s=String(s||'').trim().replace(/\s+/g,' ');var hit=WB_DISTRICTS.filter(function(x){return x.toLowerCase()===s.toLowerCase()})[0];return hit||s.slice(0,30)}
-function districtRows(){var g={},my=me()&&me().district;
-  S.players.filter(function(p){return !p.banned&&p.role!=='admin'&&p.district}).forEach(function(p){var k=p.district,s=pst(p.id);g[k]=g[k]||{n:k,v:0,c:0,top:null,topv:-1};g[k].v+=s.pts;g[k].c++;if(s.pts>g[k].topv){g[k].topv=s.pts;g[k].top=p.ign}});
-  return Object.keys(g).map(function(k){var x=g[k];return {n:'📍 '+x.n,me:x.n===my,v:x.v,sub:x.c+' '+t('playersN')+(x.top?' · ⭐ '+esc(x.top):'')}}).sort(function(a,b){return b.v-a.v})}
+function normCity(s){s=String(s||'').trim().replace(/\s+/g,' ');var hit=WB_CITIES.filter(function(x){return x.toLowerCase()===s.toLowerCase()})[0];return (hit||s.replace(/\b\w/g,function(c){return c.toUpperCase()})).slice(0,30)}
+function districtRows(){var g={},key=LOC_MODE==='city'?'city':'district',mine=me()&&me()[key];
+  S.players.filter(function(p){return !p.banned&&p.role!=='admin'&&p[key]}).forEach(function(p){var k=p[key],s=pst(p.id);g[k]=g[k]||{n:k,v:0,c:0,top:null,topv:-1};g[k].v+=s.pts;g[k].c++;if(s.pts>g[k].topv){g[k].topv=s.pts;g[k].top=p.ign}});
+  return Object.keys(g).map(function(k){var x=g[k];return {n:(key==='city'?'🏙 ':'📍 ')+x.n,me:x.n===mine,v:x.v,sub:x.c+' '+t('playersN')+(x.top?' · ⭐ '+esc(x.top):'')}}).sort(function(a,b){return b.v-a.v})}
+function locSeg(){return '<div class="seg">'+[['district','📍 '+t('districtL')],['city','🏙 '+t('cityL')]].map(function(x){return '<button class="'+(LOC_MODE===x[0]?'on':'')+'" data-a="locMode" data-v="'+x[0]+'">'+x[1]+'</button>'}).join('')+'</div>'}
 function hunterRows(){return S.players.filter(function(p){return bountyCount(p.id)>0}).map(function(p){var c=bountyCount(p.id);return {n:'🎯 '+p.ign,me:p.id===S.me.pid,v:c,sub:t('hunterSub',{n:c*100})}}).sort(function(a,b){return b.v-a.v})}
 
-/* ---- team finder ---- */
-var LFG_ROLES=['any','rusher','sniper','support','igl'];
+/* ---- team finder: players looking + teams recruiting ---- */
+var LFG_ROLES=['any','rusher','sniper','support','igl'],FINDER_TAB='players',LFG_FOCUS=null;
+try{var _lq=new URLSearchParams(location.search).get('lfg');if(_lq&&/^[0-9a-f-]{36}$/i.test(_lq)){localStorage.setItem('ab.lfgFocus',_lq);history.replaceState(null,'',location.pathname+location.hash)}}catch(e){}
+function lfgFocusCheck(){try{var f=localStorage.getItem('ab.lfgFocus');if(f&&me()&&SESSION){localStorage.removeItem('ab.lfgFocus');LFG_FOCUS=f;FINDER_TAB='players';view='hub';setTimeout(function(){var el=document.querySelector('[data-lfg="'+f+'"]');if(el)el.scrollIntoView({block:'center'})},400)}}catch(e){}}
 function lfgFresh(x){return now()-new Date(x.updated_at).getTime()<3*864e5}
+function recFresh(x){return now()-new Date(x.updated_at).getTime()<7*864e5}
+function memberLine(tm,pid){var q=P(pid);if(!q)return '';return '<div class="lr" style="padding:5px 0">'+avHtml(q,26)+'<div class="grow small"><b>'+esc(q.ign)+'</b>'+(tm.captain===pid?' <span class="tag">👑 '+t('captain')+'</span>':'')+roleTag(pid)+'</div><span class="tiny muted">⭐ '+pst(pid).rating+'</span></div>'}
 function lfgBlock(){var p=me();if(!p)return '';var myT=p.teamId?TM(p.teamId):null,isCap=myT&&myT.captain===p.id,full=myT&&myT.members.length>=4;
   var mine=(S.lfg||[]).filter(function(x){return x.player_id===p.id})[0];
-  var posts=(S.lfg||[]).filter(function(x){var q=P(x.player_id);return q&&!q.banned&&x.player_id!==p.id&&lfgFresh(x)}).sort(function(a,b){return new Date(b.updated_at)-new Date(a.updated_at)});
+  var posts=(S.lfg||[]).filter(function(x){var q=P(x.player_id);return q&&!q.banned&&x.player_id!==p.id&&lfgFresh(x)}).sort(function(a,b){return (b.player_id===LFG_FOCUS)-(a.player_id===LFG_FOCUS)||new Date(b.updated_at)-new Date(a.updated_at)});
+  var recs=(S.recruit||[]).filter(function(r){var tm=TM(r.team_id);return tm&&recFresh(r)&&tm.members.length<4}).sort(function(a,b){return new Date(b.updated_at)-new Date(a.updated_at)});
+  var myRec=myT?(S.recruit||[]).filter(function(r){return r.team_id===myT.id})[0]:null;
   var invMe=(S.invites||[]).filter(function(i){return i.player_id===p.id&&TM(i.team_id)});
   var sent=isCap?(S.invites||[]).filter(function(i){return i.team_id===myT.id}).map(function(i){return i.player_id}):[];
   var h='<h2>🔎 '+t('lfgTitle')+'</h2>';
-  h+=invMe.map(function(i){var tm=TM(i.team_id);return '<div class="card st" style="border-color:var(--acc)"><b>📩 '+esc(tm.name)+' ['+esc(tm.tag)+'] '+t('invitedYou')+'</b><div class="tiny muted">'+tm.members.length+'/4 · '+t('captain')+': '+esc((P(tm.captain)||{}).ign||'?')+'</div><div class="grid2"><button class="btn no sm" data-a="invNo" data-id="'+i.team_id+'">'+t('decline')+'</button><button class="btn sm" data-a="invYes" data-id="'+i.team_id+'">✓ '+t('accept')+'</button></div></div>'}).join('');
-  if(!myT||!full){h+='<div class="card st"><b class="small">'+(mine?'✅ '+t('lfgLive'):t('lfgAsk'))+'</b>'+
-    '<div class="grid2"><label class="f">'+t('mode')+'<select id="lfg_mode"><option value="squad"'+(mine&&mine.mode==='squad'?' selected':'')+'>'+t('squad')+'</option><option value="duo"'+(mine&&mine.mode==='duo'?' selected':'')+'>'+t('duo')+'</option></select></label>'+
-    '<label class="f">'+t('lfgRole')+'<select id="lfg_role">'+LFG_ROLES.map(function(r){return '<option value="'+r+'"'+(mine&&mine.role===r?' selected':'')+'>'+t('role_'+r)+'</option>'}).join('')+'</select></label></div>'+
-    '<input id="lfg_note" maxlength="120" placeholder="'+t('lfgPh')+'" value="'+esc(mine?mine.note:'')+'">'+
-    '<div class="grid2"><button class="btn sm" data-a="lfgSave">📢 '+(mine?t('update'):t('lfgPost'))+'</button>'+(mine?'<button class="btn no sm" data-a="lfgDel">'+t('remove')+'</button>':'')+'</div></div>'}
-  h+=posts.length?posts.slice(0,30).map(function(x){var q=P(x.player_id),s=pst(q.id),qt=q.teamId?TM(q.teamId):null;
-    var btn=isCap&&!full&&!(qt&&qt.id===myT.id)?(sent.indexOf(q.id)>=0?'<span class="tag t-g">'+t('invSent')+'</span>':'<button class="btn sm" data-a="tInvite" data-id="'+q.id+'">＋ '+t('invite')+'</button>'):'';
-    return '<div class="card row between">'+'<div class="row">'+avHtml(q)+'<div><b class="small">'+esc(q.ign)+'</b> <span class="tag">'+t(x.mode)+'</span> <span class="tag t-acc">'+t('role_'+x.role)+'</span><div class="tiny muted">'+t('rating')+' '+s.rating+' · '+s.m+' '+t('matchesN')+(q.district?' · 📍 '+esc(q.district):'')+(qt?' · '+esc(qt.tag):'')+'</div>'+(x.note?'<div class="tiny">“'+esc(x.note)+'”</div>':'')+'</div></div>'+btn+'</div>'}).join(''):'<div class="card small muted">'+t('lfgNone')+'</div>';
-  if(isCap&&!full)h+='<div class="tiny muted">'+t('lfgCapTip')+'</div>';
+  h+=invMe.map(function(i){var tm=TM(i.team_id);return '<div class="card st" style="border-color:var(--acc)"><b>📩 '+esc(tm.name)+' ['+esc(tm.tag)+'] '+t('invitedYou')+'</b>'+tm.members.map(function(id){return memberLine(tm,id)}).join('')+'<div class="grid2"><button class="btn no sm" data-a="invNo" data-id="'+i.team_id+'">'+t('decline')+'</button><button class="btn sm" data-a="invYes" data-id="'+i.team_id+'">✓ '+t('accept')+'</button></div></div>'}).join('');
+  h+='<div class="seg"><button class="'+(FINDER_TAB==='players'?'on':'')+'" data-a="finderTab" data-v="players">👤 '+t('fPlayers')+' ('+posts.length+')</button><button class="'+(FINDER_TAB==='teams'?'on':'')+'" data-a="finderTab" data-v="teams">🛡 '+t('fTeams')+' ('+recs.length+')</button></div>';
+  if(FINDER_TAB==='players'){
+    if(!myT||!full){var role0=mine?mine.role:(p.playRole||'any');h+='<div class="card st"><b class="small">'+(mine?'✅ '+t('lfgLive'):t('lfgAsk'))+'</b>'+
+      '<div class="grid2"><label class="f">'+t('mode')+'<select id="lfg_mode"><option value="squad"'+(mine&&mine.mode==='squad'?' selected':'')+'>'+t('squad')+'</option><option value="duo"'+(mine&&mine.mode==='duo'?' selected':'')+'>'+t('duo')+'</option></select></label>'+
+      '<label class="f">'+t('lfgRole')+'<select id="lfg_role">'+LFG_ROLES.map(function(r){return '<option value="'+r+'"'+(role0===r?' selected':'')+'>'+t('role_'+r)+'</option>'}).join('')+'</select></label></div>'+
+      '<input id="lfg_note" maxlength="120" placeholder="'+t('lfgPh')+'" value="'+esc(mine?mine.note:'')+'">'+
+      '<div class="grid2"><button class="btn sm" data-a="lfgSave">📢 '+(mine?t('update'):t('lfgPost'))+'</button>'+(mine?'<button class="btn no sm" data-a="lfgDel">'+t('remove')+'</button>':'')+'</div>'+
+      (mine?'<button class="btn block" style="background:linear-gradient(90deg,#e1306c,#1877f2)" data-a="lfgShare">📤 '+t('shareLfg')+'</button>':'')+'</div>'}
+    h+=posts.length?posts.slice(0,40).map(function(x){var q=P(x.player_id),s=pst(q.id),qt=q.teamId?TM(q.teamId):null,foc=x.player_id===LFG_FOCUS;
+      var btn=isCap&&!full&&!(qt&&qt.id===myT.id)?(sent.indexOf(q.id)>=0?'<span class="tag t-g">'+t('invSent')+'</span>':'<button class="btn sm" data-a="tInvite" data-id="'+q.id+'">＋ '+t('invite')+'</button>'):'';
+      return '<div class="card st" data-lfg="'+q.id+'"'+(foc?' style="border-color:var(--acc);box-shadow:0 0 0 2px var(--acc)"':'')+'><div class="row between"><div class="row">'+avHtml(q)+'<div><b class="small">'+esc(q.ign)+'</b><div class="row wrap" style="gap:4px"><span class="tag t-acc">🎯 '+t('role_'+x.role)+'</span><span class="tag">'+t(x.mode)+'</span></div></div></div>'+btn+'</div>'+
+        '<div class="tiny muted">⭐ '+s.rating+' · '+s.m+' '+t('matchesN')+' · '+(s.m?(s.kills/s.m).toFixed(1):'0')+' '+t('kd')+(locText(q)?' · 📍 '+esc(locText(q)):'')+(qt?' · 🛡 '+esc(qt.tag):'')+'</div>'+(x.note?'<div class="small">“'+esc(x.note)+'”</div>':'')+'</div>'}).join(''):'<div class="card small muted">'+t('lfgNone')+'</div>';
+    if(isCap&&!full)h+='<div class="tiny muted">'+t('lfgCapTip')+'</div>';
+  }else{
+    if(isCap&&!full){var rr=myRec?myRec.roles||[]:[];h+='<div class="card st"><b class="small">'+(myRec?'✅ '+t('recLive'):'📣 '+t('recAsk'))+'</b>'+
+      '<label class="f">'+t('mode')+'<select id="rec_mode"><option value="squad"'+(myRec&&myRec.mode==='squad'?' selected':'')+'>'+t('squad')+'</option><option value="duo"'+(myRec&&myRec.mode==='duo'?' selected':'')+'>'+t('duo')+'</option></select></label>'+
+      '<div class="tiny muted">'+t('recNeed')+'</div><div class="row wrap" style="gap:6px">'+LFG_ROLES.map(function(r){return '<label class="chip'+(rr.indexOf(r)>=0?' on':'')+'" style="cursor:pointer"><input type="checkbox" class="rcChk" value="'+r+'" style="width:auto;margin-right:4px"'+(rr.indexOf(r)>=0?' checked':'')+'>'+t('role_'+r)+'</label>'}).join('')+'</div>'+
+      '<input id="rec_note" maxlength="120" placeholder="'+t('recPh')+'" value="'+esc(myRec?myRec.note:'')+'">'+
+      '<div class="grid2"><button class="btn sm" data-a="recSave">📢 '+(myRec?t('update'):t('lfgPost'))+'</button>'+(myRec?'<button class="btn no sm" data-a="recDel">'+t('remove')+'</button>':'')+'</div>'+
+      (myRec?'<button class="btn block" style="background:linear-gradient(90deg,#e1306c,#1877f2)" data-a="recShare">📤 '+t('shareRec')+'</button>':'')+'</div>'}
+    else if(!isCap&&myT)h+='<div class="card small muted">'+t('recCapOnly')+'</div>';
+    h+=recs.length?recs.map(function(r){var tm=TM(r.team_id),cap=P(tm.captain),mineT=myT&&myT.id===tm.id;
+      return '<div class="card st"><div class="row between"><div><b>🛡 '+esc(tm.name)+'</b> <span class="tag t-acc">'+esc(tm.tag)+'</span> <span class="tag">'+t(r.mode)+'</span></div><span class="tiny muted">'+tm.members.length+'/4</span></div>'+
+        '<div class="row wrap" style="gap:4px"><span class="tiny b">'+t('recNeedShort')+'</span>'+(r.roles&&r.roles.length?r.roles.map(function(x){return '<span class="tag t-r">'+t('role_'+x)+'</span>'}).join(''):'<span class="tag">'+t('role_any')+'</span>')+'</div>'+
+        tm.members.map(function(id){return memberLine(tm,id)}).join('')+(cap&&locText(cap)?'<div class="tiny muted">📍 '+esc(locText(cap))+'</div>':'')+(r.note?'<div class="small">“'+esc(r.note)+'”</div>':'')+
+        (mineT?'':'<button class="btn sm block" data-a="joinRecruit" data-id="'+tm.id+'">⚔ '+t('joinThis')+'</button>')+'</div>'}).join(''):'<div class="card small muted">'+t('recNone')+'</div>';
+  }
   return h}
+
+/* ---- share posters for team finder ---- */
+function lfgPromo(type,d){var L=siteLink(),h=tags()+' #LookingForTeam #FFSquad',c={};
+  if(type==='lfg'){var q=P(d)||me(),x=(S.lfg||[]).filter(function(y){return y.player_id===q.id})[0]||{mode:'squad',role:q.playRole||'any',note:''},s=pst(q.id),kd=s.m?(s.kills/s.m).toFixed(1):'0',role=t('role_'+x.role),lnk=L+'?lfg='+q.id,loc=locText(q);
+    c.badge='LOOKING FOR TEAM';c.title=q.ign;c.rows=[['🎯','Role',role],['🎮','Mode',modeName(x.mode)],['⭐','Rating',s.rating+' · '+s.m+' matches'],['🔫','K/D',kd+' · '+s.booyah+' Booyah']].concat(loc?[['📍','From',loc]]:[]).concat(x.note?[['💬','Note',x.note]]:[]);
+    c.box='CAPTAINS, INVITE ME';c.cta='Invite 👉 '+L.replace(/^https?:\/\//,'');
+    c.ig='🎯 LOOKING FOR A TEAM\n\n👤 '+q.ign+'\n🎯 Role: '+role+'\n🎮 Mode: '+modeName(x.mode)+'\n⭐ Rating '+s.rating+' · '+s.m+' matches · '+kd+' K/D'+(loc?'\n📍 '+loc:'')+(x.note?'\n💬 '+x.note:'')+'\n\nCaptains — invite me on '+brandName()+' (Hub → Team finder) 👉 link in bio\n\n'+h;
+    c.yt='🎯 Looking for a Free Fire '+modeName(x.mode).toLowerCase()+' team!\nI play '+role+' · Rating '+s.rating+' · '+kd+' K/D'+(loc?' · '+loc:'')+'.'+(x.note?'\n'+x.note:'')+'\nCaptains, invite me here 👉 '+lnk;
+    c.wa='*🎯 Looking for a team*\n👤 '+q.ign+' — '+role+'\n🎮 '+modeName(x.mode)+' · ⭐ '+s.rating+' · '+kd+' K/D'+(loc?'\n📍 '+loc:'')+(x.note?'\n💬 '+x.note:'')+'\n\nCaptains, invite me 👉 '+lnk;}
+  else{var tm=TM(d),r=(S.recruit||[]).filter(function(y){return y.team_id===d})[0]||{mode:'squad',roles:[],note:''},cap=P(tm.captain),need=(r.roles&&r.roles.length?r.roles:['any']).map(function(x){return t('role_'+x)}),lnk=L+'?team='+tm.code,loc=cap?locText(cap):'';
+    var mem=tm.members.map(function(id){var q=P(id);return q?q.ign+' — '+(q.playRole?t('role_'+q.playRole):'Player')+(tm.captain===id?' (Captain)':''):''}).filter(Boolean);
+    c.badge='TEAM RECRUITING';c.title=tm.name+' ['+tm.tag+']';c.rows=[['🔎','Need',need.join(', ')],['🎮','Mode',modeName(r.mode)+' · '+tm.members.length+'/4']].concat(tm.members.slice(0,3).map(function(id,i){var q=P(id);return ['👤',i===0&&tm.captain===id?'Captain':'Member',q?q.ign+(q.playRole?' · '+t('role_'+q.playRole):''):'?']})).concat(loc?[['📍','From',loc]]:[]);
+    c.box='NEED: '+need.join(' · ').toUpperCase().slice(0,34);c.cta='Join 👉 '+L.replace(/^https?:\/\//,'');
+    c.ig='🛡 '+tm.name+' ['+tm.tag+'] IS RECRUITING!\n\n🔎 Need: '+need.join(', ')+'\n🎮 '+modeName(r.mode)+' · '+tm.members.length+'/4 members\n\n👥 Current squad:\n'+mem.map(function(x){return '• '+x}).join('\n')+(loc?'\n📍 '+loc:'')+(r.note?'\n💬 '+r.note:'')+'\n\n✅ Join us on '+brandName()+' — team code: '+tm.code+'\n(App → Profile → Join team) 👉 link in bio\n\n'+tags()+' #TeamRecruitment #FFSquad';
+    c.yt='🛡 '+tm.name+' ['+tm.tag+'] is recruiting!\nNeed: '+need.join(', ')+' · '+modeName(r.mode)+' · '+tm.members.length+'/4\nSquad: '+mem.join(', ')+(r.note?'\n'+r.note:'')+'\nJoin our team here 👉 '+lnk;
+    c.wa='*🛡 '+tm.name+' ['+tm.tag+'] is recruiting!*\n🔎 Need: '+need.join(', ')+'\n🎮 '+modeName(r.mode)+' · '+tm.members.length+'/4\n'+mem.map(function(x){return '• '+x}).join('\n')+(r.note?'\n💬 '+r.note:'')+'\n\n👉 Join the team: '+lnk;}
+  return c}
 
 /* ---- host program ---- */
 var HOSTSTEP=null;
@@ -1317,7 +1386,7 @@ function bountyForm(m){var done=(S.bounty||[]).filter(function(x){return x.match
 function growthProfileCards(p){var bl=myBlock(),out='';
   if(bl)out+='<div class="card st" style="border-color:#ff4d4d;background:rgba(255,77,77,.08)"><b>🚫 '+t('blockedTitle')+'</b><div class="small">'+t('blockedUntil',{d:fmtTime(bl)})+'</div></div>';
   else if(p.noshows)out+='<div class="tiny muted">🚫 '+t('noShowsN',{n:p.noshows})+'</div>';
-  return out+districtCard(p)+hostCard()}
+  return out+locationCard(p)+hostCard()}
 
 /* ---- admin: host apps, blocks ---- */
 function hostAppsCard(){var pend=(S.hostApps||[]).filter(function(a){return a.status==='pending'&&P(a.player_id)});
@@ -1351,6 +1420,23 @@ function growthCard(){var N=now(),W=7*864e5,pl=S.players.filter(function(p){retu
    '<b class="small">'+t('gDays')+'</b>'+bars(dow,dn,'#2a7fff')+
    (dk.length?'<b class="small">📍 '+t('gDist')+'</b><div class="row wrap">'+dk.map(function(k){return '<span class="tag">'+esc(k)+' · '+dist[k]+'</span>'}).join('')+'</div>':'')+
    '<div class="tiny muted">🚫 '+t('gNoShow',{n:ns30})+'</div></div>'}
+
+/* ============ SMOOTH MOBILE: no flicker, no lost typing, no scroll jumps ============ */
+var LAST_HTML='',LAST_VIEW='',MODAL_HTML='',PENDING_RR=false;
+function isTyping(){var a=document.activeElement;return !!(a&&/INPUT|TEXTAREA|SELECT/.test(a.tagName)&&a.type!=='checkbox'&&a.type!=='radio'&&a.type!=='button')}
+function paintApp(html){var changedView=view!==LAST_VIEW;
+  if(!changedView&&html===LAST_HTML)return;           // nothing changed: keep the page exactly as it is
+  var y=window.scrollY;$('app').innerHTML=html;LAST_HTML=html;
+  if(changedView){LAST_VIEW=view;window.scrollTo(0,0)}else if(Math.abs(window.scrollY-y)>2)window.scrollTo(0,y)}
+function smoothRerender(openM,openT,hasModal){
+  if(isTyping()){PENDING_RR=true;return}             // never wipe what the player is typing
+  var mo=document.querySelector('.modal'),ms=mo?mo.scrollTop:0;
+  render();
+  if(hasModal&&openM&&!$('layer').querySelector('.rpos'))openMatch(openM);else if(hasModal&&openT)openTourney(openT);
+  var m2=document.querySelector('.modal');if(m2&&ms)m2.scrollTop=ms}
+document.addEventListener('focusout',function(){setTimeout(function(){if(PENDING_RR&&!isTyping()){PENDING_RR=false;rerender()}},250)});
+(function(){function hook(){var L=$('layer');if(!L)return setTimeout(hook,50);
+  new MutationObserver(function(){var open=!!L.innerHTML;document.body.classList.toggle('ab-lock',open);if(!open)MODAL_HTML=''}).observe(L,{childList:true})}hook()})();
 
 /* ============ events ============ */
 function val(id){var e=$(id);return e?e.value.trim():''}
@@ -1467,10 +1553,20 @@ document.addEventListener('click',function(ev){
   case 'socSave':socialSave();return;
   case 'socLoad':SOCIAL_LOG=null;loadSocialLog();return;
   case 'socRepost':socialRepost(id);return;
+  case 'finderTab':FINDER_TAB=d.v;render();return;
+  case 'locMode':LOC_MODE=d.v;render();return;
+  case 'myRole':run(function(){return sb.from('profiles').update({play_role:d.v}).eq('id',S.me.pid)},'🎯 '+t('role_'+d.v));return;
+  case 'lfgShare':openPromo('lfg',S.me.pid);return;
+  case 'recShare':{var rt=me()&&me().teamId;if(rt)openPromo('recruit',rt);return}
+  case 'recSave':{var rt2=me()&&me().teamId;if(!rt2)return;var rr=[].slice.call(document.querySelectorAll('.rcChk')).filter(function(x){return x.checked}).map(function(x){return x.value});
+    run(function(){return sb.from('team_recruit').upsert({team_id:rt2,mode:$('rec_mode').value,roles:rr,note:val('rec_note').slice(0,120),updated_at:new Date().toISOString()},{onConflict:'team_id'})},'✓').then(function(ok){if(ok)openPromo('recruit',rt2)});return}
+  case 'recDel':{var rt3=me()&&me().teamId;run(function(){return sb.from('team_recruit').delete().eq('team_id',rt3)},'✓');return}
+  case 'joinRecruit':{var jt=TM(id),cur=me()&&me().teamId?TM(me().teamId):null;var go=function(){run(function(){return rpc('join_recruit',{p_team:id})},t('teamJoined'))};
+    if(cur)confirmBox(t('switchWarn',{t:cur.name}),go);else go();return}
   case 'calendar':openCalendar();return;
   case 'icsAll':downloadIcs();return;
-  case 'saveDistrict':run(function(){return sb.from('profiles').update({district:normDist(val('pf_dist'))}).eq('id',S.me.pid)},'✓');return;
-  case 'lfgSave':run(function(){return sb.from('lfg').upsert({player_id:S.me.pid,mode:$('lfg_mode').value,role:$('lfg_role').value,note:val('lfg_note').slice(0,120),updated_at:new Date().toISOString()},{onConflict:'player_id'})},'✓');return;
+  case 'saveDistrict':run(function(){return sb.from('profiles').update({district:normDist($('pf_dist').value),city:normCity(val('pf_city'))}).eq('id',S.me.pid)},'✓');return;
+  case 'lfgSave':{var lr=$('lfg_role').value;run(async function(){await q(sb.from('lfg').upsert({player_id:S.me.pid,mode:$('lfg_mode').value,role:lr,note:val('lfg_note').slice(0,120),updated_at:new Date().toISOString()},{onConflict:'player_id'}));if(lr!=='any')await q(sb.from('profiles').update({play_role:lr}).eq('id',S.me.pid))},'✓').then(function(ok){if(ok)openPromo('lfg',S.me.pid)});return}
   case 'lfgDel':run(function(){return sb.from('lfg').delete().eq('player_id',S.me.pid)},'✓');return;
   case 'tInvite':{var mt=me()&&me().teamId;if(!mt)return;run(function(){return sb.from('team_invites').insert({team_id:mt,player_id:id})},'📩 '+t('invSent'));return}
   case 'invYes':run(function(){return rpc('accept_team_invite',{p_team:id})},'✓');return;
