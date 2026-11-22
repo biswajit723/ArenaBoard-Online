@@ -241,6 +241,10 @@ location:['Location & role','লোকেশন ও রোল'],cityL:['City / t
 fPlayers:['Players looking','প্লেয়ার খুঁজছে'],fTeams:['Teams recruiting','টিম লোক নিচ্ছে'],shareLfg:['Share my post (Insta, FB, WhatsApp…)','আমার পোস্ট শেয়ার'],shareRec:['Share recruiting post (Insta, FB, WhatsApp…)','রিক্রুট পোস্ট শেয়ার'],
 recAsk:['Need players? Post what your team needs','লোক লাগবে? পোস্ট করুন'],recLive:['Your recruiting post is live (7 days)','আপনার রিক্রুট পোস্ট চালু (৭ দিন)'],recNeed:['Roles you need:','যে রোল লাগবে:'],recNeedShort:['Need:','লাগবে:'],recPh:['e.g. Scrims every night 9 PM, Bengali/Hindi','যেমন রোজ রাত ৯টায় স্ক্রিম'],
 recCapOnly:['Only your team captain can post a recruiting ad.','শুধু ক্যাপ্টেন রিক্রুট পোস্ট দিতে পারে।'],recNone:['No team is recruiting right now.','এখন কোনো টিম লোক নিচ্ছে না।'],joinThis:['Join this team','এই টিমে জয়েন'],
+newStyle:['New style','নতুন স্টাইল'],socialWait:['Waiting for you','আপনার অনুমোদনের অপেক্ষায়'],socialApprove:['Approve & post','অনুমোদন ও পোস্ট'],rejected:['rejected','বাতিল'],
+socialFinderL:['Team finder posts (players & teams) can go to my channels','টিম ফাইন্ডার পোস্ট আমার চ্যানেলে যেতে পারে'],socialFautoL:['…without my approval (not recommended)','…আমার অনুমোদন ছাড়া (সুপারিশ করা হয় না)'],
+alsoPost:['Also post it on {b} channels','{b} চ্যানেলেও পোস্ট করুন'],finderSent:['📣 Sent to the admin — it will be posted after approval','📣 অ্যাডমিনের কাছে পাঠানো হয়েছে'],finderPosted:['📣 Posted on our channels!','📣 চ্যানেলে পোস্ট হয়েছে!'],
+finderLimit:['You can send 2 posts to our channels every 12 hours.','১২ ঘণ্টায় ২টি পোস্ট পাঠানো যায়।'],
 featVidL:['Featured YouTube video (plays on players\' Home)','ফিচার্ড YouTube ভিডিও (প্লেয়ারদের হোমে চলবে)'],featured:['Featured video','ফিচার্ড ভিডিও'],follow:['Follow us','আমাদের ফলো করুন'],watchCh:['Watch on YouTube','YouTube-এ দেখুন'],badVid:['That is not a YouTube video link.','এটা YouTube ভিডিও লিংক নয়।'],newPlayer:['New player? Register','নতুন প্লেয়ার? রেজিস্টার'],register2:['Register','রেজিস্টার'],login:['Log in','লগইন'],
 pinLbl:['PIN (4–6 digits)','পিন (৪–৬ সংখ্যা)'],pinRep:['Repeat PIN','আবার পিন দিন'],pinMismatch:['PINs do not match.','দুটো পিন মেলেনি।'],pinFmt:['PIN must be 4–6 digits.','পিন ৪–৬ সংখ্যার হতে হবে।'],
 wrongPin:['Wrong UID or PIN.','UID বা পিন ভুল।'],uidRegistered:['This UID is already registered — log in with your PIN.','এই UID আগেই রেজিস্টার্ড — পিন দিয়ে লগইন করুন।'],
@@ -1098,7 +1102,7 @@ function promoContent(type,d){var b=brandName(),L=siteLink(),rv=S.settings.revea
   return c}
 
 /* ---- poster drawing (brand: black + red, with logo) ---- */
-function promoCanvas(c,fmt){var W=1080,H=fmt==='square'?1080:fmt==='story'?1920:1350,cv=document.createElement('canvas');cv.width=W;cv.height=H;var x=cv.getContext('2d');
+function promoCanvasClassic(c,fmt){var W=1080,H=fmt==='square'?1080:fmt==='story'?1920:1350,cv=document.createElement('canvas');cv.width=W;cv.height=H;var x=cv.getContext('2d');
   var g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,'#14060a');g.addColorStop(.55,'#3a0710');g.addColorStop(1,'#0b0b0f');x.fillStyle=g;x.fillRect(0,0,W,H);
   var rg=x.createRadialGradient(W*.85,H*.12,10,W*.85,H*.12,W*.7);rg.addColorStop(0,'rgba(255,40,40,.45)');rg.addColorStop(1,'rgba(255,40,40,0)');x.fillStyle=rg;x.fillRect(0,0,W,H);
   x.strokeStyle='rgba(255,60,60,.25)';x.lineWidth=3;for(var i=0;i<6;i++){x.beginPath();x.moveTo(W*(.55+i*.08),0);x.lineTo(W*(.15+i*.08),H);x.stroke()}
@@ -1120,11 +1124,12 @@ function wrapLines(x,t,X,Y,maxW,lh,maxL){var w=String(t).split(' '),line='',y=Y,
 
 /* ---- the promo modal ---- */
 var PROMO={type:null,data:null,fmt:'post',tab:'ig',url:''};
-function openPromo(type,data){PROMO.type=type;PROMO.data=data;PROMO.fmt='post';PROMO.tab='ig';paintPromo()}
-function paintPromo(){var c=promoContent(PROMO.type,PROMO.data),cv=promoCanvas(c,PROMO.fmt);PROMO.url=cv.toDataURL('image/png');PROMO.c=c;
+function openPromo(type,data){PROMO.type=type;PROMO.data=data;PROMO.theme=nextTheme();PROMO.fmt='post';PROMO.tab='ig';paintPromo()}
+function paintPromo(){var c=promoContent(PROMO.type,PROMO.data),cv=promoCanvas(c,PROMO.fmt,PROMO.theme);PROMO.url=cv.toDataURL('image/png');PROMO.c=c;
   var cap=PROMO.tab==='ig'?c.ig:PROMO.tab==='yt'?c.yt:c.wa;
   modal('<div class="row between"><h2>📣 '+t('promoPost')+'</h2><button class="btn sm sec" data-a="mclose">✕</button></div>'+
    '<div class="seg">'+[['post','4:5 Post'],['square','1:1 Square'],['story','9:16 Story']].map(function(f){return '<button class="'+(PROMO.fmt===f[0]?'on':'')+'" data-a="promoFmt" data-v="'+f[0]+'">'+f[1]+'</button>'}).join('')+'</div>'+
+   '<div class="row between"><span class="tiny muted">🎨 '+esc(THEMES[PROMO.theme%THEMES.length].name)+'</span><button class="btn sec sm" data-a="promoStyle">🎨 '+t('newStyle')+'</button></div>'+
    '<img id="promoImg" src="'+PROMO.url+'" alt="" style="width:100%;border-radius:12px;max-height:52vh;object-fit:contain;background:#000">'+
    '<button class="btn" data-a="promoShareImg">📤 '+t('shareImage')+'</button>'+
    '<div class="seg">'+[['ig','📸 Instagram'],['yt',(PROMO.type==='lfg'||PROMO.type==='recruit')?'📘 Facebook':'▶ YouTube'],['wa','💬 WhatsApp']].map(function(f){return '<button class="'+(PROMO.tab===f[0]?'on':'')+'" data-a="promoTab" data-v="'+f[0]+'">'+f[1]+'</button>'}).join('')+'</div>'+
@@ -1195,7 +1200,7 @@ var SOCIAL_BUSY=false;
 async function autoSocial(kind,data,opt){opt=opt||{};
   if(!isAdmin()||(!opt.manual&&!socialOn())||SOCIAL_BUSY)return false;
   SOCIAL_BUSY=true;
-  try{var c=promoContent(kind,data),blob=await canvasBlob(promoCanvas(c,'post'));if(!blob)throw new Error('image');
+  try{var c=promoContent(kind,data),blob=await canvasBlob(promoCanvas(c,'post',(PROMO.data===data&&PROMO.theme!=null)?PROMO.theme:undefined));if(!blob)throw new Error('image');
     var path=kind+'/'+((data&&data.id)||'post')+'-'+Date.now()+'.png';
     var up=await sb.storage.from('banners').upload(path,blob,{contentType:'image/png',upsert:false});if(up.error)throw up.error;
     var url=sb.storage.from('banners').getPublicUrl(path).data.publicUrl;
@@ -1210,10 +1215,16 @@ async function socialRepost(id){var r=(SOCIAL_LOG||[]).filter(function(x){return
   var row={kind:r.kind,image_url:r.image_url,caption:r.caption,short:r.short,link:r.link};if(r.ref_id&&r.kind!=='reminder')row.ref_id=r.ref_id;if(r.kind==='reminder')row.kind='custom';
   var x=await sb.from('social_queue').insert(row);if(x.error){toast('⚠ '+niceErr(x.error));return}toast(t('socialQueued'));setTimeout(loadSocialLog,4000)}
 var SOCIAL_LOG=null;
-var SOC_KIND={match:'🔥 New match',tourney:'🏆 Tournament',results:'🏅 Results',reminder:'⏰ Last call',founder:'🌟 Founder',weekly:'📊 Weekly recap',custom:'📣 Post'};
+var SOC_KIND={lfg:'🎯 Player looking',recruit:'🛡 Team recruiting',match:'🔥 New match',tourney:'🏆 Tournament',results:'🏅 Results',reminder:'⏰ Last call',founder:'🌟 Founder',weekly:'📊 Weekly recap',custom:'📣 Post'};
 var SOC_NAMES={telegram:'Telegram',discord:'Discord',facebook:'Facebook',instagram:'Instagram'};
 function socialLogHtml(){if(SOCIAL_LOG===null)return '<p class="tiny muted">…</p>';if(!SOCIAL_LOG.length)return '<p class="tiny muted">'+t('socialNone')+'</p>';
-  return SOCIAL_LOG.slice(0,8).map(function(r){var res=r.result||{},bits=Object.keys(SOC_NAMES).filter(function(k){return res[k]}).map(function(k){var o=res[k];return '<span title="'+esc(o.ok?'':o.error||'')+'" style="margin-right:8px">'+(o.ok?'✅':'❌')+' '+SOC_NAMES[k]+'</span>'}).join('');
+  var pend=SOCIAL_LOG.filter(function(r){return r.status==='pending'}),rest=SOCIAL_LOG.filter(function(r){return r.status!=='pending'}).slice(0,8);
+  return pend.concat(rest).map(function(r){var res=r.result||{},bits=Object.keys(SOC_NAMES).filter(function(k){return res[k]}).map(function(k){var o=res[k];return '<span title="'+esc(o.ok?'':o.error||'')+'" style="margin-right:8px">'+(o.ok?'✅':'❌')+' '+SOC_NAMES[k]+'</span>'}).join('');
+    if(r.status==='pending')return '<div class="card st" style="padding:10px;margin:6px 0;border-color:var(--acc)"><div class="row between"><b class="small">⏸ '+t('socialWait')+' · '+esc(SOC_KIND[r.kind]||r.kind)+'</b><span class="tiny muted">'+esc(enTime(new Date(r.created_at).getTime()))+'</span></div>'+
+      '<img src="'+esc(r.image_url)+'" alt="" loading="lazy" style="width:100%;max-height:340px;object-fit:contain;border-radius:10px;background:#000">'+
+      '<div class="tiny muted" style="white-space:pre-line;max-height:90px;overflow:auto">'+esc(r.short)+'</div>'+
+      '<div class="grid2"><button class="btn no sm" data-a="socReview" data-k="0" data-id="'+r.id+'">✕ '+t('reject')+'</button><button class="btn sm" data-a="socReview" data-k="1" data-id="'+r.id+'">✓ '+t('socialApprove')+'</button></div></div>';
+    if(r.status==='rejected')return '<div class="card st" style="padding:8px 10px;margin:6px 0;opacity:.6"><span class="small">🚫 '+esc(SOC_KIND[r.kind]||r.kind)+' · '+t('rejected')+'</span></div>';
     var st=r.status==='queued'||r.status==='sending'?'⏳ '+t('socialSending'):r.status==='done'?'✅':r.status==='partial'?'⚠':'❌';
     var err=Object.keys(SOC_NAMES).filter(function(k){return res[k]&&!res[k].ok}).map(function(k){return SOC_NAMES[k]+': '+res[k].error}).join(' · ')||res.note||'';
     return '<div class="card st" style="padding:10px;margin:6px 0"><div class="row between"><b class="small">'+st+' '+esc(SOC_KIND[r.kind]||r.kind)+'</b><span class="tiny muted">'+esc(enTime(new Date(r.created_at).getTime()))+'</span></div>'+
@@ -1226,10 +1237,24 @@ function socialCard(){setTimeout(function(){var el=$('socialLog');if(!el)return;
   return '<h2>🤖 '+t('socialTitle')+'</h2><div class="card st"><p class="small muted">'+t('socialNote')+'</p>'+
    '<label class="row small b"><input type="checkbox" id="soc_auto" style="width:auto" '+(socialOn()?'checked':'')+'> '+t('socialAutoL')+'</label>'+
    '<label class="row small b"><input type="checkbox" id="soc_rem" style="width:auto" '+(cfg('socialRemind',true)!==false?'checked':'')+'> '+t('socialRemindL')+'</label>'+
+   '<label class="row small b"><input type="checkbox" id="soc_finder" style="width:auto" '+(cfg('socialFinder',true)!==false?'checked':'')+'> '+t('socialFinderL')+'</label>'+
+   '<label class="row small b" style="padding-left:22px"><input type="checkbox" id="soc_fauto" style="width:auto" '+(cfg('finderAutoApprove',false)===true?'checked':'')+'> '+t('socialFautoL')+'</label>'+
    '<div class="grid2"><button class="btn sec sm" data-a="socSave">💾 '+t('save')+'</button><button class="btn sec sm" data-a="socLoad">🔄 '+t('socialRefresh')+'</button></div>'+
    '<div id="socialLog"></div></div>'}
-function socialSave(){var c=Object.assign({},S.config||{});c.socialAuto=$('soc_auto').checked;c.socialRemind=$('soc_rem').checked;
+function socialSave(){var c=Object.assign({},S.config||{});c.socialAuto=$('soc_auto').checked;c.socialRemind=$('soc_rem').checked;c.socialFinder=$('soc_finder').checked;c.finderAutoApprove=$('soc_fauto').checked;
   return run(function(){return sb.from('app_settings').update({config:c}).eq('id',1)},'✓')}
+
+/* ---- player / team finder posters → your channels ---- */
+async function finderAutoPost(kind,ref){if(cfg('socialFinder',true)===false||!S.me.pid)return;
+  try{var c=promoContent(kind,ref),blob=await canvasBlob(promoCanvas(c,'post',(PROMO.data===ref&&PROMO.theme!=null)?PROMO.theme:undefined));if(!blob)throw new Error('image');
+    var path='finder/'+S.me.pid+'/'+kind+'-'+Date.now()+'.png';
+    var up=await sb.storage.from('banners').upload(path,blob,{contentType:'image/png',upsert:false});if(up.error)throw up.error;
+    var url=sb.storage.from('banners').getPublicUrl(path).data.publicUrl,tm=kind==='recruit'?TM(ref):null;
+    var link=kind==='lfg'?siteLink()+'?lfg='+ref:(tm&&tm.code?siteLink()+'?team='+tm.code:siteLink());
+    var auto=cfg('finderAutoApprove',false)===true;
+    var r=await sb.from('social_queue').insert({kind:kind,ref_id:ref,image_url:url,caption:String(c.ig).slice(0,2200),short:String(c.yt).slice(0,1000),link:/^https:/.test(link)?link.slice(0,300):'',status:auto?'queued':'pending'});
+    if(r.error)throw r.error;toast(auto?t('finderPosted'):t('finderSent'))}
+  catch(e){var m=niceErr(e);toast('⚠ '+(/row-level security/i.test(m)?t('finderLimit'):m))}}
 
 /* ============ HOST PROGRAM · TEAM FINDER · NO-SHOWS · HUNT JIT · DISTRICTS · CALENDAR · GROWTH ============ */
 var WB_DISTRICTS=['Alipurduar','Bankura','Birbhum','Cooch Behar','Dakshin Dinajpur','Darjeeling','Hooghly','Howrah','Jalpaiguri','Jhargram','Kalimpong','Kolkata','Malda','Murshidabad','Nadia','North 24 Parganas','Paschim Bardhaman','Paschim Medinipur','Purba Bardhaman','Purba Medinipur','Purulia','South 24 Parganas','Uttar Dinajpur'];
@@ -1305,7 +1330,7 @@ function lfgBlock(){var p=me();if(!p)return '';var myT=p.teamId?TM(p.teamId):nul
     if(!myT||!full){var role0=mine?mine.role:(p.playRole||'any');h+='<div class="card st"><b class="small">'+(mine?'✅ '+t('lfgLive'):t('lfgAsk'))+'</b>'+
       '<div class="grid2"><label class="f">'+t('mode')+'<select id="lfg_mode"><option value="squad"'+(mine&&mine.mode==='squad'?' selected':'')+'>'+t('squad')+'</option><option value="duo"'+(mine&&mine.mode==='duo'?' selected':'')+'>'+t('duo')+'</option></select></label>'+
       '<label class="f">'+t('lfgRole')+'<select id="lfg_role">'+LFG_ROLES.map(function(r){return '<option value="'+r+'"'+(role0===r?' selected':'')+'>'+t('role_'+r)+'</option>'}).join('')+'</select></label></div>'+
-      '<input id="lfg_note" maxlength="120" placeholder="'+t('lfgPh')+'" value="'+esc(mine?mine.note:'')+'">'+
+      '<input id="lfg_note" maxlength="120" placeholder="'+t('lfgPh')+'" value="'+esc(mine?mine.note:'')+'">'+(cfg('socialFinder',true)!==false?'<label class="row small b"><input type="checkbox" id="lfg_ap" style="width:auto" checked> 📣 '+t('alsoPost',{b:brandName()})+'</label>':'')+
       '<div class="grid2"><button class="btn sm" data-a="lfgSave">📢 '+(mine?t('update'):t('lfgPost'))+'</button>'+(mine?'<button class="btn no sm" data-a="lfgDel">'+t('remove')+'</button>':'')+'</div>'+
       (mine?'<button class="btn block" style="background:linear-gradient(90deg,#e1306c,#1877f2)" data-a="lfgShare">📤 '+t('shareLfg')+'</button>':'')+'</div>'}
     h+=posts.length?posts.slice(0,40).map(function(x){var q=P(x.player_id),s=pst(q.id),qt=q.teamId?TM(q.teamId):null,foc=x.player_id===LFG_FOCUS;
@@ -1314,13 +1339,12 @@ function lfgBlock(){var p=me();if(!p)return '';var myT=p.teamId?TM(p.teamId):nul
         '<div class="tiny muted">⭐ '+s.rating+' · '+s.m+' '+t('matchesN')+' · '+(s.m?(s.kills/s.m).toFixed(1):'0')+' '+t('kd')+(locText(q)?' · 📍 '+esc(locText(q)):'')+(qt?' · 🛡 '+esc(qt.tag):'')+'</div>'+(x.note?'<div class="small">“'+esc(x.note)+'”</div>':'')+'</div>'}).join(''):'<div class="card small muted">'+t('lfgNone')+'</div>';
     if(isCap&&!full)h+='<div class="tiny muted">'+t('lfgCapTip')+'</div>';
   }else{
-    if(isCap&&!full){var rr=myRec?myRec.roles||[]:[];h+='<div class="card st"><b class="small">'+(myRec?'✅ '+t('recLive'):'📣 '+t('recAsk'))+'</b>'+
+    if(myT&&!full){var rr=myRec?myRec.roles||[]:[];h+='<div class="card st"><b class="small">'+(myRec?'✅ '+t('recLive'):'📣 '+t('recAsk'))+'</b>'+
       '<label class="f">'+t('mode')+'<select id="rec_mode"><option value="squad"'+(myRec&&myRec.mode==='squad'?' selected':'')+'>'+t('squad')+'</option><option value="duo"'+(myRec&&myRec.mode==='duo'?' selected':'')+'>'+t('duo')+'</option></select></label>'+
       '<div class="tiny muted">'+t('recNeed')+'</div><div class="row wrap" style="gap:6px">'+LFG_ROLES.map(function(r){return '<label class="chip'+(rr.indexOf(r)>=0?' on':'')+'" style="cursor:pointer"><input type="checkbox" class="rcChk" value="'+r+'" style="width:auto;margin-right:4px"'+(rr.indexOf(r)>=0?' checked':'')+'>'+t('role_'+r)+'</label>'}).join('')+'</div>'+
-      '<input id="rec_note" maxlength="120" placeholder="'+t('recPh')+'" value="'+esc(myRec?myRec.note:'')+'">'+
+      '<input id="rec_note" maxlength="120" placeholder="'+t('recPh')+'" value="'+esc(myRec?myRec.note:'')+'">'+(cfg('socialFinder',true)!==false?'<label class="row small b"><input type="checkbox" id="rec_ap" style="width:auto" checked> 📣 '+t('alsoPost',{b:brandName()})+'</label>':'')+
       '<div class="grid2"><button class="btn sm" data-a="recSave">📢 '+(myRec?t('update'):t('lfgPost'))+'</button>'+(myRec?'<button class="btn no sm" data-a="recDel">'+t('remove')+'</button>':'')+'</div>'+
       (myRec?'<button class="btn block" style="background:linear-gradient(90deg,#e1306c,#1877f2)" data-a="recShare">📤 '+t('shareRec')+'</button>':'')+'</div>'}
-    else if(!isCap&&myT)h+='<div class="card small muted">'+t('recCapOnly')+'</div>';
     h+=recs.length?recs.map(function(r){var tm=TM(r.team_id),cap=P(tm.captain),mineT=myT&&myT.id===tm.id;
       return '<div class="card st"><div class="row between"><div><b>🛡 '+esc(tm.name)+'</b> <span class="tag t-acc">'+esc(tm.tag)+'</span> <span class="tag">'+t(r.mode)+'</span></div><span class="tiny muted">'+tm.members.length+'/4</span></div>'+
         '<div class="row wrap" style="gap:4px"><span class="tiny b">'+t('recNeedShort')+'</span>'+(r.roles&&r.roles.length?r.roles.map(function(x){return '<span class="tag t-r">'+t('role_'+x)+'</span>'}).join(''):'<span class="tag">'+t('role_any')+'</span>')+'</div>'+
@@ -1438,6 +1462,83 @@ document.addEventListener('focusout',function(){setTimeout(function(){if(PENDING
 (function(){function hook(){var L=$('layer');if(!L)return setTimeout(hook,50);
   new MutationObserver(function(){var open=!!L.innerHTML;document.body.classList.toggle('ab-lock',open);if(!open)MODAL_HTML=''}).observe(L,{childList:true})}hook()})();
 
+/* ============ PRO POSTER THEMES (a different style every time) ============ */
+var THEMES=[
+ {name:'Crimson Rush', bg:['#14060a','#3a0710','#0b0b0f'],acc:'#ff2d2d',acc2:'#ffb020',ink:'#ffffff',sub:'rgba(255,255,255,.62)',panel:'rgba(0,0,0,.42)',line:'rgba(255,60,60,.28)',boxInk:'#1a0a00',pattern:'slash',layout:'cards'},
+ {name:'Neon Grid',    bg:['#05010f','#160b44','#020617'],acc:'#22d3ee',acc2:'#f0abfc',ink:'#f8fafc',sub:'rgba(226,232,240,.68)',panel:'rgba(15,23,42,.62)',line:'rgba(34,211,238,.22)',boxInk:'#140320',pattern:'grid',layout:'list'},
+ {name:'Gold Elite',   bg:['#0b0906','#1d1608','#000000'],acc:'#d4a73c',acc2:'#f5d77a',ink:'#fff8e6',sub:'rgba(255,240,200,.58)',panel:'rgba(212,167,60,.09)',line:'rgba(212,167,60,.22)',boxInk:'#1a1200',pattern:'stripes',layout:'split'},
+ {name:'Frost Ops',    bg:['#031024','#0a3a78','#020814'],acc:'#38bdf8',acc2:'#e0f2fe',ink:'#ffffff',sub:'rgba(224,242,254,.7)',panel:'rgba(2,12,30,.55)',line:'rgba(56,189,248,.22)',boxInk:'#04223b',pattern:'hex',layout:'cards'},
+ {name:'Toxic Zone',   bg:['#020803','#0c2e12','#000000'],acc:'#a3e635',acc2:'#facc15',ink:'#f7fee7',sub:'rgba(236,252,203,.62)',panel:'rgba(0,0,0,.5)',line:'rgba(163,230,53,.25)',boxInk:'#0d1a02',pattern:'dots',layout:'list'},
+ {name:'Sunset Drop',  bg:['#26093a','#8a1f4f','#f26b1d'],acc:'#ff8a3d',acc2:'#fde047',ink:'#ffffff',sub:'rgba(255,237,213,.8)',panel:'rgba(20,6,30,.5)',line:'rgba(255,255,255,.18)',boxInk:'#2a0a00',pattern:'sun',layout:'cards'},
+ {name:'Carbon Strike',bg:['#111214','#1d1e23','#0a0a0b'],acc:'#ff6a00',acc2:'#ffd166',ink:'#ffffff',sub:'rgba(255,255,255,.58)',panel:'rgba(255,255,255,.05)',line:'rgba(255,106,0,.3)',boxInk:'#1a0b00',pattern:'carbon',layout:'split'},
+ {name:'Clean Pro',    bg:['#f7f5f0','#efe9df','#e6dfd2'],acc:'#d90429',acc2:'#111111',ink:'#111111',sub:'rgba(17,17,17,.55)',panel:'rgba(0,0,0,.045)',line:'rgba(0,0,0,.12)',boxInk:'#ffffff',pattern:'corner',layout:'list',light:true}
+];
+function nextTheme(){var h=[];try{h=JSON.parse(localStorage.getItem('ab.themeHist')||'[]')}catch(e){}
+  var keep=Math.min(4,THEMES.length-1),opts=[];for(var i=0;i<THEMES.length;i++)if(h.indexOf(i)<0)opts.push(i);
+  var pick=opts[Math.floor(Math.random()*opts.length)];h.push(pick);while(h.length>keep)h.shift();
+  try{localStorage.setItem('ab.themeHist',JSON.stringify(h))}catch(e){}return pick}
+function pFont(w,s,fam){return w+' '+Math.round(s)+'px '+(fam||'Rajdhani, Inter, "Noto Sans Bengali", sans-serif')}
+function fitText(x,str,maxW){str=String(str);if(x.measureText(str).width<=maxW)return str;while(str.length>1&&x.measureText(str+'…').width>maxW)str=str.slice(0,-1);return str+'…'}
+function rr(x,X,Y,w,h,r){x.beginPath();x.moveTo(X+r,Y);x.arcTo(X+w,Y,X+w,Y+h,r);x.arcTo(X+w,Y+h,X,Y+h,r);x.arcTo(X,Y+h,X,Y,r);x.arcTo(X,Y,X+w,Y,r);x.closePath()}
+function drawPattern(x,T,W,H){x.save();
+  if(T.pattern==='slash'){x.strokeStyle=T.line;x.lineWidth=3;for(var i=0;i<7;i++){x.beginPath();x.moveTo(W*(.5+i*.08),0);x.lineTo(W*(.1+i*.08),H);x.stroke()}}
+  else if(T.pattern==='grid'){var hz=H*.62;x.strokeStyle=T.line;x.lineWidth=2;for(var g=0;g<=16;g++){x.beginPath();x.moveTo(W/2,hz);x.lineTo(g*W/16*2-W/2,H);x.stroke()}for(var k=1;k<10;k++){var yy=hz+(H-hz)*Math.pow(k/10,1.8);x.beginPath();x.moveTo(0,yy);x.lineTo(W,yy);x.stroke()}
+    var gl=x.createRadialGradient(W/2,hz,10,W/2,hz,W*.55);gl.addColorStop(0,'rgba(240,171,252,.35)');gl.addColorStop(1,'rgba(240,171,252,0)');x.fillStyle=gl;x.fillRect(0,0,W,H)}
+  else if(T.pattern==='stripes'){x.globalAlpha=.07;x.fillStyle=T.acc;for(var s=-H;s<W;s+=90){x.beginPath();x.moveTo(s,0);x.lineTo(s+40,0);x.lineTo(s+40+H*.6,H);x.lineTo(s+H*.6,H);x.closePath();x.fill()}x.globalAlpha=1;
+    x.strokeStyle=T.acc;x.lineWidth=4;x.strokeRect(28,28,W-56,H-56);x.lineWidth=1.5;x.strokeRect(42,42,W-84,H-84)}
+  else if(T.pattern==='hex'){x.strokeStyle=T.line;x.lineWidth=2;var r=46,hh=r*Math.sqrt(3);for(var row=0;row*hh*.5<H+hh;row++)for(var col=0;col*r*3<W+r*3;col++){var cx=col*r*3+(row%2?r*1.5:0),cy=row*hh*.5;if((cx*7+cy*3)%5<2)continue;x.beginPath();for(var a=0;a<6;a++){var an=Math.PI/3*a;x.lineTo(cx+r*Math.cos(an),cy+r*Math.sin(an))}x.closePath();x.stroke()}}
+  else if(T.pattern==='dots'){for(var dy=0;dy<H;dy+=34)for(var dx=0;dx<W;dx+=34){var rad=Math.max(0,5.5*(1-Math.hypot(dx-W*.85,dy-H*.15)/(W*1.1)));if(rad<.4)continue;x.fillStyle=T.line;x.beginPath();x.arc(dx,dy,rad,0,7);x.fill()}}
+  else if(T.pattern==='sun'){var sx=W*.78,sy=H*.32;var sg=x.createRadialGradient(sx,sy,40,sx,sy,360);sg.addColorStop(0,'rgba(253,224,71,.85)');sg.addColorStop(.5,'rgba(251,146,60,.45)');sg.addColorStop(1,'rgba(251,146,60,0)');x.fillStyle=sg;x.beginPath();x.arc(sx,sy,360,0,7);x.fill();
+    x.fillStyle='rgba(38,9,58,.55)';for(var b=0;b<6;b++){x.fillRect(0,sy+40+b*34,W,6+b*3)}}
+  else if(T.pattern==='carbon'){for(var cy2=0;cy2<H;cy2+=24)for(var cx2=0;cx2<W;cx2+=24){x.fillStyle=((cx2+cy2)/24)%2?'rgba(255,255,255,.035)':'rgba(0,0,0,.25)';x.fillRect(cx2,cy2,24,12);x.fillStyle=((cx2+cy2)/24)%2?'rgba(0,0,0,.25)':'rgba(255,255,255,.035)';x.fillRect(cx2,cy2+12,24,12)}
+    x.fillStyle=T.acc;x.beginPath();x.moveTo(W*.62,0);x.lineTo(W,0);x.lineTo(W,H*.2);x.closePath();x.globalAlpha=.9;x.fill();x.globalAlpha=1}
+  else if(T.pattern==='corner'){x.fillStyle=T.acc;x.beginPath();x.moveTo(W,0);x.lineTo(W,H*.34);x.lineTo(W*.55,0);x.closePath();x.fill();x.fillStyle='#111';x.fillRect(0,H-16,W,16);x.fillStyle=T.acc;x.fillRect(0,H-16,W*.3,16)}
+  x.restore()}
+function promoCanvas(c,fmt,ti){if(ti==null)ti=nextTheme();var T=THEMES[ti%THEMES.length];
+  var W=1080,H=fmt==='square'?1080:fmt==='story'?1920:1350,cv=document.createElement('canvas');cv.width=W;cv.height=H;var x=cv.getContext('2d');
+  var g=x.createLinearGradient(0,0,W*.6,H);g.addColorStop(0,T.bg[0]);g.addColorStop(.55,T.bg[1]);g.addColorStop(1,T.bg[2]);x.fillStyle=g;x.fillRect(0,0,W,H);
+  drawPattern(x,T,W,H);
+  if(!T.light){var vg=x.createRadialGradient(W/2,H/2,H*.25,W/2,H/2,H*.85);vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(1,'rgba(0,0,0,.55)');x.fillStyle=vg;x.fillRect(0,0,W,H)}
+  var M=80,top=fmt==='story'?170:fmt==='square'?60:80,sq=fmt==='square';
+  // watermark word
+  x.save();x.translate(W*.52,H*(sq?.55:.5));x.rotate(-0.14);x.font=pFont('bold',sq?260:320);x.textAlign='center';x.globalAlpha=T.light?.05:.06;x.fillStyle=T.ink;x.fillText(String(c.badge||'').split(' ')[0],0,0);x.restore();
+  // header: logo + brand
+  var lg=sq?118:140;
+  if(LOGO_IMG){try{x.save();x.beginPath();x.arc(M+lg/2,top+lg/2,lg/2,0,7);x.closePath();x.clip();x.drawImage(LOGO_IMG,M,top,lg,lg);x.restore();x.strokeStyle=T.acc;x.lineWidth=5;x.beginPath();x.arc(M+lg/2,top+lg/2,lg/2+3,0,7);x.stroke()}catch(e){}}
+  x.textAlign='left';x.fillStyle=T.ink;x.font=pFont('bold',sq?44:50);x.fillText(fitText(x,brandName().toUpperCase(),W-M*2-lg-30),M+lg+30,top+lg*.48);
+  x.fillStyle=T.acc;x.font=pFont('600',sq?24:27,'Inter, sans-serif');x.fillText('FREE TOURNAMENTS  ·  NO ENTRY FEE',M+lg+32,top+lg*.48+44);
+  // badge pill
+  var y=top+lg+(sq?44:70);x.font=pFont('bold',30,'Inter, sans-serif');var bt=String(c.badge||'').toUpperCase(),bw=x.measureText(bt).width+64;
+  x.fillStyle=T.acc;rr(x,M,y,bw,60,T.layout==='split'?8:30);x.fill();x.fillStyle=T.light?'#fff':(T.layout==='list'?T.boxInk:'#fff');x.fillText(bt,M+32,y+41);
+  // title (auto size, max 2 lines)
+  var title=String(c.title||''),ts=sq?92:112,lines;
+  for(;ts>52;ts-=6){x.font=pFont('bold',ts);lines=wrapTxt(x,title,W-M*2);if(lines.length<=2&&lines.every(function(l){return x.measureText(l).width<=W-M*2}))break}
+  y+=60+(sq?18:26)+ts*.76;lines=lines.slice(0,2);x.fillStyle=T.ink;lines.forEach(function(l,i){x.fillText(fitText(x,l,W-M*2),M,y+i*ts*.98)});
+  y+=(lines.length-1)*ts*.98+28;x.fillStyle=T.acc;x.fillRect(M,y,150,8);x.fillStyle=T.acc2;x.fillRect(M+160,y,40,8);
+  y+=sq?40:56;
+  // rows
+  var rows=(c.rows||[]).slice(0,6),boxY=fmt==='story'?H-430:H-(sq?205:250),avail=boxY-34-y,n=Math.max(1,rows.length),rh=Math.min(fmt==='story'?150:118,avail/n),k=rh/118;
+  rows.forEach(function(r,i){var ry=y+i*rh,ih=rh-14*k;
+    if(T.layout==='cards'){x.fillStyle=T.panel;rr(x,M,ry,W-M*2,ih,22*k);x.fill();x.strokeStyle=T.line;x.lineWidth=2;x.stroke();
+      x.font=Math.round(44*k)+'px sans-serif';x.fillStyle=T.ink;x.fillText(r[0],M+28,ry+ih*.66);
+      x.fillStyle=T.sub;x.font=pFont('600',30*k,'Inter, sans-serif');x.fillText(String(r[1]).toUpperCase(),M+104*k+20,ry+ih*.62);
+      x.fillStyle=T.ink;x.font=pFont('bold',40*k,'Inter, sans-serif');x.textAlign='right';x.fillText(fitText(x,r[2],W-M*2-380),W-M-28,ry+ih*.64);x.textAlign='left'}
+    else if(T.layout==='list'){x.fillStyle=T.acc;x.font=pFont('bold',26*k,'Inter, sans-serif');x.fillText(String(r[1]).toUpperCase(),M,ry+ih*.36);
+      x.fillStyle=T.ink;x.font=pFont('bold',46*k);x.fillText(fitText(x,r[0]+'  '+r[2],W-M*2),M,ry+ih*.86);
+      x.fillStyle=T.line;x.fillRect(M,ry+rh-4,W-M*2,2)}
+    else{x.fillStyle=T.acc;x.fillRect(M,ry,8,ih);x.fillStyle=T.panel;x.fillRect(M+8,ry,W-M*2-8,ih);
+      x.fillStyle=T.acc2;x.globalAlpha=.16;x.fillRect(M+26,ry+ih*.14,ih*.72,ih*.72);x.globalAlpha=1;x.font=Math.round(40*k)+'px sans-serif';x.fillStyle=T.ink;x.textAlign='center';x.fillText(r[0],M+26+ih*.36,ry+ih*.64);x.textAlign='left';
+      x.fillStyle=T.sub;x.font=pFont('600',24*k,'Inter, sans-serif');x.fillText(String(r[1]).toUpperCase(),M+46+ih*.8,ry+ih*.4);
+      x.fillStyle=T.ink;x.font=pFont('bold',40*k,'Inter, sans-serif');x.fillText(fitText(x,r[2],W-M*2-ih-80),M+46+ih*.8,ry+ih*.82)}});
+  // bottom: highlight box + call to action
+  x.font=pFont('bold',38,'Inter, sans-serif');var bx=String(c.box||''),bxw=Math.min(W-M*2,x.measureText(bx).width+76);
+  x.fillStyle=T.acc2;rr(x,M,boxY,bxw,78,T.layout==='split'?6:18);x.fill();x.fillStyle=T.boxInk;x.fillText(fitText(x,bx,bxw-60),M+38,boxY+53);
+  x.font=pFont('600',24,'Inter, sans-serif');var tagW=x.measureText('FREE · FAIR · FUN').width;
+  if(M+bxw+40+tagW<W-M){x.fillStyle=T.sub;x.textAlign='right';x.fillText('FREE · FAIR · FUN',W-M,boxY+50);x.textAlign='left'}
+  x.fillStyle=T.ink;x.font=pFont('bold',sq?38:42,'Inter, sans-serif');x.fillText(fitText(x,c.cta||'',W-M*2),M,boxY+(sq?140:150));
+  return cv}
+function wrapTxt(x,t,maxW){var w=String(t).split(' '),out=[],line='';w.forEach(function(word){var test=line?line+' '+word:word;if(x.measureText(test).width>maxW&&line){out.push(line);line=word}else line=test});if(line)out.push(line);return out}
+
 /* ============ events ============ */
 function val(id){var e=$(id);return e?e.value.trim():''}
 document.addEventListener('click',function(ev){
@@ -1553,20 +1654,22 @@ document.addEventListener('click',function(ev){
   case 'socSave':socialSave();return;
   case 'socLoad':SOCIAL_LOG=null;loadSocialLog();return;
   case 'socRepost':socialRepost(id);return;
+  case 'promoStyle':PROMO.theme=nextTheme();paintPromo();return;
+  case 'socReview':{var okk=d.k==='1';(async function(){try{await rpc('review_social',{p_id:id,p_ok:okk});toast(okk?'✓ '+t('socialQueued'):'✓');SOCIAL_LOG=null;loadSocialLog()}catch(e){toast('⚠ '+niceErr(e))}})();return}
   case 'finderTab':FINDER_TAB=d.v;render();return;
   case 'locMode':LOC_MODE=d.v;render();return;
   case 'myRole':run(function(){return sb.from('profiles').update({play_role:d.v}).eq('id',S.me.pid)},'🎯 '+t('role_'+d.v));return;
   case 'lfgShare':openPromo('lfg',S.me.pid);return;
   case 'recShare':{var rt=me()&&me().teamId;if(rt)openPromo('recruit',rt);return}
-  case 'recSave':{var rt2=me()&&me().teamId;if(!rt2)return;var rr=[].slice.call(document.querySelectorAll('.rcChk')).filter(function(x){return x.checked}).map(function(x){return x.value});
-    run(function(){return sb.from('team_recruit').upsert({team_id:rt2,mode:$('rec_mode').value,roles:rr,note:val('rec_note').slice(0,120),updated_at:new Date().toISOString()},{onConflict:'team_id'})},'✓').then(function(ok){if(ok)openPromo('recruit',rt2)});return}
+  case 'recSave':{var rt2=me()&&me().teamId,rap=$('rec_ap')&&$('rec_ap').checked;if(!rt2)return;var rr=[].slice.call(document.querySelectorAll('.rcChk')).filter(function(x){return x.checked}).map(function(x){return x.value});
+    run(function(){return sb.from('team_recruit').upsert({team_id:rt2,mode:$('rec_mode').value,roles:rr,note:val('rec_note').slice(0,120),updated_at:new Date().toISOString()},{onConflict:'team_id'})},'✓').then(function(ok){if(ok){openPromo('recruit',rt2);if(rap)finderAutoPost('recruit',rt2)}});return}
   case 'recDel':{var rt3=me()&&me().teamId;run(function(){return sb.from('team_recruit').delete().eq('team_id',rt3)},'✓');return}
   case 'joinRecruit':{var jt=TM(id),cur=me()&&me().teamId?TM(me().teamId):null;var go=function(){run(function(){return rpc('join_recruit',{p_team:id})},t('teamJoined'))};
     if(cur)confirmBox(t('switchWarn',{t:cur.name}),go);else go();return}
   case 'calendar':openCalendar();return;
   case 'icsAll':downloadIcs();return;
   case 'saveDistrict':run(function(){return sb.from('profiles').update({district:normDist($('pf_dist').value),city:normCity(val('pf_city'))}).eq('id',S.me.pid)},'✓');return;
-  case 'lfgSave':{var lr=$('lfg_role').value;run(async function(){await q(sb.from('lfg').upsert({player_id:S.me.pid,mode:$('lfg_mode').value,role:lr,note:val('lfg_note').slice(0,120),updated_at:new Date().toISOString()},{onConflict:'player_id'}));if(lr!=='any')await q(sb.from('profiles').update({play_role:lr}).eq('id',S.me.pid))},'✓').then(function(ok){if(ok)openPromo('lfg',S.me.pid)});return}
+  case 'lfgSave':{var lr=$('lfg_role').value,lap=$('lfg_ap')&&$('lfg_ap').checked;run(async function(){await q(sb.from('lfg').upsert({player_id:S.me.pid,mode:$('lfg_mode').value,role:lr,note:val('lfg_note').slice(0,120),updated_at:new Date().toISOString()},{onConflict:'player_id'}));if(lr!=='any')await q(sb.from('profiles').update({play_role:lr}).eq('id',S.me.pid))},'✓').then(function(ok){if(ok){openPromo('lfg',S.me.pid);if(lap)finderAutoPost('lfg',S.me.pid)}});return}
   case 'lfgDel':run(function(){return sb.from('lfg').delete().eq('player_id',S.me.pid)},'✓');return;
   case 'tInvite':{var mt=me()&&me().teamId;if(!mt)return;run(function(){return sb.from('team_invites').insert({team_id:mt,player_id:id})},'📩 '+t('invSent'));return}
   case 'invYes':run(function(){return rpc('accept_team_invite',{p_team:id})},'✓');return;
