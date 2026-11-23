@@ -335,7 +335,7 @@ ytMakeThumb:['Make thumbnail','থাম্বনেইল বানান'],ytP
 ytAdmin:['YouTube Studio settings (admin)','YouTube Studio সেটিংস (অ্যাডমিন)'],ytWho:['Who can use it','কে ব্যবহার করতে পারবে'],ytWho_all:['All players','সব প্লেয়ার'],ytWho_verified:['Only ✔ verified players','শুধু ✔ ভেরিফায়েড'],ytWho_admin:['Only admins','শুধু অ্যাডমিন'],
 ytDaily:['AI analyses per player per day (admins: no limit)','প্রতি প্লেয়ার দিনে কতবার'],ytAudited:['My Google project passed the YouTube API audit (allow direct upload)','আমার Google প্রজেক্ট YouTube অডিট পাস করেছে'],
 ytAdminNote:['The free Gemini key is shared by everyone, so keep the daily limit small. Client ID is safe to put here (it is public).','ফ্রি Gemini কী সবাই মিলে ব্যবহার করে, তাই লিমিট কম রাখুন। Client ID এখানে রাখা নিরাপদ।'],
-ytThT:['Thumbnail maker','থাম্বনেইল মেকার'],ytThH:['1280×720 · pick a picture, write 2-4 big words, choose a style.','১২৮০×৭২০ · ছবি বাছুন, ২-৪টা বড় শব্দ লিখুন, স্টাইল বাছুন।'],ytThDl:['Download','ডাউনলোড'],ytThRnd:['New style','নতুন স্টাইল'],ytThumbDaily:['AI thumbnail rounds per player per day (2 pictures each)','প্রতি প্লেয়ার দিনে কতবার AI থাম্বনেইল'],thAiT:['AI thumbnail like top creators','টপ ক্রিয়েটরদের মতো AI থাম্বনেইল'],thAiH:['AI looks at the best thumbnails of similar videos, then paints a NEW picture for your video (you in it, if you add a photo). The title is added on the empty side — never over faces or old text.','AI একই ধরনের ভিডিওর সেরা থাম্বনেইল দেখে আপনার ভিডিওর জন্য নতুন ছবি আঁকে। লেখা ফাঁকা দিকে বসে।'],
+ytThT:['Thumbnail maker','থাম্বনেইল মেকার'],ytThH:['1280×720 · pick a picture, write 2-4 big words, choose a style.','১২৮০×৭২০ · ছবি বাছুন, ২-৪টা বড় শব্দ লিখুন, স্টাইল বাছুন।'],ytThDl:['Download','ডাউনলোড'],ytThRnd:['New style','নতুন স্টাইল'],ytJoinFree:['Join our FREE Free Fire tournaments','আমাদের ফ্রি টুর্নামেন্টে যোগ দিন'],ytSubLine:['Subscribe','সাবস্ক্রাইব'],ytThumbDaily:['AI thumbnail rounds per player per day (2 pictures each)','প্রতি প্লেয়ার দিনে কতবার AI থাম্বনেইল'],thAiT:['AI thumbnail like top creators','টপ ক্রিয়েটরদের মতো AI থাম্বনেইল'],thAiH:['AI looks at the best thumbnails of similar videos, then paints a NEW picture for your video (you in it, if you add a photo). The title is added on the empty side — never over faces or old text.','AI একই ধরনের ভিডিওর সেরা থাম্বনেইল দেখে আপনার ভিডিওর জন্য নতুন ছবি আঁকে। লেখা ফাঁকা দিকে বসে।'],
 thFaceT:['Your photo (optional)','আপনার ছবি (ঐচ্ছিক)'],thFaceAdd:['Add my photo','আমার ছবি দিন'],thFaceOk:['AI will put you in the picture. Kept only on this phone.','AI আপনাকে ছবিতে বসাবে। শুধু এই ফোনে থাকে।'],
 thRefT:['Style references','স্টাইল রেফারেন্স'],thRefH:['Top videos on your topic. Tap to choose up to 4. AI copies the style only — never faces, names or text.','আপনার টপিকের টপ ভিডিও। ৪টা পর্যন্ত বাছুন। AI শুধু স্টাইল নেয়।'],thRefFind:['Find top thumbnails','টপ থাম্বনেইল খুঁজুন'],thRefPaste:['or paste a YouTube link you like','বা পছন্দের YouTube লিংক দিন'],
 thNoRefs:['No results. Paste a YouTube link you like.','কিছু পাওয়া যায়নি। পছন্দের লিংক দিন।'],thNoKey:['Search is not set up (admin: add YT_API_KEY). Paste a YouTube link you like instead.','সার্চ সেট-আপ হয়নি। পছন্দের লিংক দিন।'],thMax4:['Up to 4 references','৪টা পর্যন্ত'],
@@ -1916,9 +1916,17 @@ function ytResults(){var r=YT.res,sc=r.scores||{};
    ((r.best_moments||[]).length?'<div class="card st"><h3>🎬 '+t('ytMoments')+'</h3>'+r.best_moments.map(function(x){return '<div class="lr"><span class="tag t-acc">'+esc(x.t)+'</span><span class="small">'+esc(x.why)+'</span></div>'}).join('')+'</div>':'')+
    ((r.tips||[]).length?'<div class="card st"><h3>💡 '+t('ytTips')+'</h3>'+r.tips.map(function(x){return '<div class="small">• '+esc(x)+'</div>'}).join('')+'</div>':'')+
    '<div class="grid2"><button class="btn sec" data-go="yt_th">🖼 '+t('ytMakeThumb')+'</button><button class="btn" data-go="yt_pub">🚀 '+t('ytPublish')+'</button></div>'}
+function ytAppUrl(){var o=location.origin;return /^https?:\/\/(localhost|127\.)/.test(o)?'https://arenaboard-online.vercel.app':o}
+/* the app link (and channel link) always go in the description, just above the hashtags */
+function ytAddLinks(d,tags){d=String(d||'').replace(/\s+$/,'');var app=ytAppUrl(),yt=safeUrl(cfg('yt',''))||'',add=[];
+  if(d.indexOf(app.replace(/^https?:\/\//,''))<0)add.push('🏆 '+t('ytJoinFree')+' 👉 '+app);
+  if(yt&&d.indexOf(yt.replace(/^https?:\/\//,''))<0)add.push('🔔 '+t('ytSubLine')+' 👉 '+yt);
+  var lines=d.split('\n'),last=lines[lines.length-1]||'',tagLine=/^\s*#\S+(\s+#\S+)*\s*$/.test(last);
+  if(add.length){if(tagLine){lines.splice(lines.length-1,0,add.join('\n'),'');d=lines.join('\n')}else d+='\n\n'+add.join('\n')}
+  if(tags.length&&d.indexOf(tags[0])<0)d+='\n\n'+tags.join(' ');return d}
 function ytTags(){return String(YT.tags||'').split(',').map(function(x){return x.trim()}).filter(Boolean)}
 function ytUseResult(res,meta){YT.res=res;if(meta&&meta.title)YT.res.src_title=meta.title;YT.ti=0;YT.tf=(res.titles||[])[0]||'';
-  var d=res.description||'';if((res.hashtags||[]).length&&d.indexOf(res.hashtags[0])<0)d+='\n\n'+res.hashtags.join(' ');YT.desc=d;YT.tags=(res.tags||[]).join(', ');
+  var d=ytAddLinks(res.description||'',res.hashtags||[]);YT.desc=d;YT.tags=(res.tags||[]).join(', ');
   var th=(res.thumbnail||[])[0];if(th){YT.th.text=th.text;YT.th.sub=th.sub||''}YT.frames=[];YT.aiN=0;ytSave()}
 
 function ytAdm(k,d){return YT.adm[k]!=null?YT.adm[k]:cfg({who:'ytWho',n:'ytDaily',tn:'ytThumbDaily',cid:'ytClientId',aud:'ytAudited'}[k],d)}
@@ -1943,7 +1951,7 @@ var ytSleep=function(ms){return new Promise(function(r){setTimeout(r,ms)})};
 
 async function ytGo(){if(YT.busy)return;if(!ytAllowed())return;
   if(YT.left===0){toast('⚠ '+t('ytLimit'));return}
-  var base={lang:YT.lang,game:YT.game,note:YT.note,title:YT.title,channel:brandName()};
+  var base={lang:YT.lang,game:YT.game,note:YT.note,title:YT.title,channel:brandName(),app:ytAppUrl(),yt:safeUrl(cfg('yt',''))||''};
   if(YT.src==='url'){if(!ytId(YT.url)){toast('⚠ '+t('ytBadUrl'));return}}
   else if(!YT.file){toast('⚠ '+t('ytPickFile'));return}
   else if(YT.file.size>2147483648){toast('⚠ '+t('ytTooBig'));return}
