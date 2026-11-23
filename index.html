@@ -127,6 +127,14 @@ html,body{overflow-x:hidden;max-width:100%}
 .yt-cv{width:100%;height:auto;aspect-ratio:16/9;border-radius:12px;background:#000;display:block}.yt-cv.sm{width:150px;flex:0 0 150px;border-radius:8px}
 .yt-prev{display:flex;gap:10px;align-items:flex-start}
 .yt-frames{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:6px}
+.yt-fr{position:relative;cursor:pointer}.yt-fr img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;border:2px solid transparent;display:block}.yt-fr.on img{border-color:#FF3355}
+.yt-fr span{position:absolute;top:4px;left:4px;background:#FF0033;color:#fff;font-size:10px;font-weight:900;border-radius:5px;padding:1px 5px}
+.yt-ai{border-color:rgba(255,0,51,.45);background:linear-gradient(160deg,rgba(255,0,51,.10),transparent 60%)}
+.yt-refs{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}.yt-ref{position:relative;cursor:pointer}.yt-ref img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;border:2px solid transparent;display:block;opacity:.75}
+.yt-ref.on img{border-color:#FF3355;opacity:1}.yt-ref b{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,.7);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px}.yt-ref.on b{background:#FF0033}
+.yt-ref span{position:absolute;bottom:4px;left:4px;background:rgba(0,0,0,.75);color:#fff;font-size:10px;font-weight:800;border-radius:5px;padding:1px 5px}
+.yt-face{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid #FF3355}
+.bar i.indet{width:40%!important;animation:indet 1.2s ease-in-out infinite}@keyframes indet{0%{margin-left:-40%}100%{margin-left:100%}}
 .yt-frames img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;border:2px solid transparent;cursor:pointer}.yt-frames img.on{border-color:#FF3355}
 .yt-col{width:34px;height:34px;border-radius:50%;border:3px solid var(--line);cursor:pointer;padding:0}.yt-col.on{border-color:var(--ink);transform:scale(1.1)}
 .yt-vid{display:flex;gap:10px;align-items:center;padding:8px;border:1px solid var(--line);border-radius:11px;cursor:pointer}.yt-vid.on{border-color:#FF3355;background:rgba(255,0,51,.08)}
@@ -327,7 +335,15 @@ ytMakeThumb:['Make thumbnail','থাম্বনেইল বানান'],ytP
 ytAdmin:['YouTube Studio settings (admin)','YouTube Studio সেটিংস (অ্যাডমিন)'],ytWho:['Who can use it','কে ব্যবহার করতে পারবে'],ytWho_all:['All players','সব প্লেয়ার'],ytWho_verified:['Only ✔ verified players','শুধু ✔ ভেরিফায়েড'],ytWho_admin:['Only admins','শুধু অ্যাডমিন'],
 ytDaily:['AI analyses per player per day (admins: no limit)','প্রতি প্লেয়ার দিনে কতবার'],ytAudited:['My Google project passed the YouTube API audit (allow direct upload)','আমার Google প্রজেক্ট YouTube অডিট পাস করেছে'],
 ytAdminNote:['The free Gemini key is shared by everyone, so keep the daily limit small. Client ID is safe to put here (it is public).','ফ্রি Gemini কী সবাই মিলে ব্যবহার করে, তাই লিমিট কম রাখুন। Client ID এখানে রাখা নিরাপদ।'],
-ytThT:['Thumbnail maker','থাম্বনেইল মেকার'],ytThH:['1280×720 · pick a picture, write 2-4 big words, choose a style.','১২৮০×৭২০ · ছবি বাছুন, ২-৪টা বড় শব্দ লিখুন, স্টাইল বাছুন।'],ytThDl:['Download','ডাউনলোড'],ytThRnd:['New style','নতুন স্টাইল'],
+ytThT:['Thumbnail maker','থাম্বনেইল মেকার'],ytThH:['1280×720 · pick a picture, write 2-4 big words, choose a style.','১২৮০×৭২০ · ছবি বাছুন, ২-৪টা বড় শব্দ লিখুন, স্টাইল বাছুন।'],ytThDl:['Download','ডাউনলোড'],ytThRnd:['New style','নতুন স্টাইল'],ytThumbDaily:['AI thumbnail rounds per player per day (2 pictures each)','প্রতি প্লেয়ার দিনে কতবার AI থাম্বনেইল'],thAiT:['AI thumbnail like top creators','টপ ক্রিয়েটরদের মতো AI থাম্বনেইল'],thAiH:['AI looks at the best thumbnails of similar videos, then paints a NEW picture for your video (you in it, if you add a photo). The title is added on the empty side — never over faces or old text.','AI একই ধরনের ভিডিওর সেরা থাম্বনেইল দেখে আপনার ভিডিওর জন্য নতুন ছবি আঁকে। লেখা ফাঁকা দিকে বসে।'],
+thFaceT:['Your photo (optional)','আপনার ছবি (ঐচ্ছিক)'],thFaceAdd:['Add my photo','আমার ছবি দিন'],thFaceOk:['AI will put you in the picture. Kept only on this phone.','AI আপনাকে ছবিতে বসাবে। শুধু এই ফোনে থাকে।'],
+thRefT:['Style references','স্টাইল রেফারেন্স'],thRefH:['Top videos on your topic. Tap to choose up to 4. AI copies the style only — never faces, names or text.','আপনার টপিকের টপ ভিডিও। ৪টা পর্যন্ত বাছুন। AI শুধু স্টাইল নেয়।'],thRefFind:['Find top thumbnails','টপ থাম্বনেইল খুঁজুন'],thRefPaste:['or paste a YouTube link you like','বা পছন্দের YouTube লিংক দিন'],
+thNoRefs:['No results. Paste a YouTube link you like.','কিছু পাওয়া যায়নি। পছন্দের লিংক দিন।'],thNoKey:['Search is not set up (admin: add YT_API_KEY). Paste a YouTube link you like instead.','সার্চ সেট-আপ হয়নি। পছন্দের লিংক দিন।'],thMax4:['Up to 4 references','৪টা পর্যন্ত'],
+thLookT:['Look','লুক'],thL_auto:['🤖 Auto','🤖 অটো'],thL_vibrant:['🌈 Vibrant','🌈 রঙিন'],thL_cool:['🌙 Dark & cool','🌙 ডার্ক'],thL_neon:['💜 Neon','💜 নিয়ন'],thL_fire:['🔥 Fire','🔥 আগুন'],thL_anime:['🎨 Anime','🎨 অ্যানিমে'],
+thAiGo:['Make AI thumbnails','AI থাম্বনেইল বানান'],thS_refs:['Finding top thumbnails…','টপ থাম্বনেইল খোঁজা হচ্ছে…'],thS_design:['AI is studying the references…','AI রেফারেন্স দেখছে…'],thS_draw:['Painting picture','ছবি আঁকা হচ্ছে'],
+thDone:['New pictures are ready — tap one, then adjust the text','নতুন ছবি তৈরি — একটা বাছুন, তারপর লেখা ঠিক করুন'],thNotes:['What top thumbnails do','টপ থাম্বনেইল যা করে'],thNoFaceEngine:['Your photo needs the Cloudflare setup — made a picture without you this time.','আপনার ছবির জন্য Cloudflare সেট-আপ লাগবে।'],
+thNoPic2:['Make AI thumbnails above, get video frames, or add your own picture.','উপরে AI থাম্বনেইল বানান, ভিডিও থেকে ছবি নিন বা নিজের ছবি দিন।'],thSide:['Title position','লেখার জায়গা'],thS_auto:['Auto (empty side)','অটো (ফাঁকা দিক)'],thS_left:['Left','বাঁ'],thS_right:['Right','ডান'],thS_top:['Top','উপরে'],thS_bottom:['Bottom','নিচে'],
+thT_3d:['3D','3D'],thT_neon:['Neon','নিয়ন'],thT_fire:['Fire','আগুন'],thT_ice:['Ice','বরফ'],thT_clean:['Clean','সাদা'],thT_box:['Red box','লাল বক্স'],
 ytThPic:['Picture','ছবি'],ytThFrames:['Get video frames','ভিডিও থেকে ছবি'],ytThOwn:['My photo','আমার ছবি'],ytThNoPic:['Tap "Get video frames" or add your own photo.','"ভিডিও থেকে ছবি" চাপুন বা নিজের ছবি দিন।'],ytThNoFile:['Choose the video again in Analyse to get frames, or add your own photo.','ছবি পেতে অ্যানালাইজে ভিডিওটা আবার বাছুন, বা নিজের ছবি দিন।'],
 ytThGrab:['Taking pictures from your video…','ভিডিও থেকে ছবি নেওয়া হচ্ছে…'],ytThNoFr:['Could not get pictures. Add your own photo.','ছবি পাওয়া যায়নি। নিজের ছবি দিন।'],ytThText:['Text','লেখা'],ytThMain:['Big text (2-4 words)','বড় লেখা (২-৪ শব্দ)'],ytThSub:['Small text','ছোট লেখা'],ytThStyle:['Style','স্টাইল'],ytThColor:['Colour','রং'],
 ytPubNeed:['Analyse a video first. Then you can put the title, tags, description and thumbnail on YouTube from here.','আগে একটা ভিডিও অ্যানালাইজ করুন।'],ytEdit:['Edit text','লেখা বদলান'],
@@ -1829,11 +1845,10 @@ var YT_IC={yt_an:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><pat
   yt_pub:'<path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 20h16"/>',yt_hist:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'};
 var YT_LANGS=['hinglish','hindi','bengali','english'];
 var YT_COLORS=['#FFD400','#FF2D2D','#00E5FF','#39FF14','#FFFFFF','#FF4FD8'];
-var YT_STYLES=['Punch','Red box','Split','Glow','Badge','Clean'];
 var YT=(function(){var d={src:'url',url:'',lang:'hinglish',game:'Free Fire',note:'',title:'',fname:'',res:null,job:'',ti:0,tf:'',desc:'',tags:'',th:{text:'',sub:'',style:0,color:0,img:0},pub:{mode:'update',privacy:'keep',vid:'',newPriv:'private',thumb:true,notify:true},lastView:'yt_an'};
   try{var s=JSON.parse(localStorage.getItem('jit_yt')||'null');if(s)for(var k in s)d[k]=s[k]}catch(e){}
-  d.file=null;d.busy='';d.prog=0;d.frames=[];d.tok='';d.tokExp=0;d.ch=null;d.uploads=null;d.jobs=null;d.left=null;d.thumbBlob=null;d.out=null;d.dOpen={};d.adm={};return d})();
-function ytSave(){try{var o={};['src','url','lang','game','note','title','fname','res','job','ti','tf','desc','tags','th','pub','lastView'].forEach(function(k){o[k]=YT[k]});localStorage.setItem('jit_yt',JSON.stringify(o))}catch(e){}}
+  d.file=null;d.busy='';d.prog=0;d.frames=[];d.tok='';d.tokExp=0;d.ch=null;d.uploads=null;d.jobs=null;d.left=null;d.thumbBlob=null;d.out=null;d.dOpen={};d.adm={};if(d.ai){d.ai.busy='';d.ai.tleft=null;d.ai.refs=d.ai.refs||null}return d})();
+function ytSave(){try{var o={};['src','url','lang','game','note','title','fname','res','job','ti','tf','desc','tags','th','pub','lastView','ai'].forEach(function(k){o[k]=YT[k]});localStorage.setItem('jit_yt',JSON.stringify(o))}catch(e){}}
 function isYt(){return YT_TABS.indexOf(view)>=0}
 function ytAllowed(){var p=me();if(!p)return false;if(canAdminP())return true;var w=cfg('ytWho','all');if(w==='admin')return false;if(w==='verified'&&!p.verified)return false;return true}
 
@@ -1862,7 +1877,7 @@ function ytRender(){
 }
 function ytHead(){return hdr('<span class="ytlogo">▶</span> YouTube Studio',YT.left==null?'':'<span class="tag t-acc" title="'+esc(t('ytLeftT'))+'">⚡ '+(YT.left<0?'∞':YT.left)+' '+t('ytLeft')+'</span>')}
 async function ytLoadLeft(){try{var r=await sb.rpc('yt_left');if(!r.error){YT.left=r.data;if(isYt())render()}}catch(e){}}
-async function ytLoadJobs(){try{var r=await sb.from('yt_jobs').select('*').order('created_at',{ascending:false}).limit(30);YT.jobs=(r.data||[]).filter(function(j){return j.user_id===S.me.pid}).sort(function(a,b){return ts(b.created_at)-ts(a.created_at)});if(view==='yt_hist')render()}catch(e){YT.jobs=[]}}
+async function ytLoadJobs(){try{var r=await sb.from('yt_jobs').select('*').order('created_at',{ascending:false}).limit(30);YT.jobs=(r.data||[]).filter(function(j){return j.user_id===S.me.pid&&j.kind!=='thumb'}).sort(function(a,b){return ts(b.created_at)-ts(a.created_at)});if(view==='yt_hist')render()}catch(e){YT.jobs=[]}}
 function ytIn(key,ph,extra){return '<input data-yi="'+key+'" value="'+esc(ytGet(key))+'" placeholder="'+esc(ph||'')+'"'+(extra||'')+'>'}
 function ytGet(k){var o=YT,p=k.split('.');for(var i=0;i<p.length-1;i++)o=o[p[i]];return o[p[p.length-1]]==null?'':o[p[p.length-1]]}
 function ytSet(k,v){var o=YT,p=k.split('.');for(var i=0;i<p.length-1;i++)o=o[p[i]];o[p[p.length-1]]=v;ytSave()}
@@ -1904,13 +1919,14 @@ function ytResults(){var r=YT.res,sc=r.scores||{};
 function ytTags(){return String(YT.tags||'').split(',').map(function(x){return x.trim()}).filter(Boolean)}
 function ytUseResult(res,meta){YT.res=res;if(meta&&meta.title)YT.res.src_title=meta.title;YT.ti=0;YT.tf=(res.titles||[])[0]||'';
   var d=res.description||'';if((res.hashtags||[]).length&&d.indexOf(res.hashtags[0])<0)d+='\n\n'+res.hashtags.join(' ');YT.desc=d;YT.tags=(res.tags||[]).join(', ');
-  var th=(res.thumbnail||[])[0];if(th){YT.th.text=th.text;YT.th.sub=th.sub||''}YT.frames=[];ytSave()}
+  var th=(res.thumbnail||[])[0];if(th){YT.th.text=th.text;YT.th.sub=th.sub||''}YT.frames=[];YT.aiN=0;ytSave()}
 
-function ytAdm(k,d){return YT.adm[k]!=null?YT.adm[k]:cfg({who:'ytWho',n:'ytDaily',cid:'ytClientId',aud:'ytAudited'}[k],d)}
+function ytAdm(k,d){return YT.adm[k]!=null?YT.adm[k]:cfg({who:'ytWho',n:'ytDaily',tn:'ytThumbDaily',cid:'ytClientId',aud:'ytAudited'}[k],d)}
 function ytAdminCard(){var w=ytAdm('who','all');
   return '<details class="card" data-yd="adm"'+(YT.dOpen.adm?' open':'')+'><summary class="b">⚙ '+t('ytAdmin')+'</summary><div class="st" style="margin-top:10px">'+
    '<label class="f">'+t('ytWho')+'<select id="yta_who" data-yi="adm.who">'+['all','verified','admin'].map(function(x){return '<option value="'+x+'"'+(w===x?' selected':'')+'>'+t('ytWho_'+x)+'</option>'}).join('')+'</select></label>'+
    '<label class="f">'+t('ytDaily')+'<input id="yta_n" data-yi="adm.n" type="number" min="0" max="50" value="'+esc(ytAdm('n',3))+'"></label>'+
+   '<label class="f">'+t('ytThumbDaily')+'<input id="yta_tn" data-yi="adm.tn" type="number" min="0" max="50" value="'+esc(ytAdm('tn',3))+'"></label>'+
    '<label class="f">Google OAuth Client ID<input id="yta_cid" data-yi="adm.cid" value="'+esc(ytAdm('cid',''))+'" placeholder="1234-abc.apps.googleusercontent.com"></label>'+
    '<label class="row small b"><input type="checkbox" id="yta_aud" data-yc="adm.aud" style="width:auto"'+(ytAdm('aud',false)===true?' checked':'')+'> '+t('ytAudited')+'</label>'+
    '<div class="tiny muted">'+t('ytAdminNote')+'</div><button class="btn sec sm" data-a="ytAdminSave">💾 '+t('save')+'</button></div></details>'}
@@ -1954,68 +1970,127 @@ async function ytGo(){if(YT.busy)return;if(!ytAllowed())return;
     setTimeout(function(){var c=document.querySelector('.ytv .card:nth-of-type(3)');if(c)c.scrollIntoView({behavior:'smooth',block:'start'})},80);
   }catch(e){YT.busy='';YT.prog=0;YT.left=null;render();toast('⚠ '+(e.message||e))}}
 
-/* ---------- 2) Thumbnail maker ---------- */
-function vYtTh(){var th=YT.th,ideas=(YT.res&&YT.res.thumbnail)||[];
-  var frames=YT.frames.length?'<div class="yt-frames">'+YT.frames.map(function(f,i){return '<img src="'+f+'" alt="" class="'+(th.img===i?'on':'')+'" data-a="ytImg" data-k="'+i+'">'}).join('')+'</div>':'';
-  return ytHead()+'<div class="card st"><h2>🖼 '+t('ytThT')+'</h2><div class="tiny muted">'+t('ytThH')+'</div>'+
-   '<canvas id="yt_cv" width="1280" height="720" class="yt-cv"></canvas>'+
+/* ---------- 2) Thumbnail maker (AI picture + pro title) ---------- */
+var TH_LOOKS=['auto','vibrant','cool','neon','fire','anime'],TH_TSTYLES=['3d','neon','fire','ice','clean','box'],TH_SIDES=['auto','left','right','top','bottom'];
+var YT_FACE=(function(){try{return localStorage.getItem('jit_yt_face')||''}catch(e){return ''}})();
+function ytAI(){if(!YT.ai)YT.ai={refs:null,sel:[],look:'auto',refUrl:'',design:null,job:'',busy:'',tleft:null,engine:''};return YT.ai}
+function vYtTh(){var th=YT.th,A=ytAI(),ideas=(YT.res&&YT.res.thumbnail)||[];
+  if(th.side==null){th.side='auto';th.tstyle='3d';th.hex=''}
+  var frames=YT.frames.length?'<div class="yt-frames">'+YT.frames.map(function(f,i){return '<div class="yt-fr'+(th.img===i?' on':'')+'" data-a="ytImg" data-k="'+i+'"><img src="'+f+'" alt="">'+(i<(YT.aiN||0)?'<span>AI</span>':'')+'</div>'}).join('')+'</div>':'';
+  var refs=A.refs==null?'':(!A.refs.length?'<div class="tiny muted">'+t('thNoRefs')+'</div>':'<div class="yt-refs">'+A.refs.map(function(r){var on=A.sel.indexOf(r.id)>=0;return '<div class="yt-ref'+(on?' on':'')+'" data-a="ytRefSel" data-id="'+esc(r.id)+'"><img src="'+esc(r.thumb)+'" alt="" loading="lazy"><b>'+(on?'✓':'+')+'</b>'+(r.views?'<span>'+fmtViews(r.views)+'</span>':'')+'</div>'}).join('')+'</div>');
+  var faceBox=YT_FACE?'<div class="row"><img src="'+YT_FACE+'" alt="" class="yt-face"><div class="grow tiny muted">'+t('thFaceOk')+'</div><button class="btn sm sec" data-a="ytFaceDel">✕</button></div>'
+    :'<label class="btn sec sm" style="position:relative;overflow:hidden">📸 '+t('thFaceAdd')+'<input type="file" id="yt_face" accept="image/*" style="position:absolute;inset:0;opacity:0"></label>';
+  return ytHead()+
+   '<div class="card st"><canvas id="yt_cv" width="1280" height="720" class="yt-cv"></canvas>'+
    '<div class="grid2"><button class="btn" data-a="ytThDl">⬇ '+t('ytThDl')+'</button><button class="btn sec" data-a="ytThRnd">🎲 '+t('ytThRnd')+'</button></div></div>'+
+   '<div class="card st yt-ai"><div class="row between"><h3>✨ '+t('thAiT')+'</h3>'+(A.tleft==null?'':'<span class="tag t-acc">⚡ '+(A.tleft<0?'∞':A.tleft)+' '+t('ytLeft')+'</span>')+'</div><div class="tiny muted">'+t('thAiH')+'</div>'+
+    '<div class="small b">1 · '+t('thFaceT')+'</div>'+faceBox+
+    '<div class="small b">2 · '+t('thRefT')+'</div><div class="tiny muted">'+t('thRefH')+'</div>'+
+    '<button class="btn sec sm" data-a="ytRefs"'+(A.busy?' disabled':'')+'>🔥 '+t('thRefFind')+'</button>'+refs+
+    '<div class="row"><input data-yi="ai.refUrl" value="'+esc(A.refUrl)+'" placeholder="'+esc(t('thRefPaste'))+'" inputmode="url"><button class="btn sm sec" data-a="ytRefAdd">+</button></div>'+
+    '<div class="small b">3 · '+t('thLookT')+'</div><div class="chips">'+TH_LOOKS.map(function(l){return '<button class="chip'+(A.look===l?' on':'')+'" data-a="ytLook" data-v="'+l+'">'+t('thL_'+l)+'</button>'}).join('')+'</div>'+
+    '<button class="btn block yt-go" data-a="ytAiGo"'+(A.busy?' disabled':'')+'>✨ '+t('thAiGo')+'</button>'+
+    (A.busy?'<div class="ytbusy"><div class="small b" id="th_stage">'+esc(A.busy)+'</div><div class="bar"><i class="indet"></i></div></div>':'')+
+    (A.design&&A.design.style_notes?'<div class="tiny"><b>🔎 '+t('thNotes')+':</b> '+esc(A.design.style_notes)+'</div>':'')+'</div>'+
    '<div class="card st"><h3>📷 '+t('ytThPic')+'</h3>'+frames+
-   '<div class="grid2">'+(YT.src==='url'&&ytId(YT.url)?'<button class="btn sec sm" data-a="ytFrames">🎞 '+t('ytThFrames')+'</button>':(YT.file?'<button class="btn sec sm" data-a="ytFrames">🎞 '+t('ytThFrames')+'</button>':'<span></span>'))+
+   '<div class="grid2">'+((YT.src==='url'&&ytId(YT.url))||YT.file?'<button class="btn sec sm" data-a="ytFrames">🎞 '+t('ytThFrames')+'</button>':'<span></span>')+
    '<label class="btn sec sm" style="position:relative;overflow:hidden">🖼 '+t('ytThOwn')+'<input type="file" id="yt_img" accept="image/*" style="position:absolute;inset:0;opacity:0"></label></div>'+
-   (!YT.frames.length?'<div class="tiny muted">'+t(YT.src==='file'&&!YT.file&&YT.fname?'ytThNoFile':'ytThNoPic')+'</div>':'')+'</div>'+
+   (!YT.frames.length?'<div class="tiny muted">'+t('thNoPic2')+'</div>':'')+'</div>'+
    '<div class="card st"><h3>✏ '+t('ytThText')+'</h3>'+(ideas.length?'<div class="chips">'+ideas.map(function(x,i){return '<button class="chip" data-a="ytIdea" data-k="'+i+'">'+esc(x.text)+'</button>'}).join('')+'</div>':'')+
-   '<label class="f">'+t('ytThMain')+'<input data-yi="th.text" value="'+esc(th.text)+'" maxlength="30" placeholder="1 VS 4 CLUTCH"></label>'+
+   '<label class="f">'+t('ytThMain')+'<input data-yi="th.text" value="'+esc(th.text)+'" maxlength="30" placeholder="1V4 CLUTCH"></label>'+
    '<label class="f">'+t('ytThSub')+'<input data-yi="th.sub" value="'+esc(th.sub)+'" maxlength="40" placeholder="'+esc(t('ytOptional'))+'"></label>'+
-   '<div class="small b">'+t('ytThStyle')+'</div><div class="chips">'+YT_STYLES.map(function(s,i){return '<button class="chip'+(th.style===i?' on':'')+'" data-a="ytSty" data-k="'+i+'">'+s+'</button>'}).join('')+'</div>'+
-   '<div class="small b">'+t('ytThColor')+'</div><div class="row">'+YT_COLORS.map(function(c,i){return '<button class="yt-col'+(th.color===i?' on':'')+'" style="background:'+c+'" data-a="ytCol" data-k="'+i+'" aria-label="color"></button>'}).join('')+'</div></div>'}
+   '<div class="small b">'+t('thSide')+'</div><div class="chips">'+TH_SIDES.map(function(s){return '<button class="chip'+(th.side===s?' on':'')+'" data-a="ytSide" data-v="'+s+'">'+t('thS_'+s)+'</button>'}).join('')+'</div>'+
+   '<div class="small b">'+t('ytThStyle')+'</div><div class="chips">'+TH_TSTYLES.map(function(s){return '<button class="chip'+(th.tstyle===s?' on':'')+'" data-a="ytTsty" data-v="'+s+'">'+t('thT_'+s)+'</button>'}).join('')+'</div>'+
+   '<div class="small b">'+t('ytThColor')+'</div><div class="row wrap">'+thColors().map(function(c){return '<button class="yt-col'+(thHex()===c?' on':'')+'" style="background:'+c+'" data-a="ytHex" data-v="'+c+'" aria-label="colour"></button>'}).join('')+'</div></div>'}
+function fmtViews(n){return n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?Math.round(n/1e3)+'K':String(n)}
+function thColors(){var p=(ytAI().design&&ytAI().design.palette)||[],base=['#FFD400','#FF2D2D','#00E5FF','#39FF14','#FFFFFF','#FF4FD8','#FF8A00'];return p.concat(base.filter(function(c){return p.indexOf(c)<0})).slice(0,9)}
+function thHex(){return YT.th.hex||YT_COLORS[YT.th.color]||'#FFD400'}
 
 var YT_IMGS={},YT_LOGO=null,YT_FONT=false;
 function ytImg(src){if(!src)return null;var im=YT_IMGS[src];if(!im){im=new Image();im.onload=function(){ytDraw()};im.src=src;YT_IMGS[src]=im}return im.complete&&im.naturalWidth?im:null}
-function ytFont(){if(YT_FONT)return;YT_FONT=true;var l=document.createElement('link');l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Anton&display=swap';document.head.appendChild(l);
-  try{document.fonts.load('100px Anton').then(function(){ytDraw()}).catch(function(){})}catch(e){}}
-function ytAfter(){if(view==='yt_pub'&&$('yt_cv')){ytFont();ytDraw()}if(view==='yt_th'){ytFont();ytDraw();if(!YT.frames.length&&!YT._autoFr&&((YT.src==='url'&&ytId(YT.url))||YT.file)){YT._autoFr=1;ytFrames()}}}
+function ytFont(){if(YT_FONT)return;YT_FONT=true;var l=document.createElement('link');l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Anton&family=Bungee&display=swap';document.head.appendChild(l);
+  try{Promise.all([document.fonts.load('100px Anton'),document.fonts.load('100px Bungee')]).then(function(){ytDraw()}).catch(function(){})}catch(e){}}
+function ytAfter(){if(view==='yt_pub'&&$('yt_cv')){ytFont();ytDraw()}if(view==='yt_th'){ytFont();ytDraw();var A=ytAI();if(A.tleft==null){A.tleft=-2;sb.rpc('yt_thumb_left').then(function(r){A.tleft=r.error?null:r.data;if(view==='yt_th')render()})}
+  if(!YT.frames.length&&!YT._autoFr&&((YT.src==='url'&&ytId(YT.url))||YT.file)){YT._autoFr=1;ytFrames()}}}
 function fitFont(x,txt,max,maxW,fam){var s=max;x.font=s+'px '+fam;while(s>28&&x.measureText(txt).width>maxW){s-=4;x.font=s+'px '+fam}return s}
 function splitLines(txt){var w=String(txt||'').trim().split(/\s+/);if(w.length<2||txt.length<10)return [txt];var best=null;for(var i=1;i<w.length;i++){var a=w.slice(0,i).join(' '),b=w.slice(i).join(' '),m=Math.max(a.length,b.length);if(!best||m<best[2])best=[a,b,m]}return [best[0],best[1]]}
-function ytDraw(){var c=$('yt_cv');if(!c)return;var x=c.getContext('2d'),W=1280,H=720,th=YT.th,col=YT_COLORS[th.color]||YT_COLORS[0],st=th.style||0;
+function shade(hex,f){var n=parseInt(hex.slice(1),16),r=n>>16,g=n>>8&255,b=n&255;function c(v){return Math.max(0,Math.min(255,Math.round(f<0?v*(1+f):v+(255-v)*f)))}return 'rgb('+c(r)+','+c(g)+','+c(b)+')'}
+/* which side of the picture is calmer (less detail) → put the title there */
+function calmSide(im){try{var c=document.createElement('canvas');c.width=64;c.height=36;var x=c.getContext('2d');x.drawImage(im,0,0,64,36);var d=x.getImageData(0,0,64,36).data;
+  function busy(x0,x1,y0,y1){var s=0,n=0;for(var y=y0;y<y1;y++)for(var xx=x0+1;xx<x1;xx++){var i=(y*64+xx)*4,j=i-4;s+=Math.abs(d[i]-d[j])+Math.abs(d[i+1]-d[j+1])+Math.abs(d[i+2]-d[j+2]);n++}return s/n}
+  var L=busy(0,26,0,36),R=busy(38,64,0,36);return L<=R?'left':'right'}catch(e){return 'left'}}
+function thSide(im){var s=YT.th.side;if(s&&s!=='auto')return s;var d=ytAI().design;if(d&&YT.frames.length&&YT.th.img<(YT.aiN||0)&&d.text_side)return d.text_side;if(!im)return 'left';if(im._side==null)im._side=calmSide(im);return im._side}
+function ytDraw(){var c=$('yt_cv');if(!c)return;var x=c.getContext('2d'),W=1280,H=720,th=YT.th,col=thHex(),st=th.tstyle||'3d';
   var FAM='Anton, Impact, "Arial Black", "Noto Sans Devanagari", "Noto Sans Bengali", sans-serif';
-  x.save();x.clearRect(0,0,W,H);x.fillStyle='#111';x.fillRect(0,0,W,H);
+  x.save();x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,W,H);
   var im=ytImg(YT.frames[th.img]||YT.frames[0]);
-  var ix=0,iw=W;if(st===2){ix=W*0.38;iw=W*0.62}
-  if(im){var r=Math.max(iw/im.naturalWidth,H/im.naturalHeight),dw=im.naturalWidth*r,dh=im.naturalHeight*r;x.save();x.beginPath();x.rect(ix,0,iw,H);x.clip();try{x.filter='saturate(1.35) contrast(1.12) brightness(1.04)'}catch(e){}x.drawImage(im,ix+(iw-dw)/2,(H-dh)/2,dw,dh);x.restore();try{x.filter='none'}catch(e){}}
-  else{var g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,'#2a0a0a');g.addColorStop(1,'#0a0a2a');x.fillStyle=g;x.fillRect(0,0,W,H)}
-  var txt=String(th.text||'').toUpperCase(),sub=String(th.sub||''),lines=splitLines(txt);
-  function big(lines,X,Y,maxW,size,align,fill,stroke){x.textAlign=align;x.textBaseline='alphabetic';x.lineJoin='round';
-    var s=Math.min.apply(null,lines.map(function(l){return fitFont(x,l,size,maxW,FAM)}));x.font=s+'px '+FAM;
-    lines.forEach(function(l,i){var y=Y+i*s*1.02;if(stroke){x.strokeStyle=stroke;x.lineWidth=Math.max(8,s*0.11);x.strokeText(l,X,y)}x.fillStyle=fill;x.fillText(l,X,y)});return s*lines.length*1.02}
-  if(st===0){var g0=x.createLinearGradient(0,0,W*0.75,0);g0.addColorStop(0,'rgba(0,0,0,.82)');g0.addColorStop(1,'rgba(0,0,0,0)');x.fillStyle=g0;x.fillRect(0,0,W,H);
-    var bh=big(lines,60,lines.length>1?250:330,700,lines.length>1?170:200,'left',col,'#000');
-    if(sub){x.font='bold 46px Inter, sans-serif';var sw=x.measureText(sub).width+40;x.fillStyle='#fff';x.fillRect(60,(lines.length>1?250:330)+bh-60,sw,70);x.fillStyle='#000';x.textAlign='left';x.fillText(sub,80,(lines.length>1?250:330)+bh-8)}
-    ytArrow(x,760,560,1010,380)}
-  else if(st===1){x.save();x.translate(60,470);x.rotate(-0.045);x.font='170px '+FAM;var s1=fitFont(x,txt,170,1000,FAM),tw=x.measureText(txt).width;x.fillStyle='#E50914';x.fillRect(-20,-s1*0.95,tw+40,s1*1.2);x.fillStyle='#fff';x.textAlign='left';x.fillText(txt,0,0);
-    if(sub){x.font='bold 50px Inter, sans-serif';x.fillStyle=col;x.strokeStyle='#000';x.lineWidth=10;x.strokeText(sub,0,-s1*1.1);x.fillText(sub,0,-s1*1.1)}x.restore()}
-  else if(st===2){x.fillStyle='#0b0b0b';x.beginPath();x.moveTo(0,0);x.lineTo(W*0.46,0);x.lineTo(W*0.38,H);x.lineTo(0,H);x.closePath();x.fill();x.fillStyle=col;x.fillRect(W*0.46-8,0,8,H);
-    big(lines.length>1?lines:splitLines(txt+' '),40,lines.length>1?300:380,450,150,'left','#fff',null);if(lines.length>1){x.fillStyle=col}
-    if(sub){x.font='bold 40px Inter, sans-serif';x.fillStyle=col;x.textAlign='left';x.fillText(sub,40,600)}}
-  else if(st===3){var v=x.createRadialGradient(W/2,H/2,H*0.3,W/2,H/2,H*0.9);v.addColorStop(0,'rgba(0,0,0,0)');v.addColorStop(1,'rgba(0,0,0,.75)');x.fillStyle=v;x.fillRect(0,0,W,H);
-    x.shadowColor=col;x.shadowBlur=45;big(lines,W/2,lines.length>1?470:600,1150,lines.length>1?150:180,'center','#fff','rgba(0,0,0,.6)');x.shadowBlur=0;
-    if(sub){x.font='bold 44px Inter, sans-serif';x.textAlign='center';x.fillStyle=col;x.fillText(sub,W/2,lines.length>1?690:680)}}
-  else if(st===4){x.fillStyle='rgba(0,0,0,.35)';x.fillRect(0,0,W,H);x.fillStyle=col;x.beginPath();x.arc(1010,250,215,0,Math.PI*2);x.fill();x.strokeStyle='#000';x.lineWidth=14;x.stroke();
-    big(splitLines(txt),1010,lines.length>1?220:300,360,150,'center','#000',null);
-    if(sub){x.fillStyle='#000';x.fillRect(0,H-120,W,120);x.font='bold 56px Inter, sans-serif';x.fillStyle='#fff';x.textAlign='left';x.fillText(sub,40,H-42)}}
-  else{x.fillStyle='rgba(0,0,0,.88)';x.fillRect(0,H*0.74,W,H*0.26);x.fillStyle=col;x.fillRect(0,H*0.74,W,10);
-    big([txt],40,H-58,W-80,130,'left','#fff',null);if(sub){x.font='bold 40px Inter, sans-serif';x.textAlign='left';x.fillStyle='#000';var w5=x.measureText(sub).width+36;x.fillStyle=col;x.fillRect(40,H*0.74-70,w5,58);x.fillStyle='#000';x.fillText(sub,58,H*0.74-28)}}
+  if(im){var r=Math.max(W/im.naturalWidth,H/im.naturalHeight),dw=im.naturalWidth*r,dh=im.naturalHeight*r;try{x.filter='saturate(1.3) contrast(1.1) brightness(1.04)'}catch(e){}x.drawImage(im,(W-dw)/2,(H-dh)/2,dw,dh);try{x.filter='none'}catch(e){}}
+  else{var g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,'#3a0d0d');g.addColorStop(0.5,'#14072e');g.addColorStop(1,'#04203a');x.fillStyle=g;x.fillRect(0,0,W,H)}
+  var side=thSide(im),txt=String(th.text||'').toUpperCase().trim(),sub=String(th.sub||'').trim();
+  // title zone (never the middle of the picture)
+  var Z=side==='left'?{x:40,y:124,w:W*0.44,h:H-164,al:'left'}:side==='right'?{x:W*0.56-40,y:124,w:W*0.44,h:H-164,al:'right'}:side==='top'?{x:130,y:22,w:W-260,h:H*0.38,al:'center'}:{x:130,y:H*0.6,w:W-260,h:H*0.38,al:'center'};
+  // soft shade behind the title so it reads on any picture
+  if(txt||sub){var gx;if(side==='left'){gx=x.createLinearGradient(0,0,W*0.62,0);gx.addColorStop(0,'rgba(0,0,0,.62)');gx.addColorStop(1,'rgba(0,0,0,0)')}
+    else if(side==='right'){gx=x.createLinearGradient(W,0,W*0.38,0);gx.addColorStop(0,'rgba(0,0,0,.62)');gx.addColorStop(1,'rgba(0,0,0,0)')}
+    else if(side==='top'){gx=x.createLinearGradient(0,0,0,H*0.5);gx.addColorStop(0,'rgba(0,0,0,.6)');gx.addColorStop(1,'rgba(0,0,0,0)')}
+    else{gx=x.createLinearGradient(0,H,0,H*0.45);gx.addColorStop(0,'rgba(0,0,0,.65)');gx.addColorStop(1,'rgba(0,0,0,0)')}
+    x.fillStyle=gx;x.fillRect(0,0,W,H)}
+  if(txt){var words=txt.split(/\s+/),subH=sub?70:0,cands=[[txt]];if(words.length>=2)cands.push(splitLines(txt));if(words.length>=3){var n3=Math.ceil(words.length/3),t3=[];for(var q=0;q<words.length;q+=n3)t3.push(words.slice(q,q+n3).join(' '));cands.push(t3)}
+    var best=null;cands.forEach(function(ls){var mx=Math.min(240,(Z.h-subH)/ls.length/1.02),sz=Math.min.apply(null,ls.map(function(l){return fitFont(x,l,Math.floor(mx),Z.w,FAM)}));if(!best||sz>best[1]+4)best=[ls,sz]});
+    var lines=best[0],s=best[1];x.font=s+'px '+FAM;x.textBaseline='alphabetic';x.lineJoin='round';
+    var lh=s*1.0,blockH=lh*lines.length+subH,y0=Z.y+(Z.h-blockH)/2+s*0.86,ax=Z.al==='left'?Z.x:Z.al==='right'?Z.x+Z.w:Z.x+Z.w/2;x.textAlign=Z.al;
+    lines.forEach(function(l,i){var y=y0+i*lh,lw=x.measureText(l).width,lx=Z.al==='left'?ax:Z.al==='right'?ax-lw:ax-lw/2;drawTitle(x,l,ax,y,s,lw,lx,st,col,i)});
+    if(sub){x.font='800 42px Inter, sans-serif';var sw=x.measureText(sub).width+44,sy=y0+(lines.length-1)*lh+s*0.3,sx=Z.al==='left'?ax:Z.al==='right'?ax-sw:ax-sw/2;
+      x.fillStyle=col;roundRect(x,sx,sy,sw,58,12);x.fill();x.fillStyle=isLight(col)?'#111':'#fff';x.textAlign='left';x.fillText(sub,sx+22,sy+43)}}
+  // channel logo in the corner on the title side (never on the person)
   if(!YT_LOGO){YT_LOGO=new Image();YT_LOGO.onload=function(){ytDraw()};YT_LOGO.src='icons/icon-192.png'}
-  if(YT_LOGO.complete&&YT_LOGO.naturalWidth){var lx=st===4||st===0?W-120:W-120,ly=st===4?H-230:24;if(st===4){lx=24;ly=24}x.save();x.beginPath();x.arc(lx+48,ly+48,48,0,Math.PI*2);x.closePath();x.fillStyle='#000';x.fill();x.clip();x.drawImage(YT_LOGO,lx,ly,96,96);x.restore()}
+  if(YT_LOGO.complete&&YT_LOGO.naturalWidth){var lx=side==='right'?W-112:16,ly=16;x.save();x.beginPath();x.arc(lx+48,ly+48,46,0,Math.PI*2);x.closePath();x.fillStyle='#000';x.fill();x.clip();x.drawImage(YT_LOGO,lx,ly,96,96);x.restore()}
   x.restore()}
-function ytArrow(x,x1,y1,x2,y2){var a=Math.atan2(y2-y1,x2-x1),L=Math.hypot(x2-x1,y2-y1);x.save();x.translate(x1,y1);x.rotate(a);x.beginPath();x.moveTo(0,-16);x.lineTo(L-70,-16);x.lineTo(L-70,-48);x.lineTo(L,0);x.lineTo(L-70,48);x.lineTo(L-70,16);x.lineTo(0,16);x.closePath();x.lineJoin='round';x.lineWidth=12;x.strokeStyle='#fff';x.stroke();x.fillStyle='#FF1E1E';x.fill();x.restore()}
+function isLight(h){var n=parseInt(String(h).slice(1),16);return ((n>>16)*0.299+(n>>8&255)*0.587+(n&255)*0.114)>160}
+function roundRect(x,a,b,w,h,r){x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath()}
+function drawTitle(x,l,ax,y,s,lw,lx,st,col,i){var top=y-s*0.82;
+  if(st==='3d'){var dep=Math.max(6,Math.round(s*0.07));for(var k=dep;k>0;k--){x.fillStyle=k===dep?'rgba(0,0,0,.55)':shade(col,-0.55);x.fillText(l,ax+k*0.6,y+k)}
+    var g=x.createLinearGradient(0,top,0,y);g.addColorStop(0,shade(col,0.6));g.addColorStop(0.55,col);g.addColorStop(1,shade(col,-0.15));x.lineWidth=Math.max(6,s*0.06);x.strokeStyle='#0b0b0b';x.strokeText(l,ax,y);x.fillStyle=g;x.fillText(l,ax,y)}
+  else if(st==='neon'){x.lineWidth=Math.max(5,s*0.05);x.strokeStyle=col;for(var n=0;n<3;n++){x.shadowColor=col;x.shadowBlur=18+n*16;x.strokeText(l,ax,y)}x.shadowBlur=0;x.fillStyle='#fff';x.fillText(l,ax,y);x.lineWidth=2;x.strokeStyle=col;x.strokeText(l,ax,y)}
+  else if(st==='fire'){var gf=x.createLinearGradient(0,top,0,y);gf.addColorStop(0,'#FFF3A0');gf.addColorStop(0.45,'#FFB000');gf.addColorStop(1,'#E2190B');x.shadowColor='#FF5A00';x.shadowBlur=34;x.lineWidth=Math.max(8,s*0.07);x.strokeStyle='#2a0500';x.strokeText(l,ax,y);x.shadowBlur=0;x.fillStyle=gf;x.fillText(l,ax,y)}
+  else if(st==='ice'){var gi=x.createLinearGradient(0,top,0,y);gi.addColorStop(0,'#FFFFFF');gi.addColorStop(0.5,'#9BEFFF');gi.addColorStop(1,'#1E7BFF');x.shadowColor='#00D0FF';x.shadowBlur=30;x.lineWidth=Math.max(8,s*0.07);x.strokeStyle='#04163a';x.strokeText(l,ax,y);x.shadowBlur=0;x.fillStyle=gi;x.fillText(l,ax,y)}
+  else if(st==='box'){x.save();x.fillStyle=i%2?'#111':'#E50914';x.translate(lx+lw/2,y-s*0.36);x.rotate(-0.03);x.fillRect(-lw/2-18,-s*0.56,lw+36,s*1.04);x.restore();x.fillStyle=i%2?col:'#fff';x.fillText(l,ax,y)}
+  else{x.lineWidth=Math.max(8,s*0.08);x.strokeStyle='#000';x.shadowColor='rgba(0,0,0,.6)';x.shadowBlur=14;x.strokeText(l,ax,y);x.shadowBlur=0;x.fillStyle=i===0?'#fff':col;x.fillText(l,ax,y)}}
+/* ---------- AI thumbnail round ---------- */
+function shrinkTo(src,max){return new Promise(function(res){var im=new Image();im.onload=function(){var r=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*r);c.height=Math.round(im.height*r);c.getContext('2d').drawImage(im,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',0.9))};im.onerror=function(){res('')};im.src=src})}
+async function ytRefs(){var A=ytAI();if(A.busy)return;var r=YT.res||{},q=[r.game||YT.game||'Free Fire',(r.titles&&r.titles[0])||YT.title||YT.th.text||''].join(' ').replace(/[#|]/g,' ').split(/\s+/).slice(0,8).join(' ');
+  A.busy=t('thS_refs');render();
+  try{var o=await ytCall('refs',{q:q});A.refs=o.refs||[];A.sel=A.refs.slice(0,3).map(function(x){return x.id})}
+  catch(e){A.refs=A.refs||[];toast('⚠ '+(/no_yt_key/.test(e.message)?t('thNoKey'):e.message))}
+  A.busy='';render()}
+async function ytRefAdd(){var A=ytAI(),id=ytId(A.refUrl);if(!id){toast('⚠ '+t('ytBadUrl'));return}
+  A.refs=(A.refs||[]).filter(function(x){return x.id!==id});A.refs.unshift({id:id,title:'',channel:'',views:0,thumb:'https://i.ytimg.com/vi/'+id+'/hqdefault.jpg'});
+  if(A.sel.indexOf(id)<0)A.sel.unshift(id);A.sel=A.sel.slice(0,4);A.refUrl='';render()}
+function thStage(s){var A=ytAI();A.busy=s;var e=$('th_stage');if(e)e.textContent=s;else if(view==='yt_th')render()}
+async function ytAiGo(){var A=ytAI();if(A.busy)return;if(A.tleft===0){toast('⚠ '+t('ytLimit'));return}
+  var r=YT.res||{},face=YT_FACE?YT_FACE.split(',')[1]:'';
+  try{thStage(t('thS_design'));
+    var o=await ytCall('design',{refs:A.sel,summary:r.summary||'',titles:r.titles||[YT.title||''],game:r.game||YT.game,type:r.video_type||'',look:A.look,text:YT.th.text||'',face:!!face});
+    A.design=o.design;A.job=o.job;A.engine=o.engine;
+    if(o.design.headline&&(!YT.th.text||(r.thumbnail||[]).some(function(x){return x.text===YT.th.text})))YT.th.text=o.design.headline;
+    if(o.design.sub&&!YT.th.sub)YT.th.sub=o.design.sub;
+    YT.th.tstyle=o.design.text_style||'3d';YT.th.side='auto';if(o.design.palette&&o.design.palette[0])YT.th.hex=o.design.palette[0];
+    var got=0;
+    for(var i=0;i<2;i++){thStage(t('thS_draw')+' '+(i+1)+'/2…');
+      try{var g=await ytCall('gen',{job:A.job,design:o.design,face:face,seed:Math.floor(Math.random()*1e9)});
+        YT.frames.unshift(g.image);YT.aiN=(YT.aiN||0)+1;got++;if(face&&!g.withFace&&i===0)toast('ℹ '+t('thNoFaceEngine'))}
+      catch(e){if(!got)throw e;toast('⚠ '+(e.message||e));break}}
+    YT.th.img=0;A.busy='';A.tleft=null;ytSave();render();toast('✨ '+t('thDone'))}
+  catch(e){A.busy='';A.tleft=null;render();toast('⚠ '+(e.message||e))}}
+
 function ytThBlob(){return new Promise(function(res){var c=$('yt_cv');if(!c)return res(null);var q=0.92;(function go(){c.toBlob(function(b){if(b&&b.size>1990000&&q>0.5){q-=0.1;go()}else res(b)},'image/jpeg',q)})()})}
 
 /* frames: from the uploaded video (in the phone) or YouTube's own frames */
 async function ytFrames(){
-  try{if(YT.file){toast('🎞 '+t('ytThGrab'));YT.frames=await grabFrames(YT.file)}
-    else if(YT.src==='url'&&ytId(YT.url)){var r=await ytCall('frames',{url:YT.url});YT.frames=r.frames||[]}
-    YT.th.img=0;if(!YT.frames.length)toast('⚠ '+t('ytThNoFr'));render()}catch(e){toast('⚠ '+(e.message||e))}}
+  var keep=YT.frames.slice(0,YT.aiN||0),got=[];
+  try{if(YT.file){toast('🎞 '+t('ytThGrab'));got=await grabFrames(YT.file)}
+    else if(YT.src==='url'&&ytId(YT.url)){var r=await ytCall('frames',{url:YT.url});got=r.frames||[]}
+    YT.frames=keep.concat(got);YT.th.img=keep.length?0:0;if(!got.length)toast('⚠ '+t('ytThNoFr'));render()}catch(e){toast('⚠ '+(e.message||e))}}
 function mmss(s){var p=String(s||'').split(':').map(Number);if(p.some(isNaN))return null;return p.reduce(function(a,b){return a*60+b},0)}
 function grabFrames(file){return new Promise(function(resolve){
   var v=document.createElement('video'),url=URL.createObjectURL(file),out=[],times=[],i=0,done=false;v.muted=true;v.playsInline=true;v.preload='auto';v.src=url;
@@ -2118,7 +2193,8 @@ document.addEventListener('change',function(ev){var el=ev.target;
   if(el.getAttribute&&el.getAttribute('data-yi')){ytSet(el.getAttribute('data-yi'),el.value);if(el.tagName==='SELECT')render()}
   if(el.getAttribute&&el.getAttribute('data-yc')){ytSet(el.getAttribute('data-yc'),el.checked)}
   if(el.id==='yt_file'&&el.files[0]){var f=el.files[0];if(!/^video\//.test(f.type)&&!/\.(mp4|mov|mkv|webm|3gp)$/i.test(f.name)){toast('⚠ '+t('ytPickFile'));return}YT.file=f;YT.fname=f.name;YT.frames=[];YT._autoFr=0;ytSave();render()}
-  if(el.id==='yt_img'&&el.files[0]){var rd=new FileReader();rd.onload=function(){YT.frames.unshift(rd.result);YT.th.img=0;render()};rd.readAsDataURL(el.files[0])}});
+  if(el.id==='yt_face'&&el.files[0]){var fr=new FileReader();fr.onload=function(){shrinkTo(fr.result,500).then(function(u){if(!u){toast('⚠ '+t('vfBadImg'));return}YT_FACE=u;try{localStorage.setItem('jit_yt_face',u)}catch(e){}render()})};fr.readAsDataURL(el.files[0])}
+  if(el.id==='yt_img'&&el.files[0]){var rd=new FileReader();rd.onload=function(){shrinkTo(rd.result,1280).then(function(u){var k=YT.aiN||0;YT.frames.splice(k,0,u||rd.result);YT.th.img=k;render()})};rd.readAsDataURL(el.files[0])}});
 
 /* All India: states → districts (A→Z), big cities, old names */
 var INDIA=[["Andaman and Nicobar Islands",["Nicobars","North and Middle Andaman","South Andamans"]],["Andhra Pradesh",["Alluri Sitharama Raju","Anakapalli","Ananthapuramu","Annamayya","Bapatla","Chittoor","Dr. B.R. Ambedkar Konaseema","East Godavari","Eluru","Guntur","Kakinada","Krishna","Kurnool","Markapuram","Nandyal","NTR","Palnadu","Parvathipuram Manyam","Polavaram","Prakasam","Sri Potti Sriramulu Nellore","Sri Sathya Sai","Srikakulam","Tirupati","Visakhapatnam","Vizianagaram","West Godavari","YSR Kadapa"]],["Arunachal Pradesh",["Anjaw","Bichom","Changlang","Dibang Valley","East Kameng","East Siang","Kamle","Keyi Panyor","Kra Daadi","Kurung Kumey","Lepa Rada","Lohit","Longding","Lower Dibang Valley","Lower Siang","Lower Subansiri","Namsai","Pakke Kessang","Papum Pare","Shi Yomi","Siang","Tawang","Tirap","Upper Siang","Upper Subansiri","West Kameng","West Siang"]],["Assam",["Bajali","Baksa","Barpeta","Biswanath","Bongaigaon","Cachar","Charaideo","Chirang","Darrang","Dhemaji","Dhubri","Dibrugarh","Dima Hasao","Goalpara","Golaghat","Hailakandi","Hojai","Jorhat","Kamrup","Kamrup Metro","Karbi Anglong","Kokrajhar","Lakhimpur","Majuli","Morigaon","Nagaon","Nalbari","Sivasagar","Sonitpur","South Salmara Mankachar","Sribhumi","Tamulpur","Tinsukia","Udalguri","West Karbi Anglong"]],["Bihar",["Araria","Arwal","Aurangabad","Banka","Begusarai","Bhagalpur","Bhojpur","Buxar","Darbhanga","Gaya","Gopalganj","Jamui","Jehanabad","Kaimur (Bhabua)","Katihar","Khagaria","Kishanganj","Lakhisarai","Madhepura","Madhubani","Munger","Muzaffarpur","Nalanda","Nawada","Pashchim Champaran","Patna","Purba Champaran","Purnia","Rohtas","Saharsa","Samastipur","Saran","Sheikhpura","Sheohar","Sitamarhi","Siwan","Supaul","Vaishali"]],["Chandigarh",["Chandigarh"]],["Chhattisgarh",["Balod","Balodabazar-Bhatapara","Balrampur-Ramanujganj","Bastar","Bemetara","Bijapur","Bilaspur","Dantewada","Dhamtari","Durg","Gariaband","Gaurela-Pendra-Marwahi","Janjgir-Champa","Jashpur","Kabirdham","Kanker","Khairagarh-Chhuikhadan-Gandai","Kondagaon","Korba","Korea","Mahasamund","Manendragarh-Chirmiri-Bharatpur","Mohla-Manpur-Ambagarh Chowki","Mungeli","Narayanpur","Raigarh","Raipur","Rajnandgaon","Sakti","Sarangarh-Bilaigarh","Sukma","Surajpur","Surguja"]],["Dadra and Nagar Haveli and Daman and Diu",["Dadra and Nagar Haveli","Daman","Diu"]],["Delhi",["Central Delhi","East Delhi","New Delhi","North Delhi","North East Delhi","North West Delhi","Shahdara","South Delhi","South East Delhi","South West Delhi","West Delhi"]],["Goa",["Kushavati","North Goa","South Goa"]],["Gujarat",["Ahmedabad","Amreli","Anand","Aravalli","Banaskantha","Bharuch","Bhavnagar","Botad","Chhota Udaipur","Dahod","Dang","Devbhumi Dwarka","Gandhinagar","Gir Somnath","Jamnagar","Junagadh","Kheda","Kutch","Mahisagar","Mehsana","Morbi","Narmada","Navsari","Panchmahal","Patan","Porbandar","Rajkot","Sabarkantha","Surat","Surendranagar","Tapi","Vadodara","Valsad","Vav-Tharad"]],["Haryana",["Ambala","Bhiwani","Charkhi Dadri","Faridabad","Fatehabad","Gurugram","Hansi","Hisar","Jhajjar","Jind","Kaithal","Karnal","Kurukshetra","Mahendragarh","Nuh","Palwal","Panchkula","Panipat","Rewari","Rohtak","Sirsa","Sonipat","Yamunanagar"]],["Himachal Pradesh",["Bilaspur","Chamba","Hamirpur","Kangra","Kinnaur","Kullu","Lahaul and Spiti","Mandi","Shimla","Sirmaur","Solan","Una"]],["Jammu and Kashmir",["Anantnag","Bandipora","Baramulla","Budgam","Doda","Ganderbal","Jammu","Kathua","Kishtwar","Kulgam","Kupwara","Poonch","Pulwama","Rajouri","Ramban","Reasi","Samba","Shopian","Srinagar","Udhampur"]],["Jharkhand",["Bokaro","Chatra","Deoghar","Dhanbad","Dumka","East Singhbhum","Garhwa","Giridih","Godda","Gumla","Hazaribagh","Jamtara","Khunti","Koderma","Latehar","Lohardaga","Pakur","Palamu","Ramgarh","Ranchi","Sahebganj","Seraikela Kharsawan","Simdega","West Singhbhum"]],["Karnataka",["Bagalkote","Ballari","Belagavi","Bengaluru Rural","Bengaluru South","Bengaluru Urban","Bidar","Chamarajanagar","Chikkaballapura","Chikkamagaluru","Chitradurga","Dakshina Kannada","Davanagere","Dharwad","Gadag","Hassan","Haveri","Kalaburagi","Kodagu","Kolar","Koppal","Mandya","Mysuru","Raichur","Shivamogga","Tumakuru","Udupi","Uttara Kannada","Vijayanagara","Vijayapura","Yadgir"]],["Kerala",["Alappuzha","Ernakulam","Idukki","Kannur","Kasaragod","Kollam","Kottayam","Kozhikode","Malappuram","Palakkad","Pathanamthitta","Thiruvananthapuram","Thrissur","Wayanad"]],["Ladakh",["Kargil","Leh"]],["Lakshadweep",["Lakshadweep"]],["Madhya Pradesh",["Agar Malwa","Alirajpur","Anuppur","Ashoknagar","Balaghat","Barwani","Betul","Bhind","Bhopal","Burhanpur","Chhatarpur","Chhindwara","Damoh","Datia","Dewas","Dhar","Dindori","Guna","Gwalior","Harda","Indore","Jabalpur","Jhabua","Katni","Khandwa","Khargone","Maihar","Mandla","Mandsaur","Mauganj","Morena","Narmadapuram","Narsinghpur","Neemuch","Niwari","Pandhurna","Panna","Raisen","Rajgarh","Ratlam","Rewa","Sagar","Satna","Sehore","Seoni","Shahdol","Shajapur","Sheopur","Shivpuri","Sidhi","Singrauli","Tikamgarh","Ujjain","Umaria","Vidisha"]],["Maharashtra",["Ahilyanagar","Akola","Amravati","Beed","Bhandara","Buldhana","Chandrapur","Chhatrapati Sambhajinagar","Dharashiv","Dhule","Gadchiroli","Gondia","Hingoli","Jalgaon","Jalna","Kolhapur","Latur","Mumbai City","Mumbai Suburban","Nagpur","Nanded","Nandurbar","Nashik","Palghar","Parbhani","Pune","Raigad","Ratnagiri","Sangli","Satara","Sindhudurg","Solapur","Thane","Wardha","Washim","Yavatmal"]],["Manipur",["Bishnupur","Chandel","Churachandpur","Imphal East","Imphal West","Jiribam","Kakching","Kamjong","Kangpokpi","Noney","Pherzawl","Senapati","Tamenglong","Tengnoupal","Thoubal","Ukhrul"]],["Meghalaya",["East Garo Hills","East Jaintia Hills","East Khasi Hills","Eastern West Khasi Hills","North Garo Hills","Ri Bhoi","South Garo Hills","South West Garo Hills","South West Khasi Hills","West Garo Hills","West Jaintia Hills","West Khasi Hills"]],["Mizoram",["Aizawl","Champhai","Hnahthial","Khawzawl","Kolasib","Lawngtlai","Lunglei","Mamit","Saitual","Serchhip","Siaha"]],["Nagaland",["Chumoukedima","Dimapur","Kiphire","Kohima","Longleng","Meluri","Mokokchung","Mon","Niuland","Noklak","Peren","Phek","Shamator","Tseminyu","Tuensang","Wokha","Zunheboto"]],["Odisha",["Angul","Balangir","Balasore","Bargarh","Bhadrak","Boudh","Cuttack","Deogarh","Dhenkanal","Gajapati","Ganjam","Jagatsinghpur","Jajpur","Jharsuguda","Kalahandi","Kandhamal","Kendrapara","Keonjhar","Khordha","Koraput","Malkangiri","Mayurbhanj","Nabarangpur","Nayagarh","Nuapada","Puri","Rayagada","Sambalpur","Subarnapur","Sundargarh"]],["Puducherry",["Karaikal","Mahe","Puducherry","Yanam"]],["Punjab",["Amritsar","Barnala","Bathinda","Faridkot","Fatehgarh Sahib","Fazilka","Ferozepur","Gurdaspur","Hoshiarpur","Jalandhar","Kapurthala","Ludhiana","Malerkotla","Mansa","Moga","Pathankot","Patiala","Rupnagar","S.A.S. Nagar (Mohali)","Sangrur","Shaheed Bhagat Singh Nagar","Sri Muktsar Sahib","Tarn Taran"]],["Rajasthan",["Ajmer","Alwar","Balotra","Banswara","Baran","Barmer","Beawar","Bharatpur","Bhilwara","Bikaner","Bundi","Chittorgarh","Churu","Dausa","Deeg","Dholpur","Didwana-Kuchaman","Dungarpur","Hanumangarh","Jaipur","Jaisalmer","Jalore","Jhalawar","Jhunjhunu","Jodhpur","Karauli","Khairthal-Tijara","Kota","Kotputli-Behror","Nagaur","Pali","Phalodi","Pratapgarh","Rajsamand","Salumbar","Sawai Madhopur","Sikar","Sirohi","Sri Ganganagar","Tonk","Udaipur"]],["Sikkim",["Gangtok","Gyalshing","Mangan","Namchi","Pakyong","Soreng"]],["Tamil Nadu",["Ariyalur","Chengalpattu","Chennai","Coimbatore","Cuddalore","Dharmapuri","Dindigul","Erode","Kallakurichi","Kancheepuram","Kanniyakumari","Karur","Krishnagiri","Madurai","Mayiladuthurai","Nagapattinam","Namakkal","Perambalur","Pudukkottai","Ramanathapuram","Ranipet","Salem","Sivaganga","Tenkasi","Thanjavur","The Nilgiris","Theni","Thoothukudi","Tiruchirappalli","Tirunelveli","Tirupathur","Tiruppur","Tiruvallur","Tiruvannamalai","Tiruvarur","Vellore","Viluppuram","Virudhunagar"]],["Telangana",["Adilabad","Bhadradri Kothagudem","Hanumakonda","Hyderabad","Jagtial","Jangaon","Jayashankar Bhupalpally","Jogulamba Gadwal","Kamareddy","Karimnagar","Khammam","Kumuram Bheem Asifabad","Mahabubabad","Mahabubnagar","Mancherial","Medak","Medchal-Malkajgiri","Mulugu","Nagarkurnool","Nalgonda","Narayanpet","Nirmal","Nizamabad","Peddapalli","Rajanna Sircilla","Rangareddy","Sangareddy","Siddipet","Suryapet","Vikarabad","Wanaparthy","Warangal","Yadadri Bhuvanagiri"]],["Tripura",["Dhalai","Gomati","Khowai","North Tripura","Sepahijala","South Tripura","Unakoti","West Tripura"]],["Uttar Pradesh",["Agra","Aligarh","Ambedkar Nagar","Amethi","Amroha","Auraiya","Ayodhya","Azamgarh","Baghpat","Bahraich","Ballia","Balrampur","Banda","Barabanki","Bareilly","Basti","Bhadohi","Bijnor","Budaun","Bulandshahr","Chandauli","Chitrakoot","Deoria","Etah","Etawah","Farrukhabad","Fatehpur","Firozabad","Gautam Buddha Nagar","Ghaziabad","Ghazipur","Gonda","Gorakhpur","Hamirpur","Hapur","Hardoi","Hathras","Jalaun","Jaunpur","Jhansi","Kannauj","Kanpur Dehat","Kanpur Nagar","Kasganj","Kaushambi","Kushinagar","Lakhimpur Kheri","Lalitpur","Lucknow","Maharajganj","Mahoba","Mainpuri","Mathura","Mau","Meerut","Mirzapur","Moradabad","Muzaffarnagar","Pilibhit","Pratapgarh","Prayagraj","Rae Bareli","Rampur","Saharanpur","Sambhal","Sant Kabir Nagar","Shahjahanpur","Shamli","Shravasti","Siddharthnagar","Sitapur","Sonbhadra","Sultanpur","Unnao","Varanasi"]],["Uttarakhand",["Almora","Bageshwar","Chamoli","Champawat","Dehradun","Haridwar","Nainital","Pauri Garhwal","Pithoragarh","Rudraprayag","Tehri Garhwal","Udham Singh Nagar","Uttarkashi"]],["West Bengal",["Alipurduar","Bankura","Birbhum","Cooch Behar","Dakshin Dinajpur","Darjeeling","Hooghly","Howrah","Jalpaiguri","Jhargram","Kalimpong","Kolkata","Malda","Murshidabad","Nadia","North 24 Parganas","Paschim Bardhaman","Paschim Medinipur","Purba Bardhaman","Purba Medinipur","Purulia","South 24 Parganas","Uttar Dinajpur"]]];
@@ -2249,14 +2325,21 @@ document.addEventListener('click',function(ev){
   case 'ytTi':if(YT.res){YT.ti=+d.k;YT.tf=(YT.res.titles||[])[YT.ti]||'';ytSave();render()}return;
   case 'ytCopyAll':copyText(YT.tf+'\n\n'+YT.desc+'\n\nTags: '+ytTags().join(', '));return;
   case 'ytIdea':{var yi=YT.res&&YT.res.thumbnail&&YT.res.thumbnail[+d.k];if(yi){YT.th.text=yi.text;YT.th.sub=yi.sub||'';ytSave();if(view!=='yt_th'){view='yt_th'}render();ytDraw()}return}
-  case 'ytAdminSave':{var yc=Object.assign({},S.config||{});yc.ytWho=ytAdm('who','all');yc.ytDaily=Math.max(0,Math.min(50,parseInt(ytAdm('n',3),10)||0));yc.ytClientId=String(ytAdm('cid','')).trim().slice(0,200);yc.ytAudited=ytAdm('aud',false)===true;
+  case 'ytAdminSave':{var yc=Object.assign({},S.config||{});yc.ytWho=ytAdm('who','all');yc.ytDaily=Math.max(0,Math.min(50,parseInt(ytAdm('n',3),10)||0));yc.ytThumbDaily=Math.max(0,Math.min(50,parseInt(ytAdm('tn',3),10)||0));yc.ytClientId=String(ytAdm('cid','')).trim().slice(0,200);yc.ytAudited=ytAdm('aud',false)===true;
     run(function(){return sb.from('app_settings').update({config:yc}).eq('id',1)},'✓').then(function(){YT.adm={};YT.left=null;render()});return}
   case 'ytThDl':ytThBlob().then(function(b){if(!b)return;var u=URL.createObjectURL(b),a2=document.createElement('a');a2.href=u;a2.download='thumbnail-'+Date.now()+'.jpg';document.body.appendChild(a2);a2.click();a2.remove();setTimeout(function(){URL.revokeObjectURL(u)},4000);toast('⬇ ✓')});return;
-  case 'ytThRnd':{var ns;do{ns=Math.floor(Math.random()*YT_STYLES.length)}while(ns===YT.th.style&&YT_STYLES.length>1);YT.th.style=ns;YT.th.color=Math.floor(Math.random()*YT_COLORS.length);if(YT.frames.length>1)YT.th.img=Math.floor(Math.random()*YT.frames.length);ytSave();render();ytDraw();return}
+  case 'ytThRnd':{var ns;do{ns=TH_TSTYLES[Math.floor(Math.random()*TH_TSTYLES.length)]}while(ns===YT.th.tstyle);YT.th.tstyle=ns;var hc=thColors();YT.th.hex=hc[Math.floor(Math.random()*hc.length)];if(YT.frames.length>1)YT.th.img=Math.floor(Math.random()*YT.frames.length);ytSave();render();ytDraw();return}
   case 'ytFrames':ytFrames();return;
   case 'ytImg':YT.th.img=+d.k;ytSave();render();ytDraw();return;
-  case 'ytSty':YT.th.style=+d.k;ytSave();render();ytDraw();return;
-  case 'ytCol':YT.th.color=+d.k;ytSave();render();ytDraw();return;
+  case 'ytSide':YT.th.side=d.v;ytSave();render();ytDraw();return;
+  case 'ytTsty':YT.th.tstyle=d.v;ytSave();render();ytDraw();return;
+  case 'ytHex':YT.th.hex=d.v;ytSave();render();ytDraw();return;
+  case 'ytLook':ytAI().look=d.v;ytSave();render();return;
+  case 'ytRefs':ytRefs();return;
+  case 'ytRefSel':{var A_=ytAI(),ix=A_.sel.indexOf(id);if(ix>=0)A_.sel.splice(ix,1);else{if(A_.sel.length>=4){toast(t('thMax4'));return}A_.sel.push(id)}ytSave();render();return}
+  case 'ytRefAdd':ytRefAdd();return;
+  case 'ytAiGo':ytAiGo();return;
+  case 'ytFaceDel':YT_FACE='';try{localStorage.removeItem('jit_yt_face')}catch(e){}render();return;
   case 'ytConnect':ytConnect();return;
   case 'ytDisc':try{if(window.google&&YT.tok)google.accounts.oauth2.revoke(YT.tok,function(){})}catch(e){}YT.tok='';YT.ch=null;YT.uploads=null;render();return;
   case 'ytMode':YT.pub.mode=d.v;ytSave();render();return;
