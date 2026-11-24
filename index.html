@@ -127,14 +127,6 @@ html,body{overflow-x:hidden;max-width:100%}
 .yt-cv{width:100%;height:auto;aspect-ratio:16/9;border-radius:12px;background:#000;display:block}.yt-cv.sm{width:150px;flex:0 0 150px;border-radius:8px}
 .yt-prev{display:flex;gap:10px;align-items:flex-start}
 .yt-frames{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:6px}
-.yt-fr{position:relative;cursor:pointer}.yt-fr img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;border:2px solid transparent;display:block}.yt-fr.on img{border-color:#FF3355}
-.yt-fr span{position:absolute;top:4px;left:4px;background:#FF0033;color:#fff;font-size:10px;font-weight:900;border-radius:5px;padding:1px 5px}
-.yt-ai{border-color:rgba(255,0,51,.45);background:linear-gradient(160deg,rgba(255,0,51,.10),transparent 60%)}
-.yt-refs{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}.yt-ref{position:relative;cursor:pointer}.yt-ref img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;border:2px solid transparent;display:block;opacity:.75}
-.yt-ref.on img{border-color:#FF3355;opacity:1}.yt-ref b{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,.7);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px}.yt-ref.on b{background:#FF0033}
-.yt-ref span{position:absolute;bottom:4px;left:4px;background:rgba(0,0,0,.75);color:#fff;font-size:10px;font-weight:800;border-radius:5px;padding:1px 5px}
-.yt-face{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid #FF3355}
-.bar i.indet{width:40%!important;animation:indet 1.2s ease-in-out infinite}@keyframes indet{0%{margin-left:-40%}100%{margin-left:100%}}
 .yt-frames img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;border:2px solid transparent;cursor:pointer}.yt-frames img.on{border-color:#FF3355}
 .yt-col{width:34px;height:34px;border-radius:50%;border:3px solid var(--line);cursor:pointer;padding:0}.yt-col.on{border-color:var(--ink);transform:scale(1.1)}
 .yt-vid{display:flex;gap:10px;align-items:center;padding:8px;border:1px solid var(--line);border-radius:11px;cursor:pointer}.yt-vid.on{border-color:#FF3355;background:rgba(255,0,51,.08)}
@@ -319,7 +311,7 @@ menuT:['Tournaments','টুর্নামেন্ট'],menuTs:['Matches, team
 yt_an:['Analyse','অ্যানালাইজ'],yt_th:['Thumbnail','থাম্বনেইল'],yt_pub:['Publish','পাবলিশ'],yt_hist:['History','হিস্ট্রি'],
 ytLocked:['YouTube Studio is locked','YouTube Studio বন্ধ'],ytLockedV:['Only players with a ✔ verified UID can use it. Verify your UID in Profile.','শুধু ✔ ভেরিফায়েড প্লেয়াররা ব্যবহার করতে পারবে। প্রোফাইলে UID ভেরিফাই করুন।'],ytLockedA:['The admin has not opened it for players yet.','অ্যাডমিন এখনো প্লেয়ারদের জন্য খোলেনি।'],
 ytLeft:['left today','আজ বাকি'],ytLeftT:['Free AI analyses you can still do today','আজ আর কতবার ফ্রি AI অ্যানালাইসিস করা যাবে'],
-ytIntro:['AI watches your whole video and writes the title, description, tags and thumbnail ideas.','AI পুরো ভিডিও দেখে টাইটেল, ডেসক্রিপশন, ট্যাগ আর থাম্বনেইল আইডিয়া লিখে দেবে।'],ytIntro2:['Then make the thumbnail here and put it all on YouTube in one tap.','তারপর এখানেই থাম্বনেইল বানিয়ে এক ট্যাপে YouTube-এ দিন।'],
+ytIntro:['AI watches your whole video and writes the title, description, tags and thumbnail ideas.','AI পুরো ভিডিও দেখে টাইটেল, ডেসক্রিপশন, ট্যাগ আর থাম্বনেইল আইডিয়া লিখে দেবে।'],ytIntro2:['Nothing is saved: the answer is shown once and deleted. Copy what you need or put it on YouTube from Publish.','কিছুই সেভ হয় না: উত্তর একবার দেখায়, তারপর মুছে যায়।'],
 ytLinkT:['YouTube link','YouTube লিংক'],ytFileT:['Upload video','ভিডিও আপলোড'],ytUrlL:['Paste your video link','ভিডিওর লিংক পেস্ট করুন'],ytUrlNote:['The video must be Public. For unlisted / private videos use "Upload video".','ভিডিও Public হতে হবে। Unlisted / private হলে "ভিডিও আপলোড" ব্যবহার করুন।'],
 ytFileL:['Choose the video from your phone','ফোন থেকে ভিডিও বাছুন'],ytFileNote:['Up to 2 GB. Use Wi-Fi for big videos. The copy sent for AI is deleted after the analysis.','২ GB পর্যন্ত। বড় ভিডিওর জন্য Wi-Fi ব্যবহার করুন। AI-এর জন্য পাঠানো কপি অ্যানালাইসিসের পরে মুছে যায়।'],ytFilePick:['Choose the video again (the app forgets it when closed).','ভিডিওটা আবার বাছুন (অ্যাপ বন্ধ হলে ভুলে যায়)।'],
 ytOpts:['Options','অপশন'],ytLang:['Language for title & description','টাইটেল ও ডেসক্রিপশনের ভাষা'],yl_hinglish:['Hinglish (Hindi in English letters)','Hinglish'],yl_hindi:['Hindi (हिन्दी)','হিন্দি'],yl_bengali:['Bangla (বাংলা)','বাংলা'],yl_english:['English','ইংরেজি'],
@@ -346,10 +338,10 @@ thNoPic2:['Make AI thumbnails above, get video frames, or add your own picture.'
 thT_3d:['3D','3D'],thT_neon:['Neon','নিয়ন'],thT_fire:['Fire','আগুন'],thT_ice:['Ice','বরফ'],thT_clean:['Clean','সাদা'],thT_box:['Red box','লাল বক্স'],
 ytThPic:['Picture','ছবি'],ytThFrames:['Get video frames','ভিডিও থেকে ছবি'],ytThOwn:['My photo','আমার ছবি'],ytThNoPic:['Tap "Get video frames" or add your own photo.','"ভিডিও থেকে ছবি" চাপুন বা নিজের ছবি দিন।'],ytThNoFile:['Choose the video again in Analyse to get frames, or add your own photo.','ছবি পেতে অ্যানালাইজে ভিডিওটা আবার বাছুন, বা নিজের ছবি দিন।'],
 ytThGrab:['Taking pictures from your video…','ভিডিও থেকে ছবি নেওয়া হচ্ছে…'],ytThNoFr:['Could not get pictures. Add your own photo.','ছবি পাওয়া যায়নি। নিজের ছবি দিন।'],ytThText:['Text','লেখা'],ytThMain:['Big text (2-4 words)','বড় লেখা (২-৪ শব্দ)'],ytThSub:['Small text','ছোট লেখা'],ytThStyle:['Style','স্টাইল'],ytThColor:['Colour','রং'],
-ytPubNeed:['Analyse a video first. Then you can put the title, tags, description and thumbnail on YouTube from here.','আগে একটা ভিডিও অ্যানালাইজ করুন।'],ytEdit:['Edit text','লেখা বদলান'],
+ytPubNeed:['Analyse a video first. Then you can put the title, description and tags on YouTube from here.','আগে একটা ভিডিও অ্যানালাইজ করুন।'],ytEdit:['Edit text','লেখা বদলান'],
 ytConnect:['Connect YouTube','YouTube কানেক্ট'],ytConnectH:['Sign in with the Google account of your channel. The app only gets a 1-hour key and never sees your password.','চ্যানেলের Google অ্যাকাউন্টে সাইন ইন করুন। অ্যাপ শুধু ১ ঘণ্টার চাবি পায়, পাসওয়ার্ড দেখে না।'],ytConnectB:['Sign in with Google','Google দিয়ে সাইন ইন'],
 ytNoCid:['The admin has not finished the YouTube setup yet. You can still copy the text and download the thumbnail.','অ্যাডমিন এখনো YouTube সেট-আপ শেষ করেননি। লেখা কপি আর থাম্বনেইল ডাউনলোড করতে পারবেন।'],ytNoCidA:['Add your Google OAuth Client ID in Analyse → YouTube Studio settings (see SETUP guide).','অ্যানালাইজ → সেটিংসে Google Client ID দিন।'],
-ytConnected:['Connected','কানেক্টেড'],ytDisc:['Sign out','সাইন আউট'],ytModeU:['Update my video','আমার ভিডিও আপডেট'],ytModeN:['Upload new video','নতুন ভিডিও আপলোড'],
+ytConnected:['Connected','কানেক্টেড'],ytRemembered:['Your YouTube account is remembered on this phone. Google asks for a quick tap every hour — no password.','আপনার YouTube অ্যাকাউন্ট এই ফোনে মনে রাখা আছে। প্রতি ঘণ্টায় শুধু একটা ট্যাপ, পাসওয়ার্ড লাগবে না।'],ytContinue:['Continue with this account','এই অ্যাকাউন্টে চালিয়ে যান'],ytDisc:['Sign out','সাইন আউট'],ytModeU:['Update my video','আমার ভিডিও আপডেট'],ytModeN:['Upload new video','নতুন ভিডিও আপলোড'],
 ytPickV:['Choose the video','ভিডিও বাছুন'],ytPickH:['Upload the video in the YouTube app first (private or unlisted is fine), then choose it here.','আগে YouTube অ্যাপে ভিডিও আপলোড করুন (private/unlisted চলবে), তারপর এখানে বাছুন।'],ytNoVids:['No videos on this channel yet.','এই চ্যানেলে এখনো ভিডিও নেই।'],
 ytPriv:['Who can watch','কে দেখতে পারবে'],yp_keep:['Keep as it is','যেমন আছে'],yp_public:['Public','Public'],yp_unlisted:['Unlisted','Unlisted'],yp_private:['Private','Private'],ytSetThumb:['Also set the thumbnail','থাম্বনেইলও দিন'],ytApply:['Put title, description, tags & thumbnail','টাইটেল, ডেসক্রিপশন, ট্যাগ ও থাম্বনেইল দিন'],
 ytAudT:['Direct upload is off','সরাসরি আপলোড বন্ধ'],ytAudH:['YouTube locks videos uploaded by apps that have not passed Google\'s audit as PRIVATE forever (no appeal). Until your project passes the audit, upload in the YouTube app and use "Update my video" — that works fully.','Google অডিট পাস না করা অ্যাপ দিয়ে আপলোড করলে YouTube ভিডিও চিরকাল PRIVATE করে দেয়। তাই আপাতত YouTube অ্যাপে আপলোড করে "আমার ভিডিও আপডেট" ব্যবহার করুন।'],
@@ -1858,15 +1850,18 @@ function myPrizesCard(){var p=me();if(!p)return '';var l=(S.prizes||[]).filter(f
   return '<h3>🎁 '+t('pzMine')+'</h3><div class="card" style="padding:4px 12px">'+l.map(function(x){var sp=byId(S.sponsors||[],x.sponsor_id);return '<div class="lr"><div class="grow small"><b>'+esc(x.title)+'</b>'+(x.value?' · '+esc(x.value):'')+'<div class="tiny muted">'+esc(prizeFor(x))+(sp?' · 🤝 '+esc(sp.name):'')+'</div></div>'+(x.status==='given'?'<span class="tag t-g">✓ '+t('pzGivenOne')+'</span>':'<span class="tag">⏳ '+t('pzPendingOne')+'</span>')+'</div>'}).join('')+'</div>'}
 
 /* ============ ☰ menu + YouTube Studio ============ */
-var YT_TABS=['yt_an','yt_pub','yt_hist'];
+var YT_TABS=['yt_an','yt_pub'];
 var YT_IC={yt_an:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M9 8.5v5l4-2.5z"/>',
-  yt_pub:'<path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 20h16"/>',yt_hist:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'};
+  yt_pub:'<path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 20h16"/>'};
 var YT_LANGS=['hinglish','hindi','bengali','english'];
 var YT_COLORS=['#FFD400','#FF2D2D','#00E5FF','#39FF14','#FFFFFF','#FF4FD8'];
 var YT=(function(){var d={src:'url',url:'',lang:'hinglish',game:'Free Fire',note:'',title:'',fname:'',res:null,job:'',ti:0,tf:'',desc:'',tags:'',th:{text:'',sub:'',style:0,color:0,img:0},pub:{mode:'update',privacy:'keep',vid:'',newPriv:'private',thumb:true,notify:true},lastView:'yt_an'};
-  try{var s=JSON.parse(localStorage.getItem('jit_yt')||'null');if(s)for(var k in s)d[k]=s[k]}catch(e){}
+  try{var s=JSON.parse(localStorage.getItem('jit_yt')||'null');if(s)['src','lang','game','pub','lastView'].forEach(function(k){if(s[k]!=null)d[k]=s[k]});
+    if(s&&(s.res||s.url||s.desc)){var c={};['src','lang','game','pub','lastView'].forEach(function(k){c[k]=d[k]});localStorage.setItem('jit_yt',JSON.stringify(c))}localStorage.removeItem('jit_yt_face')}catch(e){}
+  if(d.pub){d.pub.vid=''}
+  try{d.acct=JSON.parse(localStorage.getItem('jit_yt_acct')||'null');var tk=JSON.parse(localStorage.getItem('jit_yt_tok')||'null');if(tk&&tk.exp>Date.now()){d.tok0=tk.t;d.exp0=tk.exp}}catch(e){}
   d.file=null;d.busy='';d.prog=0;d.frames=[];d.tok='';d.tokExp=0;d.ch=null;d.uploads=null;d.jobs=null;d.left=null;d.thumbBlob=null;d.out=null;d.dOpen={};d.adm={};if(d.ai){d.ai.busy='';d.ai.tleft=null;d.ai.refs=d.ai.refs||null}return d})();
-function ytSave(){try{var o={};['src','url','lang','game','note','title','fname','res','job','ti','tf','desc','tags','th','pub','lastView','ai'].forEach(function(k){o[k]=YT[k]});localStorage.setItem('jit_yt',JSON.stringify(o))}catch(e){}}
+function ytSave(){try{var o={};['src','lang','game','pub','lastView'].forEach(function(k){o[k]=YT[k]});localStorage.setItem('jit_yt',JSON.stringify(o))}catch(e){}}
 function isYt(){return YT_TABS.indexOf(view)>=0}
 function ytAllowed(){var p=me();if(!p)return false;if(canAdminP())return true;var w=cfg('ytWho','all');if(w==='admin')return false;if(w==='verified'&&!p.verified)return false;return true}
 
@@ -1887,15 +1882,13 @@ function ytRender(){
   S.me.role='player';YT.lastView=view;ytSave();
   $('tabs').innerHTML='<div class="in yt">'+YT_TABS.map(function(k){return '<button class="tab'+(view===k?' on':'')+'" data-go="'+k+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+YT_IC[k]+'</svg>'+t(k)+'</button>'}).join('')+'</div>';
   var body;if(!ytAllowed())body=ytHead()+'<div class="card st"><h3>🔒 '+t('ytLocked')+'</h3><p class="small muted">'+t(cfg('ytWho','all')==='verified'?'ytLockedV':'ytLockedA')+'</p>'+(cfg('ytWho','all')==='verified'?'<button class="btn sec sm" data-go="profile">✔ '+t('vfTitle')+'</button>':'')+'</div>';
-  else body={yt_an:vYtAn,yt_pub:vYtPub,yt_hist:vYtHist}[view]();
+  else body={yt_an:vYtAn,yt_pub:vYtPub}[view]();
   paintApp('<div class="stack ytv">'+body+'</div>');
   if(YT.left==null&&ytAllowed())ytLoadLeft();
-  if(view==='yt_hist'&&YT.jobs==null)ytLoadJobs();
   setTimeout(ytAfter,0);
 }
 function ytHead(){return hdr('<span class="ytlogo">▶</span> YouTube Studio',YT.left==null?'':'<span class="tag t-acc" title="'+esc(t('ytLeftT'))+'">⚡ '+(YT.left<0?'∞':YT.left)+' '+t('ytLeft')+'</span>')}
 async function ytLoadLeft(){try{var r=await sb.rpc('yt_left');if(!r.error){YT.left=r.data;if(isYt())render()}}catch(e){}}
-async function ytLoadJobs(){try{var r=await sb.from('yt_jobs').select('*').order('created_at',{ascending:false}).limit(30);YT.jobs=(r.data||[]).filter(function(j){return j.user_id===S.me.pid&&j.kind!=='thumb'}).sort(function(a,b){return ts(b.created_at)-ts(a.created_at)});if(view==='yt_hist')render()}catch(e){YT.jobs=[]}}
 function ytIn(key,ph,extra){return '<input data-yi="'+key+'" value="'+esc(ytGet(key))+'" placeholder="'+esc(ph||'')+'"'+(extra||'')+'>'}
 function ytGet(k){var o=YT,p=k.split('.');for(var i=0;i<p.length-1;i++)o=o[p[i]];return o[p[p.length-1]]==null?'':o[p[p.length-1]]}
 function ytSet(k,v){var o=YT,p=k.split('.');for(var i=0;i<p.length-1;i++)o=o[p[i]];o[p[p.length-1]]=v;ytSave()}
@@ -1984,13 +1977,14 @@ async function ytGo(){if(YT.busy)return;if(!ytAllowed())return;
       if(!info||!info.uri)throw new Error(t('ytUpFail'));
       var waited=0;while(info.state!=='ACTIVE'){ytStage(t('ytS_proc'),0.68);await ytSleep(4000);waited+=4;var s=await ytCall('state',{name:info.name});info.state=s.state;if(s.state==='FAILED')throw new Error(t('ytUpFail'));if(waited>900)throw new Error(t('ytTimeout'))}
       ytStage(t('ytS_send'),0.72);job=await ytCall('analyze',Object.assign({src:'file',uri:info.uri,name:info.name,mime:info.mime||f.type,fname:f.name},base))}
-    YT.job=job.job;ytSave();
+    
     var t0=Date.now(),row=null;
     while(Date.now()-t0<330000){var sec=Math.round((Date.now()-t0)/1000);ytStage(t('ytS_ai')+' '+sec+'s',Math.min(0.97,0.75+sec/240));await ytSleep(3500);
-      var q=await sb.from('yt_jobs').select('*').eq('id',job.job);row=(q.data||[])[0];if(row&&row.status!=='working')break}
+      var q=await sb.from('yt_jobs').select('id,status,error').eq('id',job.job);row=(q.data||[])[0];if(row&&row.status!=='working')break}
     if(!row||row.status==='working')throw new Error(t('ytTimeout'));
     if(row.status==='error')throw new Error(row.error||'AI error');
-    ytUseResult(row.result,{title:job.title||row.title});YT.busy='';YT.prog=0;YT.left=null;YT.jobs=null;render();toast('✨ '+t('ytDone'));
+    var pop=await sb.rpc('yt_pop',{p_id:job.job});if(pop.error||!pop.data)throw new Error(t('ytTimeout'));
+    ytUseResult(pop.data,{title:job.title});YT.busy='';YT.prog=0;YT.left=null;render();toast('✨ '+t('ytDone'));
     setTimeout(function(){var c=document.querySelector('.ytv .card:nth-of-type(3)');if(c)c.scrollIntoView({behavior:'smooth',block:'start'})},80);
   }catch(e){YT.busy='';YT.prog=0;YT.left=null;render();toast('⚠ '+(e.message||e))}}
 
@@ -2001,12 +1995,14 @@ function ytAfter(){}
 /* ---------- 3) Publish to YouTube ---------- */
 function vYtPub(){var p=YT.pub,cid=cfg('ytClientId',''),has=!!YT.res,aud=cfg('ytAudited',false)===true;
   var out=ytHead();
-  if(!has)return out+'<div class="card st"><p>'+t('ytPubNeed')+'</p><button class="btn" data-go="yt_an">🔍 '+t('ytGo')+'</button></div>';
+  if(!has)return out+'<div class="card st"><p>'+t('ytPubNeed')+'</p><button class="btn" data-go="yt_an">🔍 '+t('ytGo')+'</button></div>'+ytAcctCard();
   out+='<div class="card st"><h2>🚀 '+t('ytPublish')+'</h2><div class="yt-prev"><div class="grow st"><b class="small">'+esc(YT.tf||'—')+'</b><div class="tiny muted">'+esc(String(YT.desc).slice(0,140))+'…</div><div class="tiny muted"># '+ytTags().length+' tags</div></div></div>'+
    '<div class="row"><button class="btn sm sec" data-go="yt_an">✏ '+t('ytEdit')+'</button></div></div>';
   if(!cid)return out+'<div class="card st"><h3>🔌 '+t('ytConnect')+'</h3><p class="small muted">'+t(canAdminP()?'ytNoCidA':'ytNoCid')+'</p></div>';
-  if(!YT.tok||Date.now()>YT.tokExp)return out+'<div class="card st"><h3>🔌 '+t('ytConnect')+'</h3><p class="small muted">'+t('ytConnectH')+'</p><button class="btn" data-a="ytConnect" style="background:#FF0033">▶ '+t('ytConnectB')+'</button></div>';
-  out+='<div class="card st"><div class="row">'+(YT.ch&&YT.ch.img?'<img src="'+esc(YT.ch.img)+'" alt="" style="width:36px;height:36px;border-radius:50%">':'')+'<div class="grow"><b>'+esc(YT.ch?YT.ch.title:'YouTube')+'</b><div class="tiny muted">'+t('ytConnected')+'</div></div><button class="btn sm sec" data-a="ytDisc">'+t('ytDisc')+'</button></div>'+
+  if(!ytTokOk()){if(YT.acct&&YT.acct.email)return out+'<div class="card st"><div class="row">'+(YT.acct.img?'<img src="'+esc(YT.acct.img)+'" alt="" style="width:40px;height:40px;border-radius:50%">':'')+'<div class="grow"><b>'+esc(YT.acct.title||'YouTube')+'</b><div class="tiny muted">'+esc(YT.acct.email)+'</div></div><button class="btn sm sec" data-a="ytDisc">'+t('ytDisc')+'</button></div><div class="tiny muted">'+t('ytRemembered')+'</div><button class="btn block" data-a="ytConnect" style="background:#FF0033">▶ '+t('ytContinue')+'</button></div>';
+    return out+'<div class="card st"><h3>🔌 '+t('ytConnect')+'</h3><p class="small muted">'+t('ytConnectH')+'</p><button class="btn" data-a="ytConnect" style="background:#FF0033">▶ '+t('ytConnectB')+'</button></div>'}
+  if(!YT.ch&&YT.uploads==null&&!YT._chLoading){YT._chLoading=1;setTimeout(function(){ytLoadChannel().then(function(){YT._chLoading=0})},0)}
+  out+='<div class="card st"><div class="row">'+(YT.ch&&YT.ch.img?'<img src="'+esc(YT.ch.img)+'" alt="" style="width:36px;height:36px;border-radius:50%">':'')+'<div class="grow"><b>'+esc(YT.ch?YT.ch.title:'YouTube')+'</b><div class="tiny muted">'+esc((YT.acct&&YT.acct.email)||t('ytConnected'))+'</div></div><button class="btn sm sec" data-a="ytDisc">'+t('ytDisc')+'</button></div>'+
    '<div class="chips"><button class="chip'+(p.mode==='update'?' on':'')+'" data-a="ytMode" data-v="update">✏ '+t('ytModeU')+'</button><button class="chip'+(p.mode==='upload'?' on':'')+'" data-a="ytMode" data-v="upload">⬆ '+t('ytModeN')+'</button></div></div>';
   if(p.mode==='update'){
     out+='<div class="card st"><h3>'+t('ytPickV')+'</h3><div class="tiny muted">'+t('ytPickH')+'</div>';
@@ -2026,26 +2022,39 @@ function vYtPub(){var p=YT.pub,cid=cfg('ytClientId',''),has=!!YT.res,aud=cfg('yt
       '<button class="btn block" data-a="ytUpload"'+(YT.busy?' disabled':'')+'>⬆ '+t('ytUploadB')+'</button>'+ytPubBusy()+'</div>'}
   if(YT.out)out+='<div class="card st yt-ok"><b>✅ '+t('ytLive')+'</b><a class="btn sec sm" href="https://studio.youtube.com/video/'+esc(YT.out)+'/edit" target="_blank" rel="noopener">YouTube Studio ↗</a><a class="btn sec sm" href="https://youtu.be/'+esc(YT.out)+'" target="_blank" rel="noopener">▶ '+t('ytWatch')+'</a></div>';
   return out}
+/* the YouTube account box (shown even before an analysis) */
+function ytAcctCard(){if(!cfg('ytClientId',''))return '';
+  if(ytTokOk()){var em=(YT.acct&&YT.acct.email)||'',ti=(YT.ch&&YT.ch.title)||(YT.acct&&YT.acct.title)||'YouTube',im=(YT.ch&&YT.ch.img)||(YT.acct&&YT.acct.img)||'';
+    return '<div class="card st"><div class="row">'+(im?'<img src="'+esc(im)+'" alt="" style="width:40px;height:40px;border-radius:50%">':'')+'<div class="grow"><b>'+esc(ti)+'</b><div class="tiny muted">✅ '+esc(em||t('ytConnected'))+'</div></div><button class="btn sm sec" data-a="ytDisc">'+t('ytDisc')+'</button></div></div>'}
+  if(YT.acct&&YT.acct.email)return '<div class="card st"><div class="row">'+(YT.acct.img?'<img src="'+esc(YT.acct.img)+'" alt="" style="width:40px;height:40px;border-radius:50%">':'')+'<div class="grow"><b>'+esc(YT.acct.title||'YouTube')+'</b><div class="tiny muted">'+esc(YT.acct.email)+'</div></div><button class="btn sm sec" data-a="ytDisc">'+t('ytDisc')+'</button></div><div class="tiny muted">'+t('ytRemembered')+'</div><button class="btn block" data-a="ytConnect" style="background:#FF0033">▶ '+t('ytContinue')+'</button></div>';
+  return '<div class="card st"><h3>🔌 '+t('ytConnect')+'</h3><p class="small muted">'+t('ytConnectH')+'</p><button class="btn" data-a="ytConnect" style="background:#FF0033">▶ '+t('ytConnectB')+'</button></div>'}
 function ytPubBusy(){return YT.busy?'<div class="ytbusy"><div class="small b" id="yt_stage">'+esc(YT.busy)+'</div><div class="bar"><i id="yt_bar" style="width:'+Math.round(YT.prog*100)+'%"></i></div></div>':''}
 
-var GIS_CLIENT=null;
-function ytConnect(){var cid=cfg('ytClientId','');if(!cid)return;
+var GIS_CLIENT=null,GIS_NEXT=null;
+function ytTokOk(){if(!YT.tok&&YT.tok0&&YT.exp0>Date.now()){YT.tok=YT.tok0;YT.tokExp=YT.exp0}return !!YT.tok&&Date.now()<YT.tokExp}
+/* sign in once: the Gmail + channel are remembered on this phone; later only a quick tap (no password) */
+function ytConnect(next){var cid=cfg('ytClientId','');if(!cid)return;GIS_NEXT=next||null;
   loadScript('https://accounts.google.com/gsi/client').then(function(){
-    GIS_CLIENT=google.accounts.oauth2.initTokenClient({client_id:cid,scope:'https://www.googleapis.com/auth/youtube.upload https://www.googleapis.com/auth/youtube',
-      callback:function(r){if(r&&r.access_token){YT.tok=r.access_token;YT.tokExp=Date.now()+((+r.expires_in||3600)-60)*1000;YT.uploads=null;ytLoadChannel()}else toast('⚠ '+t('ytAuthFail'))},
+    if(!GIS_CLIENT)GIS_CLIENT=google.accounts.oauth2.initTokenClient({client_id:cid,scope:'https://www.googleapis.com/auth/youtube.upload https://www.googleapis.com/auth/youtube openid email profile',
+      callback:function(r){if(r&&r.access_token){YT.tok=r.access_token;YT.tokExp=Date.now()+((+r.expires_in||3600)-60)*1000;try{localStorage.setItem('jit_yt_tok',JSON.stringify({t:YT.tok,exp:YT.tokExp}))}catch(e){}
+          YT.uploads=null;ytLoadChannel();var n=GIS_NEXT;GIS_NEXT=null;if(n)setTimeout(n,300)}else toast('⚠ '+t('ytAuthFail'))},
       error_callback:function(){toast('⚠ '+t('ytAuthFail'))}});
-    GIS_CLIENT.requestAccessToken({prompt:''})}).catch(function(){toast('⚠ '+t('ytAuthFail'))})}
+    var em=YT.acct&&YT.acct.email;GIS_CLIENT.requestAccessToken(em?{prompt:'',login_hint:em,hint:em}:{prompt:'select_account'})}).catch(function(){toast('⚠ '+t('ytAuthFail'))})}
+function ytForget(){try{if(window.google&&YT.tok)google.accounts.oauth2.revoke(YT.tok,function(){})}catch(e){}YT.tok='';YT.tok0='';YT.tokExp=0;YT.acct=null;YT.ch=null;YT.uploads=null;
+  try{localStorage.removeItem('jit_yt_acct');localStorage.removeItem('jit_yt_tok')}catch(e){}render()}
 async function ytApi(path,opt){opt=opt||{};var r=await fetch((opt.upload?'https://www.googleapis.com/upload/youtube/v3/':'https://www.googleapis.com/youtube/v3/')+path,{method:opt.method||'GET',headers:Object.assign({Authorization:'Bearer '+YT.tok},opt.json?{'Content-Type':'application/json'}:{},opt.headers||{}),body:opt.json?JSON.stringify(opt.json):opt.body});
-  if(r.status===401){YT.tok='';render();throw new Error(t('ytAuthAgain'))}
+  if(r.status===401){YT.tok='';YT.tok0='';try{localStorage.removeItem('jit_yt_tok')}catch(e){}render();throw new Error(t('ytAuthAgain'))}
   var j=await r.json().catch(function(){return {}});if(!r.ok){var m=(j.error&&j.error.message)||('YouTube error '+r.status);var rs=j.error&&j.error.errors&&j.error.errors[0]&&j.error.errors[0].reason;if(rs==='forbidden'&&/thumbnail/i.test(path))m=t('ytThumbVerify');if(rs==='youtubeSignupRequired')m=t('ytNoChannel');if(rs==='forbidden'&&/videos/.test(path))m=t('ytNotYours');throw new Error(m)}return j}
 async function ytLoadChannel(){try{var c=await ytApi('channels?part=snippet,contentDetails&mine=true'),ch=(c.items||[])[0];if(!ch)throw new Error(t('ytNoChannel'));
-  YT.ch={id:ch.id,title:ch.snippet.title,img:((ch.snippet.thumbnails||{}).default||{}).url||'',up:ch.contentDetails.relatedPlaylists.uploads};render();
+  YT.ch={id:ch.id,title:ch.snippet.title,img:((ch.snippet.thumbnails||{}).default||{}).url||'',up:ch.contentDetails.relatedPlaylists.uploads};
+  var em=(YT.acct&&YT.acct.email)||'';try{var ui=await fetch('https://openidconnect.googleapis.com/v1/userinfo',{headers:{Authorization:'Bearer '+YT.tok}});if(ui.ok){var uj=await ui.json();em=uj.email||em}}catch(e){}
+  YT.acct={email:em,title:YT.ch.title,img:YT.ch.img};try{localStorage.setItem('jit_yt_acct',JSON.stringify(YT.acct))}catch(e){}render();
   var l=await ytApi('playlistItems?part=snippet,status&maxResults=15&playlistId='+encodeURIComponent(YT.ch.up));
   YT.uploads=(l.items||[]).map(function(i){var s=i.snippet||{};return {id:(s.resourceId||{}).videoId,title:s.title,img:((s.thumbnails||{}).medium||(s.thumbnails||{}).default||{}).url||'',privacy:(i.status||{}).privacyStatus||''}}).filter(function(v){return v.id});
   var guess=ytId(YT.url);if(!YT.pub.vid&&guess&&YT.uploads.some(function(v){return v.id===guess}))YT.pub.vid=guess;render()}catch(e){YT.uploads=YT.uploads||[];render();toast('⚠ '+(e.message||e))}}
 function ytSnippetNew(old){var o=old||{};return {title:YT.tf.slice(0,100),description:String(YT.desc).replace(/[<>]/g,'').slice(0,5000),tags:ytTagsSafe(),categoryId:o.categoryId||'20',defaultLanguage:o.defaultLanguage,defaultAudioLanguage:o.defaultAudioLanguage}}
 function ytTagsSafe(){var out=[],n=0;ytTags().forEach(function(x){x=x.replace(/[<>,]/g,'').slice(0,100);var c=x.length+(/\s/.test(x)?2:0)+1;if(x&&n+c<=495){out.push(x);n+=c}});return out}
-async function ytApply(){var vid=YT.pub.vid;if(!vid||YT.busy)return;if(!YT.tf){toast('⚠ '+t('ytNoTitle'));return}
+async function ytApply(){var vid=YT.pub.vid;if(!vid||YT.busy)return;if(!ytTokOk()){ytConnect(ytApply);return}if(!YT.tf){toast('⚠ '+t('ytNoTitle'));return}
   try{YT.out=null;ytStage(t('ytS_meta'),0.2);render();
     var g=await ytApi('videos?part=snippet,status&id='+encodeURIComponent(vid)),v=(g.items||[])[0];if(!v)throw new Error(t('ytNotYours'));
     var body={id:vid,snippet:ytSnippetNew(v.snippet)},parts='snippet';
@@ -2053,7 +2062,7 @@ async function ytApply(){var vid=YT.pub.vid;if(!vid||YT.busy)return;if(!YT.tf){t
     await ytApi('videos?part='+parts,{method:'PUT',json:body});
     YT.out=vid;YT.busy='';YT.prog=0;YT.uploads=null;render();ytLoadChannel();toast('✅ '+t('ytApplied'))}
   catch(e){YT.busy='';YT.prog=0;render();toast('⚠ '+(e.message||e))}}
-function ytUpload(){var f=YT.file;if(!f||YT.busy)return;if(!YT.tf){toast('⚠ '+t('ytNoTitle'));return}YT.out=null;
+function ytUpload(){var f=YT.file;if(!f||YT.busy)return;if(!ytTokOk()){ytConnect(ytUpload);return}if(!YT.tf){toast('⚠ '+t('ytNoTitle'));return}YT.out=null;
   ytStage(t('ytS_yt')+' 0%',0.01);render();
   var meta={snippet:ytSnippetNew(null),status:{privacyStatus:YT.pub.newPriv,selfDeclaredMadeForKids:false}};
   fetch('https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&part=snippet,status&notifySubscribers='+(YT.pub.notify?'true':'false'),{method:'POST',
@@ -2066,13 +2075,6 @@ function ytUpload(){var f=YT.file;if(!f||YT.busy)return;if(!YT.tf){toast('⚠ '+
   .then(function(v){YT.out=v.id})
   .then(function(){YT.busy='';YT.prog=0;YT.uploads=null;render();toast('✅ '+t('ytUploaded'))})
   .catch(function(e){YT.busy='';YT.prog=0;render();toast('⚠ '+(e.message||e))})}
-
-/* ---------- 4) History ---------- */
-function vYtHist(){var l=YT.jobs;
-  return ytHead()+'<div class="card st"><h2>🕘 '+t('yt_hist')+'</h2><div class="tiny muted">'+t('ytHistH')+'</div>'+
-   (l==null?'<div class="small muted">⏳</div>':!l.length?'<div class="small muted">'+t('ytHistNone')+'</div>':l.map(function(j){
-     return '<div class="lr"><span class="tag '+(j.status==='done'?'t-g':j.status==='error'?'t-r':'t-acc')+'">'+(j.kind==='url'?'🔗':'⬆')+' '+t('yj_'+j.status)+'</span><div class="grow"><div class="small b">'+esc(j.title||j.source||'—')+'</div><div class="tiny muted">'+fmtTime(ts(j.created_at))+(j.status==='error'?' · '+esc(j.error):'')+'</div></div>'+
-       (j.status==='done'?'<button class="btn sm" data-a="ytOpen" data-id="'+j.id+'">'+t('ytOpen')+'</button>':'')+'<button class="btn sm sec" data-a="ytDel" data-id="'+j.id+'">🗑</button></div>'}).join(''))+'</div>'}
 
 /* ---------- typing into YouTube Studio fields ---------- */
 document.addEventListener('toggle',function(ev){var el=ev.target,k=el&&el.getAttribute&&el.getAttribute('data-yd');if(k)YT.dOpen[k]=el.open},true);
@@ -2387,13 +2389,12 @@ document.addEventListener('click',function(ev){
   case 'ytAdminSave':{var yc=Object.assign({},S.config||{});yc.ytWho=ytAdm('who','all');yc.ytDaily=Math.max(0,Math.min(50,parseInt(ytAdm('n',3),10)||0));yc.ytThumbDaily=Math.max(0,Math.min(50,parseInt(ytAdm('tn',3),10)||0));yc.ytClientId=String(ytAdm('cid','')).trim().slice(0,200);yc.ytAudited=ytAdm('aud',false)===true;
     run(function(){return sb.from('app_settings').update({config:yc}).eq('id',1)},'✓').then(function(){YT.adm={};YT.left=null;render()});return}
   case 'ytConnect':ytConnect();return;
-  case 'ytDisc':try{if(window.google&&YT.tok)google.accounts.oauth2.revoke(YT.tok,function(){})}catch(e){}YT.tok='';YT.ch=null;YT.uploads=null;render();return;
+  case 'ytDisc':ytForget();return;
   case 'ytMode':YT.pub.mode=d.v;ytSave();render();return;
   case 'ytPick':YT.pub.vid=id;ytSave();render();return;
   case 'ytApply':ytApply();return;
   case 'ytUpload':ytUpload();return;
-  case 'ytOpen':{var jb=(YT.jobs||[]).filter(function(j){return j.id===id})[0];if(jb&&jb.result){ytUseResult(jb.result,{title:jb.title});view='yt_an';render()}return}
-  case 'ytDel':sb.from('yt_jobs').delete().eq('id',id).then(function(){YT.jobs=(YT.jobs||[]).filter(function(j){return j.id!==id});render()});return;
+
   case 'vfSend':vfSend();return;
   case 'vfReview':{var why=$('vfr_'+id)?$('vfr_'+id).value:'';if(d.k!=='1'&&!why){toast('⚠ '+t('vfReason'));return}var vc=(S.uidChecks||[]).filter(function(x){return x.player_id===id})[0];run(function(){return rpc('review_uid',{p_player:id,p_ok:d.k==='1',p_note:d.k==='1'?'':why})},'✓').then(function(ok){if(ok&&vc&&vc.image_path){try{sb.storage.from('proofs').remove([vc.image_path]).catch(function(){})}catch(e){}}});return}
   case 'pzF':PRIZE_F=d.v;render();return;
