@@ -361,7 +361,8 @@ ytNoTitle:['Write a title first','আগে টাইটেল লিখুন']
 ytHistH:['Your last 30 analyses. Open one to use it again.','আপনার শেষ ৩০টা অ্যানালাইসিস।'],ytHistNone:['Nothing yet.','এখনো কিছু নেই।'],ytOpen:['Open','খুলুন'],yj_done:['done','হয়েছে'],yj_error:['failed','হয়নি'],yj_working:['working','চলছে'],
 stateL:['State','রাজ্য'],locSearch:['Search city or district (e.g. Barasat)','শহর বা জেলার নাম লিখুন (যেমন বারাসাত)'],locOr:['or choose step by step','অথবা ধাপে ধাপে বাছুন'],cityPh2:['Type or pick your city / town','শহর লিখুন বা বাছুন'],
 pickStateFirst:['choose the state first','আগে রাজ্য বাছুন'],locNone:['Not set yet','এখনো দেওয়া হয়নি'],locNoHit:['Not found — choose it step by step below.','পাওয়া যায়নি — নিচে ধাপে ধাপে বাছুন।'],pickDist:['Choose your district','জেলা বাছুন'],
-posterAi:['🤖 AI poster','🤖 AI পোস্টার'],posterClassic:['Classic','ক্লাসিক'],posterBgLoading:['AI is painting a new background…','AI নতুন ব্যাকগ্রাউন্ড আঁকছে…'],posterBgPool:['Background from your saved AI pictures','সেভ করা AI ছবি থেকে ব্যাকগ্রাউন্ড'],
+posterAi:['🤖 AI poster','🤖 AI পোস্টার'],moneyBlocked:['No money words allowed — the app is 100% free (₹, cash, earn, withdraw… are removed).','টাকার কথা চলবে না — অ্যাপ ১০০% ফ্রি।'],posterFull:['AI is designing the full poster (3D words)… 10-30 s','AI পুরো পোস্টার বানাচ্ছে…'],posterFullNote:['Made fully by AI. Check the words once — tap New style if something is spelled wrong.','পুরোটা AI বানিয়েছে। লেখা একবার দেখে নিন।'],
+posterNoBill:['Full AI poster not available — using our own 3D poster.','AI পোস্টার পাওয়া যায়নি — অ্যাপের 3D পোস্টার দেওয়া হলো।'],posterNoFree:['Today’s free AI posters are used up (or Cloudflare is not set up) — using our own 3D poster.','আজকের ফ্রি AI পোস্টার শেষ — অ্যাপের 3D পোস্টার দেওয়া হলো।'],gemL:['Full AI posters with 3D words (free with Cloudflare, a few a day)','পুরো AI পোস্টার, 3D লেখা (Cloudflare দিয়ে ফ্রি)'],refAdd:['Add a style reference poster','স্টাইল রেফারেন্স পোস্টার দিন'],refChange:['Change style reference','রেফারেন্স বদলান'],posterClassic:['Classic','ক্লাসিক'],posterBgLoading:['AI is painting a new background…','AI নতুন ব্যাকগ্রাউন্ড আঁকছে…'],posterBgPool:['Background from your saved AI pictures','সেভ করা AI ছবি থেকে ব্যাকগ্রাউন্ড'],
 hypeL:['AI posters for auto-posts (new look + new AI background each time)','অটো-পোস্টে AI পোস্টার (প্রতিবার নতুন)'],
 featVidL:['Featured YouTube video (plays on players\' Home)','ফিচার্ড YouTube ভিডিও (প্লেয়ারদের হোমে চলবে)'],featured:['Featured video','ফিচার্ড ভিডিও'],follow:['Follow us','আমাদের ফলো করুন'],watchCh:['Watch on YouTube','YouTube-এ দেখুন'],badVid:['That is not a YouTube video link.','এটা YouTube ভিডিও লিংক নয়।'],newPlayer:['New player? Register','নতুন প্লেয়ার? রেজিস্টার'],register2:['Register','রেজিস্টার'],login:['Log in','লগইন'],
 pinLbl:['PIN (4–6 digits)','পিন (৪–৬ সংখ্যা)'],pinRep:['Repeat PIN','আবার পিন দিন'],pinMismatch:['PINs do not match.','দুটো পিন মেলেনি।'],pinFmt:['PIN must be 4–6 digits.','পিন ৪–৬ সংখ্যার হতে হবে।'],
@@ -1233,14 +1234,17 @@ function wrapLines(x,t,X,Y,maxW,lh,maxL){var w=String(t).split(' '),line='',y=Y,
 /* ---- the promo modal ---- */
 var PROMO={type:null,data:null,fmt:'post',tab:'ig',url:''};
 function openPromo(type,data){PROMO.type=type;PROMO.data=data;PROMO.theme=nextTheme();PROMO.fmt='post';PROMO.tab='ig';PROMO.hype=cfg('hypePosters',true)!==false;PROMO.v=hypeVariant();PROMO.bg=null;paintPromo();if(PROMO.hype)promoNewBg(isAdmin())}
-function promoNewBg(fresh){var my=PROMO.v;PROMO.bgBusy=fresh&&isAdmin()&&cfg('aiPosters',true)!==false?'ai':'pool';paintPromo();
-  hypeFonts().then(function(){return hypeBg(PROMO.type,fresh)}).then(function(im){if(PROMO.v!==my)return;PROMO.bg=im;PROMO.bgBusy='';if($('promoImg'))paintPromo()})}
-function paintPromo(){var c=promoContent(PROMO.type,PROMO.data),cv=PROMO.hype?hypeCanvas(c,PROMO.fmt,PROMO.v,PROMO.bg):promoCanvas(c,PROMO.fmt,PROMO.theme);PROMO.url=PROMO.hype?cv.toDataURL('image/jpeg',0.92):cv.toDataURL('image/png');PROMO.c=c;
+function promoNewBg(fresh){var my=PROMO.v,fmt=PROMO.fmt;PROMO.full={};PROMO.bgBusy=fresh&&geminiOn()?'full':(fresh&&isAdmin()&&cfg('aiPosters',true)!==false?'ai':'pool');paintPromo();
+  hypeFonts().then(async function(){if(fresh&&geminiOn()){var im=await aiFullPoster(promoContent(PROMO.type,PROMO.data),fmt,my);if(PROMO.v!==my)return;
+      if(im){PROMO.full[fmt]=im;PROMO.bgBusy='';if($('promoImg'))paintPromo();return}PROMO.bgBusy=isAdmin()&&cfg('aiPosters',true)!==false?'ai':'pool';if($('promoImg'))paintPromo()}
+    var b=await hypeBg(PROMO.type,fresh);if(PROMO.v!==my)return;PROMO.bg=b;PROMO.bgBusy='';if($('promoImg'))paintPromo()})}
+function promoFullFmt(fmt){var my=PROMO.v;PROMO.bgBusy='full';paintPromo();aiFullPoster(promoContent(PROMO.type,PROMO.data),fmt,my).then(function(im){if(PROMO.v!==my)return;if(im)PROMO.full[fmt]=im;PROMO.bgBusy='';if($('promoImg'))paintPromo()})}
+function paintPromo(){var c=promoContent(PROMO.type,PROMO.data),cv=PROMO.hype?(PROMO.full&&PROMO.full[PROMO.fmt]?fullCanvas(PROMO.full[PROMO.fmt],PROMO.fmt):hypeCanvas(c,PROMO.fmt,PROMO.v,PROMO.bg)):promoCanvas(c,PROMO.fmt,PROMO.theme);PROMO.url=PROMO.hype?cv.toDataURL('image/jpeg',0.92):cv.toDataURL('image/png');PROMO.c=c;
   var cap=PROMO.tab==='ig'?c.ig:PROMO.tab==='yt'?c.yt:c.wa;
   modal('<div class="row between"><h2>📣 '+t('promoPost')+'</h2><button class="btn sm sec" data-a="mclose">✕</button></div>'+
    '<div class="seg">'+[['post','4:5 Post'],['square','1:1 Square'],['story','9:16 Story']].map(function(f){return '<button class="'+(PROMO.fmt===f[0]?'on':'')+'" data-a="promoFmt" data-v="'+f[0]+'">'+f[1]+'</button>'}).join('')+'</div>'+
    '<div class="seg"><button class="'+(PROMO.hype?'on':'')+'" data-a="promoMode" data-v="ai">'+t('posterAi')+'</button><button class="'+(PROMO.hype?'':'on')+'" data-a="promoMode" data-v="classic">'+t('posterClassic')+'</button></div>'+
-   (PROMO.bgBusy?'<div class="tiny muted b">⏳ '+t(PROMO.bgBusy==='ai'?'posterBgLoading':'posterBgPool')+'</div>':'')+
+   (PROMO.bgBusy?'<div class="tiny muted b">⏳ '+t(PROMO.bgBusy==='full'?'posterFull':PROMO.bgBusy==='ai'?'posterBgLoading':'posterBgPool')+'</div>':'')+(PROMO.full&&PROMO.full[PROMO.fmt]?'<div class="tiny muted">✨ '+t('posterFullNote')+'</div>':'')+
    '<div class="row between"><span class="tiny muted">🎨 '+esc(PROMO.hype?hypeName(PROMO.v):THEMES[PROMO.theme%THEMES.length].name)+'</span><button class="btn sec sm" data-a="promoStyle">🎨 '+t('newStyle')+'</button></div>'+
    '<img id="promoImg" src="'+PROMO.url+'" alt="" style="width:100%;border-radius:12px;max-height:52vh;object-fit:contain;background:#000">'+
    '<button class="btn" data-a="promoShareImg">📤 '+t('shareImage')+'</button>'+
@@ -1312,8 +1316,9 @@ function canvasBlob(cv,type,q){type=type||'image/png';return new Promise(functio
   try{cv.toBlob(function(b){fin(b)},type,q)}catch(e){fin(null)}})}
 /* the picture that gets posted: AI poster (new look each time) or the classic poster */
 async function postCanvas(c,data,fresh){if(cfg('hypePosters',true)===false)return promoCanvas(c,'post',(PROMO.data===data&&PROMO.theme!=null)?PROMO.theme:undefined);
-  if(PROMO.data===data&&PROMO.v&&PROMO.hype){await hypeFonts();return hypeCanvas(c,'post',PROMO.v,PROMO.bg)}
-  return await hypePoster(c,'post',null,fresh)}
+  if(PROMO.data===data&&PROMO.v&&PROMO.hype){if(PROMO.full&&PROMO.full.post)return fullCanvas(PROMO.full.post,'post');await hypeFonts();return hypeCanvas(c,'post',PROMO.v,PROMO.bg)}
+  var v=hypeVariant();if(fresh){var im=await aiFullPoster(c,'post',v);if(im)return fullCanvas(im,'post')}
+  return await hypePoster(c,'post',v,fresh)}
 var SOCIAL_BUSY=0;
 async function autoSocial(kind,data,opt){opt=opt||{};
   if(!isAdmin()||(!opt.manual&&!socialOn()))return false;
@@ -1359,9 +1364,11 @@ function socialCard(){setTimeout(function(){var el=$('socialLog');if(!el)return;
    '<label class="row small b"><input type="checkbox" id="soc_finder" style="width:auto" '+(cfg('socialFinder',true)!==false?'checked':'')+'> '+t('socialFinderL')+'</label>'+
    '<label class="row small b" style="padding-left:22px"><input type="checkbox" id="soc_fauto" style="width:auto" '+(cfg('finderAutoApprove',false)===true?'checked':'')+'> '+t('socialFautoL')+'</label>'+
    '<label class="row small b"><input type="checkbox" id="soc_hype" style="width:auto" '+(cfg('hypePosters',true)!==false?'checked':'')+'> 🤖 '+t('hypeL')+'</label>'+
+   '<label class="row small b" style="padding-left:22px"><input type="checkbox" id="soc_gem" style="width:auto" '+(cfg('geminiPosters',true)!==false?'checked':'')+'> ✨ '+t('gemL')+'</label>'+
+   '<div class="row" style="padding-left:22px">'+(cfg('posterRef','')?'<img src="'+esc(cfg('posterRef',''))+'" alt="" style="width:48px;height:60px;object-fit:cover;border-radius:6px">':'')+'<label class="btn sec sm" style="position:relative;overflow:hidden">🖼 '+t(cfg('posterRef','')?'refChange':'refAdd')+'<input type="file" id="soc_ref" accept="image/*" style="position:absolute;inset:0;opacity:0"></label>'+(cfg('posterRef','')?'<button class="btn sec sm" data-a="refDel">✕</button>':'')+'</div>'+
    '<div class="grid2"><button class="btn sec sm" data-a="socSave">💾 '+t('save')+'</button><button class="btn sec sm" data-a="socLoad">🔄 '+t('socialRefresh')+'</button></div>'+
    '<div id="socialLog"></div></div>'}
-function socialSave(){var c=Object.assign({},S.config||{});c.socialAuto=$('soc_auto').checked;c.socialRemind=$('soc_rem').checked;c.socialFinder=$('soc_finder').checked;c.finderAutoApprove=$('soc_fauto').checked;c.hypePosters=$('soc_hype').checked;
+function socialSave(){var c=Object.assign({},S.config||{});c.socialAuto=$('soc_auto').checked;c.socialRemind=$('soc_rem').checked;c.socialFinder=$('soc_finder').checked;c.finderAutoApprove=$('soc_fauto').checked;c.hypePosters=$('soc_hype').checked;c.geminiPosters=$('soc_gem').checked;
   return run(function(){return sb.from('app_settings').update({config:c}).eq('id',1)},'✓')}
 
 /* ---- player / team finder posters → your channels ---- */
@@ -1851,8 +1858,8 @@ function myPrizesCard(){var p=me();if(!p)return '';var l=(S.prizes||[]).filter(f
   return '<h3>🎁 '+t('pzMine')+'</h3><div class="card" style="padding:4px 12px">'+l.map(function(x){var sp=byId(S.sponsors||[],x.sponsor_id);return '<div class="lr"><div class="grow small"><b>'+esc(x.title)+'</b>'+(x.value?' · '+esc(x.value):'')+'<div class="tiny muted">'+esc(prizeFor(x))+(sp?' · 🤝 '+esc(sp.name):'')+'</div></div>'+(x.status==='given'?'<span class="tag t-g">✓ '+t('pzGivenOne')+'</span>':'<span class="tag">⏳ '+t('pzPendingOne')+'</span>')+'</div>'}).join('')+'</div>'}
 
 /* ============ ☰ menu + YouTube Studio ============ */
-var YT_TABS=['yt_an','yt_th','yt_pub','yt_hist'];
-var YT_IC={yt_an:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M9 8.5v5l4-2.5z"/>',yt_th:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 15l5-5 4 4 3-3 6 6"/><circle cx="16" cy="9" r="1.5"/>',
+var YT_TABS=['yt_an','yt_pub','yt_hist'];
+var YT_IC={yt_an:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M9 8.5v5l4-2.5z"/>',
   yt_pub:'<path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 20h16"/>',yt_hist:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'};
 var YT_LANGS=['hinglish','hindi','bengali','english'];
 var YT_COLORS=['#FFD400','#FF2D2D','#00E5FF','#39FF14','#FFFFFF','#FF4FD8'];
@@ -1880,7 +1887,7 @@ function ytRender(){
   S.me.role='player';YT.lastView=view;ytSave();
   $('tabs').innerHTML='<div class="in yt">'+YT_TABS.map(function(k){return '<button class="tab'+(view===k?' on':'')+'" data-go="'+k+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+YT_IC[k]+'</svg>'+t(k)+'</button>'}).join('')+'</div>';
   var body;if(!ytAllowed())body=ytHead()+'<div class="card st"><h3>🔒 '+t('ytLocked')+'</h3><p class="small muted">'+t(cfg('ytWho','all')==='verified'?'ytLockedV':'ytLockedA')+'</p>'+(cfg('ytWho','all')==='verified'?'<button class="btn sec sm" data-go="profile">✔ '+t('vfTitle')+'</button>':'')+'</div>';
-  else body={yt_an:vYtAn,yt_th:vYtTh,yt_pub:vYtPub,yt_hist:vYtHist}[view]();
+  else body={yt_an:vYtAn,yt_pub:vYtPub,yt_hist:vYtHist}[view]();
   paintApp('<div class="stack ytv">'+body+'</div>');
   if(YT.left==null&&ytAllowed())ytLoadLeft();
   if(view==='yt_hist'&&YT.jobs==null)ytLoadJobs();
@@ -1923,10 +1930,9 @@ function ytResults(){var r=YT.res,sc=r.scores||{};
    '<div class="card st"><div class="row between"><h3># '+t('ytTags')+'</h3><button class="btn sm sec" data-copy-ta="yt_tg">📋</button></div><div class="yt-tags">'+ytTags().map(function(x){return '<span class="tag">'+esc(x)+'</span>'}).join('')+'</div>'+
    '<textarea id="yt_tg" data-yi="tags" rows="3">'+esc(YT.tags)+'</textarea><div class="tiny '+(tagLen>500?'b" style="color:var(--red)':'muted')+'" id="yt_tgc">'+tagLen+'/500 · '+t('ytTagsH')+'</div>'+
    ((r.hashtags||[]).length?'<div class="small b">'+esc(r.hashtags.join(' '))+'</div>':'')+'</div>'+
-   ((r.thumbnail||[]).length?'<div class="card st"><h3>🖼 '+t('ytThIdeas')+'</h3>'+r.thumbnail.map(function(x,i){return '<div class="yt-idea"><div class="grow"><b>'+esc(x.text)+'</b>'+(x.sub?' <span class="small muted">· '+esc(x.sub)+'</span>':'')+'<div class="tiny muted">'+(x.frame?'⏱ '+esc(x.frame)+' · ':'')+esc([x.emotion,x.colors].filter(Boolean).join(' · '))+'</div></div><button class="btn sm" data-a="ytIdea" data-k="'+i+'">'+t('ytMake')+'</button></div>'}).join('')+'</div>':'')+
    ((r.best_moments||[]).length?'<div class="card st"><h3>🎬 '+t('ytMoments')+'</h3>'+r.best_moments.map(function(x){return '<div class="lr"><span class="tag t-acc">'+esc(x.t)+'</span><span class="small">'+esc(x.why)+'</span></div>'}).join('')+'</div>':'')+
    ((r.tips||[]).length?'<div class="card st"><h3>💡 '+t('ytTips')+'</h3>'+r.tips.map(function(x){return '<div class="small">• '+esc(x)+'</div>'}).join('')+'</div>':'')+
-   '<div class="grid2"><button class="btn sec" data-go="yt_th">🖼 '+t('ytMakeThumb')+'</button><button class="btn" data-go="yt_pub">🚀 '+t('ytPublish')+'</button></div>'}
+   '<button class="btn block" data-go="yt_pub">🚀 '+t('ytPublish')+'</button>'}
 function ytAppUrl(){var o=location.origin;return /^https?:\/\/(localhost|127\.)/.test(o)?'https://arenaboard-online.vercel.app':o}
 /* the app link (and channel link) always go in the description, just above the hashtags */
 function ytAddLinks(d,tags){d=String(d||'').replace(/\s+$/,'');var app=ytAppUrl(),yt=safeUrl(cfg('yt',''))||'',add=[];
@@ -1936,7 +1942,7 @@ function ytAddLinks(d,tags){d=String(d||'').replace(/\s+$/,'');var app=ytAppUrl(
   if(add.length){if(tagLine){lines.splice(lines.length-1,0,add.join('\n'),'');d=lines.join('\n')}else d+='\n\n'+add.join('\n')}
   if(tags.length&&d.indexOf(tags[0])<0)d+='\n\n'+tags.join(' ');return d}
 function ytTags(){return String(YT.tags||'').split(',').map(function(x){return x.trim()}).filter(Boolean)}
-function ytUseResult(res,meta){YT.res=res;if(meta&&meta.title)YT.res.src_title=meta.title;YT.ti=0;YT.tf=(res.titles||[])[0]||'';
+function ytUseResult(res,meta){res=Object.assign({},res);res.titles=(res.titles||[]).filter(noMoneyC);res.tags=(res.tags||[]).filter(noMoneyC);res.description=String(res.description||'').split('\n').filter(noMoneyC).join('\n');res.thumbnail=(res.thumbnail||[]).filter(function(x){return noMoneyC(x.text+' '+(x.sub||''))});YT.res=res;if(meta&&meta.title)YT.res.src_title=meta.title;YT.ti=0;YT.tf=(res.titles||[])[0]||'';
   var d=ytAddLinks(res.description||'',res.hashtags||[]);YT.desc=d;YT.tags=(res.tags||[]).join(', ');
   var th=(res.thumbnail||[])[0];if(th){YT.th.text=th.text;YT.th.sub=th.sub||''}YT.frames=[];YT.aiN=0;ytSave()}
 
@@ -1945,7 +1951,6 @@ function ytAdminCard(){var w=ytAdm('who','all');
   return '<details class="card" data-yd="adm"'+(YT.dOpen.adm?' open':'')+'><summary class="b">⚙ '+t('ytAdmin')+'</summary><div class="st" style="margin-top:10px">'+
    '<label class="f">'+t('ytWho')+'<select id="yta_who" data-yi="adm.who">'+['all','verified','admin'].map(function(x){return '<option value="'+x+'"'+(w===x?' selected':'')+'>'+t('ytWho_'+x)+'</option>'}).join('')+'</select></label>'+
    '<label class="f">'+t('ytDaily')+'<input id="yta_n" data-yi="adm.n" type="number" min="0" max="50" value="'+esc(ytAdm('n',3))+'"></label>'+
-   '<label class="f">'+t('ytThumbDaily')+'<input id="yta_tn" data-yi="adm.tn" type="number" min="0" max="50" value="'+esc(ytAdm('tn',3))+'"></label>'+
    '<label class="f">Google OAuth Client ID<input id="yta_cid" data-yi="adm.cid" value="'+esc(ytAdm('cid',''))+'" placeholder="1234-abc.apps.googleusercontent.com"></label>'+
    '<label class="row small b"><input type="checkbox" id="yta_aud" data-yc="adm.aud" style="width:auto"'+(ytAdm('aud',false)===true?' checked':'')+'> '+t('ytAudited')+'</label>'+
    '<div class="tiny muted">'+t('ytAdminNote')+'</div><button class="btn sec sm" data-a="ytAdminSave">💾 '+t('save')+'</button></div></details>'}
@@ -1989,145 +1994,16 @@ async function ytGo(){if(YT.busy)return;if(!ytAllowed())return;
     setTimeout(function(){var c=document.querySelector('.ytv .card:nth-of-type(3)');if(c)c.scrollIntoView({behavior:'smooth',block:'start'})},80);
   }catch(e){YT.busy='';YT.prog=0;YT.left=null;render();toast('⚠ '+(e.message||e))}}
 
-/* ---------- 2) Thumbnail maker (AI picture + pro title) ---------- */
-var TH_LOOKS=['auto','vibrant','cool','neon','fire','anime'],TH_TSTYLES=['3d','neon','fire','ice','clean','box'],TH_SIDES=['auto','left','right','top','bottom'];
-var YT_FACE=(function(){try{return localStorage.getItem('jit_yt_face')||''}catch(e){return ''}})();
-function ytAI(){if(!YT.ai)YT.ai={refs:null,sel:[],look:'auto',refUrl:'',design:null,job:'',busy:'',tleft:null,engine:''};return YT.ai}
-function vYtTh(){var th=YT.th,A=ytAI(),ideas=(YT.res&&YT.res.thumbnail)||[];
-  if(th.side==null){th.side='auto';th.tstyle='3d';th.hex=''}
-  var frames=YT.frames.length?'<div class="yt-frames">'+YT.frames.map(function(f,i){return '<div class="yt-fr'+(th.img===i?' on':'')+'" data-a="ytImg" data-k="'+i+'"><img src="'+f+'" alt="">'+(i<(YT.aiN||0)?'<span>AI</span>':'')+'</div>'}).join('')+'</div>':'';
-  var refs=A.refs==null?'':(!A.refs.length?'<div class="tiny muted">'+t('thNoRefs')+'</div>':'<div class="yt-refs">'+A.refs.map(function(r){var on=A.sel.indexOf(r.id)>=0;return '<div class="yt-ref'+(on?' on':'')+'" data-a="ytRefSel" data-id="'+esc(r.id)+'"><img src="'+esc(r.thumb)+'" alt="" loading="lazy"><b>'+(on?'✓':'+')+'</b>'+(r.views?'<span>'+fmtViews(r.views)+'</span>':'')+'</div>'}).join('')+'</div>');
-  var faceBox=YT_FACE?'<div class="row"><img src="'+YT_FACE+'" alt="" class="yt-face"><div class="grow tiny muted">'+t('thFaceOk')+'</div><button class="btn sm sec" data-a="ytFaceDel">✕</button></div>'
-    :'<label class="btn sec sm" style="position:relative;overflow:hidden">📸 '+t('thFaceAdd')+'<input type="file" id="yt_face" accept="image/*" style="position:absolute;inset:0;opacity:0"></label>';
-  return ytHead()+
-   '<div class="card st"><canvas id="yt_cv" width="1280" height="720" class="yt-cv"></canvas>'+
-   '<div class="grid2"><button class="btn" data-a="ytThDl">⬇ '+t('ytThDl')+'</button><button class="btn sec" data-a="ytThRnd">🎲 '+t('ytThRnd')+'</button></div></div>'+
-   '<div class="card st yt-ai"><div class="row between"><h3>✨ '+t('thAiT')+'</h3>'+(A.tleft==null?'':'<span class="tag t-acc">⚡ '+(A.tleft<0?'∞':A.tleft)+' '+t('ytLeft')+'</span>')+'</div><div class="tiny muted">'+t('thAiH')+'</div>'+
-    '<div class="small b">1 · '+t('thFaceT')+'</div>'+faceBox+
-    '<div class="small b">2 · '+t('thRefT')+'</div><div class="tiny muted">'+t('thRefH')+'</div>'+
-    '<button class="btn sec sm" data-a="ytRefs"'+(A.busy?' disabled':'')+'>🔥 '+t('thRefFind')+'</button>'+refs+
-    '<div class="row"><input data-yi="ai.refUrl" value="'+esc(A.refUrl)+'" placeholder="'+esc(t('thRefPaste'))+'" inputmode="url"><button class="btn sm sec" data-a="ytRefAdd">+</button></div>'+
-    '<div class="small b">3 · '+t('thLookT')+'</div><div class="chips">'+TH_LOOKS.map(function(l){return '<button class="chip'+(A.look===l?' on':'')+'" data-a="ytLook" data-v="'+l+'">'+t('thL_'+l)+'</button>'}).join('')+'</div>'+
-    '<button class="btn block yt-go" data-a="ytAiGo"'+(A.busy?' disabled':'')+'>✨ '+t('thAiGo')+'</button>'+
-    (A.busy?'<div class="ytbusy"><div class="small b" id="th_stage">'+esc(A.busy)+'</div><div class="bar"><i class="indet"></i></div></div>':'')+
-    (A.design&&A.design.style_notes?'<div class="tiny"><b>🔎 '+t('thNotes')+':</b> '+esc(A.design.style_notes)+'</div>':'')+'</div>'+
-   '<div class="card st"><h3>📷 '+t('ytThPic')+'</h3>'+frames+
-   '<div class="grid2">'+((YT.src==='url'&&ytId(YT.url))||YT.file?'<button class="btn sec sm" data-a="ytFrames">🎞 '+t('ytThFrames')+'</button>':'<span></span>')+
-   '<label class="btn sec sm" style="position:relative;overflow:hidden">🖼 '+t('ytThOwn')+'<input type="file" id="yt_img" accept="image/*" style="position:absolute;inset:0;opacity:0"></label></div>'+
-   (!YT.frames.length?'<div class="tiny muted">'+t('thNoPic2')+'</div>':'')+'</div>'+
-   '<div class="card st"><h3>✏ '+t('ytThText')+'</h3>'+(ideas.length?'<div class="chips">'+ideas.map(function(x,i){return '<button class="chip" data-a="ytIdea" data-k="'+i+'">'+esc(x.text)+'</button>'}).join('')+'</div>':'')+
-   '<label class="f">'+t('ytThMain')+'<input data-yi="th.text" value="'+esc(th.text)+'" maxlength="30" placeholder="1V4 CLUTCH"></label>'+
-   '<label class="f">'+t('ytThSub')+'<input data-yi="th.sub" value="'+esc(th.sub)+'" maxlength="40" placeholder="'+esc(t('ytOptional'))+'"></label>'+
-   '<div class="small b">'+t('thSide')+'</div><div class="chips">'+TH_SIDES.map(function(s){return '<button class="chip'+(th.side===s?' on':'')+'" data-a="ytSide" data-v="'+s+'">'+t('thS_'+s)+'</button>'}).join('')+'</div>'+
-   '<div class="small b">'+t('ytThStyle')+'</div><div class="chips">'+TH_TSTYLES.map(function(s){return '<button class="chip'+(th.tstyle===s?' on':'')+'" data-a="ytTsty" data-v="'+s+'">'+t('thT_'+s)+'</button>'}).join('')+'</div>'+
-   '<div class="small b">'+t('ytThColor')+'</div><div class="row wrap">'+thColors().map(function(c){return '<button class="yt-col'+(thHex()===c?' on':'')+'" style="background:'+c+'" data-a="ytHex" data-v="'+c+'" aria-label="colour"></button>'}).join('')+'</div></div>'}
-function fmtViews(n){return n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?Math.round(n/1e3)+'K':String(n)}
-function thColors(){var p=(ytAI().design&&ytAI().design.palette)||[],base=['#FFD400','#FF2D2D','#00E5FF','#39FF14','#FFFFFF','#FF4FD8','#FF8A00'];return p.concat(base.filter(function(c){return p.indexOf(c)<0})).slice(0,9)}
-function thHex(){return YT.th.hex||YT_COLORS[YT.th.color]||'#FFD400'}
-
-var YT_IMGS={},YT_LOGO=null,YT_FONT=false;
-function ytImg(src){if(!src)return null;var im=YT_IMGS[src];if(!im){im=new Image();im.onload=function(){ytDraw()};im.src=src;YT_IMGS[src]=im}return im.complete&&im.naturalWidth?im:null}
-function ytFont(){if(YT_FONT)return;YT_FONT=true;var l=document.createElement('link');l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Anton&family=Bungee&display=swap';document.head.appendChild(l);
-  try{Promise.all([document.fonts.load('100px Anton'),document.fonts.load('100px Bungee')]).then(function(){ytDraw()}).catch(function(){})}catch(e){}}
-function ytAfter(){if(view==='yt_pub'&&$('yt_cv')){ytFont();ytDraw()}if(view==='yt_th'){ytFont();ytDraw();var A=ytAI();if(A.tleft==null){A.tleft=-2;sb.rpc('yt_thumb_left').then(function(r){A.tleft=r.error?null:r.data;if(view==='yt_th')render()})}
-  if(!YT.frames.length&&!YT._autoFr&&((YT.src==='url'&&ytId(YT.url))||YT.file)){YT._autoFr=1;ytFrames()}}}
-function fitFont(x,txt,max,maxW,fam){var s=max;x.font=s+'px '+fam;while(s>28&&x.measureText(txt).width>maxW){s-=4;x.font=s+'px '+fam}return s}
-function splitLines(txt){var w=String(txt||'').trim().split(/\s+/);if(w.length<2||txt.length<10)return [txt];var best=null;for(var i=1;i<w.length;i++){var a=w.slice(0,i).join(' '),b=w.slice(i).join(' '),m=Math.max(a.length,b.length);if(!best||m<best[2])best=[a,b,m]}return [best[0],best[1]]}
-function shade(hex,f){var n=parseInt(hex.slice(1),16),r=n>>16,g=n>>8&255,b=n&255;function c(v){return Math.max(0,Math.min(255,Math.round(f<0?v*(1+f):v+(255-v)*f)))}return 'rgb('+c(r)+','+c(g)+','+c(b)+')'}
-/* which side of the picture is calmer (less detail) → put the title there */
-function calmSide(im){try{var c=document.createElement('canvas');c.width=64;c.height=36;var x=c.getContext('2d');x.drawImage(im,0,0,64,36);var d=x.getImageData(0,0,64,36).data;
-  function busy(x0,x1,y0,y1){var s=0,n=0;for(var y=y0;y<y1;y++)for(var xx=x0+1;xx<x1;xx++){var i=(y*64+xx)*4,j=i-4;s+=Math.abs(d[i]-d[j])+Math.abs(d[i+1]-d[j+1])+Math.abs(d[i+2]-d[j+2]);n++}return s/n}
-  var L=busy(0,26,0,36),R=busy(38,64,0,36);return L<=R?'left':'right'}catch(e){return 'left'}}
-function thSide(im){var s=YT.th.side;if(s&&s!=='auto')return s;var d=ytAI().design;if(d&&YT.frames.length&&YT.th.img<(YT.aiN||0)&&d.text_side)return d.text_side;if(!im)return 'left';if(im._side==null)im._side=calmSide(im);return im._side}
-function ytDraw(){var c=$('yt_cv');if(!c)return;var x=c.getContext('2d'),W=1280,H=720,th=YT.th,col=thHex(),st=th.tstyle||'3d';
-  var FAM='Anton, Impact, "Arial Black", "Noto Sans Devanagari", "Noto Sans Bengali", sans-serif';
-  x.save();x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,W,H);
-  var im=ytImg(YT.frames[th.img]||YT.frames[0]);
-  if(im){var r=Math.max(W/im.naturalWidth,H/im.naturalHeight),dw=im.naturalWidth*r,dh=im.naturalHeight*r;try{x.filter='saturate(1.3) contrast(1.1) brightness(1.04)'}catch(e){}x.drawImage(im,(W-dw)/2,(H-dh)/2,dw,dh);try{x.filter='none'}catch(e){}}
-  else{var g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,'#3a0d0d');g.addColorStop(0.5,'#14072e');g.addColorStop(1,'#04203a');x.fillStyle=g;x.fillRect(0,0,W,H)}
-  var side=thSide(im),txt=String(th.text||'').toUpperCase().trim(),sub=String(th.sub||'').trim();
-  // title zone (never the middle of the picture)
-  var Z=side==='left'?{x:40,y:124,w:W*0.44,h:H-164,al:'left'}:side==='right'?{x:W*0.56-40,y:124,w:W*0.44,h:H-164,al:'right'}:side==='top'?{x:130,y:22,w:W-260,h:H*0.38,al:'center'}:{x:130,y:H*0.6,w:W-260,h:H*0.38,al:'center'};
-  // soft shade behind the title so it reads on any picture
-  if(txt||sub){var gx;if(side==='left'){gx=x.createLinearGradient(0,0,W*0.62,0);gx.addColorStop(0,'rgba(0,0,0,.62)');gx.addColorStop(1,'rgba(0,0,0,0)')}
-    else if(side==='right'){gx=x.createLinearGradient(W,0,W*0.38,0);gx.addColorStop(0,'rgba(0,0,0,.62)');gx.addColorStop(1,'rgba(0,0,0,0)')}
-    else if(side==='top'){gx=x.createLinearGradient(0,0,0,H*0.5);gx.addColorStop(0,'rgba(0,0,0,.6)');gx.addColorStop(1,'rgba(0,0,0,0)')}
-    else{gx=x.createLinearGradient(0,H,0,H*0.45);gx.addColorStop(0,'rgba(0,0,0,.65)');gx.addColorStop(1,'rgba(0,0,0,0)')}
-    x.fillStyle=gx;x.fillRect(0,0,W,H)}
-  if(txt){var words=txt.split(/\s+/),subH=sub?70:0,cands=[[txt]];if(words.length>=2)cands.push(splitLines(txt));if(words.length>=3){var n3=Math.ceil(words.length/3),t3=[];for(var q=0;q<words.length;q+=n3)t3.push(words.slice(q,q+n3).join(' '));cands.push(t3)}
-    var best=null;cands.forEach(function(ls){var mx=Math.min(240,(Z.h-subH)/ls.length/1.02),sz=Math.min.apply(null,ls.map(function(l){return fitFont(x,l,Math.floor(mx),Z.w,FAM)}));if(!best||sz>best[1]+4)best=[ls,sz]});
-    var lines=best[0],s=best[1];x.font=s+'px '+FAM;x.textBaseline='alphabetic';x.lineJoin='round';
-    var lh=s*1.0,blockH=lh*lines.length+subH,y0=Z.y+(Z.h-blockH)/2+s*0.86,ax=Z.al==='left'?Z.x:Z.al==='right'?Z.x+Z.w:Z.x+Z.w/2;x.textAlign=Z.al;
-    lines.forEach(function(l,i){var y=y0+i*lh,lw=x.measureText(l).width,lx=Z.al==='left'?ax:Z.al==='right'?ax-lw:ax-lw/2;drawTitle(x,l,ax,y,s,lw,lx,st,col,i)});
-    if(sub){x.font='800 42px Inter, sans-serif';var sw=x.measureText(sub).width+44,sy=y0+(lines.length-1)*lh+s*0.3,sx=Z.al==='left'?ax:Z.al==='right'?ax-sw:ax-sw/2;
-      x.fillStyle=col;roundRect(x,sx,sy,sw,58,12);x.fill();x.fillStyle=isLight(col)?'#111':'#fff';x.textAlign='left';x.fillText(sub,sx+22,sy+43)}}
-  // channel logo in the corner on the title side (never on the person)
-  if(!YT_LOGO){YT_LOGO=new Image();YT_LOGO.onload=function(){ytDraw()};YT_LOGO.src='icons/icon-192.png'}
-  if(YT_LOGO.complete&&YT_LOGO.naturalWidth){var lx=side==='right'?W-112:16,ly=16;x.save();x.beginPath();x.arc(lx+48,ly+48,46,0,Math.PI*2);x.closePath();x.fillStyle='#000';x.fill();x.clip();x.drawImage(YT_LOGO,lx,ly,96,96);x.restore()}
-  x.restore()}
-function isLight(h){var n=parseInt(String(h).slice(1),16);return ((n>>16)*0.299+(n>>8&255)*0.587+(n&255)*0.114)>160}
-function roundRect(x,a,b,w,h,r){x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath()}
-function drawTitle(x,l,ax,y,s,lw,lx,st,col,i){var top=y-s*0.82;
-  if(st==='3d'){var dep=Math.max(6,Math.round(s*0.07));for(var k=dep;k>0;k--){x.fillStyle=k===dep?'rgba(0,0,0,.55)':shade(col,-0.55);x.fillText(l,ax+k*0.6,y+k)}
-    var g=x.createLinearGradient(0,top,0,y);g.addColorStop(0,shade(col,0.6));g.addColorStop(0.55,col);g.addColorStop(1,shade(col,-0.15));x.lineWidth=Math.max(6,s*0.06);x.strokeStyle='#0b0b0b';x.strokeText(l,ax,y);x.fillStyle=g;x.fillText(l,ax,y)}
-  else if(st==='neon'){x.lineWidth=Math.max(5,s*0.05);x.strokeStyle=col;for(var n=0;n<3;n++){x.shadowColor=col;x.shadowBlur=18+n*16;x.strokeText(l,ax,y)}x.shadowBlur=0;x.fillStyle='#fff';x.fillText(l,ax,y);x.lineWidth=2;x.strokeStyle=col;x.strokeText(l,ax,y)}
-  else if(st==='fire'){var gf=x.createLinearGradient(0,top,0,y);gf.addColorStop(0,'#FFF3A0');gf.addColorStop(0.45,'#FFB000');gf.addColorStop(1,'#E2190B');x.shadowColor='#FF5A00';x.shadowBlur=34;x.lineWidth=Math.max(8,s*0.07);x.strokeStyle='#2a0500';x.strokeText(l,ax,y);x.shadowBlur=0;x.fillStyle=gf;x.fillText(l,ax,y)}
-  else if(st==='ice'){var gi=x.createLinearGradient(0,top,0,y);gi.addColorStop(0,'#FFFFFF');gi.addColorStop(0.5,'#9BEFFF');gi.addColorStop(1,'#1E7BFF');x.shadowColor='#00D0FF';x.shadowBlur=30;x.lineWidth=Math.max(8,s*0.07);x.strokeStyle='#04163a';x.strokeText(l,ax,y);x.shadowBlur=0;x.fillStyle=gi;x.fillText(l,ax,y)}
-  else if(st==='box'){x.save();x.fillStyle=i%2?'#111':'#E50914';x.translate(lx+lw/2,y-s*0.36);x.rotate(-0.03);x.fillRect(-lw/2-18,-s*0.56,lw+36,s*1.04);x.restore();x.fillStyle=i%2?col:'#fff';x.fillText(l,ax,y)}
-  else{x.lineWidth=Math.max(8,s*0.08);x.strokeStyle='#000';x.shadowColor='rgba(0,0,0,.6)';x.shadowBlur=14;x.strokeText(l,ax,y);x.shadowBlur=0;x.fillStyle=i===0?'#fff':col;x.fillText(l,ax,y)}}
-/* ---------- AI thumbnail round ---------- */
+/* small helper: shrink a picture (used for the poster style reference) */
 function shrinkTo(src,max){return new Promise(function(res){var im=new Image();im.onload=function(){var r=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*r);c.height=Math.round(im.height*r);c.getContext('2d').drawImage(im,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',0.9))};im.onerror=function(){res('')};im.src=src})}
-async function ytRefs(){var A=ytAI();if(A.busy)return;var r=YT.res||{},q=[r.game||YT.game||'Free Fire',(r.titles&&r.titles[0])||YT.title||YT.th.text||''].join(' ').replace(/[#|]/g,' ').split(/\s+/).slice(0,8).join(' ');
-  A.busy=t('thS_refs');render();
-  try{var o=await ytCall('refs',{q:q});A.refs=o.refs||[];A.sel=A.refs.slice(0,3).map(function(x){return x.id})}
-  catch(e){A.refs=A.refs||[];toast('⚠ '+(/no_yt_key/.test(e.message)?t('thNoKey'):e.message))}
-  A.busy='';render()}
-async function ytRefAdd(){var A=ytAI(),id=ytId(A.refUrl);if(!id){toast('⚠ '+t('ytBadUrl'));return}
-  A.refs=(A.refs||[]).filter(function(x){return x.id!==id});A.refs.unshift({id:id,title:'',channel:'',views:0,thumb:'https://i.ytimg.com/vi/'+id+'/hqdefault.jpg'});
-  if(A.sel.indexOf(id)<0)A.sel.unshift(id);A.sel=A.sel.slice(0,4);A.refUrl='';render()}
-function thStage(s){var A=ytAI();A.busy=s;var e=$('th_stage');if(e)e.textContent=s;else if(view==='yt_th')render()}
-async function ytAiGo(){var A=ytAI();if(A.busy)return;if(A.tleft===0){toast('⚠ '+t('ytLimit'));return}
-  var r=YT.res||{},face=YT_FACE?YT_FACE.split(',')[1]:'';
-  try{thStage(t('thS_design'));
-    var o=await ytCall('design',{refs:A.sel,summary:r.summary||'',titles:r.titles||[YT.title||''],game:r.game||YT.game,type:r.video_type||'',look:A.look,text:YT.th.text||'',face:!!face});
-    A.design=o.design;A.job=o.job;A.engine=o.engine;
-    if(o.design.headline&&(!YT.th.text||(r.thumbnail||[]).some(function(x){return x.text===YT.th.text})))YT.th.text=o.design.headline;
-    if(o.design.sub&&!YT.th.sub)YT.th.sub=o.design.sub;
-    YT.th.tstyle=o.design.text_style||'3d';YT.th.side='auto';if(o.design.palette&&o.design.palette[0])YT.th.hex=o.design.palette[0];
-    var got=0;
-    for(var i=0;i<2;i++){thStage(t('thS_draw')+' '+(i+1)+'/2…');
-      try{var g=await ytCall('gen',{job:A.job,design:o.design,face:face,seed:Math.floor(Math.random()*1e9)});
-        YT.frames.unshift(g.image);YT.aiN=(YT.aiN||0)+1;got++;if(face&&!g.withFace&&i===0)toast('ℹ '+t('thNoFaceEngine'))}
-      catch(e){if(!got)throw e;toast('⚠ '+(e.message||e));break}}
-    YT.th.img=0;A.busy='';A.tleft=null;ytSave();render();toast('✨ '+t('thDone'))}
-  catch(e){A.busy='';A.tleft=null;render();toast('⚠ '+(e.message||e))}}
-
-function ytThBlob(){return new Promise(function(res){var c=$('yt_cv');if(!c)return res(null);var q=0.92;(function go(){c.toBlob(function(b){if(b&&b.size>1990000&&q>0.5){q-=0.1;go()}else res(b)},'image/jpeg',q)})()})}
-
-/* frames: from the uploaded video (in the phone) or YouTube's own frames */
-async function ytFrames(){
-  var keep=YT.frames.slice(0,YT.aiN||0),got=[];
-  try{if(YT.file){toast('🎞 '+t('ytThGrab'));got=await grabFrames(YT.file)}
-    else if(YT.src==='url'&&ytId(YT.url)){var r=await ytCall('frames',{url:YT.url});got=r.frames||[]}
-    YT.frames=keep.concat(got);YT.th.img=keep.length?0:0;if(!got.length)toast('⚠ '+t('ytThNoFr'));render()}catch(e){toast('⚠ '+(e.message||e))}}
-function mmss(s){var p=String(s||'').split(':').map(Number);if(p.some(isNaN))return null;return p.reduce(function(a,b){return a*60+b},0)}
-function grabFrames(file){return new Promise(function(resolve){
-  var v=document.createElement('video'),url=URL.createObjectURL(file),out=[],times=[],i=0,done=false;v.muted=true;v.playsInline=true;v.preload='auto';v.src=url;
-  function finish(){if(done)return;done=true;URL.revokeObjectURL(url);resolve(out)}
-  setTimeout(finish,45000);
-  v.onerror=finish;
-  v.onloadedmetadata=function(){var d=v.duration||0;if(!d||!isFinite(d)){finish();return}
-    var ideas=((YT.res&&YT.res.thumbnail)||[]).map(function(x){return mmss(x.frame)}).concat(((YT.res&&YT.res.best_moments)||[]).map(function(x){return mmss(x.t)})).filter(function(x){return x!=null&&x<d});
-    times=ideas.slice(0,5);[0.08,0.2,0.35,0.5,0.65,0.8,0.92].forEach(function(f){if(times.length<10)times.push(d*f)});next()};
-  function next(){if(i>=times.length){finish();return}v.currentTime=Math.min(times[i],(v.duration||1)-0.1)}
-  v.onseeked=function(){try{var c=document.createElement('canvas');c.width=1280;c.height=720;var x=c.getContext('2d'),r=Math.max(1280/v.videoWidth,720/v.videoHeight),dw=v.videoWidth*r,dh=v.videoHeight*r;x.drawImage(v,(1280-dw)/2,(720-dh)/2,dw,dh);out.push(c.toDataURL('image/jpeg',0.85))}catch(e){}i++;next()}})}
+function ytAfter(){}
 
 /* ---------- 3) Publish to YouTube ---------- */
 function vYtPub(){var p=YT.pub,cid=cfg('ytClientId',''),has=!!YT.res,aud=cfg('ytAudited',false)===true;
   var out=ytHead();
   if(!has)return out+'<div class="card st"><p>'+t('ytPubNeed')+'</p><button class="btn" data-go="yt_an">🔍 '+t('ytGo')+'</button></div>';
-  out+='<div class="card st"><h2>🚀 '+t('ytPublish')+'</h2><div class="yt-prev"><canvas id="yt_cv" width="1280" height="720" class="yt-cv sm"></canvas><div class="grow st"><b class="small">'+esc(YT.tf||'—')+'</b><div class="tiny muted">'+esc(String(YT.desc).slice(0,140))+'…</div><div class="tiny muted"># '+ytTags().length+' tags</div></div></div>'+
-   '<div class="row"><button class="btn sm sec" data-go="yt_an">✏ '+t('ytEdit')+'</button><button class="btn sm sec" data-go="yt_th">🖼 '+t('ytThT')+'</button></div></div>';
+  out+='<div class="card st"><h2>🚀 '+t('ytPublish')+'</h2><div class="yt-prev"><div class="grow st"><b class="small">'+esc(YT.tf||'—')+'</b><div class="tiny muted">'+esc(String(YT.desc).slice(0,140))+'…</div><div class="tiny muted"># '+ytTags().length+' tags</div></div></div>'+
+   '<div class="row"><button class="btn sm sec" data-go="yt_an">✏ '+t('ytEdit')+'</button></div></div>';
   if(!cid)return out+'<div class="card st"><h3>🔌 '+t('ytConnect')+'</h3><p class="small muted">'+t(canAdminP()?'ytNoCidA':'ytNoCid')+'</p></div>';
   if(!YT.tok||Date.now()>YT.tokExp)return out+'<div class="card st"><h3>🔌 '+t('ytConnect')+'</h3><p class="small muted">'+t('ytConnectH')+'</p><button class="btn" data-a="ytConnect" style="background:#FF0033">▶ '+t('ytConnectB')+'</button></div>';
   out+='<div class="card st"><div class="row">'+(YT.ch&&YT.ch.img?'<img src="'+esc(YT.ch.img)+'" alt="" style="width:36px;height:36px;border-radius:50%">':'')+'<div class="grow"><b>'+esc(YT.ch?YT.ch.title:'YouTube')+'</b><div class="tiny muted">'+t('ytConnected')+'</div></div><button class="btn sm sec" data-a="ytDisc">'+t('ytDisc')+'</button></div>'+
@@ -2138,14 +2014,14 @@ function vYtPub(){var p=YT.pub,cid=cfg('ytClientId',''),has=!!YT.res,aud=cfg('yt
     else if(!YT.uploads.length)out+='<div class="small muted">'+t('ytNoVids')+'</div>';
     else out+=YT.uploads.map(function(v){return '<div class="yt-vid'+(p.vid===v.id?' on':'')+'" data-a="ytPick" data-id="'+v.id+'"><img src="'+esc(v.img)+'" alt=""><div class="grow"><div class="small b">'+esc(v.title)+'</div><span class="tag">'+esc(v.privacy)+'</span></div></div>'}).join('');
     out+='<label class="f">'+t('ytPriv')+'<select data-yi="pub.privacy">'+['keep','public','unlisted','private'].map(function(x){return '<option value="'+x+'"'+(p.privacy===x?' selected':'')+'>'+t('yp_'+x)+'</option>'}).join('')+'</select></label>'+
-     '<label class="row small b"><input type="checkbox" data-yc="pub.thumb" style="width:auto"'+(p.thumb?' checked':'')+'> '+t('ytSetThumb')+'</label>'+
+     
      '<button class="btn block" data-a="ytApply"'+(!p.vid||YT.busy?' disabled':'')+'>✅ '+t('ytApply')+'</button>'+ytPubBusy()+'</div>'}
   else{
     if(!aud)out+='<div class="card st yt-warn"><h3>⚠ '+t('ytAudT')+'</h3><p class="small">'+t('ytAudH')+'</p><button class="btn sec sm" data-a="ytMode" data-v="update">✏ '+t('ytModeU')+'</button></div>';
     else if(!YT.file)out+='<div class="card st"><p class="small">'+t('ytNeedFile')+'</p><button class="btn sec sm" data-go="yt_an">⬆ '+t('ytFileT')+'</button></div>';
     else out+='<div class="card st"><div class="small b">🎬 '+esc(YT.file.name)+' · '+mb(YT.file.size)+'</div>'+
       '<label class="f">'+t('ytPriv')+'<select data-yi="pub.newPriv">'+['public','unlisted','private'].map(function(x){return '<option value="'+x+'"'+(p.newPriv===x?' selected':'')+'>'+t('yp_'+x)+'</option>'}).join('')+'</select></label>'+
-      '<label class="row small b"><input type="checkbox" data-yc="pub.thumb" style="width:auto"'+(p.thumb?' checked':'')+'> '+t('ytSetThumb')+'</label>'+
+      
       '<label class="row small b"><input type="checkbox" data-yc="pub.notify" style="width:auto"'+(p.notify?' checked':'')+'> '+t('ytNotify')+'</label>'+
       '<button class="btn block" data-a="ytUpload"'+(YT.busy?' disabled':'')+'>⬆ '+t('ytUploadB')+'</button>'+ytPubBusy()+'</div>'}
   if(YT.out)out+='<div class="card st yt-ok"><b>✅ '+t('ytLive')+'</b><a class="btn sec sm" href="https://studio.youtube.com/video/'+esc(YT.out)+'/edit" target="_blank" rel="noopener">YouTube Studio ↗</a><a class="btn sec sm" href="https://youtu.be/'+esc(YT.out)+'" target="_blank" rel="noopener">▶ '+t('ytWatch')+'</a></div>';
@@ -2175,12 +2051,8 @@ async function ytApply(){var vid=YT.pub.vid;if(!vid||YT.busy)return;if(!YT.tf){t
     var body={id:vid,snippet:ytSnippetNew(v.snippet)},parts='snippet';
     if(YT.pub.privacy!=='keep'){var s=v.status||{};body.status={privacyStatus:YT.pub.privacy,embeddable:s.embeddable,license:s.license,publicStatsViewable:s.publicStatsViewable,selfDeclaredMadeForKids:!!s.selfDeclaredMadeForKids};parts+=',status'}
     await ytApi('videos?part='+parts,{method:'PUT',json:body});
-    if(YT.pub.thumb)await ytSetThumb(vid);
     YT.out=vid;YT.busy='';YT.prog=0;YT.uploads=null;render();ytLoadChannel();toast('✅ '+t('ytApplied'))}
   catch(e){YT.busy='';YT.prog=0;render();toast('⚠ '+(e.message||e))}}
-async function ytSetThumb(vid){if(!YT.frames.length){toast(t('ytNoThumbPic'));return}ytStage(t('ytS_thumb'),0.85);var b=await ytThBlobAny();if(!b)return;
-  await ytApi('thumbnails/set?videoId='+encodeURIComponent(vid)+'&uploadType=media',{upload:true,method:'POST',headers:{'Content-Type':'image/jpeg'},body:b})}
-function ytThBlobAny(){if($('yt_cv'))return ytThBlob();return Promise.resolve(null)}
 function ytUpload(){var f=YT.file;if(!f||YT.busy)return;if(!YT.tf){toast('⚠ '+t('ytNoTitle'));return}YT.out=null;
   ytStage(t('ytS_yt')+' 0%',0.01);render();
   var meta={snippet:ytSnippetNew(null),status:{privacyStatus:YT.pub.newPriv,selfDeclaredMadeForKids:false}};
@@ -2191,7 +2063,7 @@ function ytUpload(){var f=YT.file;if(!f||YT.busy)return;if(!YT.tf){toast('⚠ '+
       x.upload.onprogress=function(e){if(e.lengthComputable)ytStage(t('ytS_yt')+' '+Math.round(e.loaded/e.total*100)+'%',0.02+0.8*e.loaded/e.total)};
       x.onload=function(){try{var j=JSON.parse(x.responseText||'{}');if(x.status>=200&&x.status<300&&j.id)res(j);else rej(new Error((j.error&&j.error.message)||('YouTube error '+x.status)))}catch(e){rej(e)}};
       x.onerror=function(){rej(new Error(t('ytNet')))};x.send(f)})})
-  .then(function(v){YT.out=v.id;return YT.pub.thumb?ytSetThumb(v.id).catch(function(e){toast('⚠ '+(e.message||e))}):null})
+  .then(function(v){YT.out=v.id})
   .then(function(){YT.busy='';YT.prog=0;YT.uploads=null;render();toast('✅ '+t('ytUploaded'))})
   .catch(function(e){YT.busy='';YT.prog=0;render();toast('⚠ '+(e.message||e))})}
 
@@ -2207,13 +2079,11 @@ document.addEventListener('toggle',function(ev){var el=ev.target,k=el&&el.getAtt
 document.addEventListener('input',function(ev){var el=ev.target,k=el.getAttribute&&el.getAttribute('data-yi');if(!k)return;ytSet(k,el.value);
   if(k==='tf'&&$('yt_tfc'))$('yt_tfc').textContent=el.value.length+'/100';
   if(k==='tags'&&$('yt_tgc')){var n=ytTags().join(',').length;$('yt_tgc').textContent=n+'/500 · '+t('ytTagsH');$('yt_tgc').style.color=n>500?'var(--red)':''}
-  if(k.indexOf('th.')===0)ytDraw()});
+});
 document.addEventListener('change',function(ev){var el=ev.target;
   if(el.getAttribute&&el.getAttribute('data-yi')){ytSet(el.getAttribute('data-yi'),el.value);if(el.tagName==='SELECT')render()}
   if(el.getAttribute&&el.getAttribute('data-yc')){ytSet(el.getAttribute('data-yc'),el.checked)}
-  if(el.id==='yt_file'&&el.files[0]){var f=el.files[0];if(!/^video\//.test(f.type)&&!/\.(mp4|mov|mkv|webm|3gp)$/i.test(f.name)){toast('⚠ '+t('ytPickFile'));return}YT.file=f;YT.fname=f.name;YT.frames=[];YT._autoFr=0;ytSave();render()}
-  if(el.id==='yt_face'&&el.files[0]){var fr=new FileReader();fr.onload=function(){shrinkTo(fr.result,500).then(function(u){if(!u){toast('⚠ '+t('vfBadImg'));return}YT_FACE=u;try{localStorage.setItem('jit_yt_face',u)}catch(e){}render()})};fr.readAsDataURL(el.files[0])}
-  if(el.id==='yt_img'&&el.files[0]){var rd=new FileReader();rd.onload=function(){shrinkTo(rd.result,1280).then(function(u){var k=YT.aiN||0;YT.frames.splice(k,0,u||rd.result);YT.th.img=k;render()})};rd.readAsDataURL(el.files[0])}});
+  if(el.id==='yt_file'&&el.files[0]){var f=el.files[0];if(!/^video\//.test(f.type)&&!/\.(mp4|mov|mkv|webm|3gp)$/i.test(f.name)){toast('⚠ '+t('ytPickFile'));return}YT.file=f;YT.fname=f.name;YT.frames=[];YT._autoFr=0;ytSave();render()}});
 
 /* All India: states → districts (A→Z), big cities, old names */
 var INDIA=[["Andaman and Nicobar Islands",["Nicobars","North and Middle Andaman","South Andamans"]],["Andhra Pradesh",["Alluri Sitharama Raju","Anakapalli","Ananthapuramu","Annamayya","Bapatla","Chittoor","Dr. B.R. Ambedkar Konaseema","East Godavari","Eluru","Guntur","Kakinada","Krishna","Kurnool","Markapuram","Nandyal","NTR","Palnadu","Parvathipuram Manyam","Polavaram","Prakasam","Sri Potti Sriramulu Nellore","Sri Sathya Sai","Srikakulam","Tirupati","Visakhapatnam","Vizianagaram","West Godavari","YSR Kadapa"]],["Arunachal Pradesh",["Anjaw","Bichom","Changlang","Dibang Valley","East Kameng","East Siang","Kamle","Keyi Panyor","Kra Daadi","Kurung Kumey","Lepa Rada","Lohit","Longding","Lower Dibang Valley","Lower Siang","Lower Subansiri","Namsai","Pakke Kessang","Papum Pare","Shi Yomi","Siang","Tawang","Tirap","Upper Siang","Upper Subansiri","West Kameng","West Siang"]],["Assam",["Bajali","Baksa","Barpeta","Biswanath","Bongaigaon","Cachar","Charaideo","Chirang","Darrang","Dhemaji","Dhubri","Dibrugarh","Dima Hasao","Goalpara","Golaghat","Hailakandi","Hojai","Jorhat","Kamrup","Kamrup Metro","Karbi Anglong","Kokrajhar","Lakhimpur","Majuli","Morigaon","Nagaon","Nalbari","Sivasagar","Sonitpur","South Salmara Mankachar","Sribhumi","Tamulpur","Tinsukia","Udalguri","West Karbi Anglong"]],["Bihar",["Araria","Arwal","Aurangabad","Banka","Begusarai","Bhagalpur","Bhojpur","Buxar","Darbhanga","Gaya","Gopalganj","Jamui","Jehanabad","Kaimur (Bhabua)","Katihar","Khagaria","Kishanganj","Lakhisarai","Madhepura","Madhubani","Munger","Muzaffarpur","Nalanda","Nawada","Pashchim Champaran","Patna","Purba Champaran","Purnia","Rohtas","Saharsa","Samastipur","Saran","Sheikhpura","Sheohar","Sitamarhi","Siwan","Supaul","Vaishali"]],["Chandigarh",["Chandigarh"]],["Chhattisgarh",["Balod","Balodabazar-Bhatapara","Balrampur-Ramanujganj","Bastar","Bemetara","Bijapur","Bilaspur","Dantewada","Dhamtari","Durg","Gariaband","Gaurela-Pendra-Marwahi","Janjgir-Champa","Jashpur","Kabirdham","Kanker","Khairagarh-Chhuikhadan-Gandai","Kondagaon","Korba","Korea","Mahasamund","Manendragarh-Chirmiri-Bharatpur","Mohla-Manpur-Ambagarh Chowki","Mungeli","Narayanpur","Raigarh","Raipur","Rajnandgaon","Sakti","Sarangarh-Bilaigarh","Sukma","Surajpur","Surguja"]],["Dadra and Nagar Haveli and Daman and Diu",["Dadra and Nagar Haveli","Daman","Diu"]],["Delhi",["Central Delhi","East Delhi","New Delhi","North Delhi","North East Delhi","North West Delhi","Shahdara","South Delhi","South East Delhi","South West Delhi","West Delhi"]],["Goa",["Kushavati","North Goa","South Goa"]],["Gujarat",["Ahmedabad","Amreli","Anand","Aravalli","Banaskantha","Bharuch","Bhavnagar","Botad","Chhota Udaipur","Dahod","Dang","Devbhumi Dwarka","Gandhinagar","Gir Somnath","Jamnagar","Junagadh","Kheda","Kutch","Mahisagar","Mehsana","Morbi","Narmada","Navsari","Panchmahal","Patan","Porbandar","Rajkot","Sabarkantha","Surat","Surendranagar","Tapi","Vadodara","Valsad","Vav-Tharad"]],["Haryana",["Ambala","Bhiwani","Charkhi Dadri","Faridabad","Fatehabad","Gurugram","Hansi","Hisar","Jhajjar","Jind","Kaithal","Karnal","Kurukshetra","Mahendragarh","Nuh","Palwal","Panchkula","Panipat","Rewari","Rohtak","Sirsa","Sonipat","Yamunanagar"]],["Himachal Pradesh",["Bilaspur","Chamba","Hamirpur","Kangra","Kinnaur","Kullu","Lahaul and Spiti","Mandi","Shimla","Sirmaur","Solan","Una"]],["Jammu and Kashmir",["Anantnag","Bandipora","Baramulla","Budgam","Doda","Ganderbal","Jammu","Kathua","Kishtwar","Kulgam","Kupwara","Poonch","Pulwama","Rajouri","Ramban","Reasi","Samba","Shopian","Srinagar","Udhampur"]],["Jharkhand",["Bokaro","Chatra","Deoghar","Dhanbad","Dumka","East Singhbhum","Garhwa","Giridih","Godda","Gumla","Hazaribagh","Jamtara","Khunti","Koderma","Latehar","Lohardaga","Pakur","Palamu","Ramgarh","Ranchi","Sahebganj","Seraikela Kharsawan","Simdega","West Singhbhum"]],["Karnataka",["Bagalkote","Ballari","Belagavi","Bengaluru Rural","Bengaluru South","Bengaluru Urban","Bidar","Chamarajanagar","Chikkaballapura","Chikkamagaluru","Chitradurga","Dakshina Kannada","Davanagere","Dharwad","Gadag","Hassan","Haveri","Kalaburagi","Kodagu","Kolar","Koppal","Mandya","Mysuru","Raichur","Shivamogga","Tumakuru","Udupi","Uttara Kannada","Vijayanagara","Vijayapura","Yadgir"]],["Kerala",["Alappuzha","Ernakulam","Idukki","Kannur","Kasaragod","Kollam","Kottayam","Kozhikode","Malappuram","Palakkad","Pathanamthitta","Thiruvananthapuram","Thrissur","Wayanad"]],["Ladakh",["Kargil","Leh"]],["Lakshadweep",["Lakshadweep"]],["Madhya Pradesh",["Agar Malwa","Alirajpur","Anuppur","Ashoknagar","Balaghat","Barwani","Betul","Bhind","Bhopal","Burhanpur","Chhatarpur","Chhindwara","Damoh","Datia","Dewas","Dhar","Dindori","Guna","Gwalior","Harda","Indore","Jabalpur","Jhabua","Katni","Khandwa","Khargone","Maihar","Mandla","Mandsaur","Mauganj","Morena","Narmadapuram","Narsinghpur","Neemuch","Niwari","Pandhurna","Panna","Raisen","Rajgarh","Ratlam","Rewa","Sagar","Satna","Sehore","Seoni","Shahdol","Shajapur","Sheopur","Shivpuri","Sidhi","Singrauli","Tikamgarh","Ujjain","Umaria","Vidisha"]],["Maharashtra",["Ahilyanagar","Akola","Amravati","Beed","Bhandara","Buldhana","Chandrapur","Chhatrapati Sambhajinagar","Dharashiv","Dhule","Gadchiroli","Gondia","Hingoli","Jalgaon","Jalna","Kolhapur","Latur","Mumbai City","Mumbai Suburban","Nagpur","Nanded","Nandurbar","Nashik","Palghar","Parbhani","Pune","Raigad","Ratnagiri","Sangli","Satara","Sindhudurg","Solapur","Thane","Wardha","Washim","Yavatmal"]],["Manipur",["Bishnupur","Chandel","Churachandpur","Imphal East","Imphal West","Jiribam","Kakching","Kamjong","Kangpokpi","Noney","Pherzawl","Senapati","Tamenglong","Tengnoupal","Thoubal","Ukhrul"]],["Meghalaya",["East Garo Hills","East Jaintia Hills","East Khasi Hills","Eastern West Khasi Hills","North Garo Hills","Ri Bhoi","South Garo Hills","South West Garo Hills","South West Khasi Hills","West Garo Hills","West Jaintia Hills","West Khasi Hills"]],["Mizoram",["Aizawl","Champhai","Hnahthial","Khawzawl","Kolasib","Lawngtlai","Lunglei","Mamit","Saitual","Serchhip","Siaha"]],["Nagaland",["Chumoukedima","Dimapur","Kiphire","Kohima","Longleng","Meluri","Mokokchung","Mon","Niuland","Noklak","Peren","Phek","Shamator","Tseminyu","Tuensang","Wokha","Zunheboto"]],["Odisha",["Angul","Balangir","Balasore","Bargarh","Bhadrak","Boudh","Cuttack","Deogarh","Dhenkanal","Gajapati","Ganjam","Jagatsinghpur","Jajpur","Jharsuguda","Kalahandi","Kandhamal","Kendrapara","Keonjhar","Khordha","Koraput","Malkangiri","Mayurbhanj","Nabarangpur","Nayagarh","Nuapada","Puri","Rayagada","Sambalpur","Subarnapur","Sundargarh"]],["Puducherry",["Karaikal","Mahe","Puducherry","Yanam"]],["Punjab",["Amritsar","Barnala","Bathinda","Faridkot","Fatehgarh Sahib","Fazilka","Ferozepur","Gurdaspur","Hoshiarpur","Jalandhar","Kapurthala","Ludhiana","Malerkotla","Mansa","Moga","Pathankot","Patiala","Rupnagar","S.A.S. Nagar (Mohali)","Sangrur","Shaheed Bhagat Singh Nagar","Sri Muktsar Sahib","Tarn Taran"]],["Rajasthan",["Ajmer","Alwar","Balotra","Banswara","Baran","Barmer","Beawar","Bharatpur","Bhilwara","Bikaner","Bundi","Chittorgarh","Churu","Dausa","Deeg","Dholpur","Didwana-Kuchaman","Dungarpur","Hanumangarh","Jaipur","Jaisalmer","Jalore","Jhalawar","Jhunjhunu","Jodhpur","Karauli","Khairthal-Tijara","Kota","Kotputli-Behror","Nagaur","Pali","Phalodi","Pratapgarh","Rajsamand","Salumbar","Sawai Madhopur","Sikar","Sirohi","Sri Ganganagar","Tonk","Udaipur"]],["Sikkim",["Gangtok","Gyalshing","Mangan","Namchi","Pakyong","Soreng"]],["Tamil Nadu",["Ariyalur","Chengalpattu","Chennai","Coimbatore","Cuddalore","Dharmapuri","Dindigul","Erode","Kallakurichi","Kancheepuram","Kanniyakumari","Karur","Krishnagiri","Madurai","Mayiladuthurai","Nagapattinam","Namakkal","Perambalur","Pudukkottai","Ramanathapuram","Ranipet","Salem","Sivaganga","Tenkasi","Thanjavur","The Nilgiris","Theni","Thoothukudi","Tiruchirappalli","Tirunelveli","Tirupathur","Tiruppur","Tiruvallur","Tiruvannamalai","Tiruvarur","Vellore","Viluppuram","Virudhunagar"]],["Telangana",["Adilabad","Bhadradri Kothagudem","Hanumakonda","Hyderabad","Jagtial","Jangaon","Jayashankar Bhupalpally","Jogulamba Gadwal","Kamareddy","Karimnagar","Khammam","Kumuram Bheem Asifabad","Mahabubabad","Mahabubnagar","Mancherial","Medak","Medchal-Malkajgiri","Mulugu","Nagarkurnool","Nalgonda","Narayanpet","Nirmal","Nizamabad","Peddapalli","Rajanna Sircilla","Rangareddy","Sangareddy","Siddipet","Suryapet","Vikarabad","Wanaparthy","Warangal","Yadadri Bhuvanagiri"]],["Tripura",["Dhalai","Gomati","Khowai","North Tripura","Sepahijala","South Tripura","Unakoti","West Tripura"]],["Uttar Pradesh",["Agra","Aligarh","Ambedkar Nagar","Amethi","Amroha","Auraiya","Ayodhya","Azamgarh","Baghpat","Bahraich","Ballia","Balrampur","Banda","Barabanki","Bareilly","Basti","Bhadohi","Bijnor","Budaun","Bulandshahr","Chandauli","Chitrakoot","Deoria","Etah","Etawah","Farrukhabad","Fatehpur","Firozabad","Gautam Buddha Nagar","Ghaziabad","Ghazipur","Gonda","Gorakhpur","Hamirpur","Hapur","Hardoi","Hathras","Jalaun","Jaunpur","Jhansi","Kannauj","Kanpur Dehat","Kanpur Nagar","Kasganj","Kaushambi","Kushinagar","Lakhimpur Kheri","Lalitpur","Lucknow","Maharajganj","Mahoba","Mainpuri","Mathura","Mau","Meerut","Mirzapur","Moradabad","Muzaffarnagar","Pilibhit","Pratapgarh","Prayagraj","Rae Bareli","Rampur","Saharanpur","Sambhal","Sant Kabir Nagar","Shahjahanpur","Shamli","Shravasti","Siddharthnagar","Sitapur","Sonbhadra","Sultanpur","Unnao","Varanasi"]],["Uttarakhand",["Almora","Bageshwar","Chamoli","Champawat","Dehradun","Haridwar","Nainital","Pauri Garhwal","Pithoragarh","Rudraprayag","Tehri Garhwal","Udham Singh Nagar","Uttarkashi"]],["West Bengal",["Alipurduar","Bankura","Birbhum","Cooch Behar","Dakshin Dinajpur","Darjeeling","Hooghly","Howrah","Jalpaiguri","Jhargram","Kalimpong","Kolkata","Malda","Murshidabad","Nadia","North 24 Parganas","Paschim Bardhaman","Paschim Medinipur","Purba Bardhaman","Purba Medinipur","Purulia","South 24 Parganas","Uttar Dinajpur"]]];
@@ -2221,6 +2091,9 @@ var INDIA_CITIES={"West Bengal|Kolkata":["Kolkata"],"West Bengal|Howrah":["Howra
 var INDIA_ALIAS={"gurgaon":["Haryana","Gurugram"],"bangalore":["Karnataka","Bengaluru Urban"],"bengaluru":["Karnataka","Bengaluru Urban"],"mysore":["Karnataka","Mysuru"],"allahabad":["Uttar Pradesh","Prayagraj"],"faizabad":["Uttar Pradesh","Ayodhya"],"noida":["Uttar Pradesh","Gautam Buddha Nagar"],"aurangabad maharashtra":["Maharashtra","Chhatrapati Sambhajinagar"],"osmanabad":["Maharashtra","Dharashiv"],"ahmednagar":["Maharashtra","Ahilyanagar"],"hoshangabad":["Madhya Pradesh","Narmadapuram"],"mohali":["Punjab","S.A.S. Nagar (Mohali)"],"nawanshahr":["Punjab","Shaheed Bhagat Singh Nagar"],"burdwan":["West Bengal","Purba Bardhaman"],"midnapore":["West Bengal","Paschim Medinipur"],"calcutta":["West Bengal","Kolkata"],"bombay":["Maharashtra","Mumbai City"],"madras":["Tamil Nadu","Chennai"],"trivandrum":["Kerala","Thiruvananthapuram"],"cochin":["Kerala","Ernakulam"],"calicut":["Kerala","Kozhikode"],"vizag":["Andhra Pradesh","Visakhapatnam"],"vijayawada":["Andhra Pradesh","NTR"],"pondicherry":["Puducherry","Puducherry"],"karimganj":["Assam","Sribhumi"],"gulbarga":["Karnataka","Kalaburagi"],"belgaum":["Karnataka","Belagavi"],"bellary":["Karnataka","Ballari"],"shimoga":["Karnataka","Shivamogga"],"ramanagara":["Karnataka","Bengaluru South"],"baroda":["Gujarat","Vadodara"],"kutch":["Gujarat","Kutch"],"kachchh":["Gujarat","Kutch"],"jamshedpur":["Jharkhand","East Singhbhum"],"bhilai":["Chhattisgarh","Durg"],"guwahati":["Assam","Kamrup Metro"],"bhubaneswar":["Odisha","Khordha"],"rourkela":["Odisha","Sundargarh"],"siliguri":["West Bengal","Darjeeling"],"asansol":["West Bengal","Paschim Bardhaman"],"durgapur":["West Bengal","Paschim Bardhaman"],"kharagpur":["West Bengal","Paschim Medinipur"],"haldia":["West Bengal","Purba Medinipur"],"salt lake":["West Bengal","North 24 Parganas"],"ganganagar":["Rajasthan","Sri Ganganagar"],"kanker":["Chhattisgarh","Kanker"],"dantewada":["Chhattisgarh","Dantewada"],"ropar":["Punjab","Rupnagar"],"leh ladakh":["Ladakh","Leh"],"port blair":["Andaman and Nicobar Islands","South Andamans"],"sri vijaya puram":["Andaman and Nicobar Islands","South Andamans"],"itanagar":["Arunachal Pradesh","Papum Pare"],"shillong":["Meghalaya","East Khasi Hills"],"imphal":["Manipur","Imphal West"],"agartala":["Tripura","West Tripura"],"panaji":["Goa","North Goa"],"margao":["Goa","South Goa"],"silvassa":["Dadra and Nagar Haveli and Daman and Diu","Dadra and Nagar Haveli"],"dharamshala":["Himachal Pradesh","Kangra"],"manali":["Himachal Pradesh","Kullu"],"haldwani":["Uttarakhand","Nainital"],"rishikesh":["Uttarakhand","Dehradun"],"kanpur":["Uttar Pradesh","Kanpur Nagar"],"mumbai":["Maharashtra","Mumbai City"],"navi mumbai":["Maharashtra","Thane"],"delhi":["Delhi","New Delhi"],"kolkata":["West Bengal","Kolkata"],"hyderabad":["Telangana","Hyderabad"],"chennai":["Tamil Nadu","Chennai"]};
 var ST_CODE={"Andaman and Nicobar Islands":"AN","Andhra Pradesh":"AP","Arunachal Pradesh":"AR","Assam":"AS","Bihar":"BR","Chandigarh":"CH","Chhattisgarh":"CG","Dadra and Nagar Haveli and Daman and Diu":"DH","Delhi":"DL","Goa":"GA","Gujarat":"GJ","Haryana":"HR","Himachal Pradesh":"HP","Jammu and Kashmir":"JK","Jharkhand":"JH","Karnataka":"KA","Kerala":"KL","Ladakh":"LA","Lakshadweep":"LD","Madhya Pradesh":"MP","Maharashtra":"MH","Manipur":"MN","Meghalaya":"ML","Mizoram":"MZ","Nagaland":"NL","Odisha":"OD","Puducherry":"PY","Punjab":"PB","Rajasthan":"RJ","Sikkim":"SK","Tamil Nadu":"TN","Telangana":"TS","Tripura":"TR","Uttar Pradesh":"UP","Uttarakhand":"UK","West Bengal":"WB"};
 
+/* no money anywhere: the app is 100% free (same rule as the yt-ai function) */
+var MONEY_RE=/(₹|\$\s?\d|\brs\.?\s?\d|\binr\b|rupee|rupay|\bcash\b|real money|\bmoney\b|paisa|paise|withdraw|wallet|my balance|balance\s*[:₹\d]|refer\s*(&|and)?\s*earn|\bearn(ing|ings)?\s+(money|cash|₹|rs|\d|daily|real|paisa|online)|kamao|kamai|\bpaytm\b|\bupi\b|\bbet(ting)?\b|\bgambl|prize ?pool|\bwin(ning)?\s+(rs|₹|\d+\s?(k|rs|rupees?))|\d+\s?(rs|rupees?)\b|per kill \d)/i;
+function noMoneyC(x){return !MONEY_RE.test(String(x||''))}
 /* ============ HYPE posters: AI background + bold tournament-poster layout, different every time ============ */
 var HYPE_PAL=[
   {n:'Gold rush',a:'#FFD21F',b:'#E8141B',c:'#FFFFFF',d:'#111111'},
@@ -2262,23 +2135,44 @@ function brush(x,X,Y,w,h,col,R){x.save();x.fillStyle=col;x.beginPath();var n=26;
 function crown(x,cx,cy,s,col){x.save();x.fillStyle=col;x.strokeStyle='rgba(0,0,0,.45)';x.lineWidth=s*.06;x.beginPath();x.moveTo(cx-s,cy+s*.5);x.lineTo(cx-s*1.05,cy-s*.35);x.lineTo(cx-s*.5,cy+s*.05);x.lineTo(cx,cy-s*.6);x.lineTo(cx+s*.5,cy+s*.05);x.lineTo(cx+s*1.05,cy-s*.35);x.lineTo(cx+s,cy+s*.5);x.closePath();x.fill();x.stroke();
   [[-1.05,-.35],[0,-.6],[1.05,-.35]].forEach(function(p){x.beginPath();x.arc(cx+p[0]*s,cy+p[1]*s,s*.14,0,7);x.fill()});x.restore()}
 function shield(x,cx,cy,s,lines,pal,style){x.save();
-  var gold=x.createLinearGradient(cx,cy-s,cx,cy+s);gold.addColorStop(0,'#FFF1A8');gold.addColorStop(.45,'#F5B82A');gold.addColorStop(1,'#8A5300');
+  var gold=x.createLinearGradient(cx-s,cy-s,cx+s*0.6,cy+s);gold.addColorStop(0,'#FFF6C0');gold.addColorStop(.25,'#F2B629');gold.addColorStop(.5,'#FFE58A');gold.addColorStop(.72,'#C98A12');gold.addColorStop(1,'#7A4A00');
   // laurel wings
-  x.fillStyle=gold;for(var side=-1;side<=1;side+=2)for(var i=0;i<6;i++){var a=(-0.2+i*0.32),rx=cx+side*(s*0.95+Math.cos(a)*s*0.05),ry=cy-s*0.55+i*s*0.3;x.save();x.translate(rx,ry);x.rotate(side*(0.9-i*0.18));x.beginPath();x.ellipse(0,0,s*0.28,s*0.1,0,0,7);x.fill();x.restore()}
+  x.fillStyle=gold;for(var side=-1;side<=1;side+=2)for(var i=0;i<6;i++){var a=(-0.2+i*0.32),rx=cx+side*(s*0.95+Math.cos(a)*s*0.05),ry=cy-s*0.55+i*s*0.3;x.save();x.translate(rx,ry);x.rotate(side*(0.9-i*0.18));x.beginPath();x.ellipse(0,0,s*0.28,s*0.1,0,0,7);var lf=x.createLinearGradient(0,-s*0.1,0,s*0.1);lf.addColorStop(0,'#FFE58A');lf.addColorStop(1,'#B07400');x.fillStyle=lf;x.fill();x.lineWidth=s*0.02;x.strokeStyle='#5A3600';x.stroke();x.restore()}
   // shield
   x.beginPath();if(style===1){x.arc(cx,cy,s*0.92,0,7)}else if(style===2){for(var k=0;k<6;k++){var ang=Math.PI/6+k*Math.PI/3;x.lineTo(cx+Math.cos(ang)*s*0.95,cy+Math.sin(ang)*s*0.95)}}
   else{x.moveTo(cx-s*0.85,cy-s*0.75);x.lineTo(cx+s*0.85,cy-s*0.75);x.lineTo(cx+s*0.8,cy+s*0.2);x.quadraticCurveTo(cx+s*0.6,cy+s*0.8,cx,cy+s*1.05);x.quadraticCurveTo(cx-s*0.6,cy+s*0.8,cx-s*0.8,cy+s*0.2)}
   x.closePath();x.fillStyle=gold;x.shadowColor='rgba(0,0,0,.6)';x.shadowBlur=30;x.fill();x.shadowBlur=0;x.lineWidth=s*0.05;x.strokeStyle='#5A3600';x.stroke();
-  x.save();x.clip();x.fillStyle='rgba(0,0,0,.55)';x.beginPath();x.arc(cx,cy+s*0.02,s*0.68,0,7);x.fill();x.restore();
+  x.save();x.clip();var inn=x.createRadialGradient(cx,cy-s*0.2,s*0.1,cx,cy,s*0.75);inn.addColorStop(0,'#3b2400');inn.addColorStop(1,'#120a00');x.fillStyle=inn;x.beginPath();x.arc(cx,cy+s*0.02,s*0.68,0,7);x.fill();x.lineWidth=s*0.05;x.strokeStyle='#FFE58A';x.stroke();x.fillStyle='rgba(255,255,255,.18)';x.beginPath();x.ellipse(cx-s*0.25,cy-s*0.55,s*0.5,s*0.16,-0.4,0,7);x.fill();x.restore();
   crown(x,cx,cy-s*1.0,s*0.36,'#FFD84A');
   x.textAlign='center';x.fillStyle='#FFE27A';var fs=s*0.34;lines.forEach(function(l,i){x.font=Math.round(fs)+'px Anton, Impact, sans-serif';while(x.measureText(l).width>s*1.25&&fs>14){fs-=2;x.font=Math.round(fs)+'px Anton, Impact, sans-serif'}});
-  lines.forEach(function(l,i){x.lineWidth=6;x.strokeStyle='#3A2200';var y=cy-(lines.length-1)*fs*0.55+i*fs*1.1+fs*0.36;x.strokeText(l,cx,y);x.fillText(l,cx,y)});
+  lines.forEach(function(l,i){var y=cy-(lines.length-1)*fs*0.55+i*fs*1.1+fs*0.36;text3d(x,l,cx,y,{size:fs,base:'#F7C443',face:GOLD,side:'#4A2C00',stroke:'#1E1000',strokeW:fs*0.12,depth:fs*0.09})});
   x.fillStyle='#FFE27A';x.font=Math.round(s*0.22)+'px sans-serif';x.fillText('★',cx,cy+s*0.62);x.restore()}
+/* 3D text: extruded side + metal gradient face + bevel highlight + outline */
+function hx(h){h=String(h||'#ffffff');if(h[0]!=='#')return h;var n=parseInt(h.slice(1),16);return [n>>16,n>>8&255,n&255]}
+function mix(h,f){var c=hx(h);if(!Array.isArray(c))return h;function m(v){return Math.max(0,Math.min(255,Math.round(f<0?v*(1+f):v+(255-v)*f)))}return 'rgb('+m(c[0])+','+m(c[1])+','+m(c[2])+')'}
+function text3d(x,t,X,Y,o){var sz=o.size,top=Y-sz*0.88,d=Math.max(2,Math.round(o.depth==null?sz*0.07:o.depth)),side=o.side||mix(o.base,-0.6),ang=o.dx==null?0.45:o.dx;
+  x.save();x.lineJoin='round';x.miterLimit=2;
+  // soft drop shadow
+  x.save();x.shadowColor='rgba(0,0,0,.65)';x.shadowBlur=sz*0.18;x.shadowOffsetY=sz*0.06;x.fillStyle='rgba(0,0,0,.6)';x.fillText(t,X+d*ang,Y+d);x.restore();
+  // extruded side
+  for(var i=d;i>0;i--){x.fillStyle=i===d?mix(side,-0.35):side;x.fillText(t,X+i*ang,Y+i);if(o.stroke){x.lineWidth=o.strokeW||sz*0.08;x.strokeStyle=o.stroke;x.strokeText(t,X+i*ang,Y+i)}}
+  // outline
+  if(o.stroke){x.lineWidth=o.strokeW||sz*0.08;x.strokeStyle=o.stroke;x.strokeText(t,X,Y)}
+  // metal face
+  var g=x.createLinearGradient(0,top,0,Y+sz*0.05),f=o.face||[mix(o.base,0.55),o.base,mix(o.base,-0.25)];g.addColorStop(0,f[0]);g.addColorStop(0.52,f[1]);g.addColorStop(0.53,mix(f[1],-0.08));g.addColorStop(1,f[2]);x.fillStyle=g;x.fillText(t,X,Y);
+  // gloss on the top half
+  x.save();x.beginPath();x.rect(-5000,top-sz,10000,sz*0.48+sz);x.clip();var gl=x.createLinearGradient(0,top,0,top+sz*0.48);gl.addColorStop(0,'rgba(255,255,255,'+(o.gloss==null?0.45:o.gloss)+')');gl.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=gl;x.fillText(t,X,Y);x.restore();
+  // bevel edge
+  x.lineWidth=Math.max(1.5,sz*0.012);x.strokeStyle='rgba(255,255,255,'+(o.edge==null?0.55:o.edge)+')';x.strokeText(t,X,Y);
+  x.restore()}
+var GOLD=['#FFF7C8','#F7C443','#9A5D00'];
+/* the words of one poster (same for the app's own drawing and the full AI poster) */
+function hypeWords(c,v){var K=HYPE_KIND[c.kind||hypeKind(c)]||HYPE_KIND.match,HEAD=c.kind==='founder'&&c.title&&/Only (\d+)/.test(c.title)&&v.h%2?['ONLY '+RegExp.$1,'SPOTS LEFT']:K.head[v.h%K.head.length];
+  return {brand:brandName().toUpperCase(),script:K.script[v.s%K.script.length],head1:HEAD[0],head2:HEAD[1],sub:K.sub[v.sub%K.sub.length],badge:String(c.badge||'').toUpperCase(),title:noMoneyC(c.title)?String(c.title||''):'',
+    rows:(c.rows||[]).filter(function(r){return noMoneyC(r[1]+' '+r[2])}).slice(0,3).map(function(r){return (String(r[1]||'').length<10?r[1]+': ':'')+r[2]}),cta:K.cta[v.c%K.cta.length],end:K.end[v.e%K.end.length],link:String(siteLink()||'').replace(/^https?:\/\//,'').replace(/\/$/,'')}}
 function fitF(x,t,max,w,fam){var s=max;x.font=s+'px '+fam;while(s>16&&x.measureText(t).width>w){s-=3;x.font=s+'px '+fam}return s}
 function hypeCanvas(c,fmt,v,bg){var W=1080,H=fmt==='square'?1080:fmt==='story'?1920:1350,cv=document.createElement('canvas');cv.width=W;cv.height=H;var x=cv.getContext('2d');
-  var P=HYPE_PAL[v.p%HYPE_PAL.length],K=HYPE_KIND[c.kind||hypeKind(c)]||HYPE_KIND.match,R=seeded(v.seed||7);
-  var HEAD=c.kind==='founder'&&c.title&&/Only (\d+)/.test(c.title)&&v.h%2?['ONLY '+RegExp.$1,'SPOTS LEFT']:K.head[v.h%K.head.length];
-  var SCRIPT=K.script[v.s%K.script.length],SUB=K.sub[v.sub%K.sub.length],CTA=K.cta[v.c%K.cta.length],END=K.end[v.e%K.end.length];
+  var P=HYPE_PAL[v.p%HYPE_PAL.length],R=seeded(v.seed||7),WD=hypeWords(c,v),HEAD=[WD.head1,WD.head2],SCRIPT=WD.script,SUB=WD.sub,CTA=WD.cta,END=WD.end;
   var AF='Anton, Impact, "Arial Black", sans-serif',SF='"Kaushan Script", "Brush Script MT", cursive',IF='Inter, Arial, sans-serif';
   // background
   if(bg){var r=Math.max(W/bg.naturalWidth,H/bg.naturalHeight),dw=bg.naturalWidth*r,dh=bg.naturalHeight*r;try{x.filter='saturate(1.25) contrast(1.08)'}catch(e){}x.drawImage(bg,(W-dw)/2,(H-dh)/2,dw,dh);try{x.filter='none'}catch(e){}}
@@ -2290,39 +2184,39 @@ function hypeCanvas(c,fmt,v,bg){var W=1080,H=fmt==='square'?1080:fmt==='story'?1
   var top=fmt==='story'?240:fmt==='square'?24:44,bot=fmt==='story'?250:fmt==='square'?20:40,k=(H-top-bot)/1230;var Y=function(y){return top+y*k};
   // header: logo + brand (left) · script word + crown (right)
   var lg=118*Math.min(1,k+.1);if(LOGO_IMG){try{x.save();x.beginPath();x.arc(60+lg/2,Y(10)+lg/2,lg/2,0,7);x.closePath();x.clip();x.drawImage(LOGO_IMG,60,Y(10),lg,lg);x.restore();x.strokeStyle=P.a;x.lineWidth=5;x.beginPath();x.arc(60+lg/2,Y(10)+lg/2,lg/2+3,0,7);x.stroke()}catch(e){}}
-  x.textAlign='left';x.fillStyle='#fff';var bf=fitF(x,brandName().toUpperCase(),58,400,AF);x.save();x.translate(60+lg+22,Y(10)+lg*0.62);x.transform(1,0,-0.18,1,0,0);x.lineWidth=8;x.strokeStyle='#000';x.strokeText(brandName().toUpperCase(),0,0);x.fillText(brandName().toUpperCase(),0,0);x.restore();
+  x.textAlign='left';x.fillStyle='#fff';var bf=fitF(x,brandName().toUpperCase(),58,400,AF);x.save();x.translate(60+lg+22,Y(10)+lg*0.62);x.transform(1,0,-0.18,1,0,0);text3d(x,brandName().toUpperCase(),0,0,{size:bf,base:'#FFFFFF',face:['#FFFFFF','#F1F1F1','#BDBDBD'],side:'#222',stroke:'#000',strokeW:bf*0.12,depth:bf*0.09});x.restore();
   x.fillStyle=P.a;x.fillRect(60+lg+22,Y(10)+lg*0.62+12,Math.min(400,x.measureText(brandName().toUpperCase()).width),10);
-  x.textAlign='right';var sf=fitF(x,SCRIPT,96*Math.min(1,k+.05),470,SF);x.save();x.translate(W-40,Y(100));x.rotate(-0.06);x.lineWidth=10;x.strokeStyle='rgba(0,0,0,.75)';x.strokeText(SCRIPT,0,0);x.fillStyle='#fff';x.fillText(SCRIPT,0,0);
+  x.textAlign='right';var sf=fitF(x,SCRIPT,96*Math.min(1,k+.05),470,SF);x.save();x.translate(W-40,Y(100));x.rotate(-0.06);text3d(x,SCRIPT,0,0,{size:sf,base:'#FFFFFF',face:['#FFFFFF','#FFFFFF','#D9D9D9'],side:'#111',stroke:'#000',strokeW:sf*0.1,depth:sf*0.06,gloss:0.2});
   x.strokeStyle=P.a;x.lineWidth=7;x.beginPath();x.moveTo(-x.measureText(SCRIPT).width*0.9,18);x.quadraticCurveTo(-x.measureText(SCRIPT).width*0.4,36,0,10);x.stroke();x.restore();
   crown(x,W-40-Math.min(470,x.measureText(SCRIPT).width)*0.5,Y(100)-sf*0.95,26,P.a);
   // brush banner with the big headline
   var lay=v.lay%3,bx=lay===1?40:90,bw=lay===1?W-80:W-180,by=Y(150),bh=310*k;
   brush(x,bx,by,bw,bh,P.a,R);
-  var l1=HEAD[0],l2=HEAD[1],f1=fitF(x,l1,Math.round(140*k),bw-140,AF);x.textAlign='center';x.fillStyle='#111';x.save();x.translate(W/2,by+bh*0.44);x.rotate(-0.025);x.fillText(l1,0,0);x.restore();
-  var f2=fitF(x,l2,Math.round(150*k),bw-70,AF);x.save();x.translate(W/2,by+bh*0.44+f2*0.98);x.rotate(-0.03);x.transform(1,0,-0.12,1,0,0);x.lineWidth=14;x.strokeStyle='#fff';x.strokeText(l2,0,0);x.fillStyle=P.b;x.fillText(l2,0,0);x.restore();
+  var l1=HEAD[0],l2=HEAD[1],f1=fitF(x,l1,Math.round(140*k),bw-140,AF);x.textAlign='center';x.save();x.translate(W/2,by+bh*0.44);x.rotate(-0.025);text3d(x,l1,0,0,{size:f1,base:'#2A2A2A',face:['#4A4A4A','#141414','#000000'],side:mix(P.a,-0.55),stroke:null,depth:f1*0.08,gloss:0.25,edge:0.25});x.restore();
+  var f2=fitF(x,l2,Math.round(150*k),bw-70,AF);x.save();x.translate(W/2,by+bh*0.44+f2*0.98);x.rotate(-0.03);x.transform(1,0,-0.12,1,0,0);text3d(x,l2,0,0,{size:f2,base:P.b,side:mix(P.b,-0.65),stroke:'#FFFFFF',strokeW:f2*0.11,depth:f2*0.09});x.restore();
   // script sub line
-  x.textAlign='center';fitF(x,SUB,Math.round(78*k),W-260,SF);x.save();x.translate(W/2,Y(528));x.rotate(-0.03);x.lineWidth=10;x.strokeStyle='rgba(0,0,0,.8)';x.strokeText(SUB,0,0);x.fillStyle='#fff';x.fillText(SUB,0,0);x.restore();
+  x.textAlign='center';var subF=fitF(x,SUB,Math.round(78*k),W-260,SF);x.save();x.translate(W/2,Y(528));x.rotate(-0.03);text3d(x,SUB,0,0,{size:subF,base:'#FFFFFF',face:['#FFFFFF','#FFFFFF','#DADADA'],side:'#111',stroke:'#000',strokeW:subF*0.12,depth:subF*0.07,gloss:0.15});x.restore();
   x.fillStyle=P.a;x.fillRect(W/2-240,Y(548),480,6);
   // middle: badge + info
   var badgeTxt=String(c.badge||'').toUpperCase().split(' '),bl=badgeTxt.length>2?[badgeTxt.slice(0,Math.ceil(badgeTxt.length/2)).join(' '),badgeTxt.slice(Math.ceil(badgeTxt.length/2)).join(' ')]:badgeTxt;
-  var rows=(c.rows||[]).slice(0,lay===2?1:4),title=String(c.title||'');
+  var rows=(c.rows||[]).filter(function(r){return noMoneyC(r[1]+' '+r[2])}).slice(0,lay===2?1:3),title=noMoneyC(c.title)?String(c.title||''):'';
   function rowLine(r,X,yy,size,maxW,center){var lab=String(r[1]||'').toUpperCase()+'  ',val=String(r[2]||'');x.font='800 '+Math.round(size*0.62)+'px '+IF;var lw=x.measureText(lab).width;
     var vs=fitF(x,val,Math.round(size),maxW-lw,AF),vw=x.measureText(val).width,sx=center?X-(lw+vw)/2:X;x.textAlign='left';
-    x.font='800 '+Math.round(size*0.62)+'px '+IF;x.fillStyle=P.a;x.fillText(lab,sx,yy);x.font=vs+'px '+AF;x.lineWidth=6;x.strokeStyle='#000';x.strokeText(val,sx+lw,yy);x.fillStyle='#fff';x.fillText(val,sx+lw,yy)}
-  if(lay===2){var ms2=88*k;shield(x,W/2,Y(690),ms2,bl,P,v.badge%3);x.textAlign='center';var tf2=fitF(x,title,Math.round(80*k),W-160,AF);x.lineWidth=8;x.strokeStyle='#000';x.strokeText(title,W/2,Y(850));x.fillStyle='#fff';x.fillText(title,W/2,Y(850));
+    x.font='800 '+Math.round(size*0.62)+'px '+IF;x.fillStyle=P.a;x.fillText(lab,sx,yy);x.font=vs+'px '+AF;text3d(x,val,sx+lw,yy,{size:vs,base:'#FFFFFF',face:['#FFFFFF','#F4F4F4','#BFBFBF'],side:'#151515',stroke:'#000',strokeW:vs*0.14,depth:vs*0.07,gloss:0.2})}
+  if(lay===2){var ms2=88*k;shield(x,W/2,Y(690),ms2,bl,P,v.badge%3);x.textAlign='center';var tf2=fitF(x,title,Math.round(80*k),W-160,AF);text3d(x,title,W/2,Y(850),{size:tf2,base:P.a,side:mix(P.a,-0.7),stroke:'#000',strokeW:tf2*0.1,depth:tf2*0.08});
     if(rows[0])rowLine(rows[0],W/2,Y(905),46*k,W-200,true)}
   else{var ms=118*k,cx0=lay===1?W-260:250,infoX=lay===1?60:470,infoW=lay===1?(W-260-118*k*1.6)-infoX:W-infoX-50;shield(x,cx0,Y(760),ms,bl,P,v.badge%3);
     x.fillStyle=P.a;x.fillRect(lay===1?cx0-ms*1.48:infoX-36,Y(620),6,Y(905)-Y(620));
-    x.textAlign='left';var tf=fitF(x,title,Math.round(78*k),infoW,AF);x.lineWidth=8;x.strokeStyle='#000';x.strokeText(title,infoX,Y(620)+tf*0.86);x.fillStyle='#fff';x.fillText(title,infoX,Y(620)+tf*0.86);
-    var ry=Y(620)+tf*0.86+14,rh=Math.min(64*k,(Y(905)-ry)/Math.max(1,rows.length));rows.forEach(function(r,i){rowLine(r,infoX,ry+rh*(i+1)-rh*0.2,rh*0.72,infoW,false)})}
+    x.textAlign='left';var tf=fitF(x,title,Math.round(78*k),infoW,AF);text3d(x,title,infoX,Y(620)+tf*0.86,{size:tf,base:P.a,side:mix(P.a,-0.7),stroke:'#000',strokeW:tf*0.1,depth:tf*0.08});
+    var ry=Y(620)+tf*0.86+14,rh=Math.min(78*k,(Y(905)-ry)/Math.max(1,rows.length));rows.forEach(function(r,i){rowLine(r,infoX,ry+rh*(i+1)-rh*0.2,rh*0.72,infoW,false)})}
   // CTA button + arrow + speed lines
   var cy=Y(935),ch=108*Math.min(1,k+.05),cf=fitF(x,CTA,Math.round(96*Math.min(1,k+.05)),560,AF),cw=Math.min(W-280,x.measureText(CTA).width+120),cx=W/2-cw/2+30;
-  x.save();x.shadowColor='rgba(0,0,0,.6)';x.shadowBlur=24;var cg=x.createLinearGradient(0,cy,0,cy+ch);cg.addColorStop(0,'#FF3B3B');cg.addColorStop(1,'#B5000B');x.fillStyle=cg;rr(x,cx,cy,cw,ch,28);x.fill();x.restore();
-  x.lineWidth=6;x.strokeStyle='#fff';rr(x,cx,cy,cw,ch,28);x.stroke();x.textAlign='center';x.fillStyle='#fff';x.save();x.translate(cx+cw/2,cy+ch*0.74);x.transform(1,0,-0.1,1,0,0);x.lineWidth=8;x.strokeStyle='#5a0000';x.strokeText(CTA,0,0);x.fillText(CTA,0,0);x.restore();
+  x.save();x.shadowColor='rgba(0,0,0,.6)';x.shadowBlur=24;var cg=x.createLinearGradient(0,cy,0,cy+ch);cg.addColorStop(0,'#FF5A5A');cg.addColorStop(.5,'#E3101A');cg.addColorStop(1,'#8E0008');x.fillStyle=cg;rr(x,cx,cy,cw,ch,28);x.fill();x.restore();x.save();rr(x,cx+8,cy+6,cw-16,ch*0.42,22);x.clip();var cgl=x.createLinearGradient(0,cy,0,cy+ch*0.45);cgl.addColorStop(0,'rgba(255,255,255,.45)');cgl.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=cgl;x.fillRect(cx,cy,cw,ch);x.restore();
+  x.lineWidth=6;x.strokeStyle='#fff';rr(x,cx,cy,cw,ch,28);x.stroke();x.textAlign='center';x.fillStyle='#fff';x.save();x.translate(cx+cw/2,cy+ch*0.74);x.transform(1,0,-0.1,1,0,0);text3d(x,CTA,0,0,{size:cf,base:'#FFFFFF',face:['#FFFFFF','#FFFFFF','#FFD9D9'],side:'#5A0000',stroke:'#3A0000',strokeW:cf*0.1,depth:cf*0.08,gloss:0.3});x.restore();
   x.save();x.strokeStyle='#fff';x.lineWidth=16;x.lineCap='round';x.beginPath();x.moveTo(cx-150,cy-50);x.quadraticCurveTo(cx-150,cy+ch*0.55,cx-40,cy+ch*0.55);x.stroke();x.fillStyle='#fff';x.beginPath();x.moveTo(cx-14,cy+ch*0.55);x.lineTo(cx-62,cy+ch*0.55-32);x.lineTo(cx-62,cy+ch*0.55+32);x.closePath();x.fill();
   x.lineWidth=9;[[-30,0],[0,8],[30,16]].forEach(function(o){x.beginPath();x.moveTo(cx+cw+30,cy+ch/2+o[0]);x.lineTo(cx+cw+90,cy+ch/2+o[0]*1.6-10+o[1]);x.stroke()});x.restore();
   // ending script + app link
-  x.textAlign='center';fitF(x,END,Math.round(70*k),W-160,SF);x.save();x.translate(W/2,Y(1118));x.rotate(-0.025);x.lineWidth=9;x.strokeStyle='rgba(0,0,0,.85)';x.strokeText(END,0,0);x.fillStyle='#fff';x.fillText(END,0,0);x.restore();
+  x.textAlign='center';var endF=fitF(x,END,Math.round(70*k),W-160,SF);x.save();x.translate(W/2,Y(1118));x.rotate(-0.025);text3d(x,END,0,0,{size:endF,base:'#FFFFFF',face:['#FFFFFF','#FFFFFF','#DADADA'],side:'#111',stroke:'#000',strokeW:endF*0.12,depth:endF*0.07,gloss:0.15});x.restore();
   x.fillStyle=P.a;x.fillRect(W/2-220,Y(1134),440,6);
   var link=String(siteLink()||'').replace(/^https?:\/\//,'');if(link){x.font='800 '+Math.round(34*Math.min(1,k+.1))+'px '+IF;var lw2=x.measureText('🔗 '+link).width+50,lyy=Y(1160);x.fillStyle='rgba(0,0,0,.72)';rr(x,W/2-lw2/2,lyy,lw2,54,27);x.fill();x.fillStyle='#fff';x.fillText('🔗 '+link,W/2,lyy+38)}
   return cv}
@@ -2345,6 +2239,28 @@ async function hypeSavePool(dataUrl){try{var bin=atob(dataUrl.split(',')[1]),a=n
   await sb.from('app_settings').update({config:cf}).eq('id',1);S.config=cf}catch(e){}}
 /* one finished poster (canvas) for posting */
 async function hypePoster(c,fmt,v,fresh){await hypeFonts();var bg=await hypeBg(c.kind,fresh);return hypeCanvas(c,fmt,v||hypeVariant(),bg)}
+
+/* ---------- full AI poster (Gemini image) — admins, when billing is on ---------- */
+var HYPE_NOBILL=false;
+function geminiOn(){return isAdmin()&&cfg('geminiPosters',true)!==false&&!HYPE_NOBILL}
+function logoB64(){try{if(!LOGO_IMG)return '';var c=document.createElement('canvas');c.width=c.height=256;c.getContext('2d').drawImage(LOGO_IMG,0,0,256,256);return c.toDataURL('image/png').split(',')[1]}catch(e){return ''}}
+async function aiFullPoster(c,fmt,v){if(!geminiOn())return null;
+  try{var r=await sb.functions.invoke('yt-ai?a=poster',{body:{fmt:fmt,text:hypeWords(c,v),logo:logoB64(),ref:cfg('posterRef',''),seed:rnd(1e9)}});
+    if(r.error){var m='';try{m=(await r.error.context.json()).error}catch(e){}if(m==='no_billing'||m==='no_free'){HYPE_NOBILL=true;toast('ℹ '+t('posterNoFree'))}if(m==='money_text')toast('🚫 '+t('moneyBlocked'));return null}
+    if(!r.data||!r.data.image)return null;var im=await hypeImg(r.data.image);if(im)im._overlay=!!r.data.overlay;return im}catch(e){return null}}
+function fullCanvas(im,fmt){var W=1080,H=fmt==='square'?1080:fmt==='story'?1920:1350,cv=document.createElement('canvas');cv.width=W;cv.height=H;var x=cv.getContext('2d'),r=Math.max(W/im.naturalWidth,H/im.naturalHeight),dw=im.naturalWidth*r,dh=im.naturalHeight*r;x.fillStyle='#000';x.fillRect(0,0,W,H);x.drawImage(im,(W-dw)/2,(H-dh)/2,dw,dh);
+  if(im._overlay){var top=fmt==='story'?200:30,lg=110;
+    // logo + brand (top-left, the AI keeps that corner empty)
+    if(LOGO_IMG){try{x.save();x.beginPath();x.arc(40+lg/2,top+lg/2,lg/2,0,7);x.closePath();x.clip();x.drawImage(LOGO_IMG,40,top,lg,lg);x.restore();x.strokeStyle='#FFD21F';x.lineWidth=5;x.beginPath();x.arc(40+lg/2,top+lg/2,lg/2+3,0,7);x.stroke()}catch(e){}}
+    var bf=fitF(x,brandName().toUpperCase(),50,330,'Anton, Impact, sans-serif');x.textAlign='left';x.save();x.translate(40+lg+18,top+lg*0.62);x.transform(1,0,-0.18,1,0,0);text3d(x,brandName().toUpperCase(),0,0,{size:bf,base:'#FFFFFF',face:['#FFFFFF','#F1F1F1','#BDBDBD'],side:'#222',stroke:'#000',strokeW:bf*0.12,depth:bf*0.09});x.restore();
+    // app link pill (bottom)
+    var link=String(siteLink()||'').replace(/^https?:\/\//,'').replace(/\/$/,'');if(link){var bot=fmt==='story'?220:28;x.font='800 34px Inter, Arial, sans-serif';x.textAlign='center';var lw=x.measureText('🔗 '+link).width+56,ly=H-bot-60;x.fillStyle='rgba(0,0,0,.78)';rr(x,W/2-lw/2,ly,lw,58,29);x.fill();x.strokeStyle='#FFD21F';x.lineWidth=3;rr(x,W/2-lw/2,ly,lw,58,29);x.stroke();x.fillStyle='#fff';x.fillText('🔗 '+link,W/2,ly+41)}}
+  return cv}
+document.addEventListener('change',function(ev){var el=ev.target;if(el.id!=='soc_ref'||!el.files[0])return;var rd=new FileReader();
+  rd.onload=function(){shrinkTo(rd.result,1024).then(async function(u){if(!u)return;try{var bin=atob(u.split(',')[1]),a=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);
+    var path='ref/'+Date.now()+'.jpg',up=await sb.storage.from('banners').upload(path,new Blob([a],{type:'image/jpeg'}),{contentType:'image/jpeg',upsert:false});if(up.error)throw up.error;
+    var url=sb.storage.from('banners').getPublicUrl(path).data.publicUrl,cf=Object.assign({},S.config||{});cf.posterRef=url;
+    run(function(){return sb.from('app_settings').update({config:cf}).eq('id',1)},'✓')}catch(e){toast('⚠ '+(e.message||e))}})};rd.readAsDataURL(el.files[0])});
 
 /* ============ events ============ */
 function val(id){var e=$(id);return e?e.value.trim():''}
@@ -2468,22 +2384,8 @@ document.addEventListener('click',function(ev){
   case 'ytGo':ytGo();return;
   case 'ytTi':if(YT.res){YT.ti=+d.k;YT.tf=(YT.res.titles||[])[YT.ti]||'';ytSave();render()}return;
   case 'ytCopyAll':copyText(YT.tf+'\n\n'+YT.desc+'\n\nTags: '+ytTags().join(', '));return;
-  case 'ytIdea':{var yi=YT.res&&YT.res.thumbnail&&YT.res.thumbnail[+d.k];if(yi){YT.th.text=yi.text;YT.th.sub=yi.sub||'';ytSave();if(view!=='yt_th'){view='yt_th'}render();ytDraw()}return}
   case 'ytAdminSave':{var yc=Object.assign({},S.config||{});yc.ytWho=ytAdm('who','all');yc.ytDaily=Math.max(0,Math.min(50,parseInt(ytAdm('n',3),10)||0));yc.ytThumbDaily=Math.max(0,Math.min(50,parseInt(ytAdm('tn',3),10)||0));yc.ytClientId=String(ytAdm('cid','')).trim().slice(0,200);yc.ytAudited=ytAdm('aud',false)===true;
     run(function(){return sb.from('app_settings').update({config:yc}).eq('id',1)},'✓').then(function(){YT.adm={};YT.left=null;render()});return}
-  case 'ytThDl':ytThBlob().then(function(b){if(!b)return;var u=URL.createObjectURL(b),a2=document.createElement('a');a2.href=u;a2.download='thumbnail-'+Date.now()+'.jpg';document.body.appendChild(a2);a2.click();a2.remove();setTimeout(function(){URL.revokeObjectURL(u)},4000);toast('⬇ ✓')});return;
-  case 'ytThRnd':{var ns;do{ns=TH_TSTYLES[Math.floor(Math.random()*TH_TSTYLES.length)]}while(ns===YT.th.tstyle);YT.th.tstyle=ns;var hc=thColors();YT.th.hex=hc[Math.floor(Math.random()*hc.length)];if(YT.frames.length>1)YT.th.img=Math.floor(Math.random()*YT.frames.length);ytSave();render();ytDraw();return}
-  case 'ytFrames':ytFrames();return;
-  case 'ytImg':YT.th.img=+d.k;ytSave();render();ytDraw();return;
-  case 'ytSide':YT.th.side=d.v;ytSave();render();ytDraw();return;
-  case 'ytTsty':YT.th.tstyle=d.v;ytSave();render();ytDraw();return;
-  case 'ytHex':YT.th.hex=d.v;ytSave();render();ytDraw();return;
-  case 'ytLook':ytAI().look=d.v;ytSave();render();return;
-  case 'ytRefs':ytRefs();return;
-  case 'ytRefSel':{var A_=ytAI(),ix=A_.sel.indexOf(id);if(ix>=0)A_.sel.splice(ix,1);else{if(A_.sel.length>=4){toast(t('thMax4'));return}A_.sel.push(id)}ytSave();render();return}
-  case 'ytRefAdd':ytRefAdd();return;
-  case 'ytAiGo':ytAiGo();return;
-  case 'ytFaceDel':YT_FACE='';try{localStorage.removeItem('jit_yt_face')}catch(e){}render();return;
   case 'ytConnect':ytConnect();return;
   case 'ytDisc':try{if(window.google&&YT.tok)google.accounts.oauth2.revoke(YT.tok,function(){})}catch(e){}YT.tok='';YT.ch=null;YT.uploads=null;render();return;
   case 'ytMode':YT.pub.mode=d.v;ytSave();render();return;
@@ -2508,6 +2410,7 @@ document.addEventListener('click',function(ev){
   case 'spReport':{var spx=byId(S.sponsors||[],id);if(!spx)return;var rep_=sponsorReport(spx);
     modal('<div class="row between"><h2>📤 '+t('spReport')+'</h2><button class="btn sm sec" data-a="mclose">✕</button></div><textarea id="spRep" rows="12">'+esc(rep_)+'</textarea><div class="grid2"><button class="btn sec" data-copy-ta="spRep">📋 '+t('copy')+'</button><a class="btn" style="text-decoration:none;background:#25D366;color:#062" href="https://wa.me/?text='+encodeURIComponent(rep_)+'" target="_blank" rel="noopener">💬 WhatsApp</a></div>');return}
   case 'promoStyle':if(PROMO.hype){PROMO.v=hypeVariant();PROMO.bg=null;promoNewBg(true)}else{PROMO.theme=nextTheme();paintPromo()}return;
+  case 'refDel':{var rc=Object.assign({},S.config||{});rc.posterRef='';run(function(){return sb.from('app_settings').update({config:rc}).eq('id',1)},'✓');return}
   case 'promoMode':PROMO.hype=d.v==='ai';if(PROMO.hype&&!PROMO.bg&&!PROMO.bgBusy)promoNewBg(isAdmin());else paintPromo();return;
   case 'socReview':{var okk=d.k==='1';(async function(){try{await rpc('review_social',{p_id:id,p_ok:okk});toast(okk?'✓ '+t('socialQueued'):'✓');SOCIAL_LOG=null;loadSocialLog()}catch(e){toast('⚠ '+niceErr(e))}})();return}
   case 'finderTab':FINDER_TAB=d.v;render();return;
@@ -2552,7 +2455,7 @@ document.addEventListener('click',function(ev){
   case 'sug':{var tf=$(d.f);if(tf){tf.value=d.t;tf.focus();try{tf.setSelectionRange(tf.value.length,tf.value.length)}catch(e){}}return}
   case 'sugMore':SUG_SEED[d.w]=(SUG_SEED[d.w]||0)+1;if(d.w==='ann'&&$('annSug'))$('annSug').innerHTML=sugChips(annSugs(),'annTxt','ann',3);else if(d.w==='nm')refreshNameSug();else refreshTourneySug();return;
   case 'promo':{var pd=d.k==='match'||d.k==='results'?M(id):d.k==='tourney'?TR(id):null;if((d.k==='match'||d.k==='results'||d.k==='tourney')&&!pd)return;openPromo(d.k,pd);return}
-  case 'promoFmt':PROMO.fmt=d.v;paintPromo();return;
+  case 'promoFmt':PROMO.fmt=d.v;if(PROMO.hype&&PROMO.full&&Object.keys(PROMO.full).length&&!PROMO.full[d.v]&&geminiOn()&&!PROMO.bgBusy){promoFullFmt(d.v);return}paintPromo();return;
   case 'promoTab':PROMO.tab=d.v;paintPromo();return;
   case 'promoShareImg':promoShare(false);return;
   case 'promoShareAll':promoShare(true);return;
