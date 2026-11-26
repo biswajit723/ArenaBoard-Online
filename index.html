@@ -1976,22 +1976,28 @@ async function ytGo(){if(YT.busy)return;if(!ytAllowed())return;
     else{
       var f=YT.file;ytStage(t('ytS_up')+' 0%',0.01);
       var st=await ytCall('start',{size:f.size,mime:f.type||'video/mp4',name:f.name});
-      /* 4 pieces go at the same time (faster); the server hands them to Google in order.
-         If that does not work on this network/server, it switches to one piece at a time (always works). */
-      var size=st.chunk||8388608,info=null,next=0,done=0,hi=0,rounds=0,failed=null,t0=Date.now(),W=f.size>size*2?4:1,PMS=window.__pieceMs||150000;
-      var show=function(){var sp=done/Math.max(1,(Date.now()-t0)/1000);ytStage(t('ytS_up')+' '+(done/f.size*100).toFixed(done/f.size<0.1?1:0)+'% · '+mb(done)+' / '+mb(f.size)+(done>=size?' · '+mb(sp)+'/s':''),0.05+0.6*done/f.size)};
+      /* Start with one piece at a time (always works). After the first piece, ask Google how much it has:
+         if it answers correctly, send 4 pieces at a time (faster). If that stalls, go back to one at a time. */
+      var size=st.chunk||8388608,info=null,next=0,done=0,hi=0,rounds=0,failed=null,t0=Date.now(),W=1,probed=false,lastErr='',
+          PMS=window.__pieceMs||150000,PMS4=window.__pieceMs4||60000;
+      var show=function(){var sp=done/Math.max(1,(Date.now()-t0)/1000);
+        ytStage(t('ytS_up')+' '+(done/f.size*100).toFixed(done/f.size<0.1?1:0)+'% · '+mb(done)+' / '+mb(f.size)+(done>=size?' · '+mb(sp)+'/s':'')+' · '+(W>1?'⚡×'+W:'×1')+(lastErr?' · ⚠ '+lastErr.slice(0,80):''),0.05+0.6*done/f.size)};
       var piece=function(o,e2,fin){var h={'x-up-url':st.url,'x-up-off':String(o),'x-up-final':fin?'1':'0'};if(W===1)h['x-up-seq']='1';
-        return Promise.race([ytCall('chunk',f.slice(o,e2),h),ytSleep(PMS).then(function(){throw new Error('piece timeout')})])};
+        return Promise.race([ytCall('chunk',f.slice(o,e2),h),ytSleep(W>1?PMS4:PMS).then(function(){throw new Error('piece timeout')})])};
       var worker=async function(){while(!failed&&next<f.size){var o=next,e2=Math.min(f.size,o+size),fin=e2>=f.size;next=e2;
-          try{var res=await piece(o,e2,fin);if(fin)info=res.file;done+=e2-o;if(e2>hi)hi=e2;show()}
-          catch(e){failed=failed||e}}};
+          try{var res=await piece(o,e2,fin);if(fin)info=res.file;done+=e2-o;if(e2>hi)hi=e2;show();
+            /* probe once after the first piece: can the server keep 4 pieces in order? */
+            if(!probed&&W===1&&!fin&&f.size-hi>size*2){probed=true;try{var pq=await ytCall('query',{},{'x-up-url':st.url});if(pq&&pq.received===hi){W=4;show();return}}catch(q){}}
+          }catch(e){failed=failed||e}}};
       show();
       for(;;){var ws=[];for(var k=0;k<W;k++)ws.push(worker());await Promise.all(ws);
-        if(!failed)break;
-        var waitErr=/piece_wait|piece timeout/.test(failed.message||'');
-        if(W>1){W=1;rounds=0}else if(++rounds>=6)throw failed;   // parallel did not work → one at a time
+        if(!failed&&next>=f.size)break;
+        if(!failed)continue;   /* switched to ×4 after the probe: start the 4 workers */
+        lastErr=failed.message||String(failed);
+        var waitErr=/piece_wait|piece timeout/.test(lastErr);
+        if(W>1){W=1;rounds=0}else if(++rounds>=6)throw failed;   /* ×4 did not work → one at a time */
         if(!waitErr)await ytSleep(1500*Math.max(1,rounds));
-        /* where to continue: Google's own count if it gives one, else the last piece we know arrived (pieces arrive in order) */
+        /* continue from Google's own count if it gives one, else from the last piece we know arrived */
         var at=hi,qy=null;try{qy=await ytCall('query',{},{'x-up-url':st.url})}catch(q){}
         if(qy&&qy.status==='final'&&!info)throw failed;
         if(qy&&qy.received>=0&&qy.received<=f.size&&qy.received%size===0&&qy.received>=hi)at=qy.received;
