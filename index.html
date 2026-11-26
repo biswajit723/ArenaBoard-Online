@@ -1976,13 +1976,19 @@ async function ytGo(){if(YT.busy)return;if(!ytAllowed())return;
     else{
       var f=YT.file;ytStage(t('ytS_up')+' 0%',0.01);
       var st=await ytCall('start',{size:f.size,mime:f.type||'video/mp4',name:f.name});
-      var size=st.chunk||8388608,off=0,info=null;
-      while(off<f.size){var end=Math.min(f.size,off+size),fin=end>=f.size,tries=0,res=null;
-        for(;;){try{res=await ytCall('chunk',f.slice(off,end),{'x-up-url':st.url,'x-up-off':String(off),'x-up-final':fin?'1':'0'});break}
-          catch(e){if(++tries>=4)throw e;await ytSleep(2000*tries);
-            /* network hiccup: ask Google how much it already has and continue from there */
-            try{var qy=await ytCall('query',{},{'x-up-url':st.url});if(qy&&qy.status==='final')throw e;if(qy&&qy.received>=0&&qy.received<=f.size&&qy.received%size===0&&qy.received!==off){off=qy.received;end=Math.min(f.size,off+size);fin=end>=f.size}}catch(q){if(q===e)throw e}}}
-        off=end;if(fin)info=res.file;ytStage(t('ytS_up')+' '+Math.round(off/f.size*100)+'% · '+mb(off)+' / '+mb(f.size),0.05+0.6*off/f.size)}
+      /* several pieces go at the same time (much faster on a good network); the server hands them to Google in order */
+      var size=st.chunk||8388608,info=null,next=0,done=0,rounds=0,failed=null,t0=Date.now(),W=f.size>size*2?4:1;
+      var show=function(){var sp=done/Math.max(1,(Date.now()-t0)/1000);ytStage(t('ytS_up')+' '+Math.round(done/f.size*100)+'% · '+mb(done)+' / '+mb(f.size)+(done>size?' · '+mb(sp)+'/s':''),0.05+0.6*done/f.size)};
+      var worker=async function(){while(!failed&&next<f.size){var o=next,e2=Math.min(f.size,o+size),fin=e2>=f.size;next=e2;
+          try{var res=await ytCall('chunk',f.slice(o,e2),{'x-up-url':st.url,'x-up-off':String(o),'x-up-final':fin?'1':'0'});if(fin)info=res.file;done+=e2-o;show()}
+          catch(e){failed=failed||e}}};
+      for(;;){var ws=[];for(var k=0;k<W;k++)ws.push(worker());await Promise.all(ws);
+        if(!failed)break;
+        if(++rounds>=6)throw failed;
+        /* network hiccup: ask Google how much it already has and continue from there */
+        await ytSleep(1500*rounds);var qy=null;try{qy=await ytCall('query',{},{'x-up-url':st.url})}catch(q){}
+        if(!qy||qy.status==='final'||qy.received<0||qy.received>f.size||qy.received%size!==0)throw failed;
+        next=qy.received;done=qy.received;failed=null;show()}
       if(!info||!info.uri)throw new Error(t('ytUpFail'));
       var waited=0;while(info.state!=='ACTIVE'){ytStage(t('ytS_proc'),0.68);await ytSleep(4000);waited+=4;var s=await ytCall('state',{name:info.name});info.state=s.state;if(s.state==='FAILED')throw new Error(t('ytUpFail'));if(waited>900)throw new Error(t('ytTimeout'))}
       ytStage(t('ytS_send'),0.72);job=await ytCall('analyze',Object.assign({src:'file',uri:info.uri,name:info.name,mime:info.mime||f.type,fname:f.name},base))}
