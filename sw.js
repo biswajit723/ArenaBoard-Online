@@ -1,6 +1,6 @@
 // ArenaBoard service worker — makes the app installable and opens fast / offline.
 // Live data (Supabase) is never cached here.
-const CACHE = 'arenaboard-v40';
+const CACHE = 'arenaboard-v41';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png'];
 const LIB = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
 
